@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/top_will_save_money_widget.dart';
 import 'package:save_money_flutter/top_group_will_spend_money_widget.dart';
+import 'spend_group_widget.dart';
+
 import 'calendar_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -46,10 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     final moneyFormatted = NumberFormat("#,###").format(money);
+    final willSpendMoneyFormatted = NumberFormat("#,###").format(willSpendMoney);
 
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: Color(0xFFA6BDFA),
         title: GestureDetector(
           onTap: () {
@@ -57,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           child: Text(
             DateFormat('yyyy-MM').format(selectedDate),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontStyle: FontStyle.italic,
@@ -76,9 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
               secondText: '돈을 모을 예정이에요. 👍',
             ),
             TopGroupWillSpendMoneyWidget(
-              rightText: '${willSpendMoney}'
+              rightText: '$willSpendMoneyFormatted'
             ),
-            MyCalendarPage()
+            SpendGroupWidget(),
+            MyCalendarPage(),
+            SizedBox(height: 70),
           ],
         )
       ),
@@ -89,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
 
   void clickButton() {
     setState(() {

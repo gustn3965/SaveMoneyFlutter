@@ -19,7 +19,7 @@ class TopWillSaveMoneyWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               Text(
                 firstText,
                 style: TextStyle(
@@ -45,7 +45,7 @@ class TopWillSaveMoneyWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
             ],
           ),
         ),
