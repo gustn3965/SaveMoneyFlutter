@@ -35,7 +35,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
                   Wrap(
                     alignment: WrapAlignment.start,
                     spacing: 10.0,
-                    runSpacing: 4.0,
+                    runSpacing: 10.0,
                     children: <Widget>[...generate_tags()],
                   ),
                   SizedBox(height:15),
@@ -57,12 +57,14 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       selected: selected_tags.contains(groupObject.name),
       backgroundColor: Color(0xFFFAA6A6),
       selectedColor: Color(0xFFFF005B),
+
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      // labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       label: Text("${groupObject.name}"),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      side: BorderSide.none,
+
       onSelected: (bool value) {
         if (groupObject.type == ObjectType.plusButton) {
           // Plus 버튼을 눌렀을 때의 동작

@@ -1,13 +1,9 @@
-
 import 'package:flutter/material.dart';
 
-
-class TopGroupWillSpendMoneyWidget extends StatelessWidget {
+class TopTotalGroupWillSpendMoneyWidget extends StatelessWidget {
   final String rightText;
 
-  TopGroupWillSpendMoneyWidget({
-    required this.rightText
-  });
+  TopTotalGroupWillSpendMoneyWidget({required this.rightText});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,14 +12,16 @@ class TopGroupWillSpendMoneyWidget extends StatelessWidget {
       color: Color(0xFFF0EEEE),
       child: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
             children: [
               Padding(
                   padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    '예상 지출 금액이에요.',
+                    '이번달 총 예상 \n지출 금액이에요.',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -31,8 +29,7 @@ class TopGroupWillSpendMoneyWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       height: 0,
                     ),
-                  )
-              ),
+                  )),
               Padding(
                   padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
                   child: Text(
@@ -44,11 +41,10 @@ class TopGroupWillSpendMoneyWidget extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       height: 0,
                     ),
-                  )
-              ),
+                  )),
             ],
           ),
-          SizedBox(height: 20),
+          // SizedBox(height: 20),
         ],
       ),
     );

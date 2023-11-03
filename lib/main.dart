@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/top_will_save_money_widget.dart';
-import 'package:save_money_flutter/top_group_will_spend_money_widget.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'top_will_save_money_widget.dart';
+import 'top_group_will_spend_money_widget.dart';
 import 'spend_group_widget.dart';
+import 'top_total_group_will_spend_money_widget.dart';
+import 'add_spending_widget.dart';
 
 import 'calendar_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 import 'view_model/save_money_view_model.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +29,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ko', 'KO'),
+          const Locale('en', 'US'),
+        ],
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -94,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Color(0xFFA6BDFA),
         title: GestureDetector(
             onTap: () {
-              _showYearMonthDatePicker(context);
+              _showDatePicker();
             },
             child: Text(
               DateFormat('yyyy-MM').format(selectedDate),
@@ -115,7 +132,16 @@ class _MyHomePageState extends State<MyHomePage> {
               firstText: '+ $moneyFormatted',
               secondText: '돈을 모을 예정이에요. 👍',
             ),
-            TopGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  TopGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
+                  TopTotalGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
+                ],
+              ),
+            ),
+
             SpendGroupWidget(),
             MyCalendarPage(),
             SizedBox(height: 70),
@@ -124,7 +150,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: clickButton,
+        onPressed: () {
+          _showModal(context);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -138,31 +166,42 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  // 년월 달력을 표시하는 메서드
-  Future<void> _showYearMonthDatePicker(BuildContext context) async {
-    final DateTime? selectedDate = await showDatePicker(
+  void _showModal(BuildContext context) {
+    showModalBottomSheet(
       context: context,
-      initialDate: this.selectedDate,
-      firstDate: DateTime(2000), // 시작 년도
-      lastDate: DateTime(2101), // 마지막 년도
-      initialDatePickerMode: DatePickerMode.year,
-      builder: (BuildContext context, Widget? child) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Theme(
-              data: ThemeData.light(), // 년월만 선택 가능한 디자인
-              child: child!,
-            );
-          },
+      clipBehavior: Clip.hardEdge,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+              top: Radius.circular(27))),
+      builder: (BuildContext context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
+          child: AddSpendingWidget()
         );
       },
     );
+  }
 
-    if (selectedDate != null && selectedDate != this.selectedDate) {
-      setState(() {
-        print(selectedDate);
-        this.selectedDate = selectedDate;
-      });
-    }
+  void _showDatePicker() {
+    showCupertinoModalPopup(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300.0,
+          color: Colors.white,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.monthYear,
+            initialDateTime: this.selectedDate,
+            onDateTimeChanged: (DateTime newDate) {
+              setState(() {
+                selectedDate = newDate;
+              });
+            },
+          ),
+        );
+      },
+    );
   }
 }
