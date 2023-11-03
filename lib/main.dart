@@ -6,6 +6,9 @@ import 'spend_group_widget.dart';
 import 'calendar_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:provider/provider.dart';
+
+import 'view_model/save_money_view_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,13 +21,51 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: ChangeNotifierProvider(
+          create: (context) => SaveMoneyViewModel(groups: [
+            GroupObject(
+                name: "고정지출 비용",
+                type: ObjectType.group,
+                group: Group(
+                    willSpendMoney: 1000000,
+                    spendMoney: 50000,
+                    name: "chip 버튼")),
+            GroupObject(
+                name: "chip 버튼",
+                type: ObjectType.group,
+                group: Group(
+                    willSpendMoney: 2000000,
+                    spendMoney: 10000,
+                    name: "chip 버튼")),
+            GroupObject(
+                name: "나를 위한 선물 나를튼",
+                type: ObjectType.group,
+                group: Group(
+                    willSpendMoney: 3000000,
+                    spendMoney: 40000,
+                    name: "chip 버튼")),
+            GroupObject(
+                name: "버튼",
+                type: ObjectType.group,
+                group: Group(
+                    willSpendMoney: 5000000,
+                    spendMoney: 100000,
+                    name: "chip 버튼")),
+            GroupObject(
+                name: "추가 +",
+                type: ObjectType.plusButton,
+                group: Group(
+                    willSpendMoney: 550000,
+                    spendMoney: 850000,
+                    name: "chip 버튼"))
+          ], spendMoney: 100000, willSpendMoney: 1000000),
+          child: const MyHomePage(title: 'Flutter Demo Home Page'),
+        ));
   }
 }
 
@@ -32,43 +73,40 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  int money = 100000;
-  int willSpendMoney = 1000000;
-
   DateTime selectedDate = DateTime.now();
+  late SaveMoneyViewModel saveMoneyViewModel;
 
   @override
   Widget build(BuildContext context) {
-
-    final moneyFormatted = NumberFormat("#,###").format(money);
-    final willSpendMoneyFormatted = NumberFormat("#,###").format(willSpendMoney);
+    saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
+    final moneyFormatted = NumberFormat("#,###")
+        .format(saveMoneyViewModel.selectedGroup?.spendMoney);
+    final willSpendMoneyFormatted = NumberFormat("#,###")
+        .format(saveMoneyViewModel.selectedGroup?.willSpendMoney);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFA6BDFA),
         title: GestureDetector(
-          onTap: () {
-            _showYearMonthDatePicker(context);
-          },
-          child: Text(
-            DateFormat('yyyy-MM').format(selectedDate),
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontStyle: FontStyle.italic,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w800,
-              height: 0,
-            ),
-          )
-        ),
+            onTap: () {
+              _showYearMonthDatePicker(context);
+            },
+            child: Text(
+              DateFormat('yyyy-MM').format(selectedDate),
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontStyle: FontStyle.italic,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w800,
+                height: 0,
+              ),
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -77,15 +115,14 @@ class _MyHomePageState extends State<MyHomePage> {
               firstText: '+ $moneyFormatted',
               secondText: '돈을 모을 예정이에요. 👍',
             ),
-            TopGroupWillSpendMoneyWidget(
-              rightText: '$willSpendMoneyFormatted'
-            ),
+            TopGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
             SpendGroupWidget(),
             MyCalendarPage(),
             SizedBox(height: 70),
           ],
-        )
+        ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: clickButton,
         tooltip: 'Increment',
@@ -94,10 +131,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   void clickButton() {
     setState(() {
-      money += 1000000;
+      saveMoneyViewModel.selectedGroup?.spendMoney += 1000000;
+      saveMoneyViewModel.updateData();
     });
   }
 
@@ -107,8 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       initialDate: this.selectedDate,
       firstDate: DateTime(2000), // 시작 년도
-      lastDate: DateTime(2101),  // 마지막 년도
-initialDatePickerMode: DatePickerMode.year,
+      lastDate: DateTime(2101), // 마지막 년도
+      initialDatePickerMode: DatePickerMode.year,
       builder: (BuildContext context, Widget? child) {
         return Builder(
           builder: (BuildContext context) {

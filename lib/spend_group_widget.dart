@@ -1,21 +1,10 @@
 
+import 'package:save_money_flutter/spend_group_widget.dart';
+
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
-enum ObjectType {
-  group,
-  plusButton,
-}
-
-// 객체 클래스 정의
-class GroupObject {
-  final String name;
-  final ObjectType type;
-
-  GroupObject({
-    required this.name,
-    required this.type,
-  });
-}
+import 'package:provider/provider.dart';
 
 class SpendGroupWidget extends StatefulWidget {
   @override
@@ -23,18 +12,14 @@ class SpendGroupWidget extends StatefulWidget {
 }
 
 class _SpendGroupWidgetState extends State<SpendGroupWidget> {
-  var groups = [
-    GroupObject(name: "고정지출 비용", type: ObjectType.group),
-    GroupObject(name: "chip 버튼", type: ObjectType.group),
-    GroupObject(name: "나를 위한 선물 나를튼", type: ObjectType.group),
-    GroupObject(name: "버튼", type: ObjectType.group),
-    GroupObject(name: "추가 +", type: ObjectType.plusButton),
-  ];
+
+  late SaveMoneyViewModel saveMoneyViewModel;
 
   var selected_tags = [];
 
   @override
   Widget build(BuildContext context) {
+    saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
@@ -46,14 +31,14 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
               color: Color(0xFFADABAB),
               child: Column(
                 children: [
-                  SizedBox(height:10),
+                  SizedBox(height:15),
                   Wrap(
                     alignment: WrapAlignment.start,
                     spacing: 10.0,
                     runSpacing: 4.0,
                     children: <Widget>[...generate_tags()],
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height:15),
                 ],
               ),
             ),
@@ -64,7 +49,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
   }
 
   generate_tags() {
-    return groups.map((tag) => get_chip(tag)).toList();
+    return saveMoneyViewModel.groups.map((tag) => get_chip(tag)).toList();
   }
 
   get_chip(GroupObject groupObject) {
@@ -77,12 +62,14 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       ),
       // labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       label: Text("${groupObject.name}"),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       onSelected: (bool value) {
         if (groupObject.type == ObjectType.plusButton) {
           // Plus 버튼을 눌렀을 때의 동작
           setState(() {
-            groups.insert(groups.length - 1,
-                GroupObject(name: "샘플", type: ObjectType.group));
+            saveMoneyViewModel.groups.insert(saveMoneyViewModel.groups.length - 1,
+                GroupObject(name: "샘플", type: ObjectType.group, group: Group(willSpendMoney: 4230000, spendMoney: 400000, name: "샘플")));
+            saveMoneyViewModel.updateData();
           });
         } else {
           setState(() {
@@ -93,8 +80,10 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
                 selected_tags.removeLast();
               }
               selected_tags.add(groupObject.name);
-
+              saveMoneyViewModel.selectedGroup = groupObject.group;
             }
+
+            saveMoneyViewModel.updateData();
           });
         }
       },

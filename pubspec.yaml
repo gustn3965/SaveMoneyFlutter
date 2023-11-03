@@ -48,6 +48,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   table_calendar: ^3.0.9
   syncfusion_flutter_datepicker: ^23.1.43
+  provider: ^6.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
