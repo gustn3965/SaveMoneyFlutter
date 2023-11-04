@@ -8,6 +8,7 @@ import 'Widget/top_group_will_spend_money_widget.dart';
 import 'Widget/spend_group_widget.dart';
 import 'Widget/top_total_group_will_spend_money_widget.dart';
 import 'Widget/add_spending_widget.dart';
+import 'Widget/spend_list_widget.dart';
 
 // library
 import 'Widget/calendar_widget.dart';
@@ -154,7 +155,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SpendGroupWidget(),
             MyCalendarPage(),
-            SizedBox(height: 70),
+            SizedBox(height: 50),
+            SpendListWidget(),
+            SizedBox(height: 200),
           ],
         ),
       ),

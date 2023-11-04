@@ -24,11 +24,11 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
           width: constraints.maxWidth,
-          color: Color(0xFFADABAB),
+          // color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.only(left: 10, right: 10),
             child: Container(
-              color: Color(0xFFADABAB),
+              // color: Color(0xFFADABAB),
               child: Column(
                 children: [
                   SizedBox(height:15),
