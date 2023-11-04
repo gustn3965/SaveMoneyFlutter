@@ -32,7 +32,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
+  path: ^1.8.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,6 +51,7 @@ dev_dependencies:
   table_calendar: ^3.0.9
   syncfusion_flutter_datepicker: ^23.1.43
   provider: ^6.0.5
+  sqflite: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
