@@ -1,5 +1,5 @@
 
-import 'package:save_money_flutter/spend_group_widget.dart';
+import 'package:save_money_flutter/Widget/spend_group_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/view_model/save_money_view_model.dart';
