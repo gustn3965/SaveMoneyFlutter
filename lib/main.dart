@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
 import 'top_will_save_money_widget.dart';
 import 'top_group_will_spend_money_widget.dart';
@@ -13,10 +14,8 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-
 import 'view_model/save_money_view_model.dart';
-
-
+import 'view_model/select_date_view_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,60 +28,65 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko', 'KO'),
+        const Locale('en', 'US'),
+      ],
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (context) => SaveMoneyViewModel(groups: [
+                    GroupObject(
+                        name: "고정지출 비용",
+                        type: ObjectType.group,
+                        group: Group(
+                            willSpendMoney: 1000000,
+                            spendMoney: 50000,
+                            name: "chip 버튼")),
+                    GroupObject(
+                        name: "chip 버튼",
+                        type: ObjectType.group,
+                        group: Group(
+                            willSpendMoney: 2000000,
+                            spendMoney: 10000,
+                            name: "chip 버튼")),
+                    GroupObject(
+                        name: "나를 위한 선물 나를튼",
+                        type: ObjectType.group,
+                        group: Group(
+                            willSpendMoney: 3000000,
+                            spendMoney: 40000,
+                            name: "chip 버튼")),
+                    GroupObject(
+                        name: "버튼",
+                        type: ObjectType.group,
+                        group: Group(
+                            willSpendMoney: 5000000,
+                            spendMoney: 100000,
+                            name: "chip 버튼")),
+                    GroupObject(
+                        name: "추가 +",
+                        type: ObjectType.plusButton,
+                        group: Group(
+                            willSpendMoney: 550000,
+                            spendMoney: 850000,
+                            name: "chip 버튼"))
+                  ], spendMoney: 100000, willSpendMoney: 1000000)),
+          ChangeNotifierProvider(create: (context) => SelectDateViewModel()),
         ],
-        supportedLocales: [
-          const Locale('ko', 'KO'),
-          const Locale('en', 'US'),
-        ],
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: ChangeNotifierProvider(
-          create: (context) => SaveMoneyViewModel(groups: [
-            GroupObject(
-                name: "고정지출 비용",
-                type: ObjectType.group,
-                group: Group(
-                    willSpendMoney: 1000000,
-                    spendMoney: 50000,
-                    name: "chip 버튼")),
-            GroupObject(
-                name: "chip 버튼",
-                type: ObjectType.group,
-                group: Group(
-                    willSpendMoney: 2000000,
-                    spendMoney: 10000,
-                    name: "chip 버튼")),
-            GroupObject(
-                name: "나를 위한 선물 나를튼",
-                type: ObjectType.group,
-                group: Group(
-                    willSpendMoney: 3000000,
-                    spendMoney: 40000,
-                    name: "chip 버튼")),
-            GroupObject(
-                name: "버튼",
-                type: ObjectType.group,
-                group: Group(
-                    willSpendMoney: 5000000,
-                    spendMoney: 100000,
-                    name: "chip 버튼")),
-            GroupObject(
-                name: "추가 +",
-                type: ObjectType.plusButton,
-                group: Group(
-                    willSpendMoney: 550000,
-                    spendMoney: 850000,
-                    name: "chip 버튼"))
-          ], spendMoney: 100000, willSpendMoney: 1000000),
-          child: const MyHomePage(title: 'Flutter Demo Home Page'),
-        ));
+        child: const MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
+    );
   }
 }
 
@@ -95,12 +99,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime selectedDate = DateTime.now();
   late SaveMoneyViewModel saveMoneyViewModel;
+  late SelectDateViewModel selectDateViewModel;
 
   @override
   Widget build(BuildContext context) {
     saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
+    selectDateViewModel = Provider.of<SelectDateViewModel>(context);
+
     final moneyFormatted = NumberFormat("#,###")
         .format(saveMoneyViewModel.selectedGroup?.spendMoney);
     final willSpendMoneyFormatted = NumberFormat("#,###")
@@ -114,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               _showDatePicker();
             },
             child: Text(
-              DateFormat('yyyy-MM').format(selectedDate),
+              DateFormat('yyyy-MM').format(selectDateViewModel.focusedDay),
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -136,12 +142,13 @@ class _MyHomePageState extends State<MyHomePage> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  TopGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
-                  TopTotalGroupWillSpendMoneyWidget(rightText: '$willSpendMoneyFormatted'),
+                  TopGroupWillSpendMoneyWidget(
+                      rightText: '$willSpendMoneyFormatted'),
+                  TopTotalGroupWillSpendMoneyWidget(
+                      rightText: '$willSpendMoneyFormatted'),
                 ],
               ),
             ),
-
             SpendGroupWidget(),
             MyCalendarPage(),
             SizedBox(height: 70),
@@ -172,13 +179,12 @@ class _MyHomePageState extends State<MyHomePage> {
       clipBehavior: Clip.hardEdge,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: Radius.circular(27))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
-          child: AddSpendingWidget()
-        );
+            height:
+                MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
+            child: AddSpendingWidget());
       },
     );
   }
@@ -193,10 +199,11 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.white,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.monthYear,
-            initialDateTime: this.selectedDate,
+            initialDateTime: selectDateViewModel.focusedDay,
             onDateTimeChanged: (DateTime newDate) {
               setState(() {
-                selectedDate = newDate;
+                selectDateViewModel.focusedDay = newDate;
+                selectDateViewModel.updateData();
               });
             },
           ),
