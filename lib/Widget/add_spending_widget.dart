@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:save_money_flutter/DataBase/Model/NTSpendDay.dart';
+import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
+
+import '../view_model/save_money_view_model.dart';
+
+import 'package:provider/provider.dart';
+
 
 class AddSpendingWidget extends StatefulWidget {
   const AddSpendingWidget({Key? key}) : super(key: key);
@@ -10,8 +17,7 @@ class AddSpendingWidget extends StatefulWidget {
 
 class _AddSpendingWidgetState extends State<AddSpendingWidget> {
   int selectedCard = -1;
-  List<String> spendList = ["담배", "여가생활", "술", "테니스", "커피", "추가 +"];
-
+  late SaveMoneyViewModel saveMoneyViewModel;
 
   int spendingMoney = 0;
   final spendingTextController = TextEditingController();
@@ -24,6 +30,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
     return TapRegion(
         onTapOutside: (event) {
           FocusScope.of(context).unfocus();
@@ -88,7 +95,9 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                             onPressed:
                                 (spendingTextController.text.isEmpty == false &&
                                         selectedCard != -1)
-                                    ? () {}
+                                    ? () {
+                                  saveSpend();
+                                }
                                     : null,
                             child: Text('저장'),
                             style: ElevatedButton.styleFrom(
@@ -112,7 +121,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                   child: GridView.builder(
                       shrinkWrap: false,
                       scrollDirection: Axis.vertical,
-                      itemCount: spendList.length,
+                      itemCount: saveMoneyViewModel.spendCategorys.length,
                       gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 10,
@@ -122,11 +131,11 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                            color: index == spendList.length - 1 ? Color(0xFFFF005B) : selectedCard == index
+                            color: index == saveMoneyViewModel.spendCategorys.length - 1 ? Color(0xFFFF005B) : selectedCard == index
                                 ? Color(0xFF2C62F0)
                                 : Color(0xFFA6BDFA),
                             child: TextButton( onPressed: () {
-                              if (index == spendList.length - 1) {
+                              if (index == saveMoneyViewModel.spendCategorys.length - 1) {
                                 showDialog(
                                     context: context,
                                     barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
@@ -153,7 +162,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
 
                               },
                               child: Text(
-                                spendList[index],
+                                saveMoneyViewModel.spendCategorys[index].name,
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -167,6 +176,22 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
               )
             ],
           ),
-        ));
+        )
+    );
+
+
+  }
+
+  void saveSpend() {
+    int id = indexDateIdFromDateTime(DateTime.now());
+    int date = indexDateIdFromDateTime(saveMoneyViewModel.selectedDay ?? DateTime.now());
+    int monthId = saveMoneyViewModel.selectedNtMonth?.id ?? 0;
+    int groupId = saveMoneyViewModel.selectedNtMonth?.groupId ?? 0;
+    int categoryId = saveMoneyViewModel.spendCategorys[selectedCard].id;
+    int spend = int.parse(spendingTextController.text);
+    NTSpendDay spendDay = NTSpendDay(id: id, date: date, spend: spend, monthId: monthId, groupId: groupId, categoryId: categoryId);
+    saveMoneyViewModel.addSpend(spendDay);
+
+    Navigator.of(context).pop();
   }
 }

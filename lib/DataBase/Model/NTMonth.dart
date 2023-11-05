@@ -1,6 +1,9 @@
 
 
 
+import '../../Extension/DateTime+Extension.dart';
+import '../sqlite_datastore.dart';
+import 'NTSpendDay.dart';
 import 'abstract/NTObject.dart';
 import 'abstract/model_header.dart';
 
@@ -25,6 +28,79 @@ class NTMonth implements NTObject {
     required this.additionalMoney,
   });
 
+
+  int? currentLeftMoney = 0;
+  List<NTSpendDay>? currentNTSpendList;
+
+
+
+
+
+  List<NTSpendDay> spendListAt(int? day, List<NTSpendDay> inList) {
+    if (day == null) {
+      return [];
+    }
+
+    List<NTSpendDay> spendList = [];
+
+    for (NTSpendDay spend in inList) {
+      if (dayFromSince1970(spend.date) == day) {
+        spendList.add(spend);
+      }
+    }
+    return spendList;
+  }
+
+  // NTMonth에 있는게 맞나......ㅋ
+  Future<int> get fetchLeftMoney async {
+    List<NTSpendDay> spendList = await existedSpendList();
+
+    int sum = 0;
+
+    int daysInMonth = daysInMonthFromSince1970(this.date);
+
+    int totalMoney = 0;
+    for (int day = 1; day <= daysInMonth; day ++) {
+      List<NTSpendDay> spends = spendListAt(day, spendList);
+      if (spends.isNotEmpty) {
+        totalMoney += this.everyExpectedSpend;
+          for (NTSpendDay spend in spends) {
+            totalMoney -= spend.spend;
+          }
+      }
+    }
+
+    print('지금 현재 금액... ${totalMoney}원');
+    return totalMoney;
+  }
+
+  // NTMonth에 있는게 맞나......ㅋ
+  Future<List<NTSpendDay>> existedSpendList() async {
+    return await SqliteController().fetch(NTSpendDay.staticClassName(), where: 'monthId = ? ORDER BY date', args: [id]);
+  }
+
+  // NTMonth에 있는게 맞나......ㅋ
+  Future<Map<DateTime, List<NTSpendDay>>> mapNtSpendList() async {
+    List<NTSpendDay> spendList = await existedSpendList();
+
+    int daysInMonth = daysInMonthFromSince1970(this.date);
+
+    Map<DateTime, List<NTSpendDay>> mapList = {};
+
+    for (int day = 1; day <= daysInMonth; day ++) {
+      List<NTSpendDay> spends = spendListAt(day, spendList);
+
+      if (spends.isNotEmpty) {
+        DateTime dateTime = DateTime.utc(yearFromSince1970(this.date), monthFromSince1970(this.date), day);
+        mapList[dateTime] = spends;
+      }
+    }
+
+    return mapList;
+  }
+
+
+
   @override
   Map<String, dynamic> toMap() {
     return {
@@ -37,8 +113,7 @@ class NTMonth implements NTObject {
       'additionalMoney': additionalMoney,
     };
   }
-
-
+  
   // NTMonth.fromMap
   NTMonth.fromMap(Map<dynamic, dynamic>? map)
     // return NTMonth(id: 0, date: 0, groupId: 0, spendType: 0, expectedSpend: 0, everyExpectedSpend: 0, additionalMoney: 0);

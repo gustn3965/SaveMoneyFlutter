@@ -10,19 +10,19 @@ import 'Model/NTSpendDay.dart';
 import 'Model/NTSpendGroup.dart';
 import 'Model/abstract/NTObject.dart';
 
-class SqliteTestModel implements DataBaseController {
+class SqliteController implements DataBaseController {
   Database? _database;
 
-  static SqliteTestModel? _singleton;
+  static SqliteController? _singleton;
 
-  factory SqliteTestModel() {
+  factory SqliteController() {
     if (_singleton == null) {
-      _singleton = SqliteTestModel._internal();
+      _singleton = SqliteController._internal();
     }
     return _singleton!;
   }
 
-  SqliteTestModel._internal();
+  SqliteController._internal();
 
   Future<void> initializeAsync() async {
     if (_database != null) return;
@@ -47,7 +47,7 @@ class SqliteTestModel implements DataBaseController {
   @override
   Future<List<T>> fetch<T extends NTObject>(String tableName, {String? where, List<Object?>? args}) async {
     // TODO: implement fetch
-    List<Map> result = await _database?.query(tableName) ?? [];
+    List<Map> result = await _database?.query(tableName, where: where, whereArgs: args) ?? [];
 
     return result.map((e) {
         if (tableName == NTMonth.staticClassName()) {

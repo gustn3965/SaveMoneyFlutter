@@ -1,4 +1,6 @@
 
+import '../sqlite_datastore.dart';
+import 'NTSpendCategory.dart';
 import 'abstract/NTObject.dart';
 
 class NTSpendDay implements NTObject {
@@ -47,5 +49,13 @@ class NTSpendDay implements NTObject {
   }
   static String staticClassName() {
     return 'NTSpendDay';
+  }
+
+
+  Future<String> fetchString() async {
+    print("async fetchString........}");
+    List<NTSpendCategory> list = await SqliteController().fetch(NTSpendCategory.staticClassName(), where: 'id = ?', args: [categoryId]);
+    print("async fetchString........${list.first.name}");
+    return list.first.name;
   }
 }

@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class TopWillSaveMoneyWidget extends StatelessWidget {
   final String firstText;
   final String secondText;
+  final Color color;
 
   TopWillSaveMoneyWidget({
     required this.firstText,
     required this.secondText,
+    required this.color,
   });
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class TopWillSaveMoneyWidget extends StatelessWidget {
               Text(
                 firstText,
                 style: TextStyle(
-                  color: Color(0xFF0082FB),
+                  color: color,
                   fontSize: 20,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w700,

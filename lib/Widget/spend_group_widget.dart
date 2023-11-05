@@ -6,6 +6,8 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
 import 'package:provider/provider.dart';
 
+import '../DataBase/Model/NTSpendGroup.dart';
+
 class SpendGroupWidget extends StatefulWidget {
   @override
   _SpendGroupWidgetState createState() => _SpendGroupWidgetState();
@@ -14,8 +16,6 @@ class SpendGroupWidget extends StatefulWidget {
 class _SpendGroupWidgetState extends State<SpendGroupWidget> {
 
   late SaveMoneyViewModel saveMoneyViewModel;
-
-  var selected_tags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +49,16 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
   }
 
   generate_tags() {
-    return saveMoneyViewModel.groups.map((tag) => get_chip(tag)).toList();
+    return saveMoneyViewModel.ntSpendGroups.map((tag) => get_chip(tag)).toList();
   }
 
-  get_chip(GroupObject groupObject) {
+  get_chip(NTSpendGroup groupObject) {
     return FilterChip(
-      selected: selected_tags.contains(groupObject.name),
+      selected: groupObject.id == saveMoneyViewModel.selectedGroup?.id,
       backgroundColor: Color(0xFFFAA6A6),
       selectedColor: Color(0xFFFF005B),
-
+      shadowColor: Colors.grey,
+      elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -66,29 +67,20 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       side: BorderSide.none,
 
       onSelected: (bool value) {
-        if (groupObject.type == ObjectType.plusButton) {
-          // Plus 버튼을 눌렀을 때의 동작
+        // if (groupObject.type == ObjectType.plusButton) {
+        //   // Plus 버튼을 눌렀을 때의 동작
+        //   setState(() {
+        //     // saveMoneyViewModel.ntSpendGroups.insert(saveMoneyViewModel.ntSpendGroups.length - 1,
+        //     //     GroupObject(name: "샘플", type: ObjectType.group, group: Group(willSpendMoney: 4230000, spendMoney: 400000, name: "샘플")));
+        //     // saveMoneyViewModel.updateData();
+        //   });
+        // } else {
           setState(() {
-            saveMoneyViewModel.groups.insert(saveMoneyViewModel.groups.length - 1,
-                GroupObject(name: "샘플", type: ObjectType.group, group: Group(willSpendMoney: 4230000, spendMoney: 400000, name: "샘플")));
-            saveMoneyViewModel.updateData();
-          });
-        } else {
-          setState(() {
-            if (selected_tags.contains(groupObject.name)) {
-              
-            } else {
-              if (selected_tags.isEmpty == false) {
-                selected_tags.removeLast();
-              }
-              selected_tags.add(groupObject.name);
-              saveMoneyViewModel.selectedGroup = groupObject.group;
-            }
 
-            saveMoneyViewModel.updateData();
+              saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
         }
-      },
+      // },
     );
   }
 }

@@ -30,8 +30,20 @@ import 'view_model/select_date_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SqliteTestModel().initializeAsync();
-  runApp(const MyApp());
+  await SqliteController().initializeAsync();
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider (
+              create: (context) {
+                SaveMoneyViewModel viewModel = SaveMoneyViewModel();
+                viewModel.setup();
+                return viewModel;
+              }),
+        ],
+        child: const MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -55,50 +67,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (context) => SaveMoneyViewModel(groups: [
-                    GroupObject(
-                        name: "고정지출 비용",
-                        type: ObjectType.group,
-                        group: Group(
-                            willSpendMoney: 1000000,
-                            spendMoney: 50000,
-                            name: "chip 버튼")),
-                    GroupObject(
-                        name: "chip 버튼",
-                        type: ObjectType.group,
-                        group: Group(
-                            willSpendMoney: 2000000,
-                            spendMoney: 10000,
-                            name: "chip 버튼")),
-                    GroupObject(
-                        name: "나를 위한 선물 나를튼",
-                        type: ObjectType.group,
-                        group: Group(
-                            willSpendMoney: 3000000,
-                            spendMoney: 40000,
-                            name: "chip 버튼")),
-                    GroupObject(
-                        name: "버튼",
-                        type: ObjectType.group,
-                        group: Group(
-                            willSpendMoney: 5000000,
-                            spendMoney: 100000,
-                            name: "chip 버튼")),
-                    GroupObject(
-                        name: "추가 +",
-                        type: ObjectType.plusButton,
-                        group: Group(
-                            willSpendMoney: 550000,
-                            spendMoney: 850000,
-                            name: "chip 버튼"))
-                  ], spendMoney: 100000, willSpendMoney: 1000000)),
-          ChangeNotifierProvider(create: (context) => SelectDateViewModel()),
-        ],
-        child: const MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+
     );
   }
 }
@@ -113,17 +83,27 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late SaveMoneyViewModel saveMoneyViewModel;
-  late SelectDateViewModel selectDateViewModel;
+  late SaveMoneyViewModel selectDateViewModel;
 
   @override
   Widget build(BuildContext context) {
     saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
-    selectDateViewModel = Provider.of<SelectDateViewModel>(context);
+    selectDateViewModel = Provider.of<SaveMoneyViewModel>(context);
+
+    int totalWillSpendMoney = 0;
+    for (NTMonth month in saveMoneyViewModel.ntMonths) {
+      totalWillSpendMoney += month.expectedSpend;
+    }
+    int willSaveMoney = saveMoneyViewModel.selectedNtMonth?.currentLeftMoney ?? 0;
 
     final moneyFormatted = NumberFormat("#,###")
-        .format(saveMoneyViewModel.selectedGroup?.spendMoney);
+        .format(willSaveMoney);
     final willSpendMoneyFormatted = NumberFormat("#,###")
-        .format(saveMoneyViewModel.selectedGroup?.willSpendMoney);
+        .format(saveMoneyViewModel.selectedNtMonth?.expectedSpend ?? 0);
+    final willTotalSpendMoneyFormatted = NumberFormat("#,###")
+        .format(totalWillSpendMoney);
+
+    String willSaveMoneyString = willSaveMoney < 0 ? '돈이 나갈 예정이에요.😭' : '돈을 모을 예정이에요. 👍';
 
     return Scaffold(
       appBar: AppBar(
@@ -148,8 +128,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             TopWillSaveMoneyWidget(
-              firstText: '+ $moneyFormatted',
-              secondText: '돈을 모을 예정이에요. 👍',
+              firstText: '$moneyFormatted',
+              secondText: willSaveMoneyString,
+              color: willSaveMoney < 0 ? Colors.red : Colors.blue,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -158,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   TopGroupWillSpendMoneyWidget(
                       rightText: '$willSpendMoneyFormatted'),
                   TopTotalGroupWillSpendMoneyWidget(
-                      rightText: '$willSpendMoneyFormatted'),
+                      rightText: '$willTotalSpendMoneyFormatted'),
                 ],
               ),
             ),
@@ -183,25 +164,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void clickButton() {
     setState(() {
-      saveMoneyViewModel.selectedGroup?.spendMoney += 1000000;
-      saveMoneyViewModel.updateData();
+      // saveMoneyViewModel.selectedGroup?.spendMoney += 1000000;
+      // saveMoneyViewModel.updateData();
     });
   }
 
   void _showModal(BuildContext context) async {
-    var db = SqliteTestModel();
-
-    double time = DateTime.now().millisecondsSinceEpoch / 10000;
-    time.floor();
-
-    NTSpendGroup group = NTSpendGroup(id: time.floor(), name: '플러터');
-    await db.insert(group);
-
-    List<NTSpendGroup> result = await db.fetch(NTSpendGroup.staticClassName());
-
-    print(result);
-
-
     showModalBottomSheet(
       context: context,
       clipBehavior: Clip.hardEdge,

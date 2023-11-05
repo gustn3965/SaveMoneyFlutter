@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import '../DataBase/Model/NTSpendDay.dart';
+import '../view_model/save_money_view_model.dart';
 
 
 
@@ -21,16 +25,16 @@ class SpendListWidget extends StatefulWidget {
 
 
 class _SpendListWidgetState extends State<SpendListWidget> {
-
-  List<SpendingModel> spendList = [SpendingModel(DateTime.now(),"담배", "", 4800),
-    SpendingModel(DateTime.now(),"여가생활", "테니스 2시간 했습니다...", 20000),
-    SpendingModel(DateTime.now(),"커피", "", 1800),
-    SpendingModel(DateTime.now(),"옷", "가을 옷 준비!", 14800),
-    SpendingModel(DateTime.now(),"담배", "", 4800)];
-
+  late SaveMoneyViewModel selectDateViewModel;
 
   @override
   Widget build(BuildContext context) {
+    selectDateViewModel = Provider.of<SaveMoneyViewModel>(context);
+
+    int totalSpend = 0;
+    for (NTSpendDay spendDay in selectDateViewModel.selectedNtSpendList ?? []) {
+      totalSpend += spendDay.spend;
+    }
     return Column(
       children: [
         Container(
@@ -46,7 +50,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                   Padding(
                       padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
                       child: Text(
-                        '11/2',
+                        '${selectDateViewModel.selectedDay?.month}/${selectDateViewModel.selectedDay?.day}',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -59,7 +63,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                   Padding(
                       padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
                       child: Text(
-                        "400,000",
+                        '${totalSpend}',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -78,7 +82,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
         ListView.builder(
           shrinkWrap: true,
             primary: false,
-            itemCount: spendList.length,
+            itemCount: selectDateViewModel.selectedNtSpendList?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 // height: 100,
@@ -88,26 +92,33 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 20, right: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(height: 15),
-                            Text(
-                              spendList[index].spendCategory,
-                              style: TextStyle(
-                                color: Color(0xFF0082FB),
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w700,
-                                height: 1.0,
-                              ),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
+                            FutureBuilder<String>(
+                              future: selectDateViewModel.selectedNtSpendList?[index].fetchString(),
+                              builder: (context, snapshot) {
+                                String name = snapshot.data ?? '';
+                                return Text(
+                                  name,
+                                  style: TextStyle(
+                                    color: Color(0xFF0082FB),
+                                    fontSize: 20,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.0,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                  maxLines: 2,
+                                );
+                              },
                             ),
+
                             SizedBox(height: 10),
                             Text(
-                              '${spendList[index].spendMoney}',
+                              '${selectDateViewModel.selectedNtSpendList?[index].spend ?? 0}',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -115,7 +126,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                                 fontWeight: FontWeight.w700,
                                 height: 1.0,
                               ),
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.left,
                               maxLines: 2,
                             ),
                             SizedBox(height: 15),
