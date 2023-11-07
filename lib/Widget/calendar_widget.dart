@@ -29,19 +29,18 @@ class MyCalendarPage extends StatefulWidget {
 }
 
 class _MyCalendarPageState extends State<MyCalendarPage> {
-  late SaveMoneyViewModel selectDateViewModel;
+  late SaveMoneyViewModel selectDateViewModel = Provider.of<SaveMoneyViewModel>(context);
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   @override
   Widget build(BuildContext context) {
-    selectDateViewModel = Provider.of<SaveMoneyViewModel>(context);
-
     List<NTSpendDay> getEventsForDay(DateTime day) {
       return selectDateViewModel.mapSpendDayList?[day] ?? [];
     }
 
     return TableCalendar(
+      availableGestures: AvailableGestures.horizontalSwipe,
       availableCalendarFormats: {CalendarFormat.month: 'Month'},
         locale: 'ko_KR',
         firstDay: DateTime.utc(2010, 10, 16),
@@ -59,6 +58,7 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
             return getEventsForDay(day);
         },
         calendarBuilders: CalendarBuilders(
+
           // selectedBuilder: (context, dateTime, _) {
           //   return Container(
           //     color: Colors.red.withAlpha(128),

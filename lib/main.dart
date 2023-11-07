@@ -140,6 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: willSaveMoney < 0 ? Colors.red : Colors.blue,
             ),
             SingleChildScrollView(
+
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
