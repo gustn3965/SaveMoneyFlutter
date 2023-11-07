@@ -15,11 +15,10 @@ class SpendGroupWidget extends StatefulWidget {
 
 class _SpendGroupWidgetState extends State<SpendGroupWidget> {
 
-  late SaveMoneyViewModel saveMoneyViewModel;
+  late SaveMoneyViewModel saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
-    saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(

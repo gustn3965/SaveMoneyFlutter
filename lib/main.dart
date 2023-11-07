@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/DataBase/Model/NTMonth.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
+import 'package:save_money_flutter/view_model/add_spending_view_model.dart';
 import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
 // Widget
@@ -11,7 +12,7 @@ import 'Widget/top_will_save_money_widget.dart';
 import 'Widget/top_group_will_spend_money_widget.dart';
 import 'Widget/spend_group_widget.dart';
 import 'Widget/top_total_group_will_spend_money_widget.dart';
-import 'Widget/add_spending_widget.dart';
+import 'Widget/AddSpending/add_spending_widget.dart';
 import 'Widget/spend_list_widget.dart';
 
 // library
@@ -40,6 +41,12 @@ void main() async {
                 viewModel.setup();
                 return viewModel;
               }),
+          // ChangeNotifierProvider (
+          //     create: (context) {
+          //       AddSpendingViewModel viewModel = AddSpendingViewModel();
+          //       viewModel.setup();
+          //       return viewModel;
+          //     })
         ],
         child: const MyApp(),
       )
@@ -177,10 +184,17 @@ class _MyHomePageState extends State<MyHomePage> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
-        return Container(
+        return ChangeNotifierProvider (
+            create: (context) {
+              AddSpendingViewModel viewModel = AddSpendingViewModel();
+              viewModel.setup(saveMoneyViewModel);
+              return viewModel;
+            }, child: Container(
             height:
-                MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
-            child: AddSpendingWidget());
+            MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
+            child: AddSpendingWidget())
+        );
+
       },
     );
   }
