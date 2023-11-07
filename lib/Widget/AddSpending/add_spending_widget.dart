@@ -153,39 +153,22 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                     child: GridView.builder(
                         shrinkWrap: false,
                         scrollDirection: Axis.vertical,
-                        itemCount: spendingViewModel.spendCategorys.length,
+                        itemCount: spendingViewModel.spendCategorys.length + 1,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                           childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 4),
+                              (MediaQuery.of(context).size.height / 5),
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
-                            color: spendingViewModel.selectedCategory?.id == spendingViewModel.spendCategorys?[index].id
+                            color: index == (spendingViewModel.spendCategorys?.length ?? 0)  ? Colors.red : spendingViewModel.selectedCategory?.id == spendingViewModel.spendCategorys?[index].id
                                 ? Color(0xFF2C62F0)
                                 : Color(0xFFA6BDFA),
                             child: TextButton( onPressed: () {
-                              if (index == (spendingViewModel.spendCategorys?.length ?? 0) - 1) {
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: Container(),
-                                        insetPadding: const  EdgeInsets.fromLTRB(0,80,0, 80),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('확인'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
+                              if (index == (spendingViewModel.spendCategorys?.length ?? 0)) {
+                                  _showAddSpendCategory();
                               } else {
                                 spendingViewModel.selectedCategory = spendingViewModel.spendCategorys?[index];
                                 spendingViewModel.notifyListeners();
@@ -193,10 +176,10 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
 
                             },
                               child: Text(
-                                spendingViewModel.spendCategorys?[index].name ?? '',
+                                index == (spendingViewModel.spendCategorys?.length ?? 0) ? '추가 +' : spendingViewModel.spendCategorys?[index].name ?? '',
                                 style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
+                                  fontSize: 18,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -235,6 +218,48 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
           ),
         );
       },
+    );
+  }
+
+  void _showAddSpendCategory() {
+    TextEditingController controller = TextEditingController();
+    showDialog(
+        context: context,
+        barrierDismissible: true, // 바깥 영역 터치시 닫을지 여부
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('지출항목 카테고리'),
+            content: TextField(
+              controller: controller,
+              keyboardType: TextInputType.text,
+              style: TextStyle(fontSize: 20),
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: '이름을 지어주세요.',
+              ),
+
+              onChanged: (text) async {
+
+              },
+
+            ),
+            actions: [
+              TextButton(
+                child: const Text('추가'),
+                onPressed: () async {
+                  if (controller.text.isEmpty) {
+
+                  } else {
+                    NTSpendCategory category = NTSpendCategory(id: indexDateIdFromDateTime(DateTime.now()), name: controller.text);
+                    await spendingViewModel.saveMoneyViewModel.addSpendCategory(category);
+                    await spendingViewModel.fetchNTSpendCategory();
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ],
+          );
+        }
     );
   }
 

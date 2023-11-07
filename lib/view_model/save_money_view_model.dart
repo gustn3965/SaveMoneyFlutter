@@ -119,4 +119,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
     // await fetchNTMonths()
     notifyListeners();
   }
+
+  Future<void> addSpendCategory(NTSpendCategory category) async {
+
+    await this.db.insert(category);
+
+    // await fetchNTMonths()
+    notifyListeners();
+  }
 }
