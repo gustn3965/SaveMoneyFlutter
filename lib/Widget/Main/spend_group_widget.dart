@@ -1,14 +1,14 @@
 
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_money_widget.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_widget.dart';
-import 'package:save_money_flutter/Widget/spend_group_widget.dart';
+import 'package:save_money_flutter/Widget/Main/spend_group_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
 import 'package:provider/provider.dart';
 
-import '../DataBase/Model/NTSpendGroup.dart';
+import '../../DataBase/Model/NTSpendGroup.dart';
 
 class SpendGroupWidget extends StatefulWidget {
   @override

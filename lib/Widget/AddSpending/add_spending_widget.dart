@@ -5,7 +5,7 @@ import 'package:save_money_flutter/DataBase/Model/NTSpendCategory.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendDay.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
-import 'package:save_money_flutter/Widget/spend_group_widget.dart';
+import 'package:save_money_flutter/Widget/Main/spend_group_widget.dart';
 
 import '../../DataBase/Model/NTMonth.dart';
 import '../../view_model/save_money_view_model.dart';
@@ -17,8 +17,9 @@ import 'package:intl/intl.dart';
 import 'AddSpendingSpendGroupWidget.dart'; // numberFormat
 
 class AddSpendingWidget extends StatefulWidget {
-  const AddSpendingWidget({Key? key}) : super(key: key);
+  const AddSpendingWidget({Key? key, this.spendDay}) : super(key: key);
 
+  final NTSpendDay? spendDay;
   @override
   _AddSpendingWidgetState createState() => _AddSpendingWidgetState();
 }
@@ -27,24 +28,26 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
   int selectedCard = -1;
 
   int spendingMoney = 0;
-  final spendingTextController = TextEditingController();
+  late TextEditingController spendingTextController = TextEditingController(text: '${widget.spendDay?.spend ?? 0}');
   String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
 
   late AddSpendingViewModel spendingViewModel = Provider.of<AddSpendingViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-            FocusScope.of(context).unfocus();
-          },
+    return SingleChildScrollView(
+
+        child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
 
           child: Container(
             color: Colors.white,
             child: Column(
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 GestureDetector(
                     onTap: () {
@@ -60,7 +63,11 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                         fontWeight: FontWeight.w800,
                         height: 0,
                       ),
-                    )),
+                    )
+                ),
+                SizedBox(
+                  height:20,
+                ),
                 Container(
                   width: 200,
                   height: 80,
@@ -101,7 +108,9 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: ElevatedButton(
-                              onPressed: null,
+                              onPressed: widget.spendDay == null ? null : () async {
+                                deleteSpend();
+                              },
                               child: Text('삭제'),
                               style: ElevatedButton.styleFrom(
                                 shape: const RoundedRectangleBorder(
@@ -124,7 +133,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                               onPressed:
                               (spendingTextController.text.isEmpty == false &&
                                   spendingViewModel.selectedCategory != null && spendingViewModel.selectedNtMonth != null)
-                                  ? () {
+                                  ? () async {
                                 saveSpend();
                               }
                                   : null,
@@ -144,55 +153,72 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                     SizedBox(height: 20),
                   ],
                 ),
+                SizedBox(height:20),
+                Text(
+                  "지출 그룹 ",
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
                 AddSpendingSpendGroupWidget(),
 
-                SizedBox(height: 20),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: GridView.builder(
-                        shrinkWrap: false,
-                        scrollDirection: Axis.vertical,
-                        itemCount: spendingViewModel.spendCategorys.length + 1,
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 5),
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            color: index == (spendingViewModel.spendCategorys?.length ?? 0)  ? Colors.red : spendingViewModel.selectedCategory?.id == spendingViewModel.spendCategorys?[index].id
-                                ? Color(0xFF2C62F0)
-                                : Color(0xFFA6BDFA),
-                            child: TextButton( onPressed: () {
-                              if (index == (spendingViewModel.spendCategorys?.length ?? 0)) {
-                                  _showAddSpendCategory();
-                              } else {
-                                spendingViewModel.selectedCategory = spendingViewModel.spendCategorys?[index];
-                                spendingViewModel.notifyListeners();
-                              }
+                SizedBox(height: 30),
+                Text(
+                  "지출 항목 ",
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: spendingViewModel.spendCategorys.length + 1,
+                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: MediaQuery.of(context).size.width /
+                            (MediaQuery.of(context).size.height / 5),
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          color: index == (spendingViewModel.spendCategorys?.length ?? 0)  ? Colors.red : spendingViewModel.selectedCategory?.id == spendingViewModel.spendCategorys?[index].id
+                              ? Color(0xFF2C62F0)
+                              : Color(0xFFA6BDFA),
+                          child: TextButton( onPressed: () {
+                            if (index == (spendingViewModel.spendCategorys?.length ?? 0)) {
+                              _showAddSpendCategory();
+                            } else {
+                              spendingViewModel.selectedCategory = spendingViewModel.spendCategorys?[index];
+                              spendingViewModel.notifyListeners();
+                            }
 
-                            },
-                              child: Text(
-                                index == (spendingViewModel.spendCategorys?.length ?? 0) ? '추가 +' : spendingViewModel.spendCategorys?[index].name ?? '',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          },
+                            child: Text(
+                              index == (spendingViewModel.spendCategorys?.length ?? 0) ? '추가 +' : spendingViewModel.spendCategorys?[index].name ?? '',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          );
-                        }),
-                  ),
+                          ),
+                        );
+                      }),
                 ),
-
               ],
             ),
           )
-      );
+      )
+    );
 
   }
 
@@ -263,17 +289,39 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
     );
   }
 
-  void saveSpend() {
-    int id = indexDateIdFromDateTime(DateTime.now());
-    int date = indexDateIdFromDateTime(spendingViewModel.selectedDate ?? DateTime.now());
-    int monthId = spendingViewModel.selectedNtMonth?.id ?? 0;
-    int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
-    int categoryId = spendingViewModel.selectedCategory?.id ?? 0;
-    int spend = spendingViewModel.currentInputMoney;
-    NTSpendDay spendDay = NTSpendDay(id: id, date: date, spend: spend, monthId: monthId, groupId: groupId, categoryId: categoryId);
-    spendingViewModel.saveMoneyViewModel.addSpend(spendDay);
+  void deleteSpend() async {
+    if (widget.spendDay != null) {
+      await spendingViewModel.saveMoneyViewModel.deleteSpend(widget.spendDay!);
+      Navigator.of(context).pop();
+    }
+  }
 
-    Navigator.of(context).pop();
+  void saveSpend() async {
+    if (widget.spendDay == null) {
+      int id = indexDateIdFromDateTime(DateTime.now());
+      int date = indexDateIdFromDateTime(spendingViewModel.selectedDate ?? DateTime.now());
+      int monthId = spendingViewModel.selectedNtMonth?.id ?? 0;
+      int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
+      int categoryId = spendingViewModel.selectedCategory?.id ?? 0;
+      int spend = spendingViewModel.currentInputMoney;
+      NTSpendDay spendDay = NTSpendDay(id: id, date: date, spend: spend, monthId: monthId, groupId: groupId, categoryId: categoryId);
+      await spendingViewModel.saveMoneyViewModel.addSpend(spendDay);
+
+      Navigator.of(context).pop();
+    } else {
+      int id = widget.spendDay!.id;
+      int date = indexDateIdFromDateTime(spendingViewModel.selectedDate ?? DateTime.now());
+      int monthId = spendingViewModel.selectedNtMonth?.id ?? 0;
+      int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
+      int categoryId = spendingViewModel.selectedCategory?.id ?? 0;
+      int spend = spendingViewModel.currentInputMoney;
+      NTSpendDay spendDay = NTSpendDay(id: id, date: date, spend: spend, monthId: monthId, groupId: groupId, categoryId: categoryId);
+      print('${widget.spendDay!.toMap()}');
+      await spendingViewModel.saveMoneyViewModel.updateSpend(spendDay);
+
+      Navigator.of(context).pop();
+    }
+
   }
 
 }

@@ -1,5 +1,5 @@
 
-import 'package:save_money_flutter/Widget/spend_group_widget.dart';
+import 'package:save_money_flutter/Widget/Main/spend_group_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/view_model/save_money_view_model.dart';
@@ -29,7 +29,7 @@ class _AddSpendingSpendGroupWidgetState extends State<AddSpendingSpendGroupWidge
           width: constraints.maxWidth,
           // color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: EdgeInsets.only(left: 15, right: 15),
             child: Container(
               // color: Color(0xFFADABAB),
               child: Column(

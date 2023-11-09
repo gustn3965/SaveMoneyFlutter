@@ -111,12 +111,31 @@ class SaveMoneyViewModel extends ChangeNotifier {
     this.selectedNtSpendList = this.selectedNtMonth?.spendListAt(selectedDay?.day, list) ;
   }
 
-  void addSpend(NTSpendDay spendDay) async {
+  Future<void> addSpend(NTSpendDay spendDay) async {
 
     await this.db.insert(spendDay);
 
     await fetchNTMonths(this.selectedDay ?? DateTime.now());
-    
+
+    await updateSelectedDay(this.selectedDay ?? DateTime.now());
+    // await fetchNTMonths()
+    notifyListeners();
+  }
+
+  Future<void> updateSpend(NTSpendDay spendDay) async {
+    await this.db.update(spendDay);
+
+    await fetchNTMonths(this.selectedDay ?? DateTime.now());
+    await updateSelectedDay(this.selectedDay ?? DateTime.now());
+    // await fetchNTMonths()
+    notifyListeners();
+  }
+
+  Future<void> deleteSpend(NTSpendDay spendDay) async {
+    await this.db.delete(spendDay);
+
+    await fetchNTMonths(this.selectedDay ?? DateTime.now());
+    await updateSelectedDay(this.selectedDay ?? DateTime.now());
     // await fetchNTMonths()
     notifyListeners();
   }

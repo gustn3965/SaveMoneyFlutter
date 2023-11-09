@@ -8,15 +8,15 @@ import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 // Widget
 import 'DataBase/Model/abstract/NTObject.dart';
 import 'DataBase/sqlite_datastore.dart';
-import 'Widget/top_will_save_money_widget.dart';
-import 'Widget/top_group_will_spend_money_widget.dart';
-import 'Widget/spend_group_widget.dart';
-import 'Widget/top_total_group_will_spend_money_widget.dart';
+import 'Widget/Main/top_will_save_money_widget.dart';
+import 'Widget/Main/top_group_will_spend_money_widget.dart';
+import 'Widget/Main/spend_group_widget.dart';
+import 'Widget/Main/top_total_group_will_spend_money_widget.dart';
 import 'Widget/AddSpending/add_spending_widget.dart';
-import 'Widget/spend_list_widget.dart';
+import 'Widget/Main/spend_list_widget.dart';
 
 // library
-import 'Widget/calendar_widget.dart';
+import 'Widget/Main/calendar_widget.dart';
 import 'package:intl/intl.dart'; // numberFormat
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:provider/provider.dart';
@@ -140,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
               color: willSaveMoney < 0 ? Colors.red : Colors.blue,
             ),
             SingleChildScrollView(
-
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [

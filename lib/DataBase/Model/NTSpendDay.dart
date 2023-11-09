@@ -1,5 +1,8 @@
 
+import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
+
 import '../sqlite_datastore.dart';
+import 'NTMonth.dart';
 import 'NTSpendCategory.dart';
 import 'abstract/NTObject.dart';
 
@@ -12,6 +15,8 @@ class NTSpendDay implements NTObject {
   int groupId; // 소비한 지출예상그룹의 NTGroup id
   int categoryId; // 소비 카테고리 id
   // -------------------
+
+  var db = SqliteController();
 
   NTSpendDay({
     required this.id,
@@ -57,5 +62,32 @@ class NTSpendDay implements NTObject {
     List<NTSpendCategory> list = await SqliteController().fetch(NTSpendCategory.staticClassName(), where: 'id = ?', args: [categoryId]);
     print("async fetchString........${list.first.name}");
     return list.first.name;
+  }
+
+  Future<NTMonth?> getNtMonth() async {
+    List<NTMonth> ntMonths = await db.fetch<NTMonth>(NTMonth.staticClassName(), where: 'id = ?', args: [this.monthId]);
+    if (ntMonths.isEmpty) {
+      return null;
+    } else {
+      return ntMonths.first;
+    }
+  }
+
+  Future<NTSpendGroup?> getNTGroup() async {
+    List<NTSpendGroup> ntGroups = await db.fetch<NTSpendGroup>(NTSpendGroup.staticClassName(), where: 'id = ?', args: [this.groupId]);
+    if (ntGroups.isEmpty) {
+      return null;
+    } else {
+      return ntGroups.first;
+    }
+  }
+
+  Future<NTSpendCategory?> getNTSpendCategory() async {
+    List<NTSpendCategory> ntGroups = await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName(), where: 'id = ?', args: [this.categoryId]);
+    if (ntGroups.isEmpty) {
+      return null;
+    } else {
+      return ntGroups.first;
+    }
   }
 }

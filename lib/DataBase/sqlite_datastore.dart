@@ -67,19 +67,21 @@ class SqliteController implements DataBaseController {
   @override
   insert(NTObject object) async {
     await _database?.insert(object.className(), object.toMap());
-    print('INSERT ${object.className()} ${object.toMap()}');
+    print('🦊🦊INSERT ${object.className()} ${object.toMap()}');
   }
 
   @override
   delete(NTObject object) async {
     int id = object.toMap()['id'];
     await _database?.delete(object.className(), where: 'id = ?', whereArgs: [id]);
+    print('🦊🦊DELETE ${object.className()} ${object.toMap()}');
   }
 
   @override
   update(NTObject object) async {
     int id = object.toMap()['id'];
-    await _database?.delete(object.className(), where: 'id = ?', whereArgs: [id]);
+    await _database?.update(object.className(), object.toMap(), where: 'id = ?', whereArgs: [id]);
+    print('🦊🦊UPDATE ${object.className()} ${object.toMap()}');
   }
 
 

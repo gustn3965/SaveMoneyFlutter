@@ -37,6 +37,23 @@ class AddSpendingViewModel extends ChangeNotifier {
         notifyListeners();
     }
 
+    Future<void> setupByExistSpendDay(NTSpendDay spendDay, SaveMoneyViewModel saveMoneyViewModel) async {
+        this.selectedDate = dateTimeFromSince1970(spendDay.date);
+        this.selectedNtMonth = await spendDay.getNtMonth();
+        this.selectedGroup = await spendDay.getNTGroup();
+        this.selectedCategory = await spendDay.getNTSpendCategory();
+        this.currentInputMoney = spendDay.spend;
+
+        this.saveMoneyViewModel = saveMoneyViewModel;
+
+        await fetchNTMonths(this.selectedDate);
+        await fetchNTSpendGroups();
+        await fetchNTSpendCategory();
+
+        print('????/');
+        notifyListeners();
+    }
+
     Future<void> fetchNTSpendGroups() async {
         this.ntSpendGroups = await db.fetch<NTSpendGroup>(NTSpendGroup.staticClassName());
 
