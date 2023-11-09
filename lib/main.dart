@@ -162,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showModal(context);
+          _showAddSpendCategory(context);
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _showModal(BuildContext context) async {
+  void _showAddSpendCategory(BuildContext context) async {
     showModalBottomSheet(
       context: context,
       clipBehavior: Clip.hardEdge,

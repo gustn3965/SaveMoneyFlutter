@@ -57,6 +57,7 @@ class _AddSpendingSpendGroupWidgetState extends State<AddSpendingSpendGroupWidge
 
   get_chip(NTSpendGroup groupObject) {
     return FilterChip(
+        showCheckmark: false,
         selected: groupObject.id == spendingViewModel.selectedGroup?.id,
         backgroundColor: Color(0xFFFAA6A6),
         selectedColor: Color(0xFFFF005B),

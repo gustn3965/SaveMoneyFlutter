@@ -1,4 +1,6 @@
 
+import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_money_widget.dart';
+import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_widget.dart';
 import 'package:save_money_flutter/Widget/spend_group_widget.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +27,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
           width: constraints.maxWidth,
           // color: Colors.white,
           child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: EdgeInsets.only(left: 20, right: 20),
             child: Container(
               // color: Color(0xFFADABAB),
               child: Column(
@@ -35,7 +37,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
                     alignment: WrapAlignment.start,
                     spacing: 10.0,
                     runSpacing: 10.0,
-                    children: <Widget>[...generate_tags()],
+                    children: <Widget>[...makeChipButton()],
                   ),
                   SizedBox(height:15),
                 ],
@@ -47,12 +49,15 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
     );
   }
 
-  generate_tags() {
-    return saveMoneyViewModel.ntSpendGroups.map((tag) => get_chip(tag)).toList();
+  makeChipButton() {
+    List<dynamic> chipArray = saveMoneyViewModel.ntSpendGroups.map((tag) => spendGroupChip(tag)).toList();
+    chipArray.add(addSpendGroupChip());
+    return chipArray;
   }
 
-  get_chip(NTSpendGroup groupObject) {
+  spendGroupChip(NTSpendGroup groupObject) {
     return FilterChip(
+      showCheckmark: false,
       selected: groupObject.id == saveMoneyViewModel.selectedGroup?.id,
       backgroundColor: Color(0xFFFAA6A6),
       selectedColor: Color(0xFFFF005B),
@@ -65,21 +70,52 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       side: BorderSide.none,
 
-      onSelected: (bool value) {
-        // if (groupObject.type == ObjectType.plusButton) {
-        //   // Plus 버튼을 눌렀을 때의 동작
-        //   setState(() {
-        //     // saveMoneyViewModel.ntSpendGroups.insert(saveMoneyViewModel.ntSpendGroups.length - 1,
-        //     //     GroupObject(name: "샘플", type: ObjectType.group, group: Group(willSpendMoney: 4230000, spendMoney: 400000, name: "샘플")));
-        //     // saveMoneyViewModel.updateData();
-        //   });
-        // } else {
-          setState(() {
+      onSelected: (bool value) async {
 
-              saveMoneyViewModel.updateSelectedGroup(groupObject);
+          bool isFind = await saveMoneyViewModel.updateSelectedGroup(groupObject);
+
+          if (isFind == false) {
+            showAddNTMonthWidget(groupObject);
+          }
+        }
+    );
+  }
+
+  addSpendGroupChip() {
+    return FilterChip(
+        showCheckmark: false,
+        selected: false,
+        backgroundColor: Color(0xFFA6BDFA),
+        selectedColor: Color(0xFFFF005B),
+        shadowColor: Colors.grey,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        label: Text("지출 그룹 +"),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        side: BorderSide.none,
+
+        onSelected: (bool value) {
+          setState(() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddSpendGroupWidget(selectedDate: saveMoneyViewModel.focusedDay, needCancelButton: true),
+              ),
+            );
+            // saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
         }
-      // },
+    );
+  }
+
+  showAddNTMonthWidget(NTSpendGroup group) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddSpendGroupMoneyWidget(group: group, selectedDate: saveMoneyViewModel.focusedDay),
+      ),
     );
   }
 }

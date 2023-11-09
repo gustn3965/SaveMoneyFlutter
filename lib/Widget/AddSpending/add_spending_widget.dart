@@ -28,17 +28,19 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
 
   int spendingMoney = 0;
   final spendingTextController = TextEditingController();
+  String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
 
   late AddSpendingViewModel spendingViewModel = Provider.of<AddSpendingViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
-    return TapRegion(
-          onTapOutside: (event) {
+    return GestureDetector(
+        onTap: () {
             FocusScope.of(context).unfocus();
           },
 
           child: Container(
+            color: Colors.white,
             child: Column(
               children: [
                 SizedBox(
@@ -63,6 +65,8 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                   width: 200,
                   height: 80,
                   child: TextField(
+                    textAlign: TextAlign.center,
+                    autofocus: true,
                     controller: spendingTextController,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
@@ -72,12 +76,14 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: '소비금액을 입력해주세요.',
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
                     ),
 
                     onChanged: (text) {
-                      // Provider.of<AddSpendingViewModel>(context, listen: false).currentInputMoney = int.parse(text);
+                      text = '${_formatNumber(text.replaceAll(',', ''))}';
+
                       spendingTextController.text = text;
-                      spendingViewModel.currentInputMoney = int.parse(text);
+                      spendingViewModel.currentInputMoney = int.parse(text.replaceAll(',', ''));
                       spendingViewModel.notifyListeners();
                     },
 
@@ -139,14 +145,8 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                   ],
                 ),
                 AddSpendingSpendGroupWidget(),
-                // FutureBuilder<List<NTMonth>>(
-                //   ?? 이거때문인가........
-                //   future: spendingViewModel.fetchNTMonths(spendingViewModel.selectedDate),
-                //   builder: (context, snapshot) {
-                //     // String name = snapshot.data ?? '';
-                //     return AddSpendingSpendGroupWidget();
-                //   },
-                // ),
+
+                SizedBox(height: 20),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -269,7 +269,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
     int monthId = spendingViewModel.selectedNtMonth?.id ?? 0;
     int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
     int categoryId = spendingViewModel.selectedCategory?.id ?? 0;
-    int spend = int.parse(spendingTextController.text);
+    int spend = spendingViewModel.currentInputMoney;
     NTSpendDay spendDay = NTSpendDay(id: id, date: date, spend: spend, monthId: monthId, groupId: groupId, categoryId: categoryId);
     spendingViewModel.saveMoneyViewModel.addSpend(spendDay);
 

@@ -63,7 +63,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   // 1. 지출그룹 선택했을떄.
   // 선택한 소비그룹에 대한 NTMonth도 찾아야함.
-  Future<void> updateSelectedGroup(NTSpendGroup? selectedGroup) async {
+  Future<bool> updateSelectedGroup(NTSpendGroup? selectedGroup) async {
 
       this.selectedGroup = selectedGroup;
 
@@ -77,7 +77,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
                   await month.existedSpendList();
               this.mapSpendDayList = await month.mapNtSpendList();
               notifyListeners();
-              return;
+              return true;
           }
       }
 
@@ -87,6 +87,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
       print('selected group: ${selectedGroup?.name}, and not found selected month');
       notifyListeners();
+      return false;
   }
 
   // ntmonths 가져오고,
@@ -125,6 +126,25 @@ class SaveMoneyViewModel extends ChangeNotifier {
     await this.db.insert(category);
 
     // await fetchNTMonths()
+    notifyListeners();
+  }
+
+  Future<void> addSpendGroup(NTSpendGroup spendGroup) async {
+
+    List<NTSpendGroup> findSpendGroups = await this.db.fetch(NTSpendGroup.staticClassName(), where: "id = ?", args: [spendGroup.id]);
+    if (findSpendGroups.isEmpty) {
+        await this.db.insert(spendGroup);
+    }
+
+    await this.fetchNTMonths(this.focusedDay);
+
+    notifyListeners();
+  }
+
+  Future<void> addNtMonth(NTMonth ntMonth) async {
+    await this.db.insert(ntMonth);
+    await this.fetchNTMonths(this.focusedDay);
+
     notifyListeners();
   }
 }
