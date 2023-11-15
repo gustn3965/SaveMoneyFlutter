@@ -71,11 +71,21 @@ class _AddSpendGroupWidgetState extends State<AddSpendGroupWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "목적에 맞는 지출그룹을 설정합니다.\n가능한 한,\n지출그룹을 나누는게 좋아요.",
+                              "지출 항목들을 포함할 \n지출 그룹을 설정합니다.",
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
+                                height:1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "가능한 한,\n지출그룹을 나누는게 좋아요.",
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
                                 height:1.5,
                               ),
                               textAlign: TextAlign.center,
