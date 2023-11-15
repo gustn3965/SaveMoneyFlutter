@@ -66,20 +66,23 @@ class _AddSpendGroupWidgetState extends State<AddSpendGroupWidget> {
                             },
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: 30),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "목적에 맞는 지출그룹을 설정합니다.\n될 수 있으면, 지출그룹을 나누는게 좋아요.",
+                              "목적에 맞는 지출그룹을 설정합니다.\n가능한 한,\n지출그룹을 나누는게 좋아요.",
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
+                                height:1.5,
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 50),
+                            Image.asset('assets/addGroupImage.png'),
+                            SizedBox(height: 60),
                             Text(
                               "변동성있는 지출그룹에서\n소비를 아껴서 돈을 모아보아요.",
                               style: TextStyle(
@@ -90,31 +93,10 @@ class _AddSpendGroupWidgetState extends State<AddSpendGroupWidget> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            SizedBox(height:30),
-                            Text(
-                              "예시",
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                color: Colors.black,
-                                fontSize: 18,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height:10),
-                            Text(
-                              '"친구들 비용"\n"식비"\n"나를 위한 선물"\n"데이트"\n"자동차"',
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
-                                height: 2,
-
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                            SizedBox(height: 30),
                           ],
                         ),
+
                         SizedBox(height:20),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

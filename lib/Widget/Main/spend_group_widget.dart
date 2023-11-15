@@ -59,16 +59,16 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
     return FilterChip(
       showCheckmark: false,
       selected: groupObject.id == saveMoneyViewModel.selectedGroup?.id,
-      backgroundColor: Color(0xFFFAA6A6),
+      backgroundColor: Colors.white,
       selectedColor: Color(0xFFFF005B),
-      shadowColor: Colors.grey,
-      elevation: 4,
+      // shadowColor: Colors.grey,
+      // elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       label: Text("${groupObject.name}"),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      side: BorderSide.none,
+        side: BorderSide(strokeAlign: 0.5),
 
       onSelected: (bool value) async {
 
@@ -85,16 +85,18 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
     return FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: Color(0xFFA6BDFA),
+        backgroundColor: Colors.white,
         selectedColor: Color(0xFFFF005B),
-        shadowColor: Colors.grey,
-        elevation: 4,
+        // shadowColor: Colors.grey,
+        // elevation: 4,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
         label: Text("지출 그룹 +"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide.none,
+        side: BorderSide(strokeAlign: 1),
+
 
         onSelected: (bool value) {
           setState(() {

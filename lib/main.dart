@@ -109,7 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .format(saveMoneyViewModel.selectedNtMonth?.expectedSpend ?? 0);
     final willTotalSpendMoneyFormatted = NumberFormat("#,###")
         .format(totalWillSpendMoney);
+    final willEverySpendMoney = NumberFormat("매일 (#,###)").format(saveMoneyViewModel.selectedNtMonth?.everyExpectedSpend ?? 0);
 
+    String selectedGroupName = saveMoneyViewModel.selectedGroup?.name ?? '';
     String willSaveMoneyString = willSaveMoney < 0 ? '돈이 나갈 예정이에요.😭' : '돈을 모을 예정이에요. 👍';
 
     return Scaffold(
@@ -134,22 +136,47 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            TopWillSaveMoneyWidget(
-              firstText: '$moneyFormatted',
-              secondText: willSaveMoneyString,
-              color: willSaveMoney < 0 ? Colors.red : Colors.blue,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  TopGroupWillSpendMoneyWidget(
-                      rightText: '$willSpendMoneyFormatted'),
-                  TopTotalGroupWillSpendMoneyWidget(
-                      rightText: '$willTotalSpendMoneyFormatted'),
-                ],
+            if (saveMoneyViewModel.selectedGroup == null)
+              Container(
+                height: 120,
+                child: Center(
+                    child: Text(
+                    '선택한 지출 그룹이 없습니다.',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w800,
+                        height: 1.0,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    )
+                 ),
+              )
+
+            else
+              TopWillSaveMoneyWidget(
+                groupNameText: selectedGroupName,
+                groupWillSaveMoneyText: '$moneyFormatted',
+                descriptionText: willSaveMoneyString,
+                willSpendMoneyText: willSpendMoneyFormatted,
+                willEverySpendMoneyText: willEverySpendMoney,
+                moneyColor: willSaveMoney < 0 ? Colors.red : Colors.blue,
               ),
-            ),
+
+
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: [
+            //       TopGroupWillSpendMoneyWidget(
+            //           rightText: '$willSpendMoneyFormatted'),
+            //       TopTotalGroupWillSpendMoneyWidget(
+            //           rightText: '$willTotalSpendMoneyFormatted'),
+            //     ],
+            //   ),
+            // ),
             SpendGroupWidget(),
             MyCalendarPage(),
             SizedBox(height: 50),
