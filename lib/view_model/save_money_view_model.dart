@@ -166,4 +166,10 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+  Future<void> updateNtMonth(NTMonth ntMonth) async {
+    await this.db.update(ntMonth);
+    await this.fetchNTMonths(this.focusedDay);
+
+    notifyListeners();
+  }
 }

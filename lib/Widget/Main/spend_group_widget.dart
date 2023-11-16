@@ -9,6 +9,7 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../DataBase/Model/NTSpendGroup.dart';
+import '../EditSpendGroup/spend_group_list_widget.dart';
 
 class SpendGroupWidget extends StatefulWidget {
   @override
@@ -85,7 +86,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
     return FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white30,
         selectedColor: Color(0xFFFF005B),
         // shadowColor: Colors.grey,
         // elevation: 4,
@@ -93,19 +94,14 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        label: Text("지출 그룹 +"),
+        label: Text("지출 그룹 수정"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
 
 
         onSelected: (bool value) {
           setState(() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddSpendGroupWidget(selectedDate: saveMoneyViewModel.focusedDay, needCancelButton: true),
-              ),
-            );
+            showEditSpendGroupListWidget();
             // saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
         }
@@ -117,6 +113,15 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
       context,
       MaterialPageRoute(
         builder: (context) => AddSpendGroupMoneyWidget(group: group, selectedDate: saveMoneyViewModel.focusedDay),
+      ),
+    );
+  }
+
+  showEditSpendGroupListWidget() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SpendGroupListWidget(),
       ),
     );
   }

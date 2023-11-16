@@ -1,4 +1,6 @@
 
+import '../sqlite_datastore.dart';
+import 'NTMonth.dart';
 import 'abstract/NTObject.dart';
 
 class NTSpendGroup implements NTObject {
@@ -11,6 +13,16 @@ class NTSpendGroup implements NTObject {
     required this.id,
     required this.name,
   });
+
+
+  Future<List<NTMonth>> ntMonths() async {
+    return await SqliteController().fetch(NTMonth.staticClassName(), where: 'groupId = ? ORDER BY date DESC', args: [id]);
+  }
+
+
+
+
+
 
   @override
   Map<String, dynamic> toMap() {

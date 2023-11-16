@@ -33,7 +33,9 @@ class NTMonth implements NTObject {
   List<NTSpendDay>? currentNTSpendList;
 
 
-
+  String dateStringYYMM() {
+      return '${yearFromSince1970(this.date)}년 ${monthFromSince1970(this.date)}월';
+  }
 
 
   List<NTSpendDay> spendListAt(int? day, List<NTSpendDay> inList) {
