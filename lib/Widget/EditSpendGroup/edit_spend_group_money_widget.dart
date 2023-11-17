@@ -11,9 +11,10 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 
 class EditSpendGroupMoneyWidget extends StatefulWidget {
-  const EditSpendGroupMoneyWidget({Key? key, required this.month}) : super(key:key);
+  const EditSpendGroupMoneyWidget({Key? key, required this.currentMonth, required this.currentSpendGroup}) : super(key:key);
 
-  final NTMonth month;
+  final NTMonth currentMonth;
+  final NTSpendGroup currentSpendGroup;
 
   @override
   State<EditSpendGroupMoneyWidget> createState() => _EditSpendGroupMoneyWidgetState();
@@ -23,9 +24,9 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
 
   late SaveMoneyViewModel saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context, listen: false);
   String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
-  late final groupMoneyTitleController = TextEditingController(text: NumberFormat("#,###").format(widget.month.expectedSpend));
+  late final groupMoneyTitleController = TextEditingController(text: NumberFormat("#,###").format(widget.currentMonth.expectedSpend));
 
-  late int everyExpectedMoney = widget.month.everyExpectedSpend;
+  late int everyExpectedMoney = widget.currentMonth.everyExpectedSpend;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,7 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
                             setState(() {
                               groupMoneyTitleController.text = text;
                               int expectedMoney = int.parse(text.replaceAll(',', ''));
-                              everyExpectedMoney = (expectedMoney / daysInMonthFromSince1970(widget.month.date)).toInt();
+                              everyExpectedMoney = (expectedMoney / daysInMonthFromSince1970(widget.currentMonth.date)).toInt();
 
 
                             });
@@ -110,7 +111,8 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text(
+                        children: [
+                          Text(
                           "${NumberFormat("#,###")
                               .format(everyExpectedMoney)}",
                           style: TextStyle(
@@ -130,9 +132,12 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
                               fontWeight: FontWeight.w700,
                             ),
                             textAlign: TextAlign.center,
-                          ),],
-                      )
+                          ),
+                        ],
+                      ),
 
+                      SizedBox(height: 90),
+                      ntmonthsListWidget(),
                     ],
                   ),
                 ),
@@ -142,6 +147,74 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
       ),
     );
   }
+  
+  Widget ntmonthsListWidget() {
+
+    return FutureBuilder<List<NTMonth>>(
+      future: widget.currentSpendGroup.ntMonths(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('데이터를 불러오는 동안 오류가 발생했습니다.'));
+        } else {
+          // 데이터를 성공적으로 가져온 경우의 화면
+          final List<NTMonth>? months =  snapshot.data;
+
+          return ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            itemCount: months?.length == 0 ? 0 : months!.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Text(
+                  "이전 내역",
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              } else {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: Text(
+                        months?[index-1].dateStringYYMM() ?? '',
+                        style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () async {
+                          setState(() {
+                            groupMoneyTitleController.text = NumberFormat("#,###").format(months?[index-1].expectedSpend ?? 0);
+                          });
+                        },
+                        child: Text(
+                          NumberFormat("#,###원").format(months?[index-1].expectedSpend ?? 0),
+                          style: TextStyle(fontSize: 17.0, color: Colors.black38),
+                        ),
+                      )
+                    ),
+                  ],
+                );
+              }
+            },
+          );
+        }
+      },
+    );
+  }
+  
 
   Widget saveButton() {
     return FilledButton(
@@ -154,10 +227,10 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
         int expectedMoney = int.parse(groupMoneyTitleController.text.replaceAll(',', ''));
         // int everyExpectedMoney = (expectedMoney / daysInMonthFromSince1970(date)).toInt();
         // NTMonth newMonth = NTMonth(id: widget.month.id, date: date, groupId: widget.group.id, spendType: 0, expectedSpend: expectedMoney, everyExpectedSpend: everyExpectedMoney, additionalMoney: 0);
-        widget.month.expectedSpend = expectedMoney;
-        widget.month.everyExpectedSpend = everyExpectedMoney;
+        widget.currentMonth.expectedSpend = expectedMoney;
+        widget.currentMonth.everyExpectedSpend = everyExpectedMoney;
         // await saveMoneyViewModel.addSpendGroup(widget.group);
-        await saveMoneyViewModel.updateNtMonth(widget.month);
+        await saveMoneyViewModel.updateNtMonth(widget.currentMonth);
 
         Navigator.popUntil(context, (route) => route.isFirst);
       },

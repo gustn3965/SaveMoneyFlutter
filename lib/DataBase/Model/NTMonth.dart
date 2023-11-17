@@ -1,6 +1,8 @@
 
 
 
+import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
+
 import '../../Extension/DateTime+Extension.dart';
 import '../sqlite_datastore.dart';
 import 'NTSpendDay.dart';
@@ -76,12 +78,10 @@ class NTMonth implements NTObject {
     return totalMoney;
   }
 
-  // NTMonth에 있는게 맞나......ㅋ
   Future<List<NTSpendDay>> existedSpendList() async {
     return await SqliteController().fetch(NTSpendDay.staticClassName(), where: 'monthId = ? ORDER BY date', args: [id]);
   }
 
-  // NTMonth에 있는게 맞나......ㅋ
   Future<Map<DateTime, List<NTSpendDay>>> mapNtSpendList() async {
     List<NTSpendDay> spendList = await existedSpendList();
 
@@ -101,6 +101,10 @@ class NTMonth implements NTObject {
     return mapList;
   }
 
+  Future<NTSpendGroup> spendGroup() async {
+    List<NTSpendGroup> groups = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [groupId]);
+    return groups.first;
+  }
 
 
   @override

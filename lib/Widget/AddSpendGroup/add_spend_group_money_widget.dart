@@ -131,9 +131,12 @@ class _AddSpendGroupMoneyWidgetState extends State<AddSpendGroupMoneyWidget> {
                               fontWeight: FontWeight.w700,
                             ),
                             textAlign: TextAlign.center,
-                          ),],
-                      )
+                          ),
+                        ],
+                      ),
 
+                      SizedBox(height: 90),
+                      ntmonthsListWidget(),
                     ],
                   ),
                 ),
@@ -141,6 +144,74 @@ class _AddSpendGroupMoneyWidgetState extends State<AddSpendGroupMoneyWidget> {
           ),
         ),
       ),
+    );
+  }
+
+
+  Widget ntmonthsListWidget() {
+
+    return FutureBuilder<List<NTMonth>>(
+      future: widget.group.ntMonths(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('데이터를 불러오는 동안 오류가 발생했습니다.'));
+        } else {
+          // 데이터를 성공적으로 가져온 경우의 화면
+          final List<NTMonth>? months =  snapshot.data;
+
+          return ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            itemCount: months?.length == 0 ? 0 : months!.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Text(
+                  "이전 내역",
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                );
+              } else {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 40,
+                      alignment: Alignment.center,
+                      child: Text(
+                        months?[index-1].dateStringYYMM() ?? '',
+                        style: TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
+
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: TextButton(
+                          onPressed: () async {
+                            setState(() {
+                              groupMoneyTitleController.text = NumberFormat("#,###").format(months?[index-1].expectedSpend ?? 0);
+                            });
+                          },
+                          child: Text(
+                            NumberFormat("#,###원").format(months?[index-1].expectedSpend ?? 0),
+                            style: TextStyle(fontSize: 17.0, color: Colors.black38),
+                          ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          );
+        }
+      },
     );
   }
 

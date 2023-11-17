@@ -86,7 +86,7 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
     return FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: Colors.white30,
+        backgroundColor: Colors.black12,
         selectedColor: Color(0xFFFF005B),
         // shadowColor: Colors.grey,
         // elevation: 4,

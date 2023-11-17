@@ -83,7 +83,7 @@ class _SpendGroupDayListWidgetState extends State<SpendGroupDayListWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditSpendGroupMoneyWidget(month: selectedNtMonth!),
+            builder: (context) => EditSpendGroupMoneyWidget(currentMonth: selectedNtMonth!, currentSpendGroup: widget.spendGroup),
           ),
         );
       },
