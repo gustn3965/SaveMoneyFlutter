@@ -77,12 +77,14 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
                         // A SlidableAction can have an icon and/or a label.
                         SlidableAction(
                           onPressed: (context) {
-                            print('asdfasdfasdfasdfasdfasdf');
+                            if (spendGroups?[index] != null) {
+                              showDeleteSpendGroupAlert(spendGroups![index]);
+                            }
                           },
                           backgroundColor: Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
-                          label: 'Delete',
+                          label: '삭제',
                         ),
                       ],
                     ),
@@ -190,5 +192,34 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
     );
   }
 
+  showDeleteSpendGroupAlert(NTSpendGroup spendGroup) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(
+            '${spendGroup.name} 지출그룹 삭제' ,
+        ),
+        content: const Text('해당 지출내역들이 모두 삭제됩니다.'),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('아니오'),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              await saveMoneyViewModel.deleteNtMonthsBy(spendGroup);
+              await saveMoneyViewModel.deleteNTSpendGroup(spendGroup);
+              Navigator.pop(context);
+            },
+            child: const Text('삭제'),
+          ),
+        ],
+      ),
+    );
+  }
 
 }
