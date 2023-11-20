@@ -26,8 +26,8 @@ class AddSpendingViewModel extends ChangeNotifier {
 
     Future<void> setup(SaveMoneyViewModel saveMoneyViewModel) async {
         this.selectedDate = saveMoneyViewModel.selectedDay?? DateTime.now();
-        this.selectedNtMonth = saveMoneyViewModel.selectedNtMonth;
-        this.selectedGroup = saveMoneyViewModel.selectedGroup;
+        this.selectedNtMonth = saveMoneyViewModel.selectedNtMonths.isEmpty ? null : saveMoneyViewModel.selectedNtMonths.first;
+        this.selectedGroup = saveMoneyViewModel.selectedGroups.isEmpty ? null : saveMoneyViewModel.selectedGroups.first;
         this.saveMoneyViewModel = saveMoneyViewModel;
 
         await fetchNTMonths(this.selectedDate);

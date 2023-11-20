@@ -101,17 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
     for (NTMonth month in saveMoneyViewModel.ntMonths) {
       totalWillSpendMoney += month.expectedSpend;
     }
-    int willSaveMoney = saveMoneyViewModel.selectedNtMonth?.currentLeftMoney ?? 0;
+    int willSaveMoney = saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.currentLeftMoney ?? 0).reduce((int value, element) => value + element);
 
     final moneyFormatted = NumberFormat("#,###")
         .format(willSaveMoney);
     final willSpendMoneyFormatted = NumberFormat("#,###")
-        .format(saveMoneyViewModel.selectedNtMonth?.expectedSpend ?? 0);
+        .format(saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.expectedSpend).reduce((int value, element) => value + element));
     final willTotalSpendMoneyFormatted = NumberFormat("#,###")
         .format(totalWillSpendMoney);
-    final willEverySpendMoney = NumberFormat("매일 (#,###)").format(saveMoneyViewModel.selectedNtMonth?.everyExpectedSpend ?? 0);
+    final willEverySpendMoney = NumberFormat("매일 (#,###)").format(saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.everyExpectedSpend).reduce((int value, element) => value + element));
 
-    String selectedGroupName = saveMoneyViewModel.selectedGroup?.name ?? '';
+    String selectedGroupName = saveMoneyViewModel.selectedGroups.isEmpty ? '' : saveMoneyViewModel.selectedGroups.map((e) => e.name).reduce((String value, element) => value + ', ${element}');
     String willSaveMoneyString = willSaveMoney < 0 ? '돈이 나갈 예정이에요.😭' : '돈을 모을 예정이에요. 👍';
 
     return Scaffold(
@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (saveMoneyViewModel.selectedGroup == null)
+            if (saveMoneyViewModel.selectedGroups.isEmpty)
               Container(
                 height: 120,
                 child: Center(

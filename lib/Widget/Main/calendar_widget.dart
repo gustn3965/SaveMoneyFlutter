@@ -10,6 +10,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+import '../../DataBase/Model/NTMonth.dart';
 import '../../DataBase/Model/NTSpendDay.dart';
 import '../../view_model/save_money_view_model.dart';
 
@@ -68,8 +69,11 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
           if (events.isNotEmpty) {
               List<NTSpendDay> eventList = events.cast<NTSpendDay>();
               int sum = eventList.fold(0, (previous, current) => previous + current.spend);
-              int maxMoney = selectDateViewModel.selectedNtMonth?.everyExpectedSpend ?? 0;
 
+              int maxMoney = 0;
+              for (NTMonth month in selectDateViewModel.selectedNtMonths) {
+                maxMoney += month.everyExpectedSpend;
+              }
 
               String moneyFormatted = NumberFormat("#,###")
                   .format(sum);

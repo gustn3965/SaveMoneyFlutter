@@ -15,10 +15,10 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   List<NTMonth> ntMonths = []; // 포커싱된 내역들
   List<NTSpendGroup> ntSpendGroups = []; // ntmonth에 속하는 group들.
-  NTMonth? selectedNtMonth ; // 메인
+  List<NTMonth> selectedNtMonths = []; // 메인
   Map<DateTime, List<NTSpendDay>>? mapSpendDayList; // 캘린더
   List<NTSpendDay>? selectedNtSpendList = [];
-  NTSpendGroup? selectedGroup ;
+  List<NTSpendGroup> selectedGroups = [];
 
   DateTime focusedDay = DateTime.now(); // 현재 보고 있는 날짜
   DateTime? selectedDay = DateTime.now(); // 현재 선택한 날짜
@@ -48,7 +48,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
     this.ntSpendGroups = await fetchNTSpendGroups();
 
 
-    updateSelectedGroup(this.selectedGroup ?? this.ntSpendGroups.first);
+    updateSelectedGroups(this.selectedGroups);
 
     notifyListeners();
   }
@@ -63,31 +63,47 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   // 1. 지출그룹 선택했을떄.
   // 선택한 소비그룹에 대한 NTMonth도 찾아야함.
-  Future<bool> updateSelectedGroup(NTSpendGroup? selectedGroup) async {
+  Future<bool> updateSelectedGroups(List<NTSpendGroup> selectedGroups) async {
 
-      this.selectedGroup = selectedGroup;
+     this.selectedGroups = [];
+      this.mapSpendDayList = {};
 
+      List<NTMonth> tempSelectedGroups = [];
       for (NTMonth month in ntMonths) {
-          if (month.groupId == selectedGroup?.id) {
-              print(
-                  'selected group: ${selectedGroup?.name}, and find selected month: ${month}');
-              this.selectedNtMonth = month;
-              this.selectedNtMonth?.currentLeftMoney = await month.fetchLeftMoney;
-              this.selectedNtMonth?.currentNTSpendList =
-                  await month.existedSpendList();
-              this.mapSpendDayList = await month.mapNtSpendList();
-              notifyListeners();
-              return true;
+          for (NTSpendGroup spendGroup in selectedGroups) {
+              if (month.groupId == spendGroup.id) {
+
+                  this.selectedGroups.add(spendGroup);
+
+                  month.currentLeftMoney = await month.fetchLeftMoney; // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
+                  month.currentNTSpendList = await month.existedSpendList(); // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
+
+                  Map<DateTime, List<NTSpendDay>> tempMapNtSpendList = await month.mapNtSpendList();
+                  for (DateTime key in tempMapNtSpendList.keys) {
+                      List<NTSpendDay> values = tempMapNtSpendList[key] ?? [];
+                      if (this.mapSpendDayList?[key] == null) {
+                          this.mapSpendDayList?[key] = values;
+                      } else {
+                          this.mapSpendDayList?[key]?.addAll(values);
+                      }
+                  }
+                  // this.mapSpendDayList
+                  tempSelectedGroups.add(month);
+              }
           }
       }
 
-      this.selectedNtMonth = null;
-      this.selectedGroup = null;
-      this.mapSpendDayList = null;
+      this.selectedNtMonths = tempSelectedGroups;
 
-      print('selected group: ${selectedGroup?.name}, and not found selected month');
       notifyListeners();
-      return false;
+      if (tempSelectedGroups.isEmpty) {
+
+          print('selected group: ${selectedGroups}, and not found selected month 👀');
+          return false;
+      } else {
+         print('selected groups: ${selectedGroups}, and 👍 find selected months: ${tempSelectedGroups}');
+         return true;
+      }
   }
 
   // ntmonths 가져오고,
@@ -107,8 +123,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
     this.selectedDay = selectedDay;
 
-    List<NTSpendDay> list = await this.selectedNtMonth?.existedSpendList() ?? [];
-    this.selectedNtSpendList = this.selectedNtMonth?.spendListAt(selectedDay?.day, list) ;
+    List<NTSpendDay> tempList = [];
+    for (NTMonth month in this.selectedNtMonths) {
+        List<NTSpendDay> list = await month.existedSpendList();
+        tempList.addAll(month.spendListAt(selectedDay?.day, list));
+    }
+    this.selectedNtSpendList = tempList;
   }
 
   Future<void> addSpend(NTSpendDay spendDay) async {
