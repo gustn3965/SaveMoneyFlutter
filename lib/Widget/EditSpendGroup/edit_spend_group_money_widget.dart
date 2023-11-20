@@ -197,6 +197,7 @@ class _EditSpendGroupMoneyWidgetState extends State<EditSpendGroupMoneyWidget> {
                         onPressed: () async {
                           setState(() {
                             groupMoneyTitleController.text = NumberFormat("#,###").format(months?[index-1].expectedSpend ?? 0);
+                            everyExpectedMoney = ((months?[index-1].expectedSpend ?? 0) / daysInMonthFromSince1970(widget.currentMonth.date)).toInt();
                           });
                         },
                         child: Text(

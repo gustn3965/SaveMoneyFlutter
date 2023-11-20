@@ -176,6 +176,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
   Future<void> deleteNtMonthsBy(NTSpendGroup spendGroup) async {
       List<NTMonth> months = await spendGroup.ntMonths();
       for (NTMonth month in months) {
+        // 소비내역도 모두 삭제해야함.
         await this.db.delete(month);
       }
       notifyListeners();
