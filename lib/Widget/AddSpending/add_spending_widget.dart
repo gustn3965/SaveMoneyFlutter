@@ -276,7 +276,7 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                   if (controller.text.isEmpty) {
 
                   } else {
-                    NTSpendCategory category = NTSpendCategory(id: indexDateIdFromDateTime(DateTime.now()), name: controller.text);
+                    NTSpendCategory category = NTSpendCategory(id: indexDateIdFromDateTime(DateTime.now()), name: controller.text, countOfSpending: 0);
                     await spendingViewModel.saveMoneyViewModel.addSpendCategory(category);
                     await spendingViewModel.fetchNTSpendCategory();
                     Navigator.of(context).pop();

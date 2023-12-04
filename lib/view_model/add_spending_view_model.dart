@@ -62,7 +62,7 @@ class AddSpendingViewModel extends ChangeNotifier {
 
     Future<void> fetchNTSpendCategory() async {
         print('fetch ntspendcategory........');
-        this.spendCategorys = await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName());
+        this.spendCategorys = await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName(), orderBy: "countOfSpending DESC");
         notifyListeners();
     }
 

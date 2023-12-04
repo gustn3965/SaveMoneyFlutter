@@ -58,7 +58,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<List<NTSpendCategory>> fetchNTSpendCategory() async {
-    return await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName());
+    return await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName(), orderBy: "countOfSpending DESC");
   }
 
   // 1. 지출그룹 선택했을떄.

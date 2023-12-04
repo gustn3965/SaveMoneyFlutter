@@ -7,11 +7,13 @@ class NTSpendCategory implements NTObject {
   // database 필드 ------------
   int id;
   String name;
+  int countOfSpending;
   // ----------------
 
   NTSpendCategory({
     required this.id,
     required this.name,
+    required this.countOfSpending,
   });
 
   @override
@@ -19,12 +21,14 @@ class NTSpendCategory implements NTObject {
     return {
       'id': id,
       'name': name,
+      'countOfSpending': countOfSpending,
     };
   }
 
   NTSpendCategory.fromMap(Map<dynamic, dynamic>? map)
       : id = map?['id'] ?? 0,
-        name = map?['name'] ?? '';
+        name = map?['name'] ?? '',
+        countOfSpending = map?['countOfSpending'] ?? 0;
 
   @override
   String className() {
