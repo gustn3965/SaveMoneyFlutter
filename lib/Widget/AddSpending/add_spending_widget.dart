@@ -321,7 +321,5 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
 
       Navigator.of(context).pop();
     }
-
   }
-
 }

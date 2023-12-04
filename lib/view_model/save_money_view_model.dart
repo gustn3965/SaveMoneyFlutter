@@ -48,7 +48,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
     this.ntSpendGroups = await fetchNTSpendGroups();
 
 
-    updateSelectedGroups(this.selectedGroups);
+    await updateSelectedGroups(this.selectedGroups);
 
     notifyListeners();
   }
@@ -106,6 +106,35 @@ class SaveMoneyViewModel extends ChangeNotifier {
       }
   }
 
+  Future<bool> updateSpendCategoryGroups(List<NTSpendCategory> selectedCategory) async {
+
+    this.mapSpendDayList = {};
+
+    for (NTMonth month in this.selectedNtMonths) {
+      List<NTSpendDay> spendList = await month.existedSpendList();
+
+      List<NTSpendDay> filteredSpendList = spendList.where((spendDay) {
+        return selectedCategory.any((category) => category.id == spendDay.categoryId);
+      }).toList();
+
+      month.currentNTSpendList = filteredSpendList;
+
+      Map<DateTime, List<NTSpendDay>> tempMapNtSpendList = await month.currentNTSpendListMapNtSpendList();
+      for (DateTime key in tempMapNtSpendList.keys) {
+        List<NTSpendDay> values = tempMapNtSpendList[key] ?? [];
+        if (this.mapSpendDayList?[key] == null) {
+          this.mapSpendDayList?[key] = values;
+        } else {
+          this.mapSpendDayList?[key]?.addAll(values);
+        }
+      }
+
+    }
+
+    notifyListeners();
+
+    return true;
+  }
   // ntmonths 가져오고,
   // 선택된그룹가져오고,
   // 날짜항목들은 안가져옴.

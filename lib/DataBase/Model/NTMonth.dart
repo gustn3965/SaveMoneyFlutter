@@ -101,6 +101,25 @@ class NTMonth implements NTObject {
     return mapList;
   }
 
+  Future<Map<DateTime, List<NTSpendDay>>> currentNTSpendListMapNtSpendList() async {
+    List<NTSpendDay> spendList = this.currentNTSpendList ?? [];
+
+    int daysInMonth = daysInMonthFromSince1970(this.date);
+
+    Map<DateTime, List<NTSpendDay>> mapList = {};
+
+    for (int day = 1; day <= daysInMonth; day ++) {
+      List<NTSpendDay> spends = spendListAt(day, spendList);
+
+      if (spends.isNotEmpty) {
+        DateTime dateTime = DateTime.utc(yearFromSince1970(this.date), monthFromSince1970(this.date), day);
+        mapList[dateTime] = spends;
+      }
+    }
+
+    return mapList;
+  }
+
   Future<NTSpendGroup> spendGroup() async {
     List<NTSpendGroup> groups = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [groupId]);
     return groups.first;
