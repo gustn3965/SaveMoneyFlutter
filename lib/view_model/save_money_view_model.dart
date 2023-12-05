@@ -139,6 +139,10 @@ class SaveMoneyViewModel extends ChangeNotifier {
   // 선택된그룹가져오고,
   // 날짜항목들은 안가져옴.
   Future<void> updateFocusedDay(DateTime focusedDay) async {
+
+    if (isEqualDateMonth(focusedDay, this.focusedDay)) {
+      return;
+    }
     this.focusedDay = focusedDay;
 
     await fetchNTMonths(focusedDay);
@@ -147,8 +151,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> updateSelectedDay(DateTime selectedDay) async {
-
-    await updateFocusedDay(focusedDay);
+    await updateFocusedDay(selectedDay);
 
     this.selectedDay = selectedDay;
 
@@ -158,6 +161,8 @@ class SaveMoneyViewModel extends ChangeNotifier {
         tempList.addAll(month.spendListAt(selectedDay?.day, list));
     }
     this.selectedNtSpendList = tempList;
+
+    notifyListeners();
   }
 
   Future<void> addSpend(NTSpendDay spendDay) async {
