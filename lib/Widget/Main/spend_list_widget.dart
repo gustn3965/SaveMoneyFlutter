@@ -65,7 +65,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                   Padding(
                       padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
                       child: Text(
-                        totalSpend == 0 ? '소비된 내역이 없습니다.' : '${totalSpend}',
+                        totalSpend == 0 ? '소비된 내역이 없습니다.' : '${NumberFormat("#,###").format(totalSpend)}',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
