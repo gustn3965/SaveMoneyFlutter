@@ -8,7 +8,25 @@ import '../DataBase/Model/NTMonth.dart';
 import '../DataBase/Model/NTSpendCategory.dart';
 import '../DataBase/Model/NTSpendDay.dart';
 import '../DataBase/sqlite_datastore.dart';
+import '../Extension/Color+Extension.dart';
 import '../Extension/DateTime+Extension.dart';
+
+
+class MonthSpendModel {
+  final NTSpendDay spendDay;
+  int price;
+  int count;
+  String categoryName;
+  Color color = getRandomColor();
+
+  MonthSpendModel({
+    required this.spendDay,
+    required this.price,
+    required this.count,
+    required this.categoryName,
+  });
+}
+
 
 class SaveMoneyViewModel extends ChangeNotifier {
   var db = SqliteController();
@@ -25,6 +43,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   List<NTSpendCategory> spendCategorys = [];
 
+  List<MonthSpendModel> monthSpendModels = [];
 
   void updateData() async {
 
@@ -94,6 +113,8 @@ class SaveMoneyViewModel extends ChangeNotifier {
       }
 
       this.selectedNtMonths = tempSelectedGroups;
+
+      await updateMonthSpendModels();
 
       notifyListeners();
       if (tempSelectedGroups.isEmpty) {
@@ -242,5 +263,26 @@ class SaveMoneyViewModel extends ChangeNotifier {
     await fetchNTMonths(this.focusedDay);
 
     notifyListeners();
+  }
+
+  Future<void> updateMonthSpendModels() async {
+    int totalSpend = 0;
+    Map<int, MonthSpendModel> spendList = {};
+    for (NTMonth month in this.selectedNtMonths) {
+      for (NTSpendDay spendDay in month.currentNTSpendList ?? []) {
+        totalSpend += spendDay.spend;
+        if (spendList[spendDay.categoryId] == null) {
+          String categoryName = await spendDay.fetchString();
+          spendList[spendDay.categoryId] = MonthSpendModel(spendDay: spendDay, price: spendDay.spend, count: 1, categoryName: categoryName);
+        } else {
+          spendList[spendDay.categoryId]?.price += spendDay.spend;
+          spendList[spendDay.categoryId]?.count += 1;
+        }
+      }
+    }
+    List<MonthSpendModel> sortedList = spendList.values.toList()
+      ..sort((a, b) => b.price.compareTo(a.price));
+
+    this.monthSpendModels = sortedList;
   }
 }

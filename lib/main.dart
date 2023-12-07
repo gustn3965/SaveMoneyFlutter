@@ -8,6 +8,8 @@ import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 // Widget
 import 'DataBase/Model/abstract/NTObject.dart';
 import 'DataBase/sqlite_datastore.dart';
+import 'Widget/Main/month_spend_list_barChart.dart';
+import 'Widget/Main/month_spend_list_pieChart.dart';
 import 'Widget/Main/month_spend_list_widget.dart';
 import 'Widget/Main/spend_category_widget.dart';
 import 'Widget/Main/top_will_save_money_widget.dart';
@@ -171,8 +173,13 @@ class _MyHomePageState extends State<MyHomePage> {
             SpendCategoryWidget(),
             MyCalendarPage(),
             SizedBox(height: 50),
+
             SpendListWidget(),
+
+            BarChartSample1(),
+            PieChartSample2(),
             MonthSpendListWidget(),
+
             SizedBox(height: 200),
           ],
         ),
