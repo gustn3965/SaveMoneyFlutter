@@ -9,3 +9,10 @@ Color getRandomColor() {
   int b = random.nextInt(256);
   return Color.fromRGBO(r, g, b, 1.0);
 }
+
+Color uniqueColorFromIndex(int index) {
+  int r = (index / 11).toInt() % 256;
+  int g = (index / 8).toInt() % 256;
+  int b = (index / 7).toInt() % 256;
+  return Color.fromRGBO(r, g, b, 1.0);
+}

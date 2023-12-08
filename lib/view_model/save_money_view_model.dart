@@ -3,6 +3,7 @@
 // import 'sqlite'
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import '../DataBase/Model/NTMonth.dart';
 import '../DataBase/Model/NTSpendCategory.dart';
@@ -10,22 +11,10 @@ import '../DataBase/Model/NTSpendDay.dart';
 import '../DataBase/sqlite_datastore.dart';
 import '../Extension/Color+Extension.dart';
 import '../Extension/DateTime+Extension.dart';
+import 'Model/MonthSpendModel.dart';
+import 'Model/YearSpendModel.dart';
 
 
-class MonthSpendModel {
-  final NTSpendDay spendDay;
-  int price;
-  int count;
-  String categoryName;
-  Color color = getRandomColor();
-
-  MonthSpendModel({
-    required this.spendDay,
-    required this.price,
-    required this.count,
-    required this.categoryName,
-  });
-}
 
 
 class SaveMoneyViewModel extends ChangeNotifier {
@@ -41,9 +30,11 @@ class SaveMoneyViewModel extends ChangeNotifier {
   DateTime focusedDay = DateTime.now(); // 현재 보고 있는 날짜
   DateTime? selectedDay = DateTime.now(); // 현재 선택한 날짜
 
-  List<NTSpendCategory> spendCategorys = [];
+  List<NTSpendCategory> allSpendCategorys = [];
+  List<NTSpendCategory> ntMonthSpendCategorys = [];
 
   List<MonthSpendModel> monthSpendModels = [];
+  List<YearNtMonthSpendModel> yearSpendModels = [];  // [0] = List<음식>, [1] = List<커피>
 
   void updateData() async {
 
@@ -53,7 +44,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   void setup() async {
     await fetchNTMonths(DateTime.now());
-    this.spendCategorys = await fetchNTSpendCategory();
+    this.allSpendCategorys = await fetchNTSpendCategory();
   }
 
   // 1. 캘린더 focus 이동했을때.
@@ -116,6 +107,8 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
       await updateMonthSpendModels();
 
+      this.yearSpendModels = [];
+
       notifyListeners();
       if (tempSelectedGroups.isEmpty) {
 
@@ -149,7 +142,13 @@ class SaveMoneyViewModel extends ChangeNotifier {
           this.mapSpendDayList?[key]?.addAll(values);
         }
       }
+    }
 
+    // 선택된 Ntmonth의 모든 카테고리내역들
+    if (selectedCategory.length == 1) {
+      await updateYearSpendModelsByCategoryId(selectedCategory.first.id);
+    } else {
+      this.yearSpendModels = [];
     }
 
     notifyListeners();
@@ -266,13 +265,11 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> updateMonthSpendModels() async {
-    int totalSpend = 0;
     Map<int, MonthSpendModel> spendList = {};
     for (NTMonth month in this.selectedNtMonths) {
       for (NTSpendDay spendDay in month.currentNTSpendList ?? []) {
-        totalSpend += spendDay.spend;
         if (spendList[spendDay.categoryId] == null) {
-          String categoryName = await spendDay.fetchString();
+          String categoryName = await spendDay.fetchCategoryName();
           spendList[spendDay.categoryId] = MonthSpendModel(spendDay: spendDay, price: spendDay.spend, count: 1, categoryName: categoryName);
         } else {
           spendList[spendDay.categoryId]?.price += spendDay.spend;
@@ -284,5 +281,41 @@ class SaveMoneyViewModel extends ChangeNotifier {
       ..sort((a, b) => b.price.compareTo(a.price));
 
     this.monthSpendModels = sortedList;
+
+  }
+
+  Future<void> updateYearSpendModelsByCategoryId(int categoryId) async {
+    List<YearNtMonthSpendModel> newList = [];
+
+    for (NTMonth month in this.selectedNtMonths) {
+
+      // NTMonth의 모든 월별내역들
+        List<NTMonth> yearMonths = await this.db.fetch(NTMonth.staticClassName(), where: 'groupId = ?', args: [month.groupId]);
+
+        List<YearMonthCategorySpendModel> spendModels = [];
+        for (NTMonth yearMonth in yearMonths) {
+            List<NTSpendDay> spendList = await yearMonth.fetchNTSpendListByCategoryId(categoryId);
+
+
+            int price = 0;
+            int date = yearMonth.date;
+            Color color = Colors.blueAccent;
+            String categoryName = '';
+            for (NTSpendDay spendDay in spendList) {
+                price += spendDay.spend;
+                color = uniqueColorFromIndex(spendDay.categoryId);
+                categoryName = await spendDay.fetchCategoryName();
+            }
+
+            spendModels.add(YearMonthCategorySpendModel(price: price, date: date, color: color, categoryName: categoryName));
+        }
+
+        String monthGroupName = await month.fetchGroupName();
+        newList.add(YearNtMonthSpendModel(monthGroupName: monthGroupName, spendModels: spendModels));
+    }
+
+    this.yearSpendModels = newList;
   }
 }
+
+

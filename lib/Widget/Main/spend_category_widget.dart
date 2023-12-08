@@ -36,9 +36,9 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               primary: false,
-              itemCount: saveMoneyViewModel.spendCategorys.length,
+              itemCount: saveMoneyViewModel.allSpendCategorys.length,
               itemBuilder: (context, index) {
-                return spendCategoryChip(saveMoneyViewModel.spendCategorys[index]);
+                return spendCategoryChip(saveMoneyViewModel.allSpendCategorys[index]);
               },
             ),
           ),

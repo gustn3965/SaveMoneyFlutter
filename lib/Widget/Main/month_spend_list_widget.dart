@@ -89,7 +89,7 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
                             children: [
                               SizedBox(height: 15),
                               FutureBuilder<String>(
-                                future: sortedList[index].spendDay.fetchString(),
+                                future: sortedList[index].spendDay.fetchCategoryName(),
                                 builder: (context, snapshot) {
                                   String name = snapshot.data ?? '';
                                   return Text(

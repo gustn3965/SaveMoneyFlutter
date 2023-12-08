@@ -54,3 +54,11 @@ DateTime dateTimeYearMonthDaySince1970(int since) {
   return DateTime.utc(dateTime.year, dateTime.month, dateTime.day);
 }
 
+
+DateTime dateTimeBeforeMonth(DateTime dateTime) {
+  return DateTime.utc(dateTime.year, dateTime.month - 1, dateTime.day);
+}
+
+DateTime dateTimeAfterMonth(DateTime dateTime) {
+  return DateTime.utc(dateTime.year, dateTime.month + 1, dateTime.day);
+}

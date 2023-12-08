@@ -103,7 +103,7 @@ class _SpendListWidgetState extends State<SpendListWidget> {
                               children: [
                                 SizedBox(height: 15),
                                 FutureBuilder<String>(
-                                  future: saveMoneyViewModel.selectedNtSpendList?[index].fetchString(),
+                                  future: saveMoneyViewModel.selectedNtSpendList?[index].fetchCategoryName(),
                                   builder: (context, snapshot) {
                                     String name = snapshot.data ?? '';
                                     return Text(

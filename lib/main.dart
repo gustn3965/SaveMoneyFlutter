@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/DataBase/Model/NTMonth.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
+import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
 import 'package:save_money_flutter/view_model/add_spending_view_model.dart';
 import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
@@ -29,6 +30,7 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite/sqflite.dart';
 
 // viewModel
+import 'Widget/Main/year_spend_list_barChart.dart';
 import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
@@ -178,28 +180,70 @@ class _MyHomePageState extends State<MyHomePage> {
 
             BarChartSample1(),
             PieChartSample2(),
+
+            YearSpendListBarChart(),
+            SpendCategoryWidget(),
+
             MonthSpendListWidget(),
+
 
             SizedBox(height: 200),
           ],
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddSpendCategory(context);
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
 
-  void clickButton() {
-    setState(() {
-      // saveMoneyViewModel.selectedGroup?.spendMoney += 1000000;
-      // saveMoneyViewModel.updateData();
-    });
+        floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      saveMoneyViewModel.updateFocusedDay(dateTimeBeforeMonth(saveMoneyViewModel.focusedDay));
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.arrow_back),
+                  ),
+                  SizedBox(width: 10),
+                  FloatingActionButton(
+                    onPressed: () {
+                      saveMoneyViewModel.updateFocusedDay(dateTimeAfterMonth(saveMoneyViewModel.focusedDay));
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.arrow_forward),
+                  ),
+                  SizedBox(width: 10),
+                  FloatingActionButton(
+                    onPressed: () {
+                      _showAddSpendCategory(context);
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+              //
+              // SizedBox(height: 10),
+              //
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     FloatingActionButton(
+              //       onPressed: () {
+              //         _showAddSpendCategory(context);
+              //       },
+              //       tooltip: 'Increment',
+              //       child: const Icon(Icons.add),
+              //     ),
+              //   ],
+              // ),
+            ]
+        )
+      // This trailing comma makes auto-formatting nicer for build methods.
+    );
   }
 
   void _showAddSpendCategory(BuildContext context) async {

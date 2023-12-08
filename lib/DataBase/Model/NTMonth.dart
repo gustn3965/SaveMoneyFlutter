@@ -55,7 +55,9 @@ class NTMonth implements NTObject {
     return spendList;
   }
 
-  // NTMonth에 있는게 맞나......ㅋ
+
+
+  // Future Fetch
   Future<int> get fetchLeftMoney async {
     List<NTSpendDay> spendList = await existedSpendList();
 
@@ -123,6 +125,17 @@ class NTMonth implements NTObject {
   Future<NTSpendGroup> spendGroup() async {
     List<NTSpendGroup> groups = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [groupId]);
     return groups.first;
+  }
+
+  Future<List<NTSpendDay>> fetchNTSpendListByCategoryId(int categoryId) async {
+    List<NTSpendDay> spendList = await SqliteController().fetch(NTSpendDay.staticClassName(), where: 'monthId = ? AND categoryId = ?', args: [this.id, categoryId]);
+    return spendList;
+  }
+
+  Future<String> fetchGroupName() async {
+    List<NTSpendGroup> group = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [this.groupId]);
+
+    return group.first.name;
   }
 
 

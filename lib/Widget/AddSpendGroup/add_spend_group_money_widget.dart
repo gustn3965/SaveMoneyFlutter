@@ -220,7 +220,7 @@ class _AddSpendGroupMoneyWidgetState extends State<AddSpendGroupMoneyWidget> {
       onPressed: groupMoneyTitleController.text.isEmpty ? null : () async {
         print(widget.group.name);
         print(groupMoneyTitleController.text);
-        print(saveMoneyViewModel.spendCategorys);
+        print(saveMoneyViewModel.allSpendCategorys);
 
         int date = indexMonthDateIdFromDateTime(widget.selectedDate);
         int expectedMoney = int.parse(groupMoneyTitleController.text.replaceAll(',', ''));

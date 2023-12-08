@@ -96,7 +96,7 @@ class PieChart2State extends State {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
-              titlePositionPercentageOffset: 1
+              titlePositionPercentageOffset: -1
           );
     });
   }

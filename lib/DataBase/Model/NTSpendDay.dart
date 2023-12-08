@@ -57,10 +57,8 @@ class NTSpendDay implements NTObject {
   }
 
 
-  Future<String> fetchString() async {
-    print("async fetchString........}");
+  Future<String> fetchCategoryName() async {
     List<NTSpendCategory> list = await SqliteController().fetch(NTSpendCategory.staticClassName(), where: 'id = ?', args: [categoryId]);
-    print("async fetchString........${list.first.name}");
     return list.first.name;
   }
 
