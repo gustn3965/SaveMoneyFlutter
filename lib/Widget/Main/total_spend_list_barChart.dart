@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -8,36 +7,35 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/view_model/Model/YearSpendModel.dart';
 
+import '../../Extension/DateTime+Extension.dart';
 import '../../view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class YearSpendListBarChart extends StatefulWidget {
-  YearSpendListBarChart({super.key});
+class TotalSpendListBarChart extends StatefulWidget {
+  TotalSpendListBarChart({super.key});
 
   List<Color> get availableColors => const <Color>[
-    Colors.white,
-    Colors.white70,
-    Colors.white38,
-    Colors.white24,
-    Colors.white10,
-    Colors.white12,
-  ];
+        Colors.white,
+        Colors.white70,
+        Colors.white38,
+        Colors.white24,
+        Colors.white10,
+        Colors.white12,
+      ];
 
-  final Color barBackgroundColor =
-  Colors.blue.withOpacity(0.3);
+  final Color barBackgroundColor = Colors.blue.withOpacity(0.3);
   final Color barColor = Colors.black38;
   final Color touchedBarColor = Colors.brown;
 
   @override
-  State<StatefulWidget> createState() => YearSpendListBarChartState();
+  State<StatefulWidget> createState() => TotalSpendListBarChartState();
 }
 
-class YearSpendListBarChartState extends State<YearSpendListBarChart> {
+class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
 
   late SaveMoneyViewModel saveMoneyViewModel;
-
 
   int touchedIndex = -1;
 
@@ -47,52 +45,94 @@ class YearSpendListBarChartState extends State<YearSpendListBarChart> {
   Widget build(BuildContext context) {
     saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
     if (saveMoneyViewModel.yearSpendModels.length == 0) {
-      return Center(child:CircularProgressIndicator());
+      return Column(
+        children: [
+          Text('모든기간 내역',
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontStyle: FontStyle.normal,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w800,
+                height: 0,
+              )),
+          Text('선택된 소비 카테고리가 없습니다.'),
+        ],
+      );
     } else {
       return Column(
-          children: makeBarCharts(saveMoneyViewModel),
+        children: makeBarCharts(saveMoneyViewModel),
       );
     }
   }
 
   List<Widget> makeBarCharts(SaveMoneyViewModel saveMoneyViewModel) {
-    return saveMoneyViewModel.yearSpendModels.map((e) =>
-        Padding(
-          padding: const EdgeInsets.only(top: 40, bottom: 40),
-          child: AspectRatio(
-              aspectRatio: 1.2,
-              child: BarChart(
-                mainBarData(e.spendModels),
-                swapAnimationDuration: animDuration,
-              ),
+    return saveMoneyViewModel.yearSpendModels
+        .map(
+          (e) => Column(
+            children: [
+              Text('${e.monthGroupName}',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w800,
+                    height: 0,
+                  )),
+              Text('모든기간 내역',
+                  style: const TextStyle(
+                    color: Colors.black38,
+                    fontSize: 16,
+                    fontStyle: FontStyle.normal,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w800,
+                    height: 0,
+                  )),
+              SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: (30 * e.spendModels.length).toDouble() + 80,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: AspectRatio(
+                        aspectRatio: 2.0,
+                        child: BarChart(
+                          mainBarData(e.spendModels),
+                          swapAnimationDuration: animDuration,
+                        ),
+                      ),
+                    ),
+                  )),
+            ],
           ),
-        ),).toList();
-
+        )
+        .toList();
   }
 
   BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color? barColor,
-        double width = 22,
-        List<int> showTooltips = const [],
-      }) {
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color? barColor,
+    double width = 22,
+    List<int> showTooltips = const [],
+  }) {
     barColor ??= widget.barColor;
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
           toY: isTouched ? y + 1 : y,
-          color: isTouched ? widget.touchedBarColor : barColor,
+          color: isTouched ? Colors.blueAccent : barColor,
           width: width,
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor)
-              : const BorderSide(color: Colors.white, width: 0),
+              : BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 60,
-            color: widget.barBackgroundColor,
+            color: Colors.transparent,
           ),
         ),
       ],
@@ -100,14 +140,17 @@ class YearSpendListBarChartState extends State<YearSpendListBarChart> {
     );
   }
 
-  List<BarChartGroupData> showingGroups(List<YearMonthCategorySpendModel> spendList) => List.generate(spendList.length, (i) {
-    int price = spendList[i].price;
-    return makeGroupData(
-      i,
-      price == 0 ? 1 : price.toDouble(),
-      barColor: spendList[i].color,
-    );
-  });
+  List<BarChartGroupData> showingGroups(
+          List<YearMonthCategorySpendModel> spendList) =>
+      List.generate(spendList.length, (i) {
+        int price = spendList[i].price;
+        return makeGroupData(
+          spendList[i].date,
+          price == 0 ? 1 : price.toDouble(),
+          isTouched: this.touchedIndex == i,
+          barColor: spendList[i].color,
+        );
+      });
 
   BarChartData mainBarData(List<YearMonthCategorySpendModel> spendList) {
     return BarChartData(
@@ -163,7 +206,7 @@ class YearSpendListBarChartState extends State<YearSpendListBarChart> {
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: getBottomTitles,
-            reservedSize: 38,
+            reservedSize: 50,
           ),
         ),
         leftTitles: AxisTitles(
@@ -195,7 +238,10 @@ class YearSpendListBarChartState extends State<YearSpendListBarChart> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 16,
-      child: Text('${value.toInt()}월'),
+      child: Text(
+        '${DateFormat('yy년\nM월').format(dateTimeFromSince1970(value.toInt()))}',
+        style: TextStyle(fontSize: 10),
+      ),
     );
   }
 

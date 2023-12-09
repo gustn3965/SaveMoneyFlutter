@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/DataBase/Model/NTMonth.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
+import 'package:save_money_flutter/Widget/Main/total_spend_category_widget.dart';
 import 'package:save_money_flutter/view_model/add_spending_view_model.dart';
 import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
@@ -30,7 +31,7 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite/sqflite.dart';
 
 // viewModel
-import 'Widget/Main/year_spend_list_barChart.dart';
+import 'Widget/Main/total_spend_list_barChart.dart';
 import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
@@ -38,25 +39,22 @@ import 'view_model/select_date_view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SqliteController().initializeAsync();
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider (
-              create: (context) {
-                SaveMoneyViewModel viewModel = SaveMoneyViewModel();
-                viewModel.setup();
-                return viewModel;
-              }),
-          // ChangeNotifierProvider (
-          //     create: (context) {
-          //       AddSpendingViewModel viewModel = AddSpendingViewModel();
-          //       viewModel.setup();
-          //       return viewModel;
-          //     })
-        ],
-        child: const MyApp(),
-      )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) {
+        SaveMoneyViewModel viewModel = SaveMoneyViewModel();
+        viewModel.setup();
+        return viewModel;
+      }),
+      // ChangeNotifierProvider (
+      //     create: (context) {
+      //       AddSpendingViewModel viewModel = AddSpendingViewModel();
+      //       viewModel.setup();
+      //       return viewModel;
+      //     })
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -81,7 +79,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-
     );
   }
 }
@@ -107,143 +104,134 @@ class _MyHomePageState extends State<MyHomePage> {
     for (NTMonth month in saveMoneyViewModel.ntMonths) {
       totalWillSpendMoney += month.expectedSpend;
     }
-    int willSaveMoney = saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.currentLeftMoney ?? 0).reduce((int value, element) => value + element);
+    int willSaveMoney = saveMoneyViewModel.selectedNtMonths.isEmpty
+        ? 0
+        : saveMoneyViewModel.selectedNtMonths
+            .map((e) => e.currentLeftMoney ?? 0)
+            .reduce((int value, element) => value + element);
 
-    final moneyFormatted = NumberFormat("#,###")
-        .format(willSaveMoney);
-    final willSpendMoneyFormatted = NumberFormat("#,###")
-        .format(saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.expectedSpend).reduce((int value, element) => value + element));
-    final willTotalSpendMoneyFormatted = NumberFormat("#,###")
-        .format(totalWillSpendMoney);
-    final willEverySpendMoney = NumberFormat("매일 (#,###)").format(saveMoneyViewModel.selectedNtMonths.isEmpty ? 0 : saveMoneyViewModel.selectedNtMonths.map((e) => e.everyExpectedSpend).reduce((int value, element) => value + element));
+    final moneyFormatted = NumberFormat("#,###").format(willSaveMoney);
+    final willSpendMoneyFormatted = NumberFormat("#,###").format(
+        saveMoneyViewModel.selectedNtMonths.isEmpty
+            ? 0
+            : saveMoneyViewModel.selectedNtMonths
+                .map((e) => e.expectedSpend)
+                .reduce((int value, element) => value + element));
+    final willTotalSpendMoneyFormatted =
+        NumberFormat("#,###").format(totalWillSpendMoney);
+    final willEverySpendMoney = NumberFormat("매일 (#,###)").format(
+        saveMoneyViewModel.selectedNtMonths.isEmpty
+            ? 0
+            : saveMoneyViewModel.selectedNtMonths
+                .map((e) => e.everyExpectedSpend)
+                .reduce((int value, element) => value + element));
 
-    String selectedGroupName = saveMoneyViewModel.selectedGroups.isEmpty ? '' : saveMoneyViewModel.selectedGroups.map((e) => e.name).reduce((String value, element) => value + ', ${element}');
-    String willSaveMoneyString = willSaveMoney < 0 ? '돈이 나갈 예정이에요.😭' : '돈을 모을 예정이에요. 👍';
+    String selectedGroupName = saveMoneyViewModel.selectedGroups.isEmpty
+        ? ''
+        : saveMoneyViewModel.selectedGroups
+            .map((e) => e.name)
+            .reduce((String value, element) => value + ', ${element}');
+    String willSaveMoneyString =
+        willSaveMoney < 0 ? '돈이 나갈 예정이에요.😭' : '돈을 모을 예정이에요. 👍';
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFA6BDFA),
-        title: GestureDetector(
-            onTap: () {
-              _showDatePicker();
-            },
-            child: Text(
-              DateFormat('yyyy-MM').format(selectDateViewModel.focusedDay),
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontStyle: FontStyle.italic,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w800,
-                height: 0,
-              ),
-            )),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            if (saveMoneyViewModel.selectedGroups.isEmpty)
-              Container(
-                height: 120,
-                child: Center(
-                    child: Text(
-                    '선택한 지출 그룹이 없습니다.',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w800,
-                        height: 1.0,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                    )
-                 ),
-              )
-
-            else
-              TopWillSaveMoneyWidget(
-                groupNameText: selectedGroupName,
-                groupWillSaveMoneyText: '$moneyFormatted',
-                descriptionText: willSaveMoneyString,
-                willSpendMoneyText: willSpendMoneyFormatted,
-                willEverySpendMoneyText: willEverySpendMoney,
-                moneyColor: willSaveMoney < 0 ? Colors.red : Colors.blue,
-              ),
-
-            SpendGroupWidget(),
-            SpendCategoryWidget(),
-            MyCalendarPage(),
-            SizedBox(height: 50),
-
-            SpendListWidget(),
-
-            BarChartSample1(),
-            PieChartSample2(),
-
-            YearSpendListBarChart(),
-            SpendCategoryWidget(),
-
-            MonthSpendListWidget(),
-
-
-            SizedBox(height: 200),
-          ],
+        appBar: AppBar(
+          backgroundColor: Color(0xFFA6BDFA),
+          title: GestureDetector(
+              onTap: () {
+                _showDatePicker();
+              },
+              child: Text(
+                DateFormat('yyyy-MM').format(selectDateViewModel.focusedDay),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w800,
+                  height: 0,
+                ),
+              )),
         ),
-      ),
-
-
-        floatingActionButton: Column(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              if (saveMoneyViewModel.selectedGroups.isEmpty)
+                Container(
+                  height: 120,
+                  child: Center(
+                      child: Text(
+                    '선택한 지출 그룹이 없습니다.',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w800,
+                      height: 1.0,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                  )),
+                )
+              else
+                TopWillSaveMoneyWidget(
+                  groupNameText: selectedGroupName,
+                  groupWillSaveMoneyText: '$moneyFormatted',
+                  descriptionText: willSaveMoneyString,
+                  willSpendMoneyText: willSpendMoneyFormatted,
+                  willEverySpendMoneyText: willEverySpendMoney,
+                  moneyColor: willSaveMoney < 0 ? Colors.red : Colors.blue,
+                ),
+              SpendGroupWidget(),
+              SpendCategoryWidget(),
+              MyCalendarPage(),
+              SizedBox(height: 50),
+              SpendListWidget(),
+              BarChartSample1(),
+              PieChartSample2(),
+              TotalSpendListBarChart(),
+              TotalSpendCategoryWidget(),
+              SizedBox(height: 50),
+              MonthSpendListWidget(),
+              SizedBox(height: 200),
+            ],
+          ),
+        ),
+        floatingActionButton:
+            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      saveMoneyViewModel.updateFocusedDay(dateTimeBeforeMonth(saveMoneyViewModel.focusedDay));
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.arrow_back),
-                  ),
-                  SizedBox(width: 10),
-                  FloatingActionButton(
-                    onPressed: () {
-                      saveMoneyViewModel.updateFocusedDay(dateTimeAfterMonth(saveMoneyViewModel.focusedDay));
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.arrow_forward),
-                  ),
-                  SizedBox(width: 10),
-                  FloatingActionButton(
-                    onPressed: () {
-                      _showAddSpendCategory(context);
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.add),
-                  ),
-                ],
+              FloatingActionButton(
+                onPressed: () {
+                  saveMoneyViewModel.updateFocusedDay(
+                      dateTimeBeforeMonth(saveMoneyViewModel.focusedDay));
+                },
+                tooltip: 'Increment',
+                child: const Icon(Icons.arrow_back),
               ),
-              //
-              // SizedBox(height: 10),
-              //
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     FloatingActionButton(
-              //       onPressed: () {
-              //         _showAddSpendCategory(context);
-              //       },
-              //       tooltip: 'Increment',
-              //       child: const Icon(Icons.add),
-              //     ),
-              //   ],
-              // ),
-            ]
-        )
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
+              SizedBox(width: 10),
+              FloatingActionButton(
+                onPressed: () {
+                  saveMoneyViewModel.updateFocusedDay(
+                      dateTimeAfterMonth(saveMoneyViewModel.focusedDay));
+                },
+                tooltip: 'Increment',
+                child: const Icon(Icons.arrow_forward),
+              ),
+              SizedBox(width: 10),
+              FloatingActionButton(
+                onPressed: () {
+                  _showAddSpendCategory(context);
+                },
+                tooltip: 'Increment',
+                child: const Icon(Icons.add),
+              ),
+            ],
+          ),
+        ])
+        // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 
   void _showAddSpendCategory(BuildContext context) async {
@@ -254,17 +242,16 @@ class _MyHomePageState extends State<MyHomePage> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
-        return ChangeNotifierProvider (
+        return ChangeNotifierProvider(
             create: (context) {
               AddSpendingViewModel viewModel = AddSpendingViewModel();
               viewModel.setup(saveMoneyViewModel);
               return viewModel;
-            }, child: Container(
-            height:
-            MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
-            child: AddSpendingWidget())
-        );
-
+            },
+            child: Container(
+                height: MediaQuery.of(context).size.height *
+                    0.9, // 모달 다이얼로그의 높이를 설정
+                child: AddSpendingWidget()));
       },
     );
   }

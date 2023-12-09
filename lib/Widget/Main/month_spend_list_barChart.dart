@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:math';
 
@@ -15,16 +14,15 @@ class BarChartSample1 extends StatefulWidget {
   BarChartSample1({super.key});
 
   List<Color> get availableColors => const <Color>[
-    Colors.white,
-    Colors.white70,
-    Colors.white38,
-    Colors.white24,
-    Colors.white10,
-    Colors.white12,
-  ];
+        Colors.white,
+        Colors.white70,
+        Colors.white38,
+        Colors.white24,
+        Colors.white10,
+        Colors.white12,
+      ];
 
-  final Color barBackgroundColor =
-      Colors.blue.withOpacity(0.3);
+  final Color barBackgroundColor = Colors.blue.withOpacity(0.3);
   final Color barColor = Colors.black38;
   final Color touchedBarColor = Colors.brown;
 
@@ -37,7 +35,6 @@ class BarChartSample1State extends State<BarChartSample1> {
 
   late SaveMoneyViewModel saveMoneyViewModel;
 
-
   int touchedIndex = -1;
 
   bool isPlaying = false;
@@ -46,42 +43,43 @@ class BarChartSample1State extends State<BarChartSample1> {
   Widget build(BuildContext context) {
     saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
     if (saveMoneyViewModel.monthSpendModels.length == 0) {
-      return Center(child:CircularProgressIndicator());
+      return Center(child: CircularProgressIndicator());
     } else {
-      return AspectRatio(
-        aspectRatio: 1.5,
-        child: Row(
-          children: [
-            Expanded(
+      return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Container(
+            width:
+                (30 * saveMoneyViewModel.monthSpendModels.length).toDouble() +
+                    80,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40, bottom: 40),
               child: AspectRatio(
-              aspectRatio: 1.0,
+                aspectRatio: 1.2,
                 child: BarChart(
                   mainBarData(saveMoneyViewModel),
                   swapAnimationDuration: animDuration,
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ));
     }
   }
 
   BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color? barColor,
-        double width = 22,
-        List<int> showTooltips = const [],
-      }) {
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color? barColor,
+    double width = 22,
+    List<int> showTooltips = const [],
+  }) {
     barColor ??= widget.barColor;
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
           toY: isTouched ? y + 1 : y,
-          color: isTouched ? widget.touchedBarColor : barColor,
+          color: isTouched ? Colors.blueAccent : barColor,
           width: width,
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor)
@@ -89,7 +87,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 60,
-            color: widget.barBackgroundColor,
+            color: Colors.transparent,
           ),
         ),
       ],
@@ -97,14 +95,16 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(saveMoneyViewModel.monthSpendModels.length, (i) {
-    int price = saveMoneyViewModel.monthSpendModels[i].price;
-    return makeGroupData(
-      i,
-      price == 0 ? 1 : price.toDouble(),
-      barColor: saveMoneyViewModel.monthSpendModels[i].color,
-    );
-  });
+  List<BarChartGroupData> showingGroups() =>
+      List.generate(saveMoneyViewModel.monthSpendModels.length, (i) {
+        int price = saveMoneyViewModel.monthSpendModels[i].price;
+        return makeGroupData(
+          i,
+          price == 0 ? 1 : price.toDouble(),
+          isTouched: this.touchedIndex == i,
+          barColor: saveMoneyViewModel.monthSpendModels[i].color,
+        );
+      });
 
   BarChartData mainBarData(SaveMoneyViewModel saveMoneyViewModel) {
     return BarChartData(
@@ -114,7 +114,8 @@ class BarChartSample1State extends State<BarChartSample1> {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String categoryName = saveMoneyViewModel.monthSpendModels[group.x].categoryName;
+            String categoryName =
+                saveMoneyViewModel.monthSpendModels[group.x].categoryName;
             int price = saveMoneyViewModel.monthSpendModels[group.x].price;
             return BarTooltipItem(
               '$categoryName\n',

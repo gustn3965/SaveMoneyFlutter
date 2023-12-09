@@ -37,4 +37,12 @@ class NTSpendCategory implements NTObject {
   static String staticClassName() {
     return 'NTSpendCategory';
   }
+
+
+  @override
+  int get hashCode => this.id;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is NTSpendCategory && id == other.id;
 }

@@ -1,6 +1,4 @@
-
-
-
+import 'package:save_money_flutter/DataBase/Model/NTSpendCategory.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 
 import '../../Extension/DateTime+Extension.dart';
@@ -30,15 +28,12 @@ class NTMonth implements NTObject {
     required this.additionalMoney,
   });
 
-
   int? currentLeftMoney = 0;
   List<NTSpendDay>? currentNTSpendList;
 
-
   String dateStringYYMM() {
-      return '${yearFromSince1970(this.date)}년 ${monthFromSince1970(this.date)}월';
+    return '${yearFromSince1970(this.date)}년 ${monthFromSince1970(this.date)}월';
   }
-
 
   List<NTSpendDay> spendListAt(int? day, List<NTSpendDay> inList) {
     if (day == null) {
@@ -55,8 +50,6 @@ class NTMonth implements NTObject {
     return spendList;
   }
 
-
-
   // Future Fetch
   Future<int> get fetchLeftMoney async {
     List<NTSpendDay> spendList = await existedSpendList();
@@ -66,13 +59,13 @@ class NTMonth implements NTObject {
     int daysInMonth = daysInMonthFromSince1970(this.date);
 
     int totalMoney = 0;
-    for (int day = 1; day <= daysInMonth; day ++) {
+    for (int day = 1; day <= daysInMonth; day++) {
       List<NTSpendDay> spends = spendListAt(day, spendList);
       if (spends.isNotEmpty) {
         totalMoney += this.everyExpectedSpend;
-          for (NTSpendDay spend in spends) {
-            totalMoney -= spend.spend;
-          }
+        for (NTSpendDay spend in spends) {
+          totalMoney -= spend.spend;
+        }
       }
     }
 
@@ -81,7 +74,8 @@ class NTMonth implements NTObject {
   }
 
   Future<List<NTSpendDay>> existedSpendList() async {
-    return await SqliteController().fetch(NTSpendDay.staticClassName(), where: 'monthId = ? ORDER BY date', args: [id]);
+    return await SqliteController().fetch(NTSpendDay.staticClassName(),
+        where: 'monthId = ? ORDER BY date', args: [id]);
   }
 
   Future<Map<DateTime, List<NTSpendDay>>> mapNtSpendList() async {
@@ -91,11 +85,12 @@ class NTMonth implements NTObject {
 
     Map<DateTime, List<NTSpendDay>> mapList = {};
 
-    for (int day = 1; day <= daysInMonth; day ++) {
+    for (int day = 1; day <= daysInMonth; day++) {
       List<NTSpendDay> spends = spendListAt(day, spendList);
 
       if (spends.isNotEmpty) {
-        DateTime dateTime = DateTime.utc(yearFromSince1970(this.date), monthFromSince1970(this.date), day);
+        DateTime dateTime = DateTime.utc(
+            yearFromSince1970(this.date), monthFromSince1970(this.date), day);
         mapList[dateTime] = spends;
       }
     }
@@ -103,18 +98,20 @@ class NTMonth implements NTObject {
     return mapList;
   }
 
-  Future<Map<DateTime, List<NTSpendDay>>> currentNTSpendListMapNtSpendList() async {
+  Future<Map<DateTime, List<NTSpendDay>>>
+      currentNTSpendListMapNtSpendList() async {
     List<NTSpendDay> spendList = this.currentNTSpendList ?? [];
 
     int daysInMonth = daysInMonthFromSince1970(this.date);
 
     Map<DateTime, List<NTSpendDay>> mapList = {};
 
-    for (int day = 1; day <= daysInMonth; day ++) {
+    for (int day = 1; day <= daysInMonth; day++) {
       List<NTSpendDay> spends = spendListAt(day, spendList);
 
       if (spends.isNotEmpty) {
-        DateTime dateTime = DateTime.utc(yearFromSince1970(this.date), monthFromSince1970(this.date), day);
+        DateTime dateTime = DateTime.utc(
+            yearFromSince1970(this.date), monthFromSince1970(this.date), day);
         mapList[dateTime] = spends;
       }
     }
@@ -123,21 +120,57 @@ class NTMonth implements NTObject {
   }
 
   Future<NTSpendGroup> spendGroup() async {
-    List<NTSpendGroup> groups = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [groupId]);
+    List<NTSpendGroup> groups = await SqliteController().fetch(
+        NTSpendGroup.staticClassName(),
+        where: 'id = ?',
+        args: [groupId]);
     return groups.first;
   }
 
+  Future<List<NTSpendCategory>> fetchExistSpendCategorys() async {
+    Set<int> categoryId = {};
+    Set<NTSpendCategory> list = {};
+    for (NTSpendDay spendDay in this.currentNTSpendList ?? []) {
+      categoryId.add(spendDay.categoryId);
+    }
+
+    if (categoryId.isEmpty) {
+      return [];
+    }
+
+    String whereQuery = '';
+    for (int uniqueCategoryId in categoryId) {
+      if (whereQuery.isEmpty) {
+        whereQuery += '(id = ?';
+      } else {
+        whereQuery += ' OR id = ?';
+      }
+    }
+    whereQuery += ')';
+    List<NTSpendCategory> spendCategoryList = await SqliteController().fetch(
+        NTSpendCategory.staticClassName(),
+        where: whereQuery,
+        args: categoryId.toList(),
+        orderBy: 'countOfSpending DESC');
+    return spendCategoryList;
+  }
+
   Future<List<NTSpendDay>> fetchNTSpendListByCategoryId(int categoryId) async {
-    List<NTSpendDay> spendList = await SqliteController().fetch(NTSpendDay.staticClassName(), where: 'monthId = ? AND categoryId = ?', args: [this.id, categoryId]);
+    List<NTSpendDay> spendList = await SqliteController().fetch(
+        NTSpendDay.staticClassName(),
+        where: 'monthId = ? AND categoryId = ?',
+        args: [this.id, categoryId]);
     return spendList;
   }
 
   Future<String> fetchGroupName() async {
-    List<NTSpendGroup> group = await SqliteController().fetch(NTSpendGroup.staticClassName(), where: 'id = ?', args: [this.groupId]);
+    List<NTSpendGroup> group = await SqliteController().fetch(
+        NTSpendGroup.staticClassName(),
+        where: 'id = ?',
+        args: [this.groupId]);
 
     return group.first.name;
   }
-
 
   @override
   Map<String, dynamic> toMap() {
@@ -151,26 +184,24 @@ class NTMonth implements NTObject {
       'additionalMoney': additionalMoney,
     };
   }
-  
+
   // NTMonth.fromMap
   NTMonth.fromMap(Map<dynamic, dynamic>? map)
-    // return NTMonth(id: 0, date: 0, groupId: 0, spendType: 0, expectedSpend: 0, everyExpectedSpend: 0, additionalMoney: 0);
-    : id = map?['id'] ?? 0,
-    date = map?['date'] ?? 0,
-    groupId = map?['groupId'] ?? 0,
-    spendType = map?['spendType'] ?? 0,
-    expectedSpend = map?['expectedSpend'] ?? 0,
-    everyExpectedSpend = map?['everyExpectedSpend'] ?? 0,
-    additionalMoney = map?['additionalMoney'] ?? 0;
+      // return NTMonth(id: 0, date: 0, groupId: 0, spendType: 0, expectedSpend: 0, everyExpectedSpend: 0, additionalMoney: 0);
+      : id = map?['id'] ?? 0,
+        date = map?['date'] ?? 0,
+        groupId = map?['groupId'] ?? 0,
+        spendType = map?['spendType'] ?? 0,
+        expectedSpend = map?['expectedSpend'] ?? 0,
+        everyExpectedSpend = map?['everyExpectedSpend'] ?? 0,
+        additionalMoney = map?['additionalMoney'] ?? 0;
 
   @override
   String className() {
     return 'NTMonth';
   }
+
   static String staticClassName() {
     return 'NTMonth';
   }
-
 }
-
-

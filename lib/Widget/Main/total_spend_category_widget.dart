@@ -1,5 +1,3 @@
-
-
 import 'package:save_money_flutter/DataBase/Model/NTSpendCategory.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_money_widget.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_widget.dart';
@@ -13,32 +11,55 @@ import 'package:provider/provider.dart';
 import '../../DataBase/Model/NTSpendGroup.dart';
 import '../EditSpendGroup/spend_group_list_widget.dart';
 
-class SpendCategoryWidget extends StatefulWidget {
+class TotalSpendCategoryWidget extends StatefulWidget {
   @override
-  _SpendCategoryWidgetState createState() => _SpendCategoryWidgetState();
+  _TotalSpendCategoryWidgetState createState() =>
+      _TotalSpendCategoryWidgetState();
 }
 
-class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
-
-  late SaveMoneyViewModel saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
+class _TotalSpendCategoryWidgetState extends State<TotalSpendCategoryWidget> {
+  late SaveMoneyViewModel saveMoneyViewModel =
+      Provider.of<SaveMoneyViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return Container(
+          width: constraints.maxWidth,
+          // color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: Container(
+              // color: Color(0xFFADABAB),
+              child: Column(
+                children: [
+                  SizedBox(height: 15),
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: 10.0,
+                    runSpacing: 10.0,
+                    children: <Widget>[...makeChipButton()],
+                  ),
+                  SizedBox(height: 15),
+                ],
+              ),
+            ),
+          ),
+        );
+        return Container(
           height: 50.0,
           // color: Colors.white,
           child: Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
-            child:
-            ListView.builder(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               primary: false,
-              itemCount: saveMoneyViewModel.currentNtMonthSpendCategorys.length,
+              itemCount: saveMoneyViewModel.currentTotalSpendCategorys.length,
               itemBuilder: (context, index) {
-                return spendCategoryChip(saveMoneyViewModel.currentNtMonthSpendCategorys[index]);
+                return spendCategoryChip(
+                    saveMoneyViewModel.currentTotalSpendCategorys[index]);
               },
             ),
           ),
@@ -47,16 +68,16 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
     );
   }
 
-  // makeChipButton() {
-  //   List<dynamic> chipArray = saveMoneyViewModel.ntSpendGroups.map((tag) => spendCategoryChip(tag)).toList();
-  //   // chipArray.add(addSpendGroupChip());
-  //   // chipArray.add(allSpendGroupChip());
-  //   return chipArray;
-  // }
+  makeChipButton() {
+    List<dynamic> chipArray = saveMoneyViewModel.currentTotalSpendCategorys
+        .map((tag) => spendCategoryChip(tag))
+        .toList();
+    return chipArray;
+  }
 
   spendCategoryChip(NTSpendCategory categoryObject) {
     return Container(
-      padding: EdgeInsets.only(left:5, right: 5),
+      padding: EdgeInsets.only(left: 5, right: 5),
       child: FilterChip(
           showCheckmark: false,
           // selected: saveMoneyViewModel.selectedGroups.where((element) => element.id == categoryObject.id).isNotEmpty,
@@ -70,17 +91,15 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
           label: Text("# ${categoryObject.name}"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(strokeAlign: 0.5),
-
           onSelected: (bool value) async {
-
-            await saveMoneyViewModel.updateSpendCategoryGroups([categoryObject]);
+            await saveMoneyViewModel
+                .updateSpendCategoryGroups([categoryObject]);
             // bool isFind = await saveMoneyViewModel.updateSelectedGroups([categoryObject]);
             //
             // if (isFind == false) {
             //   showAddNTMonthWidget(categoryObject);
             // }
-          }
-      ),
+          }),
     );
   }
 
@@ -99,15 +118,12 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
         label: Text("지출 그룹 수정"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) {
           setState(() {
             showEditSpendGroupListWidget();
             // saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
-        }
-    );
+        });
   }
 
   allSpendGroupChip() {
@@ -125,20 +141,18 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
         label: Text("모든 그룹"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) async {
-
-          await saveMoneyViewModel.updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
-        }
-    );
+          await saveMoneyViewModel
+              .updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
+        });
   }
 
   showAddNTMonthWidget(NTSpendGroup group) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddSpendGroupMoneyWidget(group: group, selectedDate: saveMoneyViewModel.focusedDay),
+        builder: (context) => AddSpendGroupMoneyWidget(
+            group: group, selectedDate: saveMoneyViewModel.focusedDay),
       ),
     );
   }

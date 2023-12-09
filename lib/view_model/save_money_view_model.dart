@@ -1,5 +1,3 @@
-
-
 // import 'sqlite'
 
 import 'package:flutter/cupertino.dart';
@@ -14,9 +12,6 @@ import '../Extension/DateTime+Extension.dart';
 import 'Model/MonthSpendModel.dart';
 import 'Model/YearSpendModel.dart';
 
-
-
-
 class SaveMoneyViewModel extends ChangeNotifier {
   var db = SqliteController();
 
@@ -30,15 +25,15 @@ class SaveMoneyViewModel extends ChangeNotifier {
   DateTime focusedDay = DateTime.now(); // 현재 보고 있는 날짜
   DateTime? selectedDay = DateTime.now(); // 현재 선택한 날짜
 
-  List<NTSpendCategory> allSpendCategorys = [];
-  List<NTSpendCategory> ntMonthSpendCategorys = [];
+  List<NTSpendCategory> allSpendCategorys = []; // 모든카테고리
+  List<NTSpendCategory> currentNtMonthSpendCategorys = []; // 월별
+  List<NTSpendCategory> currentTotalSpendCategorys = []; // 년별
 
   List<MonthSpendModel> monthSpendModels = [];
-  List<YearNtMonthSpendModel> yearSpendModels = [];  // [0] = List<음식>, [1] = List<커피>
+  List<YearNtMonthSpendModel> yearSpendModels =
+      []; // [0] = List<음식>, [1] = List<커피>
 
   void updateData() async {
-
-
     notifyListeners();
   }
 
@@ -50,13 +45,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
   // 1. 캘린더 focus 이동했을때.
   // 2. 캘린더 날짜선택했을때.
   Future<void> fetchNTMonths(DateTime date) async {
-
-    this.ntMonths = await db.fetch<NTMonth>(NTMonth.staticClassName(), where: 'date = ?', args: [indexMonthDateIdFromDateTime(date)]);
+    this.ntMonths = await db.fetch<NTMonth>(NTMonth.staticClassName(),
+        where: 'date = ?', args: [indexMonthDateIdFromDateTime(date)]);
 
     print('fetched ntMOnths : ${ntMonths}');
 
     this.ntSpendGroups = await fetchNTSpendGroups();
-
 
     await updateSelectedGroups(this.selectedGroups);
 
@@ -68,72 +62,85 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<List<NTSpendCategory>> fetchNTSpendCategory() async {
-    return await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName(), orderBy: "countOfSpending DESC");
+    return await db.fetch<NTSpendCategory>(NTSpendCategory.staticClassName(),
+        orderBy: "countOfSpending DESC");
   }
 
   // 1. 지출그룹 선택했을떄.
   // 선택한 소비그룹에 대한 NTMonth도 찾아야함.
   Future<bool> updateSelectedGroups(List<NTSpendGroup> selectedGroups) async {
+    this.selectedGroups = [];
+    this.mapSpendDayList = {};
+    Set<NTSpendCategory> existCategorys = {};
 
-     this.selectedGroups = [];
-      this.mapSpendDayList = {};
+    List<NTMonth> tempSelectedGroups = [];
+    for (NTMonth month in ntMonths) {
+      for (NTSpendGroup spendGroup in selectedGroups) {
+        if (month.groupId == spendGroup.id) {
+          this.selectedGroups.add(spendGroup);
 
-      List<NTMonth> tempSelectedGroups = [];
-      for (NTMonth month in ntMonths) {
-          for (NTSpendGroup spendGroup in selectedGroups) {
-              if (month.groupId == spendGroup.id) {
+          month.currentLeftMoney =
+              await month.fetchLeftMoney; // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
+          month.currentNTSpendList = await month
+              .existedSpendList(); // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
+          List<NTSpendCategory> existCategory =
+              await month.fetchExistSpendCategorys();
+          existCategorys.addAll(existCategory.toSet());
 
-                  this.selectedGroups.add(spendGroup);
-
-                  month.currentLeftMoney = await month.fetchLeftMoney; // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
-                  month.currentNTSpendList = await month.existedSpendList(); // TODO: 코드 수정하기 (futureBuilder로 쓰거나 )
-
-                  Map<DateTime, List<NTSpendDay>> tempMapNtSpendList = await month.mapNtSpendList();
-                  for (DateTime key in tempMapNtSpendList.keys) {
-                      List<NTSpendDay> values = tempMapNtSpendList[key] ?? [];
-                      if (this.mapSpendDayList?[key] == null) {
-                          this.mapSpendDayList?[key] = values;
-                      } else {
-                          this.mapSpendDayList?[key]?.addAll(values);
-                      }
-                  }
-                  // this.mapSpendDayList
-                  tempSelectedGroups.add(month);
-              }
+          Map<DateTime, List<NTSpendDay>> tempMapNtSpendList =
+              await month.mapNtSpendList();
+          for (DateTime key in tempMapNtSpendList.keys) {
+            List<NTSpendDay> values = tempMapNtSpendList[key] ?? [];
+            if (this.mapSpendDayList?[key] == null) {
+              this.mapSpendDayList?[key] = values;
+            } else {
+              this.mapSpendDayList?[key]?.addAll(values);
+            }
           }
+          // this.mapSpendDayList
+          tempSelectedGroups.add(month);
+        }
       }
+    }
 
-      this.selectedNtMonths = tempSelectedGroups;
+    this.selectedNtMonths = tempSelectedGroups;
 
-      await updateMonthSpendModels();
+    await updateMonthSpendModels();
 
-      this.yearSpendModels = [];
+    this.yearSpendModels = [];
 
-      notifyListeners();
-      if (tempSelectedGroups.isEmpty) {
+    this.currentNtMonthSpendCategorys = existCategorys.toList();
+    this.currentTotalSpendCategorys =
+        await this.fetchTotalExistSpendCategorys();
 
-          print('selected group: ${selectedGroups}, and not found selected month 👀');
-          return false;
-      } else {
-         print('selected groups: ${selectedGroups}, and 👍 find selected months: ${tempSelectedGroups}');
-         return true;
-      }
+    notifyListeners();
+    if (tempSelectedGroups.isEmpty) {
+      print(
+          'selected group: ${selectedGroups}, and not found selected month 👀');
+      return false;
+    } else {
+      print(
+          'selected groups: ${selectedGroups}, and 👍 find selected months: ${tempSelectedGroups}');
+      return true;
+    }
   }
 
-  Future<bool> updateSpendCategoryGroups(List<NTSpendCategory> selectedCategory) async {
-
+  Future<bool> updateSpendCategoryGroups(
+      List<NTSpendCategory> selectedCategory) async {
     this.mapSpendDayList = {};
 
     for (NTMonth month in this.selectedNtMonths) {
       List<NTSpendDay> spendList = await month.existedSpendList();
 
       List<NTSpendDay> filteredSpendList = spendList.where((spendDay) {
-        return selectedCategory.any((category) => category.id == spendDay.categoryId);
+        return selectedCategory
+            .any((category) => category.id == spendDay.categoryId);
       }).toList();
 
       month.currentNTSpendList = filteredSpendList;
 
-      Map<DateTime, List<NTSpendDay>> tempMapNtSpendList = await month.currentNTSpendListMapNtSpendList();
+      Map<DateTime, List<NTSpendDay>> tempMapNtSpendList =
+          await month.currentNTSpendListMapNtSpendList();
       for (DateTime key in tempMapNtSpendList.keys) {
         List<NTSpendDay> values = tempMapNtSpendList[key] ?? [];
         if (this.mapSpendDayList?[key] == null) {
@@ -155,11 +162,11 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
     return true;
   }
+
   // ntmonths 가져오고,
   // 선택된그룹가져오고,
   // 날짜항목들은 안가져옴.
   Future<void> updateFocusedDay(DateTime focusedDay) async {
-
     if (isEqualDateMonth(focusedDay, this.focusedDay)) {
       return;
     }
@@ -177,8 +184,8 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
     List<NTSpendDay> tempList = [];
     for (NTMonth month in this.selectedNtMonths) {
-        List<NTSpendDay> list = await month.existedSpendList();
-        tempList.addAll(month.spendListAt(selectedDay?.day, list));
+      List<NTSpendDay> list = await month.existedSpendList();
+      tempList.addAll(month.spendListAt(selectedDay?.day, list));
     }
     this.selectedNtSpendList = tempList;
 
@@ -186,7 +193,6 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> addSpend(NTSpendDay spendDay) async {
-
     await this.db.insert(spendDay);
 
     await fetchNTMonths(this.selectedDay ?? DateTime.now());
@@ -215,7 +221,6 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> addSpendCategory(NTSpendCategory category) async {
-
     await this.db.insert(category);
 
     // await fetchNTMonths()
@@ -223,10 +228,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> addSpendGroup(NTSpendGroup spendGroup) async {
-
-    List<NTSpendGroup> findSpendGroups = await this.db.fetch(NTSpendGroup.staticClassName(), where: "id = ?", args: [spendGroup.id]);
+    List<NTSpendGroup> findSpendGroups = await this.db.fetch(
+        NTSpendGroup.staticClassName(),
+        where: "id = ?",
+        args: [spendGroup.id]);
     if (findSpendGroups.isEmpty) {
-        await this.db.insert(spendGroup);
+      await this.db.insert(spendGroup);
     }
 
     await this.fetchNTMonths(this.focusedDay);
@@ -240,6 +247,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
   Future<void> updateNtMonth(NTMonth ntMonth) async {
     await this.db.update(ntMonth);
     await this.fetchNTMonths(this.focusedDay);
@@ -248,12 +256,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteNtMonthsBy(NTSpendGroup spendGroup) async {
-      List<NTMonth> months = await spendGroup.ntMonths();
-      for (NTMonth month in months) {
-        // 소비내역도 모두 삭제해야함.
-        await this.db.delete(month);
-      }
-      notifyListeners();
+    List<NTMonth> months = await spendGroup.ntMonths();
+    for (NTMonth month in months) {
+      // 소비내역도 모두 삭제해야함.
+      await this.db.delete(month);
+    }
+    notifyListeners();
   }
 
   Future<void> deleteNTSpendGroup(NTSpendGroup spendGroup) async {
@@ -270,7 +278,11 @@ class SaveMoneyViewModel extends ChangeNotifier {
       for (NTSpendDay spendDay in month.currentNTSpendList ?? []) {
         if (spendList[spendDay.categoryId] == null) {
           String categoryName = await spendDay.fetchCategoryName();
-          spendList[spendDay.categoryId] = MonthSpendModel(spendDay: spendDay, price: spendDay.spend, count: 1, categoryName: categoryName);
+          spendList[spendDay.categoryId] = MonthSpendModel(
+              spendDay: spendDay,
+              price: spendDay.spend,
+              count: 1,
+              categoryName: categoryName);
         } else {
           spendList[spendDay.categoryId]?.price += spendDay.spend;
           spendList[spendDay.categoryId]?.count += 1;
@@ -281,41 +293,77 @@ class SaveMoneyViewModel extends ChangeNotifier {
       ..sort((a, b) => b.price.compareTo(a.price));
 
     this.monthSpendModels = sortedList;
-
   }
 
   Future<void> updateYearSpendModelsByCategoryId(int categoryId) async {
     List<YearNtMonthSpendModel> newList = [];
 
     for (NTMonth month in this.selectedNtMonths) {
-
       // NTMonth의 모든 월별내역들
-        List<NTMonth> yearMonths = await this.db.fetch(NTMonth.staticClassName(), where: 'groupId = ?', args: [month.groupId]);
+      List<NTMonth> yearMonths = await this.db.fetch(NTMonth.staticClassName(),
+          where: 'groupId = ?', args: [month.groupId], orderBy: 'date DESC');
 
-        List<YearMonthCategorySpendModel> spendModels = [];
-        for (NTMonth yearMonth in yearMonths) {
-            List<NTSpendDay> spendList = await yearMonth.fetchNTSpendListByCategoryId(categoryId);
+      List<YearMonthCategorySpendModel> spendModels = [];
+      for (NTMonth yearMonth in yearMonths) {
+        List<NTSpendDay> spendList =
+            await yearMonth.fetchNTSpendListByCategoryId(categoryId);
 
-
-            int price = 0;
-            int date = yearMonth.date;
-            Color color = Colors.blueAccent;
-            String categoryName = '';
-            for (NTSpendDay spendDay in spendList) {
-                price += spendDay.spend;
-                color = uniqueColorFromIndex(spendDay.categoryId);
-                categoryName = await spendDay.fetchCategoryName();
-            }
-
-            spendModels.add(YearMonthCategorySpendModel(price: price, date: date, color: color, categoryName: categoryName));
+        YearMonthCategorySpendModel model = YearMonthCategorySpendModel(
+            price: 0,
+            date: yearMonth.date,
+            color: Colors.blueAccent,
+            categoryName: '');
+        for (NTSpendDay spendDay in spendList) {
+          model.price += spendDay.spend;
+          model.color = uniqueColorFromIndex(spendDay.categoryId);
+          model.categoryName = await spendDay.fetchCategoryName();
         }
+        spendModels.add(model);
+      }
 
-        String monthGroupName = await month.fetchGroupName();
-        newList.add(YearNtMonthSpendModel(monthGroupName: monthGroupName, spendModels: spendModels));
+      String monthGroupName = await month.fetchGroupName();
+      newList.add(YearNtMonthSpendModel(
+          monthGroupName: monthGroupName, spendModels: spendModels));
     }
 
     this.yearSpendModels = newList;
   }
+
+  // NTmonth를 선택하면, 모든기간의 모든내역의 유니크한spendCatgory만 가져온다.
+  Future<List<NTSpendCategory>> fetchTotalExistSpendCategorys() async {
+    Set<int> categorys = {};
+    for (NTMonth month in this.selectedNtMonths) {
+      // NTMonth의 모든 월별내역들
+      List<NTMonth> yearMonths = await this.db.fetch(NTMonth.staticClassName(),
+          where: 'groupId = ?', args: [month.groupId]);
+
+      for (NTMonth yearMonth in yearMonths) {
+        List<NTSpendDay> spendList = await yearMonth.existedSpendList();
+
+        for (NTSpendDay spendDay in spendList) {
+          categorys.add(spendDay.categoryId);
+        }
+      }
+    }
+
+    if (categorys.isEmpty) {
+      return [];
+    }
+
+    String whereQuery = '';
+    for (int uniqueCategoryId in categorys) {
+      if (whereQuery.isEmpty) {
+        whereQuery += '(id = ?';
+      } else {
+        whereQuery += ' OR id = ?';
+      }
+    }
+    whereQuery += ')';
+    List<NTSpendCategory> spendCategoryList = await SqliteController().fetch(
+        NTSpendCategory.staticClassName(),
+        where: whereQuery,
+        args: categorys.toList(),
+        orderBy: 'countOfSpending DESC');
+    return spendCategoryList;
+  }
 }
-
-
