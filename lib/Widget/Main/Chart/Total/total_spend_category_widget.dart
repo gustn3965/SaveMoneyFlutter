@@ -8,8 +8,8 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../DataBase/Model/NTSpendGroup.dart';
-import '../EditSpendGroup/spend_group_list_widget.dart';
+import '../../../../DataBase/Model/NTSpendGroup.dart';
+import '../../../EditSpendGroup/spend_group_list_widget.dart';
 
 class TotalSpendCategoryWidget extends StatefulWidget {
   @override
@@ -23,49 +23,38 @@ class _TotalSpendCategoryWidgetState extends State<TotalSpendCategoryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Container(
-          width: constraints.maxWidth,
-          // color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: Container(
-              // color: Color(0xFFADABAB),
-              child: Column(
-                children: [
-                  SizedBox(height: 15),
-                  Wrap(
-                    alignment: WrapAlignment.start,
-                    spacing: 10.0,
-                    runSpacing: 10.0,
-                    children: <Widget>[...makeChipButton()],
-                  ),
-                  SizedBox(height: 15),
-                ],
+    if (saveMoneyViewModel.currentTotalSpendCategorys.length == 0) {
+      return SizedBox(
+        height: 0,
+      );
+    } else {
+      return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Container(
+            width: constraints.maxWidth,
+            // color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Container(
+                // color: Color(0xFFADABAB),
+                child: Column(
+                  children: [
+                    SizedBox(height: 15),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 10.0,
+                      runSpacing: 10.0,
+                      children: <Widget>[...makeChipButton()],
+                    ),
+                    SizedBox(height: 15),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-        return Container(
-          height: 50.0,
-          // color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              primary: false,
-              itemCount: saveMoneyViewModel.currentTotalSpendCategorys.length,
-              itemBuilder: (context, index) {
-                return spendCategoryChip(
-                    saveMoneyViewModel.currentTotalSpendCategorys[index]);
-              },
-            ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 
   makeChipButton() {

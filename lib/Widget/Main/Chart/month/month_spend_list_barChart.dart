@@ -6,12 +6,12 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../view_model/save_money_view_model.dart';
+import '../../../../view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class BarChartSample1 extends StatefulWidget {
-  BarChartSample1({super.key});
+class MonthSpendListBarChart extends StatefulWidget {
+  MonthSpendListBarChart({super.key});
 
   List<Color> get availableColors => const <Color>[
         Colors.white,
@@ -27,10 +27,10 @@ class BarChartSample1 extends StatefulWidget {
   final Color touchedBarColor = Colors.brown;
 
   @override
-  State<StatefulWidget> createState() => BarChartSample1State();
+  State<StatefulWidget> createState() => MonthSpendListBarChartState();
 }
 
-class BarChartSample1State extends State<BarChartSample1> {
+class MonthSpendListBarChartState extends State<MonthSpendListBarChart> {
   final Duration animDuration = const Duration(milliseconds: 250);
 
   late SaveMoneyViewModel saveMoneyViewModel;
@@ -115,8 +115,8 @@ class BarChartSample1State extends State<BarChartSample1> {
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
             String categoryName =
-                saveMoneyViewModel.monthSpendModels[group.x].categoryName;
-            int price = saveMoneyViewModel.monthSpendModels[group.x].price;
+                saveMoneyViewModel.monthSpendModels[groupIndex].categoryName;
+            int price = saveMoneyViewModel.monthSpendModels[groupIndex].price;
             return BarTooltipItem(
               '$categoryName\n',
               const TextStyle(

@@ -7,8 +7,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/view_model/Model/YearSpendModel.dart';
 
-import '../../Extension/DateTime+Extension.dart';
-import '../../view_model/save_money_view_model.dart';
+import '../../../../Extension/DateTime+Extension.dart';
+import '../../../../view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -47,16 +47,24 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
     if (saveMoneyViewModel.yearSpendModels.length == 0) {
       return Column(
         children: [
-          Text('모든기간 내역',
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontStyle: FontStyle.normal,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w800,
-                height: 0,
-              )),
-          Text('선택된 소비 카테고리가 없습니다.'),
+          headerWidget(),
+          saveMoneyViewModel.currentTotalSpendCategorys.length == 0
+              ? SizedBox(height: 40)
+              : Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      '아래 카테고리를 선택해주세요.',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
         ],
       );
     } else {
@@ -66,11 +74,57 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
     }
   }
 
+  Widget headerWidget() {
+    return Container(
+      // height: 65,
+      width: MediaQuery.of(context).size.width,
+      color: Color(0xFFE5E3E3),
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
+            children: [
+              Padding(
+                  padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
+                  child: Text(
+                    '모든 기간 내역 요약 차트',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
+                  child: Text(
+                    '',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  )),
+            ],
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
   List<Widget> makeBarCharts(SaveMoneyViewModel saveMoneyViewModel) {
-    return saveMoneyViewModel.yearSpendModels
+    List<Widget> widgets = [headerWidget()];
+
+    List<Widget> chart = saveMoneyViewModel.yearSpendModels
         .map(
           (e) => Column(
             children: [
+              SizedBox(height: 20),
               Text('${e.monthGroupName}',
                   style: const TextStyle(
                     color: Colors.black,
@@ -108,6 +162,10 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
           ),
         )
         .toList();
+
+    widgets.addAll(chart);
+    widgets.add(SizedBox(height: 20));
+    return widgets;
   }
 
   BarChartGroupData makeGroupData(
@@ -160,8 +218,8 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
           getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String categoryName = spendList[group.x].categoryName;
-            int price = spendList[group.x].price;
+            String categoryName = spendList[groupIndex].categoryName;
+            int price = spendList[groupIndex].price;
             return BarTooltipItem(
               '$categoryName\n',
               const TextStyle(

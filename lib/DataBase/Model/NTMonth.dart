@@ -172,6 +172,15 @@ class NTMonth implements NTObject {
     return group.first.name;
   }
 
+  Future<NTSpendGroup> fetchSpendGroup() async {
+    List<NTSpendGroup> group = await SqliteController().fetch(
+        NTSpendGroup.staticClassName(),
+        where: 'id = ?',
+        args: [this.groupId]);
+
+    return group.first;
+  }
+
   @override
   Map<String, dynamic> toMap() {
     return {

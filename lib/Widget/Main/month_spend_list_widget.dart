@@ -8,17 +8,16 @@ import '../../view_model/add_spending_view_model.dart';
 import '../../view_model/save_money_view_model.dart';
 import '../AddSpending/add_spending_widget.dart';
 
-
-
 class SpendingModel {
   DateTime date;
   String spendCategory;
   String description;
   int spendMoney;
 
-  SpendingModel(this.date, this.spendCategory, this.description, this.spendMoney);
-
+  SpendingModel(
+      this.date, this.spendCategory, this.description, this.spendMoney);
 }
+
 class MonthSpendListWidget extends StatefulWidget {
   const MonthSpendListWidget({Key? key}) : super(key: key);
 
@@ -41,7 +40,6 @@ class MonthSpendListModel {
 class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
   late SaveMoneyViewModel saveMoneyViewModel;
 
-
   @override
   Widget build(BuildContext context) {
     saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
@@ -52,7 +50,8 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
       for (NTSpendDay spendDay in month.currentNTSpendList ?? []) {
         totalSpend += spendDay.spend;
         if (spendList[spendDay.categoryId] == null) {
-          spendList[spendDay.categoryId] = MonthSpendListModel(spendDay: spendDay, price: spendDay.spend, count: 1);
+          spendList[spendDay.categoryId] = MonthSpendListModel(
+              spendDay: spendDay, price: spendDay.spend, count: 1);
         } else {
           spendList[spendDay.categoryId]?.price += spendDay.spend;
           spendList[spendDay.categoryId]?.count += 1;
@@ -62,11 +61,9 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
     List<MonthSpendListModel> sortedList = spendList.values.toList()
       ..sort((a, b) => b.price.compareTo(a.price));
 
-
     return Column(
       children: [
         headerWidget(totalSpend),
-
         ListView.builder(
           shrinkWrap: true,
           primary: false,
@@ -89,7 +86,9 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
                             children: [
                               SizedBox(height: 15),
                               FutureBuilder<String>(
-                                future: sortedList[index].spendDay.fetchCategoryName(),
+                                future: sortedList[index]
+                                    .spendDay
+                                    .fetchCategoryName(),
                                 builder: (context, snapshot) {
                                   String name = snapshot.data ?? '';
                                   return Text(
@@ -106,7 +105,6 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
                                   );
                                 },
                               ),
-
                               SizedBox(height: 10),
                               Text(
                                 '${NumberFormat("#,###").format(sortedList[index].price ?? 0)}원',
@@ -148,7 +146,6 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
     );
   }
 
-
   Widget headerWidget(int totalSpend) {
     return Container(
       height: 65,
@@ -171,12 +168,13 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
                       fontWeight: FontWeight.w500,
                       height: 0,
                     ),
-                  )
-              ),
+                  )),
               Padding(
                   padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    totalSpend == 0 ? '소비된 내역이 없습니다.' : '${NumberFormat("#,###").format(totalSpend)}원',
+                    totalSpend == 0
+                        ? '소비된 내역이 없습니다.'
+                        : '${NumberFormat("#,###").format(totalSpend)}원',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -184,8 +182,7 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
                       fontWeight: FontWeight.w700,
                       height: 0,
                     ),
-                  )
-              ),
+                  )),
             ],
           ),
           SizedBox(height: 20),
@@ -202,17 +199,16 @@ class _MonthSpendListWidgetState extends State<MonthSpendListWidget> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
-        return ChangeNotifierProvider (
+        return ChangeNotifierProvider(
             create: (context) {
               AddSpendingViewModel viewModel = AddSpendingViewModel();
               viewModel.setupByExistSpendDay(spendDay, saveMoneyViewModel);
               return viewModel;
-            }, child: Container(
-            height:
-            MediaQuery.of(context).size.height * 0.9, // 모달 다이얼로그의 높이를 설정
-            child: AddSpendingWidget(spendDay: spendDay))
-        );
-
+            },
+            child: Container(
+                height: MediaQuery.of(context).size.height *
+                    0.9, // 모달 다이얼로그의 높이를 설정
+                child: AddSpendingWidget(spendDay: spendDay)));
       },
     );
   }

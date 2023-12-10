@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../view_model/Model/MonthSpendModel.dart';
-import '../../view_model/save_money_view_model.dart';
+import '/view_model/Model/MonthSpendModel.dart';
+import '/view_model/save_money_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+class MonthSpendListPieChart extends StatefulWidget {
+  const MonthSpendListPieChart({super.key});
 
   @override
   State<StatefulWidget> createState() => PieChart2State();

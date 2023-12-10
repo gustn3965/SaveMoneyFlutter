@@ -1,5 +1,3 @@
-
-
 import 'package:save_money_flutter/DataBase/Model/NTSpendCategory.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_money_widget.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_widget.dart';
@@ -19,32 +17,48 @@ class SpendCategoryWidget extends StatefulWidget {
 }
 
 class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
-
-  late SaveMoneyViewModel saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
+  late SaveMoneyViewModel saveMoneyViewModel =
+      Provider.of<SaveMoneyViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Container(
-          height: 50.0,
-          // color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child:
-            ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              primary: false,
-              itemCount: saveMoneyViewModel.currentNtMonthSpendCategorys.length,
-              itemBuilder: (context, index) {
-                return spendCategoryChip(saveMoneyViewModel.currentNtMonthSpendCategorys[index]);
-              },
-            ),
+    if (saveMoneyViewModel.currentNtMonthSpendCategorys.length == 0) {
+      return Column(
+        children: [
+          Text('소비된 카테고리가 없습니다.', style: TextStyle(fontSize: 18)),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+              '소비된 카테고리 ${saveMoneyViewModel.currentNtMonthSpendCategorys.length}개',
+              style: TextStyle(fontSize: 18)),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Container(
+                height: 50.0,
+                // color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount:
+                        saveMoneyViewModel.currentNtMonthSpendCategorys.length,
+                    itemBuilder: (context, index) {
+                      return spendCategoryChip(saveMoneyViewModel
+                          .currentNtMonthSpendCategorys[index]);
+                    },
+                  ),
+                ),
+              );
+            },
           ),
-        );
-      },
-    );
+        ],
+      );
+    }
   }
 
   // makeChipButton() {
@@ -56,7 +70,7 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
 
   spendCategoryChip(NTSpendCategory categoryObject) {
     return Container(
-      padding: EdgeInsets.only(left:5, right: 5),
+      padding: EdgeInsets.only(left: 5, right: 5),
       child: FilterChip(
           showCheckmark: false,
           // selected: saveMoneyViewModel.selectedGroups.where((element) => element.id == categoryObject.id).isNotEmpty,
@@ -70,17 +84,15 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
           label: Text("# ${categoryObject.name}"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(strokeAlign: 0.5),
-
           onSelected: (bool value) async {
-
-            await saveMoneyViewModel.updateSpendCategoryGroups([categoryObject]);
+            await saveMoneyViewModel
+                .updateSpendCategoryGroups([categoryObject]);
             // bool isFind = await saveMoneyViewModel.updateSelectedGroups([categoryObject]);
             //
             // if (isFind == false) {
             //   showAddNTMonthWidget(categoryObject);
             // }
-          }
-      ),
+          }),
     );
   }
 
@@ -99,15 +111,12 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
         label: Text("지출 그룹 수정"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) {
           setState(() {
             showEditSpendGroupListWidget();
             // saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
-        }
-    );
+        });
   }
 
   allSpendGroupChip() {
@@ -125,20 +134,18 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
         label: Text("모든 그룹"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) async {
-
-          await saveMoneyViewModel.updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
-        }
-    );
+          await saveMoneyViewModel
+              .updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
+        });
   }
 
   showAddNTMonthWidget(NTSpendGroup group) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddSpendGroupMoneyWidget(group: group, selectedDate: saveMoneyViewModel.focusedDay),
+        builder: (context) => AddSpendGroupMoneyWidget(
+            group: group, selectedDate: saveMoneyViewModel.focusedDay),
       ),
     );
   }

@@ -3,15 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/DataBase/Model/NTMonth.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
-import 'package:save_money_flutter/Widget/Main/total_spend_category_widget.dart';
+import 'package:save_money_flutter/Widget/Main/Chart/Total/total_spend_category_widget.dart';
 import 'package:save_money_flutter/view_model/add_spending_view_model.dart';
 import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
 // Widget
 import 'DataBase/Model/abstract/NTObject.dart';
 import 'DataBase/sqlite_datastore.dart';
-import 'Widget/Main/month_spend_list_barChart.dart';
-import 'Widget/Main/month_spend_list_pieChart.dart';
+import 'Widget/Main/Chart/month/month_spend_list_barChart.dart';
+import 'Widget/Main/Chart/month/month_spend_list_graphChart.dart';
 import 'Widget/Main/month_spend_list_widget.dart';
 import 'Widget/Main/spend_category_widget.dart';
 import 'Widget/Main/top_will_save_money_widget.dart';
@@ -31,7 +31,7 @@ import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite/sqflite.dart';
 
 // viewModel
-import 'Widget/Main/total_spend_list_barChart.dart';
+import 'Widget/Main/Chart/Total/total_spend_list_barChart.dart';
 import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
@@ -51,6 +51,7 @@ void main() async {
       //       AddSpendingViewModel viewModel = AddSpendingViewModel();
       //       viewModel.setup();
       //       return viewModel;
+      //     })
       //     })
     ],
     child: const MyApp(),
@@ -186,13 +187,11 @@ class _MyHomePageState extends State<MyHomePage> {
               SpendCategoryWidget(),
               MyCalendarPage(),
               SizedBox(height: 50),
-              SpendListWidget(),
-              BarChartSample1(),
-              PieChartSample2(),
-              TotalSpendListBarChart(),
-              TotalSpendCategoryWidget(),
-              SizedBox(height: 50),
-              MonthSpendListWidget(),
+              SpendListWidget(), // 일간 내역
+              MonthSpendListGraphChart(), // 월간 내역 그래프
+              TotalSpendListBarChart(), // 모든 기간 내역 (바차트)
+              TotalSpendCategoryWidget(), // 모든 기간에 소비된 카테고리
+              // MonthSpendListWidget(), // 월간 내역 리스트로.
               SizedBox(height: 200),
             ],
           ),
