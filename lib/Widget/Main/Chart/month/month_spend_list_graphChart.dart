@@ -55,7 +55,7 @@ class _MonthSpendListGraphChartState extends State<MonthSpendListGraphChart> {
 
   Widget headerWidget(int totalSpend) {
     return Container(
-      height: 65,
+      // height: 65,
       width: MediaQuery.of(context).size.width,
       color: Color(0xFFE5E3E3),
       child: Column(
@@ -65,7 +65,8 @@ class _MonthSpendListGraphChartState extends State<MonthSpendListGraphChart> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
             children: [
               Padding(
-                  padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
+                  padding:
+                      EdgeInsets.only(left: 40, right: 10), // 왼쪽에 10의 패딩 추가
                   child: Text(
                     '${saveMoneyViewModel.focusedDay?.month}월 요약 차트',
                     style: TextStyle(
@@ -76,8 +77,9 @@ class _MonthSpendListGraphChartState extends State<MonthSpendListGraphChart> {
                       height: 0,
                     ),
                   )),
-              Padding(
-                  padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, right: 40),
                   child: Text(
                     totalSpend == 0
                         ? '소비된 내역이 없습니다.'
@@ -87,9 +89,12 @@ class _MonthSpendListGraphChartState extends State<MonthSpendListGraphChart> {
                       fontSize: 20,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
-                      height: 0,
+                      height: 1.2,
                     ),
-                  )),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ),
             ],
           ),
           SizedBox(height: 20),

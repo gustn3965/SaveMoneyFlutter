@@ -8,6 +8,7 @@ import 'package:save_money_flutter/view_model/add_spending_view_model.dart';
 import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
 // Widget
+import 'AppColor/AppColors.dart';
 import 'DataBase/Model/abstract/NTObject.dart';
 import 'DataBase/sqlite_datastore.dart';
 import 'Widget/Main/Chart/month/month_spend_list_barChart.dart';
@@ -78,6 +79,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        // textButtonTheme: TextButtonThemeData(
+        //     style: ButtonStyle(
+        //         // overlayColor:
+        //         //     MaterialStateColor.resolveWith((states) => Colors.transparent),
+        //
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -137,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFA6BDFA),
+          backgroundColor: AppColors.mainColor,
           title: GestureDetector(
               onTap: () {
                 _showDatePicker();
@@ -228,7 +236,32 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-        ])
+        ]),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: AppColors.lightGrayColor, // 라인 색상을 원하는 색상으로 설정
+                width: 1, // 라인의 두께를 조절
+              ),
+            ),
+          ),
+          child: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: '메인',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: '설정',
+              ),
+            ],
+            elevation: 1.1,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: AppColors.mainHightColor,
+          ),
+        )
         // This trailing comma makes auto-formatting nicer for build methods.
         );
   }

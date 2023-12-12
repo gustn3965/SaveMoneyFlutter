@@ -8,6 +8,7 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../AppColor/AppColors.dart';
 import '../../DataBase/Model/NTSpendGroup.dart';
 import '../EditSpendGroup/spend_group_list_widget.dart';
 
@@ -74,7 +75,7 @@ class _SpendCategoryWidgetState extends State<SpendCategoryWidget> {
       child: FilterChip(
           showCheckmark: false,
           // selected: saveMoneyViewModel.selectedGroups.where((element) => element.id == categoryObject.id).isNotEmpty,
-          backgroundColor: Color(0xFFA6BDFA),
+          backgroundColor: AppColors.mainColor,
           selectedColor: Color(0xFF2C62F0),
           // shadowColor: Colors.grey,
           // elevation: 4,

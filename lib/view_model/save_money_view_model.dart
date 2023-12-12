@@ -39,8 +39,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   void setup() async {
     await fetchNTMonths(DateTime.now());
-    await updateSelectedGroups(
-        ntSpendGroups.length == 0 ? [] : [ntSpendGroups.first]);
+    await updateSelectedGroups(ntSpendGroups);
     this.allSpendCategorys = await fetchNTSpendCategory();
   }
 

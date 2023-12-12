@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Widget/EditSpendGroup/spend_group_edit_month_list_widget.dart';
+import '../../AppColor/AppColors.dart';
 import '../../DataBase/Model/NTSpendDay.dart';
 import '../../view_model/add_spending_view_model.dart';
 import '../../view_model/save_money_view_model.dart';
@@ -32,19 +31,18 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFA6BDFA),
-        title: Text(
-          '지출 그룹 변경',
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontStyle: FontStyle.italic,
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w800,
-            height: 0,
-          ),
-        )
-      ),
+          backgroundColor: AppColors.mainColor,
+          title: Text(
+            '지출 그룹 변경',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontStyle: FontStyle.italic,
+              fontFamily: 'Inter',
+              fontWeight: FontWeight.w800,
+              height: 0,
+            ),
+          )),
       body: FutureBuilder<List<NTSpendGroup>>(
         future: saveMoneyViewModel.fetchNTSpendGroups(),
         builder: (context, snapshot) {
@@ -54,7 +52,7 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
             return Center(child: Text('데이터를 불러오는 동안 오류가 발생했습니다.'));
           } else {
             // 데이터를 성공적으로 가져온 경우의 화면
-            final List<NTSpendGroup>? spendGroups =  snapshot.data;
+            final List<NTSpendGroup>? spendGroups = snapshot.data;
 
             return ListView.builder(
               itemCount: (spendGroups?.length ?? 0) + 1,
@@ -96,13 +94,13 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
                       children: [
                         Container(
                           alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(left: 20, right: 10, top: 15, bottom: 10),
+                          margin: const EdgeInsets.only(
+                              left: 20, right: 10, top: 15, bottom: 10),
                           padding: const EdgeInsets.all(10.0),
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 1,
                               color: Colors.black,
-
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ), //  POINT: BoxDecoration
@@ -112,14 +110,14 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(left: 10, right: 20, top: 10),
+                          margin: const EdgeInsets.only(
+                              left: 10, right: 20, top: 10),
                           // padding: const EdgeInsets.all(10.0),
                           child: FilledButton(
                             onPressed: () {
                               if (spendGroups?[index] != null) {
                                 showEditNTMonthWidget(spendGroups![index]);
                               }
-
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: Colors.black,
@@ -131,7 +129,6 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
                                 ),
                               ),
                             ),
-
                             child: Text('금액 수정'),
                           ),
                         )
@@ -151,7 +148,7 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
 
   Widget addGroupButton() {
     return Container(
-      margin: const EdgeInsets.only( top: 15),
+      margin: const EdgeInsets.only(top: 15),
       child: Center(
         child: FilledButton(
           onPressed: () {
@@ -167,7 +164,6 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
               ),
             ),
           ),
-
           child: Text('    지출 그룹 추가하기    '),
         ),
       ),
@@ -178,7 +174,9 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddSpendGroupWidget(selectedDate: saveMoneyViewModel.focusedDay, needCancelButton: true),
+        builder: (context) => AddSpendGroupWidget(
+            selectedDate: saveMoneyViewModel.focusedDay,
+            needCancelButton: true),
       ),
     );
   }
@@ -197,7 +195,7 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
-            '${spendGroup.name} 지출그룹 삭제' ,
+          '${spendGroup.name} 지출그룹 삭제',
         ),
         content: const Text('해당 지출내역들이 모두 삭제됩니다.'),
         actions: <CupertinoDialogAction>[
@@ -221,5 +219,4 @@ class _SpendGroupListWidgetState extends State<SpendGroupListWidget> {
       ),
     );
   }
-
 }

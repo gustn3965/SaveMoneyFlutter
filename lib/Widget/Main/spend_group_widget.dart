@@ -1,4 +1,3 @@
-
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_money_widget.dart';
 import 'package:save_money_flutter/Widget/AddSpendGroup/add_spend_group_widget.dart';
 import 'package:save_money_flutter/Widget/Main/spend_group_widget.dart';
@@ -8,6 +7,7 @@ import 'package:save_money_flutter/view_model/save_money_view_model.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../AppColor/AppColors.dart';
 import '../../DataBase/Model/NTSpendGroup.dart';
 import '../EditSpendGroup/spend_group_list_widget.dart';
 
@@ -17,8 +17,8 @@ class SpendGroupWidget extends StatefulWidget {
 }
 
 class _SpendGroupWidgetState extends State<SpendGroupWidget> {
-
-  late SaveMoneyViewModel saveMoneyViewModel = Provider.of<SaveMoneyViewModel>(context);
+  late SaveMoneyViewModel saveMoneyViewModel =
+      Provider.of<SaveMoneyViewModel>(context);
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +33,14 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
               // color: Color(0xFFADABAB),
               child: Column(
                 children: [
-                  SizedBox(height:15),
+                  SizedBox(height: 15),
                   Wrap(
                     alignment: WrapAlignment.start,
                     spacing: 10.0,
                     runSpacing: 10.0,
                     children: <Widget>[...makeChipButton()],
                   ),
-                  SizedBox(height:15),
+                  SizedBox(height: 15),
                 ],
               ),
             ),
@@ -51,7 +51,9 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
   }
 
   makeChipButton() {
-    List<dynamic> chipArray = saveMoneyViewModel.ntSpendGroups.map((tag) => spendGroupChip(tag)).toList();
+    List<dynamic> chipArray = saveMoneyViewModel.ntSpendGroups
+        .map((tag) => spendGroupChip(tag))
+        .toList();
     chipArray.add(addSpendGroupChip());
     chipArray.add(allSpendGroupChip());
     return chipArray;
@@ -59,35 +61,35 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
 
   spendGroupChip(NTSpendGroup groupObject) {
     return FilterChip(
-      showCheckmark: false,
-      selected: saveMoneyViewModel.selectedGroups.where((element) => element.id == groupObject.id).isNotEmpty,
-      backgroundColor: Colors.white,
-      selectedColor: Color(0xFFFF005B),
-      // shadowColor: Colors.grey,
-      // elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      label: Text("${groupObject.name}"),
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        showCheckmark: false,
+        selected: saveMoneyViewModel.selectedGroups
+            .where((element) => element.id == groupObject.id)
+            .isNotEmpty,
+        backgroundColor: Colors.white,
+        selectedColor: AppColors.mainRedColor,
+        // shadowColor: Colors.grey,
+        // elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        label: Text("${groupObject.name}"),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 0.5),
-
-      onSelected: (bool value) async {
-
-          bool isFind = await saveMoneyViewModel.updateSelectedGroups([groupObject]);
+        onSelected: (bool value) async {
+          bool isFind =
+              await saveMoneyViewModel.updateSelectedGroups([groupObject]);
 
           if (isFind == false) {
             showAddNTMonthWidget(groupObject);
           }
-        }
-    );
+        });
   }
 
   addSpendGroupChip() {
     return FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: Colors.black12,
+        backgroundColor: AppColors.lightGrayColor,
         selectedColor: Color(0xFFFF005B),
         // shadowColor: Colors.grey,
         // elevation: 4,
@@ -98,22 +100,19 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
         label: Text("지출 그룹 수정"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) {
           setState(() {
             showEditSpendGroupListWidget();
             // saveMoneyViewModel.updateSelectedGroup(groupObject);
           });
-        }
-    );
+        });
   }
 
   allSpendGroupChip() {
     return FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: Colors.black12,
+        backgroundColor: AppColors.lightGrayColor,
         selectedColor: Color(0xFFFF005B),
         // shadowColor: Colors.grey,
         // elevation: 4,
@@ -124,20 +123,18 @@ class _SpendGroupWidgetState extends State<SpendGroupWidget> {
         label: Text("모든 그룹"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(strokeAlign: 1),
-
-
         onSelected: (bool value) async {
-
-          await saveMoneyViewModel.updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
-        }
-    );
+          await saveMoneyViewModel
+              .updateSelectedGroups(saveMoneyViewModel.ntSpendGroups);
+        });
   }
 
   showAddNTMonthWidget(NTSpendGroup group) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddSpendGroupMoneyWidget(group: group, selectedDate: saveMoneyViewModel.focusedDay),
+        builder: (context) => AddSpendGroupMoneyWidget(
+            group: group, selectedDate: saveMoneyViewModel.focusedDay),
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
 import 'package:save_money_flutter/Widget/Main/spend_group_widget.dart';
 
+import '../../AppColor/AppColors.dart';
 import '../../DataBase/Model/NTMonth.dart';
 import '../../view_model/save_money_view_model.dart';
 import '../../view_model/add_spending_view_model.dart';
@@ -204,8 +205,8 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                                 : spendingViewModel.selectedCategory?.id ==
                                         spendingViewModel
                                             .spendCategorys?[index].id
-                                    ? Color(0xFF2C62F0)
-                                    : Color(0xFFA6BDFA),
+                                    ? AppColors.mainHightColor
+                                    : AppColors.mainColor,
                             child: TextButton(
                               onPressed: () {
                                 if (index ==
