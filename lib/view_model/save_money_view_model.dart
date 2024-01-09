@@ -1,5 +1,7 @@
 // import 'sqlite'
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
@@ -17,7 +19,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
 
   List<NTMonth> ntMonths = []; // 포커싱된 내역들
   List<NTSpendGroup> ntSpendGroups = []; // ntmonth에 속하는 group들.
-  List<NTMonth> selectedNtMonths = []; // 메인
+  List<NTMonth> selectedNtMonths = []; // 메인 (해당달에 선택된 month그룹)
   Map<DateTime, List<NTSpendDay>>? mapSpendDayList; // 캘린더
   List<NTSpendDay>? selectedNtSpendList = [];
   List<NTSpendGroup> selectedGroups = [];
@@ -26,8 +28,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
   DateTime? selectedDay = DateTime.now(); // 현재 선택한 날짜
 
   List<NTSpendCategory> allSpendCategorys = []; // 모든카테고리
-  List<NTSpendCategory> currentNtMonthSpendCategorys = []; // 월별
+  List<NTSpendCategory> currentNtMonthSpendCategorys = []; // 월에 소비된 카테고리
+  List<NTSpendCategory> currentSelectedNtMonthSpendCategorys =
+      []; // 월에 소비된 선택된 카테고리
   List<NTSpendCategory> currentTotalSpendCategorys = []; // 년별
+  List<NTSpendCategory> currentSelectedTotalSpendCategorys =
+      []; // 모든 기간 내역 요약 카테고리에서, 선택한 카테고리
 
   List<MonthSpendModel> monthSpendModels = [];
   List<YearNtMonthSpendModel> yearSpendModels =
@@ -111,6 +117,8 @@ class SaveMoneyViewModel extends ChangeNotifier {
     this.yearSpendModels = [];
 
     this.currentNtMonthSpendCategorys = existCategorys.toList();
+    this.currentSelectedNtMonthSpendCategorys = [];
+
     this.currentTotalSpendCategorys =
         await this.fetchTotalExistSpendCategorys();
 
@@ -127,15 +135,26 @@ class SaveMoneyViewModel extends ChangeNotifier {
   }
 
   Future<bool> updateSpendCategoryGroups(
-      List<NTSpendCategory> selectedCategory) async {
+      NTSpendCategory selectedCategory) async {
+    if (this.currentSelectedNtMonthSpendCategorys.contains(selectedCategory)) {
+      this.currentSelectedNtMonthSpendCategorys.remove(selectedCategory);
+    } else {
+      this.currentSelectedNtMonthSpendCategorys.add(selectedCategory);
+    }
+
     this.mapSpendDayList = {};
 
     for (NTMonth month in this.selectedNtMonths) {
       List<NTSpendDay> spendList = await month.existedSpendList();
 
       List<NTSpendDay> filteredSpendList = spendList.where((spendDay) {
-        return selectedCategory
-            .any((category) => category.id == spendDay.categoryId);
+        if (currentSelectedNtMonthSpendCategorys.isEmpty == true) {
+          return currentNtMonthSpendCategorys
+              .any((category) => category.id == spendDay.categoryId);
+        } else {
+          return currentSelectedNtMonthSpendCategorys
+              .any((category) => category.id == spendDay.categoryId);
+        }
       }).toList();
 
       month.currentNTSpendList = filteredSpendList;
@@ -152,16 +171,30 @@ class SaveMoneyViewModel extends ChangeNotifier {
       }
     }
 
-    // 선택된 Ntmonth의 모든 카테고리내역들
-    if (selectedCategory.length == 1) {
-      await updateYearSpendModelsByCategoryId(selectedCategory.first.id);
+    notifyListeners();
+
+    return true;
+  }
+
+  Future<bool> updateSelectedTotalSpendCategory(
+      NTSpendCategory selectedCategory) async {
+    if (this.currentSelectedTotalSpendCategorys.contains(selectedCategory)) {
+      this.currentSelectedTotalSpendCategorys.remove(selectedCategory);
     } else {
-      this.yearSpendModels = [];
+      this.currentSelectedTotalSpendCategorys.add(selectedCategory);
     }
+
+    await updateYearSpendModelsByCategoryId();
 
     notifyListeners();
 
     return true;
+  }
+
+  void resetSelectedTotalSpendCategory() {
+    this.currentSelectedTotalSpendCategorys = [];
+
+    notifyListeners();
   }
 
   // ntmonths 가져오고,
@@ -296,7 +329,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
     this.monthSpendModels = sortedList;
   }
 
-  Future<void> updateYearSpendModelsByCategoryId(int categoryId) async {
+  Future<void> updateYearSpendModelsByCategoryId() async {
     List<YearNtMonthSpendModel> newList = [];
 
     for (NTMonth month in this.selectedNtMonths) {
@@ -304,22 +337,38 @@ class SaveMoneyViewModel extends ChangeNotifier {
       List<NTMonth> yearMonths = await this.db.fetch(NTMonth.staticClassName(),
           where: 'groupId = ?', args: [month.groupId], orderBy: 'date DESC');
 
-      List<YearMonthCategorySpendModel> spendModels = [];
+      List<YearMonthCategoryModel> spendModels = [];
+      int maxPrice = 0;
       for (NTMonth yearMonth in yearMonths) {
-        List<NTSpendDay> spendList =
-            await yearMonth.fetchNTSpendListByCategoryId(categoryId);
+        List<YearMonthCategorySpendModel> categoryModels = [];
 
-        YearMonthCategorySpendModel model = YearMonthCategorySpendModel(
-            price: 0,
-            date: yearMonth.date,
-            color: Colors.blueAccent,
-            categoryName: '');
-        for (NTSpendDay spendDay in spendList) {
-          model.price += spendDay.spend;
-          model.color = uniqueColorFromIndex(spendDay.categoryId);
-          model.categoryName = await spendDay.fetchCategoryName();
+        // 바 하나에 여러 카테고리가 들어가도록
+        for (NTSpendCategory category
+            in this.currentSelectedTotalSpendCategorys) {
+          List<NTSpendDay> spendList =
+              await yearMonth.fetchNTSpendListByCategoryId(category.id);
+
+          // spendmodels를 여러개로. ㅋ
+          YearMonthCategorySpendModel model = YearMonthCategorySpendModel(
+              price: 0,
+              date: yearMonth.date,
+              color: Colors.blueAccent,
+              categoryName: '');
+          for (NTSpendDay spendDay in spendList) {
+            model.price += spendDay.spend;
+            model.color = uniqueColorFromIndex(spendDay.categoryId);
+            model.categoryName = await spendDay.fetchCategoryName();
+          }
+          categoryModels.add(model);
+
+          maxPrice = max(model.price, maxPrice);
         }
-        spendModels.add(model);
+
+        YearMonthCategoryModel categoryModel = YearMonthCategoryModel(
+            categoryModels: categoryModels,
+            date: yearMonth.date,
+            maxPrice: maxPrice);
+        spendModels.add(categoryModel);
       }
 
       String monthGroupName = await month.fetchGroupName();

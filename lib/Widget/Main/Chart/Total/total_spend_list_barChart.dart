@@ -5,6 +5,7 @@ import 'dart:math';
 // import 'package:fl_chart_app/util/extensions/color_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/AppColor/AppColors.dart';
 import 'package:save_money_flutter/view_model/Model/YearSpendModel.dart';
 
 import '../../../../Extension/DateTime+Extension.dart';
@@ -168,77 +169,87 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
     return widgets;
   }
 
-  BarChartGroupData makeGroupData(
+  BarChartGroupData makeGroup(
     int x,
-    double y, {
+    YearMonthCategoryModel categoryModel,
+    double maxPrice, {
     bool isTouched = false,
-    Color? barColor,
     double width = 22,
     List<int> showTooltips = const [],
   }) {
-    barColor ??= widget.barColor;
+    double fromY = 0;
     return BarChartGroupData(
       x: x,
-      barRods: [
-        BarChartRodData(
-          toY: isTouched ? y + 1 : y,
+      groupVertically: true,
+      barRods: List.generate(categoryModel.categoryModels.length, (i) {
+        YearMonthCategorySpendModel model = categoryModel.categoryModels[i];
+        double price = model.price.toDouble();
+        Color barColor = model.color;
+        BarChartRodData chartRodData = BarChartRodData(
+          fromY: fromY,
+          toY: fromY + price,
           color: isTouched ? Colors.blueAccent : barColor,
           width: width,
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor)
               : BorderSide(color: Colors.white, width: 0),
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            toY: 60,
-            color: Colors.transparent,
-          ),
-        ),
-      ],
+          // backDrawRodData: BackgroundBarChartRodData(
+          //   show: true,
+          //   toY: 60,
+          //   color: Colors.transparent,
+          // ),
+        );
+
+        fromY = fromY + price + (maxPrice / 20);
+        return chartRodData;
+      }),
       showingTooltipIndicators: showTooltips,
     );
   }
 
   List<BarChartGroupData> showingGroups(
-          List<YearMonthCategorySpendModel> spendList) =>
+          List<YearMonthCategoryModel> spendList) =>
       List.generate(spendList.length, (i) {
-        int price = spendList[i].price;
-        return makeGroupData(
-          spendList[i].date,
-          price == 0 ? 1 : price.toDouble(),
-          isTouched: this.touchedIndex == i,
-          barColor: spendList[i].color,
-        );
+        return makeGroup(
+            spendList[i].date, spendList[i], spendList[i].maxPrice.toDouble(),
+            isTouched: this.touchedIndex == i);
+        // return makeGroupData(
+        //   spendList[i].date,
+        //   price == 0 ? 1 : price.toDouble(),
+        //   isTouched: this.touchedIndex == i,
+        //   barColor: spendList[i].color,
+        // );
       });
 
-  BarChartData mainBarData(List<YearMonthCategorySpendModel> spendList) {
+  BarChartData mainBarData(List<YearMonthCategoryModel> spendList) {
     return BarChartData(
       barTouchData: BarTouchData(
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.black,
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
           tooltipMargin: -10,
-          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String categoryName = spendList[groupIndex].categoryName;
-            int price = spendList[groupIndex].price;
-            return BarTooltipItem(
-              '$categoryName\n',
-              const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: '${NumberFormat("#,###").format(price)}원',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            );
-          },
+          // getTooltipItem: (group, groupIndex, rod, rodIndex) {
+          //   String categoryName = spendList[groupIndex].categoryName;
+          //   int price = spendList[groupIndex].price;
+          //   return BarTooltipItem(
+          //     '$categoryName\n',
+          //     const TextStyle(
+          //       color: Colors.white,
+          //       fontWeight: FontWeight.bold,
+          //       fontSize: 18,
+          //     ),
+          //     children: <TextSpan>[
+          //       TextSpan(
+          //         text: '${NumberFormat("#,###").format(price)}원',
+          //         style: TextStyle(
+          //           color: Colors.white70,
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500,
+          //         ),
+          //       ),
+          //     ],
+          //   );
+          // },
         ),
         touchCallback: (FlTouchEvent event, barTouchResponse) {
           setState(() {
@@ -311,5 +322,38 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
     if (isPlaying) {
       await refreshState();
     }
+  }
+
+  // 바에 하나만 넣었을때 사용하던 코드
+  BarChartGroupData makeGroupData(
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color? barColor,
+    double width = 22,
+    List<int> showTooltips = const [],
+  }) {
+    barColor ??= widget.barColor;
+    return BarChartGroupData(
+      x: x,
+      groupVertically: true,
+      barRods: [
+        BarChartRodData(
+          fromY: 0,
+          toY: isTouched ? y + 1 : y,
+          color: isTouched ? Colors.blueAccent : barColor,
+          width: width,
+          borderSide: isTouched
+              ? BorderSide(color: widget.touchedBarColor)
+              : BorderSide(color: Colors.white, width: 0),
+          // backDrawRodData: BackgroundBarChartRodData(
+          //   show: true,
+          //   toY: 60,
+          //   color: Colors.transparent,
+          // ),
+        ),
+      ],
+      showingTooltipIndicators: showTooltips,
+    );
   }
 }

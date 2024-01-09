@@ -1,12 +1,10 @@
-
-
 import 'dart:ui';
 
 // 특정 NTMonth에 모든 지출카테고리별.
 class YearNtMonthSpendModel {
   String monthGroupName;
 
-  List<YearMonthCategorySpendModel> spendModels;
+  List<YearMonthCategoryModel> spendModels;
 
   YearNtMonthSpendModel({
     required this.monthGroupName,
@@ -15,6 +13,17 @@ class YearNtMonthSpendModel {
 }
 
 // 해당 달의 특정 지출카테고리 합산
+class YearMonthCategoryModel {
+  List<YearMonthCategorySpendModel> categoryModels;
+  int date;
+  int maxPrice;
+
+  YearMonthCategoryModel(
+      {required this.categoryModels,
+      required this.date,
+      required this.maxPrice});
+}
+
 class YearMonthCategorySpendModel {
   int price;
   int date;

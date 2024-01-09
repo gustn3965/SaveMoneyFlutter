@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../AppColor/AppColors.dart';
 import '../../../../DataBase/Model/NTSpendGroup.dart';
+import '../../../../Extension/Color+Extension.dart';
 import '../../../EditSpendGroup/spend_group_list_widget.dart';
 
 class TotalSpendCategoryWidget extends StatefulWidget {
@@ -71,8 +72,10 @@ class _TotalSpendCategoryWidgetState extends State<TotalSpendCategoryWidget> {
       child: FilterChip(
           showCheckmark: false,
           // selected: saveMoneyViewModel.selectedGroups.where((element) => element.id == categoryObject.id).isNotEmpty,
-          backgroundColor: AppColors.mainColor,
-          selectedColor: Color(0xFF2C62F0),
+          selected: saveMoneyViewModel.currentSelectedTotalSpendCategorys
+              .contains(categoryObject),
+          backgroundColor: AppColors.whiteColor,
+          selectedColor: uniqueColorFromIndex(categoryObject.id),
           // shadowColor: Colors.grey,
           // elevation: 4,
           shape: RoundedRectangleBorder(
@@ -83,7 +86,7 @@ class _TotalSpendCategoryWidgetState extends State<TotalSpendCategoryWidget> {
           side: BorderSide(strokeAlign: 0.5),
           onSelected: (bool value) async {
             await saveMoneyViewModel
-                .updateSpendCategoryGroups([categoryObject]);
+                .updateSelectedTotalSpendCategory(categoryObject);
             // bool isFind = await saveMoneyViewModel.updateSelectedGroups([categoryObject]);
             //
             // if (isFind == false) {
