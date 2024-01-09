@@ -227,29 +227,43 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.black,
           tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-          tooltipMargin: -10,
-          // getTooltipItem: (group, groupIndex, rod, rodIndex) {
-          //   String categoryName = spendList[groupIndex].categoryName;
-          //   int price = spendList[groupIndex].price;
-          //   return BarTooltipItem(
-          //     '$categoryName\n',
-          //     const TextStyle(
-          //       color: Colors.white,
-          //       fontWeight: FontWeight.bold,
-          //       fontSize: 18,
-          //     ),
-          //     children: <TextSpan>[
-          //       TextSpan(
-          //         text: '${NumberFormat("#,###").format(price)}원',
-          //         style: TextStyle(
-          //           color: Colors.white70,
-          //           fontSize: 16,
-          //           fontWeight: FontWeight.w500,
-          //         ),
-          //       ),
-          //     ],
-          //   );
-          // },
+          tooltipMargin: -100,
+          direction: TooltipDirection.bottom,
+          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            String priceSplit = spendList[groupIndex]
+                .categoryModels
+                .reversed
+                .map((e) => '${NumberFormat("#,###").format(e.price)}원')
+                .reduce((String value, element) => value + '\n${element}');
+            int totalPrice = spendList[groupIndex]
+                .categoryModels
+                .map((e) => e.price)
+                .reduce((int value, element) => value + element);
+            if (spendList[groupIndex].categoryModels.length > 1) {
+              priceSplit += '\n= ${NumberFormat("#,###").format(totalPrice)}원';
+            }
+
+            String categoryName = spendList[groupIndex].maxPrice.toString();
+            // int price = spendList[groupIndex].price;
+            return BarTooltipItem(
+              '$priceSplit',
+              const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              // children: <TextSpan>[
+              //   TextSpan(
+              //     text: '${NumberFormat("#,###").format(price)}원',
+              //     style: TextStyle(
+              //       color: Colors.white70,
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              // ],
+            );
+          },
         ),
         touchCallback: (FlTouchEvent event, barTouchResponse) {
           setState(() {
