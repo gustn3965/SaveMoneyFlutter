@@ -21,7 +21,7 @@ class SaveMoneyViewModel extends ChangeNotifier {
   List<NTSpendGroup> ntSpendGroups = []; // ntmonth에 속하는 group들.
   List<NTMonth> selectedNtMonths = []; // 메인 (해당달에 선택된 month그룹)
   Map<DateTime, List<NTSpendDay>>? mapSpendDayList; // 캘린더
-  List<NTSpendDay>? selectedNtSpendList = [];
+  List<NTSpendDay>? selectedNtSpendList = []; // 날짜클릭하여 보여주는 소비목록
   List<NTSpendGroup> selectedGroups = [];
 
   DateTime focusedDay = DateTime.now(); // 현재 보고 있는 날짜
@@ -219,7 +219,12 @@ class SaveMoneyViewModel extends ChangeNotifier {
     List<NTSpendDay> tempList = [];
     for (NTMonth month in this.selectedNtMonths) {
       List<NTSpendDay> list = await month.existedSpendList();
-      tempList.addAll(month.spendListAt(selectedDay?.day, list));
+
+      List<NTSpendDay> filterdSpendList = list.where((element) {
+        return element.spendType != SpendType.noSpend;
+      }).toList();
+
+      tempList.addAll(month.spendListAt(selectedDay?.day, filterdSpendList));
     }
     this.selectedNtSpendList = tempList;
 
@@ -306,10 +311,15 @@ class SaveMoneyViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // [확인] 매월 그래프에서 사용될 데이터.
   Future<void> updateMonthSpendModels() async {
     Map<int, MonthSpendModel> spendList = {};
     for (NTMonth month in this.selectedNtMonths) {
       for (NTSpendDay spendDay in month.currentNTSpendList ?? []) {
+        if (spendDay.spendType == SpendType.noSpend) {
+          continue;
+        }
+
         if (spendList[spendDay.categoryId] == null) {
           String categoryName = await spendDay.fetchCategoryName();
           spendList[spendDay.categoryId] = MonthSpendModel(

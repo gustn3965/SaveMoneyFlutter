@@ -50,117 +50,13 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                   SizedBox(
                     height: 30,
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        _showDatePicker(context);
-                      },
-                      child: Text(
-                        DateFormat('yyyy-MM-dd')
-                            .format(spendingViewModel.selectedDate),
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontStyle: FontStyle.italic,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w800,
-                          height: 0,
-                        ),
-                      )),
+                  datePickerWidget(),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    width: 200,
-                    height: 80,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      autofocus: true,
-                      controller: spendingTextController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[0-9]'))
-                      ],
-                      style: TextStyle(fontSize: 20),
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        labelText: '소비금액을 입력해주세요.',
-                        floatingLabelAlignment: FloatingLabelAlignment.center,
-                      ),
-                      onChanged: (text) {
-                        text = '${_formatNumber(text.replaceAll(',', ''))}';
-
-                        spendingTextController.text = text;
-                        spendingViewModel.currentInputMoney =
-                            int.parse(text.replaceAll(',', ''));
-                        spendingViewModel.notifyListeners();
-                      },
-                    ),
-                  ),
-                  Column(
-                    // 삭제 / 저장 버튼
-                    children: [
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              child: ElevatedButton(
-                                onPressed: widget.spendDay == null
-                                    ? null
-                                    : () async {
-                                        deleteSpend();
-                                      },
-                                child: Text('삭제'),
-                                style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Colors.red,
-
-                                  // backgroundColor:
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              height: 45,
-                              child: ElevatedButton(
-                                onPressed: (spendingTextController
-                                                .text.isEmpty ==
-                                            false &&
-                                        spendingViewModel.selectedCategory !=
-                                            null &&
-                                        spendingViewModel.selectedNtMonth !=
-                                            null)
-                                    ? () async {
-                                        saveSpend();
-                                      }
-                                    : null,
-                                child: Text('저장'),
-                                style: ElevatedButton.styleFrom(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  foregroundColor: Colors.white,
-                                  backgroundColor: Color(0xFF2C62F0),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
+                  spendTextFieldWidget(),
+                  deleteAndSaveWidget(),
+                  noSpendWidget(),
                   SizedBox(height: 20),
                   Text(
                     "지출 그룹 ",
@@ -182,65 +78,190 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: spendingViewModel.spendCategorys.length + 1,
-                        gridDelegate:
-                            new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: MediaQuery.of(context).size.width /
-                              (MediaQuery.of(context).size.height / 5),
-                        ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            color: index ==
-                                    (spendingViewModel.spendCategorys?.length ??
-                                        0)
-                                ? Colors.red
-                                : spendingViewModel.selectedCategory?.id ==
-                                        spendingViewModel
-                                            .spendCategorys?[index].id
-                                    ? AppColors.mainHightColor
-                                    : AppColors.mainColor,
-                            child: TextButton(
-                              onPressed: () {
-                                if (index ==
-                                    (spendingViewModel.spendCategorys?.length ??
-                                        0)) {
-                                  _showAddSpendCategory();
-                                } else {
-                                  spendingViewModel.selectedCategory =
-                                      spendingViewModel.spendCategorys?[index];
-                                  spendingViewModel.notifyListeners();
-                                }
-                              },
-                              child: Text(
-                                index ==
-                                        (spendingViewModel
-                                                .spendCategorys?.length ??
-                                            0)
-                                    ? '추가 +'
-                                    : spendingViewModel
-                                            .spendCategorys?[index].name ??
-                                        '',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
+                  spendCategoryScrollWidget(),
                 ],
               ),
             )));
+  }
+
+  Widget deleteAndSaveWidget() {
+    return Column(
+      // 삭제 / 저장 버튼
+      children: [
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                child: ElevatedButton(
+                  onPressed: widget.spendDay == null
+                      ? null
+                      : () async {
+                          deleteSpend();
+                        },
+                  child: Text('삭제'),
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red,
+
+                    // backgroundColor:
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: (spendingTextController.text.isEmpty == false &&
+                          spendingViewModel.selectedCategory != null &&
+                          spendingViewModel.selectedNtMonth != null)
+                      ? () async {
+                          saveSpend();
+                        }
+                      : null,
+                  child: Text('저장'),
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color(0xFF2C62F0),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget datePickerWidget() {
+    return GestureDetector(
+        onTap: () {
+          _showDatePicker(context);
+        },
+        child: Text(
+          DateFormat('yyyy-MM-dd').format(spendingViewModel.selectedDate),
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w800,
+            height: 0,
+          ),
+        ));
+  }
+
+  Widget spendTextFieldWidget() {
+    return Container(
+      width: 200,
+      height: 80,
+      child: TextField(
+        textAlign: TextAlign.center,
+        autofocus: true,
+        controller: spendingTextController,
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
+        style: TextStyle(fontSize: 20),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          labelText: '소비금액을 입력해주세요.',
+          floatingLabelAlignment: FloatingLabelAlignment.center,
+        ),
+        onChanged: (text) {
+          text = '${_formatNumber(text.replaceAll(',', ''))}';
+
+          spendingTextController.text = text;
+          spendingViewModel.currentInputMoney =
+              int.parse(text.replaceAll(',', ''));
+          spendingViewModel.notifyListeners();
+        },
+      ),
+    );
+  }
+
+  Widget noSpendWidget() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40), // 왼쪽에 10의 패딩 추가
+      child: Container(
+        width: MediaQuery.of(context).size.width * 1,
+        height: 45,
+        child: ElevatedButton(
+          onPressed: widget.spendDay != null ||
+                  spendingViewModel.selectedNtMonth == null // 수정이면 비활성화
+              ? null
+              : () async {
+                  saveAsNoSpend();
+                },
+          child: Text('👍무소비로 저장', style: TextStyle(color: Colors.black)),
+          style: ElevatedButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.amber,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget spendCategoryScrollWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: spendingViewModel.spendCategorys.length + 1,
+          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 5),
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              color: index == (spendingViewModel.spendCategorys?.length ?? 0)
+                  ? Colors.red
+                  : spendingViewModel.selectedCategory?.id ==
+                          spendingViewModel.spendCategorys?[index].id
+                      ? AppColors.mainHightColor
+                      : AppColors.mainColor,
+              child: TextButton(
+                onPressed: () {
+                  if (index ==
+                      (spendingViewModel.spendCategorys?.length ?? 0)) {
+                    _showAddSpendCategory();
+                  } else {
+                    spendingViewModel.selectedCategory =
+                        spendingViewModel.spendCategorys?[index];
+                    spendingViewModel.notifyListeners();
+                  }
+                },
+                child: Text(
+                  index == (spendingViewModel.spendCategorys?.length ?? 0)
+                      ? '추가 +'
+                      : spendingViewModel.spendCategorys?[index].name ?? '',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            );
+          }),
+    );
   }
 
   void _showDatePicker(BuildContext context) {
@@ -324,13 +345,15 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
       int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
       int categoryId = spendingViewModel.selectedCategory?.id ?? 0;
       int spend = spendingViewModel.currentInputMoney;
+      SpendType spendType = SpendType.spend;
       NTSpendDay spendDay = NTSpendDay(
           id: id,
           date: date,
           spend: spend,
           monthId: monthId,
           groupId: groupId,
-          categoryId: categoryId);
+          categoryId: categoryId,
+          spendType: spendType);
       await spendingViewModel.saveMoneyViewModel.addSpend(spendDay);
 
       NTSpendGroup? spendGroup =
@@ -355,7 +378,8 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
           spend: spend,
           monthId: monthId,
           groupId: groupId,
-          categoryId: categoryId);
+          categoryId: categoryId,
+          spendType: widget.spendDay!.spendType);
       print('${widget.spendDay!.toMap()}');
       await spendingViewModel.saveMoneyViewModel.updateSpend(spendDay);
 
@@ -366,6 +390,39 @@ class _AddSpendingWidgetState extends State<AddSpendingWidget> {
       await spendingViewModel.saveMoneyViewModel
           .updateSelectedDay(spendingViewModel.selectedDate ?? DateTime.now());
 
+      Navigator.of(context).pop();
+    }
+  }
+
+  void saveAsNoSpend() async {
+    if (widget.spendDay == null) {
+      int id = indexDateIdFromDateTime(DateTime.now());
+      int date = indexDateIdFromDateTime(
+          spendingViewModel.selectedDate ?? DateTime.now());
+      int monthId = spendingViewModel.selectedNtMonth?.id ?? 0;
+      int groupId = spendingViewModel.selectedNtMonth?.groupId ?? 0;
+      int categoryId = 0;
+      int spend = 0;
+      SpendType spendType = SpendType.noSpend;
+      NTSpendDay spendDay = NTSpendDay(
+          id: id,
+          date: date,
+          spend: spend,
+          monthId: monthId,
+          groupId: groupId,
+          categoryId: categoryId,
+          spendType: spendType);
+      await spendingViewModel.saveMoneyViewModel.addSpend(spendDay);
+
+      NTSpendGroup? spendGroup =
+          await spendingViewModel.selectedNtMonth?.fetchSpendGroup();
+      await spendingViewModel.saveMoneyViewModel
+          .updateSelectedGroups(spendGroup == null ? [] : [spendGroup!]);
+      await spendingViewModel.saveMoneyViewModel
+          .updateSelectedDay(spendingViewModel.selectedDate ?? DateTime.now());
+
+      Navigator.of(context).pop();
+    } else {
       Navigator.of(context).pop();
     }
   }
