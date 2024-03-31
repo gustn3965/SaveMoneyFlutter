@@ -9,6 +9,7 @@ import 'package:save_money_flutter/view_model/select_date_view_model.dart';
 
 // Widget
 import 'AppColor/AppColors.dart';
+import 'CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'DataBase/Model/abstract/NTObject.dart';
 import 'DataBase/sqlite_datastore.dart';
 import 'Widget/Main/Chart/month/month_spend_list_barChart.dart';
@@ -37,26 +38,29 @@ import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
 
+AppCoordinator coordinator = AppCoordinator();
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SqliteController().initializeAsync();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) {
-        SaveMoneyViewModel viewModel = SaveMoneyViewModel();
-        viewModel.setup();
-        return viewModel;
-      }),
-      // ChangeNotifierProvider (
-      //     create: (context) {
-      //       AddSpendingViewModel viewModel = AddSpendingViewModel();
-      //       viewModel.setup();
-      //       return viewModel;
-      //     })
-      //     })
-    ],
-    child: const MyApp(),
-  ));
+  coordinator.start();
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await SqliteController().initializeAsync();
+  // runApp(MultiProvider(
+  //   providers: [
+  //     ChangeNotifierProvider(create: (context) {
+  //       SaveMoneyViewModel viewModel = SaveMoneyViewModel();
+  //       viewModel.setup();
+  //       return viewModel;
+  //     }),
+  //     // ChangeNotifierProvider (
+  //     //     create: (context) {
+  //     //       AddSpendingViewModel viewModel = AddSpendingViewModel();
+  //     //       viewModel.setup();
+  //     //       return viewModel;
+  //     //     })
+  //     //     })
+  //   ],
+  //   child: const MyApp(),
+  // ));
 }
 
 class MyApp extends StatelessWidget {
