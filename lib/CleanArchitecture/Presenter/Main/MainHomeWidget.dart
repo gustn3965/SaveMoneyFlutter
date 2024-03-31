@@ -28,9 +28,11 @@ class MainHomeWidget extends StatelessWidget {
             )),
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widgets,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: widgets,
+        ),
       ),
     );
   }

@@ -19,7 +19,22 @@ class GroupMonthSummaryWidget extends StatelessWidget {
         if (snapshot.hasData) {
           return contentWidget(snapshot.data!);
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const SizedBox(
+            height: 120,
+            child: Center(
+                child: Text(
+              '선택한 지출 그룹이 없습니다.',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w800,
+                height: 1.0,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            )),
+          );
         }
         return const CircularProgressIndicator();
       },

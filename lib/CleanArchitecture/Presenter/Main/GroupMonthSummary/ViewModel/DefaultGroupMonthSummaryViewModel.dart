@@ -14,7 +14,6 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
   late int monthGroupPlannedBudgetByEveryday;
 
   final _dataController = StreamController<GroupMonthSummaryViewModel>();
-
   Stream<GroupMonthSummaryViewModel> get dataStream => _dataController.stream;
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
@@ -22,15 +21,20 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
   DefaultGroupMonthSummaryViewModel(this.groupMonthFetchUseCase);
 
   @override
-  Future<void> fetchGroupMonth(int identity) async {
-    GroupMonth groupMonth =
-        await groupMonthFetchUseCase.fetchGroupMonth(identity);
+  Future<void> fetchGroupMonth(int? identity) async {
+    if (identity == null) {
+      _dataController.addError(Error());
+      return;
+    }
 
-    monthGroupTitle = groupMonth.name;
+    GroupMonth? groupMonth =
+        await groupMonthFetchUseCase.fetchGroupMonthByGroupId(identity);
+
+    monthGroupTitle = groupMonth?.groupCategory.name ?? '';
     monthGroupWillSaveMoney = 500;
     monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
     moneyDescription = "돈을 모을 예정이에요.👍";
-    monthGroupPlannedBudget = groupMonth.plannedBudget;
+    monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
     monthGroupPlannedBudgetByEveryday = 304;
 
     // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달

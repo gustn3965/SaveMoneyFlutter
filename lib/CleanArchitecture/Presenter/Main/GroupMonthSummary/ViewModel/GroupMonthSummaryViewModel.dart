@@ -8,8 +8,9 @@ abstract class GroupMonthSummaryViewModel {
   late int monthGroupPlannedBudget;
   late int monthGroupPlannedBudgetByEveryday;
 
-  Future<void> fetchGroupMonth(int identity);
+  Future<void> fetchGroupMonth(int? identity);
 
+  // Observing
   Stream<GroupMonthSummaryViewModel> get dataStream;
   void dispose();
 }

@@ -1,10 +1,12 @@
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/SpendCategory.dart';
 
+import 'GroupCategory.dart';
+
 class Spend {
   DateTime date;
   int spendMoney;
 
-  String group;
+  GroupCategory groupCategory;
   SpendCategory spendCategory;
 
   int identity;
@@ -12,7 +14,7 @@ class Spend {
   Spend({
     required this.date,
     required this.spendMoney,
-    required this.group,
+    required this.groupCategory,
     required this.spendCategory,
     required this.identity,
   });

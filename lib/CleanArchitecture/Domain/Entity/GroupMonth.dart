@@ -1,17 +1,20 @@
+import 'GroupCategory.dart';
 import 'Spend.dart';
 
 class GroupMonth {
   List<Spend> spendList;
   int plannedBudget;
   DateTime date;
-  String name;
+
+  GroupCategory groupCategory;
+
   int identity;
 
   GroupMonth({
     required this.spendList,
     required this.plannedBudget,
     required this.date,
-    required this.name,
+    required this.groupCategory,
     required this.identity,
   });
 }

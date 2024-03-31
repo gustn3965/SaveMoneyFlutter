@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/DefaultGroupMonthCalendarViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/DefaultGroupMonthSelectorViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/GroupMonthSelectorViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/Widget/GroupMonthSelectorWidget.dart';
 
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/DefaultGroupMonthSummaryViewModel.dart';
+import '../../Domain/Entity/GroupMonth.dart';
 import '../../UseCase/GroupMonthFetchUseCase.dart';
 import '../AppCoordinator.dart';
 
+import 'Calendar/Widget/GroupMonthCalendarWidget.dart';
 import 'GroupMonthSummary/Widget/GroupMonthSummaryWidget.dart';
 import 'MainHomeWidget.dart';
 
@@ -18,17 +22,19 @@ class MainHomeCoordinator extends Coordinator {
 
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? selectorViewModel;
+  GroupMonthCalendarViewModel? calendarViewModel;
 
   @override
   void start() {
     Widget selectorWidget = makeSelectorWidget();
     Widget summaryWidget = makeSummaryWidget();
+    Widget calendarWidget = makeCalendarWidget();
 
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
       MaterialPageRoute(
         builder: (context) => MainHomeWidget(
-          widgets: [summaryWidget, selectorWidget],
+          widgets: [summaryWidget, selectorWidget, calendarWidget],
         ),
       ),
     );
@@ -36,19 +42,43 @@ class MainHomeCoordinator extends Coordinator {
 
   Widget makeSummaryWidget() {
     summaryViewModel =
-        DefaultGroupMonthSummaryViewModel(DefaultGroupMoonthFetchUseCase());
-    summaryViewModel?.fetchGroupMonth(1);
+        DefaultGroupMonthSummaryViewModel(MockGroupMoonthFetchUseCase());
     return GroupMonthSummaryWidget(viewModel: summaryViewModel!);
   }
 
   Widget makeSelectorWidget() {
-    GroupMonthSelectorActions actions = GroupMonthSelectorActions((groupMonth) {
-      summaryViewModel?.fetchGroupMonth(groupMonth.identity);
-    });
+    void updateSelectedGroupMonth(GroupMonth? groupMonth) {
+      summaryViewModel?.fetchGroupMonth(groupMonth?.identity);
+      calendarViewModel?.fetchGroupMonth(groupMonth?.identity);
+    }
+
+    GroupMonthSelectorActions actions = GroupMonthSelectorActions(
+      updateSelectedGroupMonth,
+    );
+
     selectorViewModel = DefaultGroupMonthSelectorViewModel(
-        DefaultGroupMoonthFetchUseCase(), actions);
+        MockGroupMoonthFetchUseCase(), actions);
     selectorViewModel?.fetchGroupMonthList(DateTime.now());
     return GroupMonthSelectorWidget(viewModel: selectorViewModel!);
+  }
+
+  Widget makeCalendarWidget() {
+    void updateFocusDateTime(DateTime date) {
+      selectorViewModel?.fetchGroupMonthList(date);
+    }
+
+    void updateSelectedDateTime(DateTime date) {
+      print('Updating selected date time: $date');
+    }
+
+    GroupMonthCalendarActions actions = GroupMonthCalendarActions(
+      updateFocusDateTime,
+      updateSelectedDateTime,
+    );
+
+    calendarViewModel = DefaultGroupMonthCalendarViewModel(
+        MockGroupMoonthFetchUseCase(), actions);
+    return GroupMonthCalendarWidget(viewModel: calendarViewModel!);
   }
 
   void showAddSpendView() {}

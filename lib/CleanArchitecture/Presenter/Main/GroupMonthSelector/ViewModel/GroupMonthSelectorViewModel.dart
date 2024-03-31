@@ -1,7 +1,7 @@
 import '../../../../Domain/Entity/GroupMonth.dart';
 
 class GroupMonthSelectorActions {
-  final void Function(GroupMonth) updateSelectedGroupMonth;
+  final void Function(GroupMonth?) updateSelectedGroupMonth;
 
   GroupMonthSelectorActions(this.updateSelectedGroupMonth);
 }
@@ -16,6 +16,7 @@ abstract class GroupMonthSelectorViewModel {
 
   Future<void> fetchGroupMonthList(DateTime date);
 
+  // Observing
   Stream<GroupMonthSelectorViewModel> get dataStream;
   void dispose();
 }

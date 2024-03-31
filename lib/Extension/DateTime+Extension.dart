@@ -1,9 +1,6 @@
-
-
-
 int dayFromMillisecondsSinceEpoch(int miliseconds) {
-    DateTime time = DateTime.fromMillisecondsSinceEpoch(miliseconds);
-    return time.day;
+  DateTime time = DateTime.fromMillisecondsSinceEpoch(miliseconds);
+  return time.day;
 }
 
 int dayFromSince1970(int since) {
@@ -42,7 +39,6 @@ bool isEqualDateMonth(DateTime dateTime, DateTime otherTime) {
   return dateTime.year == otherTime.year && dateTime.month == otherTime.month;
 }
 
-
 // DateTime
 
 DateTime dateTimeFromSince1970(int since) {
@@ -54,11 +50,20 @@ DateTime dateTimeYearMonthDaySince1970(int since) {
   return DateTime.utc(dateTime.year, dateTime.month, dateTime.day);
 }
 
-
 DateTime dateTimeBeforeMonth(DateTime dateTime) {
   return DateTime.utc(dateTime.year, dateTime.month - 1, dateTime.day);
 }
 
 DateTime dateTimeAfterMonth(DateTime dateTime) {
   return DateTime.utc(dateTime.year, dateTime.month + 1, dateTime.day);
+}
+
+DateTime dateTimeAfterDay(DateTime dateTime, int afterDay) {
+  return DateTime.utc(dateTime.year, dateTime.month, dateTime.day + afterDay);
+}
+
+DateTime dateTimeAfterMonthDay(
+    DateTime dateTime, int afterMonth, int afterDay) {
+  return DateTime.utc(
+      dateTime.year, dateTime.month + afterMonth, dateTime.day + afterDay);
 }

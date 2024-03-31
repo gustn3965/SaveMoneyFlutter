@@ -72,7 +72,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        label: Text("${groupObject.name}"),
+        label: Text("${groupObject.groupCategory.name}"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(width: 1),
         onSelected: (bool value) async {

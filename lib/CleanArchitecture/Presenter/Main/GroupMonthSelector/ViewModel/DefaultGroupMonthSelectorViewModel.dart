@@ -23,7 +23,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   }
 
   @override
-  void didSelectGroupMonth(GroupMonth selectedGroupMonth) {
+  void didSelectGroupMonth(GroupMonth? selectedGroupMonth) {
     this.selectedGroupMonth = selectedGroupMonth;
     _dataController.add(this);
     groupMonthSelectorActions.updateSelectedGroupMonth(selectedGroupMonth);
@@ -40,7 +40,21 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
     try {
       groupMonthList = await groupMonthFetchUseCase.fetchGroupMonthList(date);
       _dataController.add(this);
+
+      var hasSameGroupCategory = false;
+      for (var group in groupMonthList) {
+        if (this.selectedGroupMonth?.groupCategory.identity ==
+            group.groupCategory.identity) {
+          didSelectGroupMonth(group);
+          hasSameGroupCategory = true;
+          // break;
+        }
+      }
+      if (hasSameGroupCategory == false) {
+        didSelectGroupMonth(null);
+      }
     } catch (e) {
+      print("error");
       // 에러 처리
     }
   }
