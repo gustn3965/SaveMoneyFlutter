@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class MainHomeWidget extends StatelessWidget {
   final List<Widget> widgets;
+  final List<Widget> floattingButtons;
 
-  const MainHomeWidget({Key? key, required this.widgets}) : super(key: key);
+  const MainHomeWidget(
+      {Key? key, required this.widgets, required this.floattingButtons})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,12 @@ class MainHomeWidget extends StatelessWidget {
           children: widgets,
         ),
       ),
+      floatingActionButton:
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: floattingButtons),
+      ]),
     );
   }
 }

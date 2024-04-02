@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainHomeCoordinator.dart';
 
 class NavigationService {
@@ -21,6 +22,7 @@ class AppCoordinator extends Coordinator {
 
     Future.delayed(const Duration(milliseconds: 500), () {
       showMainHomeView();
+      // TESTAddSpendWidget();
     });
   }
 
@@ -33,6 +35,12 @@ class AppCoordinator extends Coordinator {
     MainHomeCoordinator mainHomeCoordinator = MainHomeCoordinator();
     mainHomeCoordinator.start();
     childCoordinator.add(mainHomeCoordinator);
+  }
+
+  void TESTAddSpendWidget() {
+    AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator();
+    addSpendCoordinator.start();
+    childCoordinator.add(addSpendCoordinator);
   }
 }
 

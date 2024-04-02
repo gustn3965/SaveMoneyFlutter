@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/DefaultGroupMonthCalendarViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/DefaultGroupMonthSelectorViewModel.dart';
@@ -17,12 +20,10 @@ import 'GroupMonthSummary/Widget/GroupMonthSummaryWidget.dart';
 import 'MainHomeWidget.dart';
 
 class MainHomeCoordinator extends Coordinator {
-  @override
-  void pop() {}
-
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? selectorViewModel;
   GroupMonthCalendarViewModel? calendarViewModel;
+  AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
 
   @override
   void start() {
@@ -30,15 +31,24 @@ class MainHomeCoordinator extends Coordinator {
     Widget summaryWidget = makeSummaryWidget();
     Widget calendarWidget = makeCalendarWidget();
 
+    Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
+
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
       MaterialPageRoute(
         builder: (context) => MainHomeWidget(
           widgets: [summaryWidget, selectorWidget, calendarWidget],
+          floattingButtons: [addSpendFloattingWidget],
         ),
       ),
     );
   }
+
+  @override
+  void pop() {}
+
+  @override
+  void startFromModalBottomSheet() {}
 
   Widget makeSummaryWidget() {
     summaryViewModel =
@@ -81,7 +91,27 @@ class MainHomeCoordinator extends Coordinator {
     return GroupMonthCalendarWidget(viewModel: calendarViewModel!);
   }
 
-  void showAddSpendView() {}
+  Widget makeAddSpendFloatingButtonWidget() {
+    void showAddSpend() {
+      showAddSpendView(calendarViewModel?.selectedDate ?? DateTime.now());
+    }
+
+    AddSpendFloatingButtonActions actions = AddSpendFloatingButtonActions(
+      showAddSpend,
+    );
+
+    addSpendFloatingButtonViewModel =
+        DefaultAddSpendFloatingButtonViewModel(actions);
+    AddSpendFloatingButtonWidget widget = AddSpendFloatingButtonWidget(
+        viewModel: addSpendFloatingButtonViewModel!);
+    return widget;
+  }
+
+  void showAddSpendView(DateTime date) {
+    AddSpendCoordinator spendCoordinator = AddSpendCoordinator();
+    spendCoordinator.showAddSpendFromModalBottomSheet(date);
+    childCoordinator.add(spendCoordinator);
+  }
 
   void updateCalendarView() {}
 }
