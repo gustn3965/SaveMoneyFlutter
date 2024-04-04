@@ -5,10 +5,16 @@ import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 import 'GroupMonthSelectorViewModel.dart';
 
 class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
-  late List<GroupMonth> groupMonthList;
-  late GroupMonth? selectedGroupMonth;
-  final GroupMonthFetchUseCase groupMonthFetchUseCase;
+  @override
   final GroupMonthSelectorActions groupMonthSelectorActions;
+  @override
+  late List<GroupMonth> groupMonthList;
+  @override
+  late GroupMonth? selectedGroupMonth;
+  @override
+  late String addGroupButtonName;
+
+  final GroupMonthFetchUseCase groupMonthFetchUseCase;
 
   final _dataController =
       StreamController<GroupMonthSelectorViewModel>.broadcast();
@@ -20,6 +26,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
       this.groupMonthFetchUseCase, this.groupMonthSelectorActions) {
     groupMonthList = [];
     selectedGroupMonth = null;
+    addGroupButtonName = "+ 지출 그룹 추가";
   }
 
   @override
@@ -31,8 +38,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
 
   @override
   void didSelectAddGroupMonth() {
-    selectedGroupMonth = null; // 새로운 GroupMonth를 추가할 때는 선택된 것 없음
-    _dataController.add(this);
+    groupMonthSelectorActions.showAddGroup();
   }
 
   @override

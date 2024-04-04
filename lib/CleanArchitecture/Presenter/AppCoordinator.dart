@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainHomeCoordinator.dart';
 
+import 'AddGroup/AddGroupCoordinator.dart';
+
 class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static BuildContext? currentContext =
@@ -29,11 +31,15 @@ class AppCoordinator extends Coordinator {
     Future.delayed(const Duration(milliseconds: 500), () {
       showMainHomeView();
       // TESTAddSpendWidget();
+      // TESTAddGroupWidget();
     });
   }
 
   @override
   void pop() {}
+
+  @override
+  void updateCurrentWidget() {}
 
   void showLoginView() {}
 
@@ -49,8 +55,11 @@ class AppCoordinator extends Coordinator {
     childCoordinator.add(addSpendCoordinator);
   }
 
-  @override
-  void updateCurrentWidget() {}
+  void TESTAddGroupWidget() {
+    AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator();
+    addGroupCoordinator.start();
+    childCoordinator.add(addGroupCoordinator);
+  }
 }
 
 class LanchScreenWidget extends StatelessWidget {

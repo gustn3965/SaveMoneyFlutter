@@ -4,6 +4,8 @@ import '../Domain/Entity/GroupCategory.dart';
 
 abstract class GroupCategoryFetchUseCase {
   Future<List<GroupCategory>> fetchGroupCategoryList(DateTime date);
+
+  Future<List<GroupCategory>> fetchAllGroupCategoryList();
 }
 
 class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
@@ -18,6 +20,12 @@ class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
     } else {
       return [category3, category4];
     }
+  }
+
+  @override
+  Future<List<GroupCategory>> fetchAllGroupCategoryList() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return [category1, category2, category3, category4];
   }
 
   GroupCategory category1 = GroupCategory(identity: 1, name: "자동차 및 교통비용");

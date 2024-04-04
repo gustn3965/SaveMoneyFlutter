@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/AppColor/AppColors.dart';
 
 class MainHomeWidget extends StatelessWidget {
   final List<Widget> widgets;
@@ -12,7 +13,7 @@ class MainHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: AppColors.mainColor,
         title: GestureDetector(
             onTap: () {
               // _showDatePicker();

@@ -26,6 +26,23 @@ class AddSpendCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {}
 
+  void startFromModalBottomSheet(DateTime date) {
+    Widget addSpendWidget = makeAddSpendWidget(date);
+
+    showModalBottomSheet(
+      context: NavigationService.navigatorKey.currentContext!,
+      clipBehavior: Clip.hardEdge,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
+      builder: (BuildContext context) {
+        return Container(
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: addSpendWidget);
+      },
+    );
+  }
+
   Widget makeAddSpendWidget(DateTime date) {
     void showDatePicker(DateTime date) {
       showDateTimePicker(date);
@@ -48,23 +65,6 @@ class AddSpendCoordinator extends Coordinator {
         MockGroupCategoryFetchUseCase(),
         MockAddSpendUseCase());
     return AddSpendWidget(addSpendViewModel!);
-  }
-
-  void showAddSpendFromModalBottomSheet(DateTime date) {
-    Widget addSpendWidget = makeAddSpendWidget(date);
-
-    showModalBottomSheet(
-      context: NavigationService.navigatorKey.currentContext!,
-      clipBehavior: Clip.hardEdge,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context) {
-        return Container(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: addSpendWidget);
-      },
-    );
   }
 
   void showDateTimePicker(DateTime date) {

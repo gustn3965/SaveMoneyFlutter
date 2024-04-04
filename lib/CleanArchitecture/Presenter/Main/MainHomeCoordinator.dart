@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
@@ -72,8 +73,13 @@ class MainHomeCoordinator extends Coordinator {
       calendarViewModel?.fetchGroupMonth(groupMonth?.identity);
     }
 
+    void showAddGroup() {
+      showAddGroupWidget(calendarViewModel?.focuseDate ?? DateTime.now());
+    }
+
     GroupMonthSelectorActions actions = GroupMonthSelectorActions(
       updateSelectedGroupMonth,
+      showAddGroup,
     );
 
     selectorViewModel = DefaultGroupMonthSelectorViewModel(
@@ -120,8 +126,15 @@ class MainHomeCoordinator extends Coordinator {
   void showAddSpendView(DateTime date) {
     AddSpendCoordinator spendCoordinator = AddSpendCoordinator();
     spendCoordinator.superCoordinator = this;
-    spendCoordinator.showAddSpendFromModalBottomSheet(date);
+    spendCoordinator.startFromModalBottomSheet(date);
     childCoordinator.add(spendCoordinator);
+  }
+
+  void showAddGroupWidget(DateTime date) {
+    AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator();
+    addGroupCoordinator.superCoordinator = this;
+    addGroupCoordinator.startFromDate(date);
+    childCoordinator.add(addGroupCoordinator);
   }
 
   void updateCalendarView() {}

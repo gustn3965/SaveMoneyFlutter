@@ -93,11 +93,11 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        label: Text("지출 그룹 수정"),
+        label: Text(viewModel.addGroupButtonName),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(width: 1),
         onSelected: (bool value) {
-          // _showEditSpendGroupListWidget(context);
+          viewModel.didSelectAddGroupMonth();
         },
       ),
     );
