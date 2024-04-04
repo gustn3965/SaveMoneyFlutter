@@ -5,12 +5,18 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainHomeCoor
 
 class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static BuildContext? currentContext =
+      NavigationService.navigatorKey.currentContext;
 }
 
 abstract class Coordinator {
+  Coordinator? superCoordinator;
+
   void start();
 
   void pop();
+
+  void updateCurrentWidget();
 
   List<Coordinator> childCoordinator = [];
 }
@@ -42,6 +48,9 @@ class AppCoordinator extends Coordinator {
     addSpendCoordinator.start();
     childCoordinator.add(addSpendCoordinator);
   }
+
+  @override
+  void updateCurrentWidget() {}
 }
 
 class LanchScreenWidget extends StatelessWidget {

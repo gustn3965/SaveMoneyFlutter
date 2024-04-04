@@ -45,10 +45,20 @@ class MainHomeCoordinator extends Coordinator {
   }
 
   @override
-  void pop() {}
+  void pop() {
+    Navigator.pop(NavigationService.currentContext!);
+    superCoordinator?.childCoordinator.remove(this);
+  }
 
   @override
   void startFromModalBottomSheet() {}
+
+  @override
+  void updateCurrentWidget() {
+    summaryViewModel?.reloadFetch();
+    calendarViewModel?.reloadFetch();
+    print('MainHomeCoordinator updateCurrentWidget....');
+  }
 
   Widget makeSummaryWidget() {
     summaryViewModel =
@@ -109,6 +119,7 @@ class MainHomeCoordinator extends Coordinator {
 
   void showAddSpendView(DateTime date) {
     AddSpendCoordinator spendCoordinator = AddSpendCoordinator();
+    spendCoordinator.superCoordinator = this;
     spendCoordinator.showAddSpendFromModalBottomSheet(date);
     childCoordinator.add(spendCoordinator);
   }

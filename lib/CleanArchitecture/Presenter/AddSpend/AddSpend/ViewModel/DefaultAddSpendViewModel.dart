@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import '../../../../../Extension/int+Extension.dart';
 import '../../../../Domain/Entity/GroupCategory.dart';
+import '../../../../Domain/Entity/Spend.dart';
 import '../../../../Domain/Entity/SpendCategory.dart';
+import '../../../../UseCase/AddSpendUseCase.dart';
 import '../../../../UseCase/GroupCategoryFetchUseCase.dart';
 import '../../../../UseCase/SpendCategoryFetchUseCase.dart';
 import 'AddSpendViewModel.dart';
@@ -26,9 +29,14 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   late SpendCategoryFetchUseCase spendFetchUseCase;
   late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+  late AddSpendUseCase addSpendUseCase;
 
-  DefaultAddSpendViewModel(this.addSpendActions, this.date,
-      this.spendFetchUseCase, this.groupCategoryFetchUseCase) {
+  DefaultAddSpendViewModel(
+      this.addSpendActions,
+      this.date,
+      this.spendFetchUseCase,
+      this.groupCategoryFetchUseCase,
+      this.addSpendUseCase) {
     availableSaveButton = false;
     spendMoney = 0;
     groupCategoryList = [];
@@ -54,25 +62,35 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   @override
   Future<void> didChangeDate(DateTime date) async {
-    this.date = date;
+    this.date = DateTime.utc(date.year, date.month, date.day, 0, 0);
 
-    await fetchGroupCategoryList(date);
+    await fetchGroupCategoryList(this.date);
   }
 
   @override
   void didClickDateButton() {
-    addSpendActions.showDatePicker(this.date);
+    addSpendActions.showDatePicker(date);
     // Implement the logic for clicking date button
   }
 
   @override
-  void didClickSaveButton() {
-    // Implement the logic for clicking save button
+  void didClickSaveButton() async {
+    //TODO: useCase Save Logic
+    Spend spend = Spend(
+        date: date,
+        spendMoney: spendMoney,
+        groupCategory: selectedGroupCategory!,
+        spendCategory: selectedSpendCategory!,
+        identity: RandomInt());
+    await addSpendUseCase.addSpend(spend);
+
+    addSpendActions.didAddSpend();
   }
 
   @override
-  void didClickNonSpendSaveButton() {
-    // Implement the logic for clicking non-spend save button
+  void didClickNonSpendSaveButton() async {
+    //TODO: useCase Save Logic
+    addSpendActions.didAddSpend();
   }
 
   @override

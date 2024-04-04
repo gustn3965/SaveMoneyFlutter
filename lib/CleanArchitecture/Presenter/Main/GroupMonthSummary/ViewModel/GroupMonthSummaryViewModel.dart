@@ -9,6 +9,7 @@ abstract class GroupMonthSummaryViewModel {
   late int monthGroupPlannedBudgetByEveryday;
 
   Future<void> fetchGroupMonth(int? identity);
+  void reloadFetch();
 
   // Observing
   Stream<GroupMonthSummaryViewModel> get dataStream;

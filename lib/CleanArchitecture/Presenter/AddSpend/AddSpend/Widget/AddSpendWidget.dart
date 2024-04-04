@@ -35,7 +35,7 @@ class AddSpendWidget extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 100,
+                          height: 50,
                         ),
                         datePickerWidget(),
                         SizedBox(
@@ -44,9 +44,9 @@ class AddSpendWidget extends StatelessWidget {
                         spendTextFieldWidget(),
                         saveButtonWidget(context),
                         nonSpendButtonWidget(context),
-                        sectionHeaderTitle("소비 그룹"),
+                        sectionHeaderTitle("소비 그룹", 30),
                         groupCategoryListWidget(),
-                        sectionHeaderTitle("소비 항목"),
+                        sectionHeaderTitle("소비 항목", 10),
                         spendCategoryScrollWidget(context),
                       ],
                     ),
@@ -59,10 +59,10 @@ class AddSpendWidget extends StatelessWidget {
     );
   }
 
-  Widget sectionHeaderTitle(String title) {
+  Widget sectionHeaderTitle(String title, double topPadding) {
     return Column(
       children: [
-        SizedBox(height: 30),
+        SizedBox(height: topPadding),
         Container(
           color: AppColors.whiteColor,
           child: Text(

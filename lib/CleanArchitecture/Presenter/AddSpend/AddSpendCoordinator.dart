@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/ViewModel/DefaultAddSpendViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/Widget/AddSpendWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/AddSpendUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendCategoryFetchUseCase.dart';
 
@@ -13,7 +14,8 @@ class AddSpendCoordinator extends Coordinator {
 
   @override
   void pop() {
-    // TODO: implement pop
+    Navigator.pop(NavigationService.currentContext!);
+    superCoordinator?.childCoordinator.remove(this);
   }
 
   @override
@@ -21,20 +23,35 @@ class AddSpendCoordinator extends Coordinator {
     TEST();
   }
 
-  void showAddSpendFromModalBottomSheet(DateTime date) {
+  @override
+  void updateCurrentWidget() {}
+
+  Widget makeAddSpendWidget(DateTime date) {
     void showDatePicker(DateTime date) {
       showDateTimePicker(date);
     }
 
-    void updateCurrentContextWidget() {}
+    void updateCurrentContextWidget() {
+      superCoordinator?.updateCurrentWidget();
+      pop();
+    }
 
     AddSpendActions actions = AddSpendActions(
       showDatePicker,
       updateCurrentContextWidget,
     );
 
-    addSpendViewModel = DefaultAddSpendViewModel(actions, date,
-        MockSpendCategoryFetchUseCase(), MockGroupCategoryFetchUseCase());
+    addSpendViewModel = DefaultAddSpendViewModel(
+        actions,
+        date,
+        MockSpendCategoryFetchUseCase(),
+        MockGroupCategoryFetchUseCase(),
+        MockAddSpendUseCase());
+    return AddSpendWidget(addSpendViewModel!);
+  }
+
+  void showAddSpendFromModalBottomSheet(DateTime date) {
+    Widget addSpendWidget = makeAddSpendWidget(date);
 
     showModalBottomSheet(
       context: NavigationService.navigatorKey.currentContext!,
@@ -45,7 +62,7 @@ class AddSpendCoordinator extends Coordinator {
       builder: (BuildContext context) {
         return Container(
             height: MediaQuery.of(context).size.height * 0.9,
-            child: AddSpendWidget(addSpendViewModel!));
+            child: addSpendWidget);
       },
     );
   }
@@ -71,23 +88,11 @@ class AddSpendCoordinator extends Coordinator {
   }
 
   void TEST() {
-    void showDatePicker(DateTime date) {
-      showDateTimePicker(date);
-    }
-
-    void updateCurrentContextWidget() {}
-
-    AddSpendActions actions = AddSpendActions(
-      showDatePicker,
-      updateCurrentContextWidget,
-    );
-
-    addSpendViewModel = DefaultAddSpendViewModel(actions, DateTime.now(),
-        MockSpendCategoryFetchUseCase(), MockGroupCategoryFetchUseCase());
+    Widget addSpendWidget = makeAddSpendWidget(DateTime.now());
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
       MaterialPageRoute(
-        builder: (context) => AddSpendWidget(addSpendViewModel!),
+        builder: (context) => addSpendWidget,
       ),
     );
   }

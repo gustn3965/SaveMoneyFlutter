@@ -7,32 +7,34 @@ import 'GroupMonthCalendarViewModel.dart';
 
 class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
   Map<DateTime, List<Spend>> spendList = {};
-
-  final GroupMonthFetchUseCase groupMonthFetchUseCase;
-
   late GroupMonthCalendarActions groupMonthCalendarActions;
-
   late DateTime focuseDate = DateTime.now();
   late DateTime? selectedDate = null;
+  int? groupMonthIdentity;
 
   final _dataController = StreamController<GroupMonthCalendarViewModel>();
   Stream<GroupMonthCalendarViewModel> get dataStream => _dataController.stream;
+  final GroupMonthFetchUseCase groupMonthFetchUseCase;
 
   DefaultGroupMonthCalendarViewModel(
       this.groupMonthFetchUseCase, this.groupMonthCalendarActions);
 
+  @override
   Future<void> didSelectDate(DateTime date) async {
     this.selectedDate = date;
     this.groupMonthCalendarActions.updateSelectedDateTime(date);
     _dataController.add(this);
   }
 
+  @override
   Future<void> didChangeMonth(DateTime date) async {
     this.focuseDate = date;
     this.groupMonthCalendarActions.updateDateTime(date);
   }
 
+  @override
   Future<void> fetchGroupMonth(int? groupMonthId) async {
+    groupMonthIdentity = groupMonthId;
     GroupMonth? groupMonth =
         await groupMonthFetchUseCase.fetchGroupMonthByGroupId(groupMonthId);
 
@@ -40,6 +42,11 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
 
     this.focuseDate = groupMonth?.date ?? this.focuseDate;
     _dataController.add(this);
+  }
+
+  @override
+  void reloadFetch() {
+    fetchGroupMonth(groupMonthIdentity);
   }
 
   Map<DateTime, List<Spend>> convertGroupMonthToMap(GroupMonth? groupMonth) {

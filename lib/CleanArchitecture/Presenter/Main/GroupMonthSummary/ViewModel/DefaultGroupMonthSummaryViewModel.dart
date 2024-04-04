@@ -15,13 +15,14 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
 
   final _dataController = StreamController<GroupMonthSummaryViewModel>();
   Stream<GroupMonthSummaryViewModel> get dataStream => _dataController.stream;
+  int? groupMonthIdentity;
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
-
   DefaultGroupMonthSummaryViewModel(this.groupMonthFetchUseCase);
 
   @override
   Future<void> fetchGroupMonth(int? identity) async {
+    groupMonthIdentity = identity;
     if (identity == null) {
       _dataController.addError(Error());
       return;
@@ -39,6 +40,11 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
 
     // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
     _dataController.add(this);
+  }
+
+  @override
+  void reloadFetch() {
+    fetchGroupMonth(groupMonthIdentity);
   }
 
   void dispose() {

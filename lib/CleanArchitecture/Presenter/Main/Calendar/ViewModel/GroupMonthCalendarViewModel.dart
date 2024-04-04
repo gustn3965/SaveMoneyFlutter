@@ -11,9 +11,7 @@ class GroupMonthCalendarActions {
 
 abstract class GroupMonthCalendarViewModel {
   Map<DateTime, List<Spend>> spendList = {};
-
   late GroupMonthCalendarActions groupMonthCalendarActions;
-
   late DateTime focuseDate;
   late DateTime? selectedDate;
 
@@ -21,6 +19,7 @@ abstract class GroupMonthCalendarViewModel {
   Future<void> didChangeMonth(DateTime date);
 
   Future<void> fetchGroupMonth(int? groupMonthId);
+  void reloadFetch();
 
   // Observing
   Stream<GroupMonthCalendarViewModel> get dataStream;
