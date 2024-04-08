@@ -7,6 +7,8 @@ import '../../../../UseCase/GroupCategoryFetchUseCase.dart';
 
 class DefaultAddGroupListViewModel extends AddGroupListViewModel {
   @override
+  late AddGroupListActions actions;
+  @override
   late List<AddGroupListViewModelListItem> groupCategoryItems;
   @override
   late String addGroupCategoryButtonName = '    지출 그룹 추가하기    ';
@@ -14,24 +16,24 @@ class DefaultAddGroupListViewModel extends AddGroupListViewModel {
   late DateTime date;
   late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
 
-  DefaultAddGroupListViewModel(this.date, this.groupCategoryFetchUseCase)
+  DefaultAddGroupListViewModel(
+      this.date, this.groupCategoryFetchUseCase, this.actions)
       : super(date) {
     fetchGroupCategoryList();
   }
 
-  final _dataController =
-      StreamController<DefaultAddGroupListViewModel>.broadcast();
+  final _dataController = StreamController<AddGroupListViewModel>.broadcast();
   @override
   Stream<AddGroupListViewModel> get dataStream => _dataController.stream;
 
   @override
   void didClickAddCurrentItem(int index) {
-    // TODO: implement didClickAddCurrentItem
+    actions.addCurrentGroup(date, groupCategoryItems[index].groupName);
   }
 
   @override
   void didClickAddNewGroupCategoryButton() {
-    // TODO: implement didClickAddNewGroupCategoryButton
+    actions.addNewGroup(date);
   }
 
   @override

@@ -6,7 +6,15 @@ class AddGroupListViewModelListItem {
   }
 }
 
+class AddGroupListActions {
+  void Function(DateTime date) addNewGroup;
+  void Function(DateTime date, String groupName) addCurrentGroup;
+
+  AddGroupListActions(this.addNewGroup, this.addCurrentGroup);
+}
+
 abstract class AddGroupListViewModel {
+  late AddGroupListActions actions;
   late List<AddGroupListViewModelListItem> groupCategoryItems;
   late String addGroupCategoryButtonName;
 
