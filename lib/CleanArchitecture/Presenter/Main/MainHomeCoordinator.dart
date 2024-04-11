@@ -21,6 +21,9 @@ import 'GroupMonthSummary/Widget/GroupMonthSummaryWidget.dart';
 import 'MainHomeWidget.dart';
 
 class MainHomeCoordinator extends Coordinator {
+  @override
+  String mainPageName = "/MainHome";
+
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? selectorViewModel;
   GroupMonthCalendarViewModel? calendarViewModel;
@@ -37,6 +40,7 @@ class MainHomeCoordinator extends Coordinator {
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
       MaterialPageRoute(
+        settings: RouteSettings(name: mainPageName),
         builder: (context) => MainHomeWidget(
           widgets: [summaryWidget, selectorWidget, calendarWidget],
           floattingButtons: [addSpendFloattingWidget],
@@ -56,6 +60,7 @@ class MainHomeCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    selectorViewModel?.reloadFetch();
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();
     print('MainHomeCoordinator updateCurrentWidget....');
@@ -84,7 +89,7 @@ class MainHomeCoordinator extends Coordinator {
 
     selectorViewModel = DefaultGroupMonthSelectorViewModel(
         MockGroupMoonthFetchUseCase(), actions);
-    selectorViewModel?.fetchGroupMonthList(DateTime.now());
+
     return GroupMonthSelectorWidget(viewModel: selectorViewModel!);
   }
 

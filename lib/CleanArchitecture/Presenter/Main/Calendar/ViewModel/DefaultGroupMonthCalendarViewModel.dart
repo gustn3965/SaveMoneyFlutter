@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
+
 import '../../../../Domain/Entity/GroupMonth.dart';
 import '../../../../Domain/Entity/Spend.dart';
 import '../../../../UseCase/GroupMonthFetchUseCase.dart';
@@ -53,10 +55,11 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
     Map<DateTime, List<Spend>> map = {};
 
     for (var spend in groupMonth?.spendList ?? []) {
-      if (map[spend.date] == null) {
-        map[spend.date] = [spend];
+      DateTime dateKey = dateTimeAfterMonthDay(spend.date, 0, 0);
+      if (map[dateKey] == null) {
+        map[dateKey] = [spend];
       } else {
-        map[spend.date]?.add(spend);
+        map[dateKey]?.add(spend);
       }
     }
     return map;

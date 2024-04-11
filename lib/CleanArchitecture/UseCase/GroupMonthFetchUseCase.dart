@@ -19,6 +19,13 @@ class MockGroupMoonthFetchUseCase extends GroupMonthFetchUseCase {
 
     await Future.delayed(const Duration(milliseconds: 100));
 
+    List<GroupMonth> list = [];
+    for (GroupMonth groupMonth in mockGroupMonthList) {
+      if (isEqualDateMonth(groupMonth.date, date)) {
+        list.add(groupMonth);
+      }
+    }
+    return list;
     if (isEqualDateMonth(groupNow1.date, date)) {
       return [groupNow1, groupNow2, groupNow3];
     } else if (isEqualDateMonth(groupBefore1.date, date)) {

@@ -15,6 +15,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   late String addGroupButtonName;
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
+  late DateTime fetchedDate;
 
   final _dataController =
       StreamController<GroupMonthSelectorViewModel>.broadcast();
@@ -27,6 +28,8 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
     groupMonthList = [];
     selectedGroupMonth = null;
     addGroupButtonName = "+ 지출 그룹 추가";
+
+    fetchGroupMonthList(DateTime.now());
   }
 
   @override
@@ -43,6 +46,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
 
   @override
   Future<void> fetchGroupMonthList(DateTime date) async {
+    fetchedDate = date;
     try {
       groupMonthList = await groupMonthFetchUseCase.fetchGroupMonthList(date);
       _dataController.add(this);
@@ -63,6 +67,11 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
       print("error");
       // 에러 처리
     }
+  }
+
+  @override
+  void reloadFetch() {
+    fetchGroupMonthList(fetchedDate);
   }
 
   @override

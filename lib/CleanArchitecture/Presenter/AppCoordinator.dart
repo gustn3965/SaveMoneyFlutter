@@ -20,6 +20,8 @@ abstract class Coordinator {
 
   void updateCurrentWidget();
 
+  late String mainPageName;
+
   List<Coordinator> childCoordinator = [];
 }
 

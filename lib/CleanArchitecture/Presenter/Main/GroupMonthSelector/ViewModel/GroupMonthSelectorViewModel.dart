@@ -15,6 +15,7 @@ abstract class GroupMonthSelectorViewModel {
 
   void didSelectGroupMonth(GroupMonth selectedGroupMonth);
   void didSelectAddGroupMonth();
+  void reloadFetch();
 
   Future<void> fetchGroupMonthList(DateTime date);
 
