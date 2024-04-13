@@ -13,6 +13,7 @@ import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupCategoryUse
 import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupMonthUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
 
+import '../../UseCase/GroupMonthFetchUseCase.dart';
 import 'AddGroupMoney/ViewModel/DefaultAddGroupMoneyViewModel.dart';
 
 class AddGroupCoordinator extends Coordinator {
@@ -53,8 +54,14 @@ class AddGroupCoordinator extends Coordinator {
   }
 
   Widget makeAddGroupWidget(DateTime date) {
-    void addCurrentGroup(DateTime date, String groupName) {}
-    ;
+    void addCurrentGroup(DateTime date, String groupName) {
+      Navigator.push(
+        NavigationService.currentContext!,
+        MaterialPageRoute(
+          builder: (context) => makeAddGroupMoneyWidget(date, groupName),
+        ),
+      );
+    }
 
     void addNewGroup(DateTime date) {
       Navigator.push(
@@ -71,7 +78,10 @@ class AddGroupCoordinator extends Coordinator {
     );
 
     AddGroupListViewModel groupListviewModel = DefaultAddGroupListViewModel(
-        date, MockGroupCategoryFetchUseCase(), actions);
+        date,
+        MockGroupCategoryFetchUseCase(),
+        MockGroupMonthFetchUseCase(),
+        actions);
     this.groupListviewModel = groupListviewModel;
 
     return AddGroupListWidget(groupListviewModel);
@@ -91,12 +101,18 @@ class AddGroupCoordinator extends Coordinator {
       );
     }
 
+    void hasAlreadyCategoryName() {
+      showHasAlreadyCategoryNameAlert();
+    }
+
     AddGroupNameActions actions = AddGroupNameActions(
       cancelAddGroupName,
       addGroupName,
+      hasAlreadyCategoryName,
     );
 
-    addGroupNameViewModel = DefaultAddGroupNameViewModel(date, actions);
+    addGroupNameViewModel = DefaultAddGroupNameViewModel(
+        date, MockGroupCategoryFetchUseCase(), actions);
 
     return AddGroupNameWidget(addGroupNameViewModel!);
   }
@@ -119,6 +135,26 @@ class AddGroupCoordinator extends Coordinator {
         actions, MockAddGroupMonthUseCase(), MockAddGroupCategoryUseCase());
 
     return AddGroupMoneyWidget(addGroupMoneyViewModel!);
+  }
+
+  void showHasAlreadyCategoryNameAlert() {
+    showCupertinoModalPopup<void>(
+      context: NavigationService.currentContext!,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(
+          '이미 같은 이름이 존재합니다.',
+        ),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.pop(NavigationService.currentContext!);
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
   }
 
   void TEST() {

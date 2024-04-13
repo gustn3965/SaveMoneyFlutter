@@ -8,6 +8,8 @@ abstract class GroupCategoryFetchUseCase {
   Future<List<GroupCategory>> fetchGroupCategoryList(DateTime date);
 
   Future<List<GroupCategory>> fetchAllGroupCategoryList();
+
+  Future<GroupCategory?> fetchGroupCategoryByName(String categoryName);
 }
 
 class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
@@ -28,5 +30,18 @@ class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
   Future<List<GroupCategory>> fetchAllGroupCategoryList() async {
     await Future.delayed(const Duration(milliseconds: 100));
     return mockCategoryList;
+  }
+
+  @override
+  Future<GroupCategory?> fetchGroupCategoryByName(String categoryName) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    for (GroupCategory category in mockCategoryList) {
+      if (category.name == categoryName) {
+        return category;
+      }
+    }
+
+    return null;
   }
 }

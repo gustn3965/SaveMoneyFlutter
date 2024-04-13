@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupCategory.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/ViewModel/AddGroupNameViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
 
 class DefaultAddGroupNameViewModel extends AddGroupNameViewModel {
   @override
@@ -12,9 +14,12 @@ class DefaultAddGroupNameViewModel extends AddGroupNameViewModel {
 
   DateTime date;
 
+  GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+
   final _dataController = StreamController<AddGroupNameViewModel>.broadcast();
 
-  DefaultAddGroupNameViewModel(this.date, this.addGroupNameActions)
+  DefaultAddGroupNameViewModel(
+      this.date, this.groupCategoryFetchUseCase, this.addGroupNameActions)
       : super(date) {
     fetch();
   }
@@ -32,7 +37,13 @@ class DefaultAddGroupNameViewModel extends AddGroupNameViewModel {
   }
 
   @override
-  void didClickConfirmButton() {
+  void didClickConfirmButton() async {
+    GroupCategory? hasCategory =
+        await groupCategoryFetchUseCase.fetchGroupCategoryByName(groupName);
+    if (hasCategory != null) {
+      addGroupNameActions.hasAlreadyCategoryName();
+      return;
+    }
     addGroupNameActions.addGroupName(date, groupName);
   }
 

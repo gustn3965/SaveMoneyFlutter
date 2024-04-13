@@ -1,8 +1,13 @@
 class AddGroupListViewModelListItem {
   late String groupName;
   late String addThisGroupName;
-  AddGroupListViewModelListItem(this.groupName) {
-    addThisGroupName = ' 추가하기 ';
+  late bool isAddedGroup;
+  AddGroupListViewModelListItem(this.groupName, this.isAddedGroup) {
+    if (isAddedGroup) {
+      addThisGroupName = ' 이미 추가됨 ';
+    } else {
+      addThisGroupName = ' 추가하기 ';
+    }
   }
 }
 

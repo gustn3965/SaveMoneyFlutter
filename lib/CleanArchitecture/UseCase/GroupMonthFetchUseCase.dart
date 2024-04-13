@@ -12,7 +12,7 @@ abstract class GroupMonthFetchUseCase {
       int groupCategoryId, DateTime date);
 }
 
-class MockGroupMoonthFetchUseCase extends GroupMonthFetchUseCase {
+class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
   @override
   Future<List<GroupMonth>> fetchGroupMonthList(DateTime date) async {
     // 예시 데이터 리스트 반환
@@ -55,19 +55,7 @@ class MockGroupMoonthFetchUseCase extends GroupMonthFetchUseCase {
   @override
   Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
       int groupCategoryId, DateTime date) async {
-    List<GroupMonth> list = [
-      groupNow1,
-      groupNow2,
-      groupNow3,
-      groupBefore1,
-      groupBefore2,
-      groupBefore3,
-      groupAfter1,
-      groupAfter2,
-      groupAfter3
-    ];
-
-    for (var group in list) {
+    for (var group in mockGroupMonthList) {
       if (group.groupCategory.identity == groupCategoryId &&
           isEqualDateMonth(group.date, date)) {
         return group;

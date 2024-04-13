@@ -68,7 +68,7 @@ class MainHomeCoordinator extends Coordinator {
 
   Widget makeSummaryWidget() {
     summaryViewModel =
-        DefaultGroupMonthSummaryViewModel(MockGroupMoonthFetchUseCase());
+        DefaultGroupMonthSummaryViewModel(MockGroupMonthFetchUseCase());
     return GroupMonthSummaryWidget(viewModel: summaryViewModel!);
   }
 
@@ -88,7 +88,7 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     selectorViewModel = DefaultGroupMonthSelectorViewModel(
-        MockGroupMoonthFetchUseCase(), actions);
+        MockGroupMonthFetchUseCase(), actions);
 
     return GroupMonthSelectorWidget(viewModel: selectorViewModel!);
   }
@@ -108,7 +108,7 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     calendarViewModel = DefaultGroupMonthCalendarViewModel(
-        MockGroupMoonthFetchUseCase(), actions);
+        MockGroupMonthFetchUseCase(), actions);
     return GroupMonthCalendarWidget(viewModel: calendarViewModel!);
   }
 

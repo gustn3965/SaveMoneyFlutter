@@ -91,9 +91,12 @@ class AddGroupListWidget extends StatelessWidget {
               margin: const EdgeInsets.only(left: 10, right: 20, top: 10),
               // padding: const EdgeInsets.all(10.0),
               child: FilledButton(
-                onPressed: () {
-                  viewModel.didClickAddCurrentItem(index);
-                },
+                onPressed:
+                    viewModel.groupCategoryItems[index].isAddedGroup == false
+                        ? () {
+                            viewModel.didClickAddCurrentItem(index);
+                          }
+                        : null,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.black,
                   backgroundColor: Color(0xFFA6BEFB),

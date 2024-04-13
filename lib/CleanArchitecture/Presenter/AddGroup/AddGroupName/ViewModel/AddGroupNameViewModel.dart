@@ -1,8 +1,10 @@
 class AddGroupNameActions {
   void Function() cancelAddGroupName;
   void Function(DateTime date, String groupName) addGroupName;
+  void Function() hasAlreadyCategoryName;
 
-  AddGroupNameActions(this.cancelAddGroupName, this.addGroupName);
+  AddGroupNameActions(
+      this.cancelAddGroupName, this.addGroupName, this.hasAlreadyCategoryName);
 }
 
 abstract class AddGroupNameViewModel {
