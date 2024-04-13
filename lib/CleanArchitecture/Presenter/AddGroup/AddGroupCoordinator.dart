@@ -25,10 +25,8 @@ class AddGroupCoordinator extends Coordinator {
 
   @override
   void pop() {
-    RoutePredicate superRouter =
-        ModalRoute.withName(superCoordinator!.mainPageName);
-    Navigator.popUntil(addGroupContext!, superRouter);
-
+    NavigationService.navigatorKey.currentState?.popUntil(
+        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
     superCoordinator?.childCoordinator.remove(this);
   }
 
@@ -119,8 +117,8 @@ class AddGroupCoordinator extends Coordinator {
 
   Widget makeAddGroupMoneyWidget(DateTime date, String groupName) {
     void didAddNewGroup() {
-      superCoordinator?.updateCurrentWidget();
       pop();
+      superCoordinator?.updateCurrentWidget();
     }
 
     void cancelAddGroupMoney() {

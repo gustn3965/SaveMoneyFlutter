@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainHomeCoordinator.dart';
 
 import 'AddGroup/AddGroupCoordinator.dart';
@@ -20,18 +21,24 @@ abstract class Coordinator {
 
   void updateCurrentWidget();
 
-  late String mainPageName;
+  late String routeName;
 
   List<Coordinator> childCoordinator = [];
 }
 
 class AppCoordinator extends Coordinator {
   @override
+  String routeName = "App";
+
+  @override
   void start() {
     runApp(LanchScreenWidget());
 
-    Future.delayed(const Duration(milliseconds: 500), () {
-      showMainHomeView();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      Navigator.pop(NavigationService.currentContext!);
+
+      showLoginView(null);
+      // showMainHomeView(null);
       // TESTAddSpendWidget();
       // TESTAddGroupWidget();
     });
@@ -43,12 +50,38 @@ class AppCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {}
 
-  void showLoginView() {}
+  void showLoginView(Coordinator? parentCoordinator) {
+    LoginCoordinator loginCoordinator = LoginCoordinator();
+    loginCoordinator.superCoordinator = parentCoordinator ?? this;
+    loginCoordinator.start();
+    (parentCoordinator ?? this).childCoordinator.add(loginCoordinator);
+  }
 
-  void showMainHomeView() {
+  void showMainHomeView(Coordinator? parentCoordinator) {
     MainHomeCoordinator mainHomeCoordinator = MainHomeCoordinator();
+    mainHomeCoordinator.superCoordinator = parentCoordinator ?? this;
     mainHomeCoordinator.start();
-    childCoordinator.add(mainHomeCoordinator);
+    (parentCoordinator ?? this).childCoordinator.add(mainHomeCoordinator);
+  }
+
+  void showAddSpendView(
+      Coordinator? parentCoordinator, bool isModal, DateTime date) {
+    AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator();
+    addSpendCoordinator.superCoordinator = parentCoordinator ?? this;
+    if (isModal) {
+      addSpendCoordinator.startFromModalBottomSheet(date);
+    } else {
+      addSpendCoordinator.start();
+    }
+
+    (parentCoordinator ?? this).childCoordinator.add(addSpendCoordinator);
+  }
+
+  void showAddGroupMonthView(Coordinator? parentCoordinator, DateTime date) {
+    AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator();
+    addGroupCoordinator.superCoordinator = parentCoordinator ?? this;
+    addGroupCoordinator.startFromDate(date);
+    (parentCoordinator ?? this).childCoordinator.add(addGroupCoordinator);
   }
 
   void TESTAddSpendWidget() {

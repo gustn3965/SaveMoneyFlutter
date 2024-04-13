@@ -14,7 +14,8 @@ class AddSpendCoordinator extends Coordinator {
 
   @override
   void pop() {
-    Navigator.pop(NavigationService.currentContext!);
+    NavigationService.navigatorKey.currentState?.popUntil(
+        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
     superCoordinator?.childCoordinator.remove(this);
   }
 

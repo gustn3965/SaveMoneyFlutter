@@ -12,6 +12,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSe
 
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/DefaultGroupMonthSummaryViewModel.dart';
+import 'package:save_money_flutter/main.dart';
 import '../../Domain/Entity/GroupMonth.dart';
 import '../../UseCase/GroupMonthFetchUseCase.dart';
 import '../AppCoordinator.dart';
@@ -22,7 +23,7 @@ import 'MainHomeWidget.dart';
 
 class MainHomeCoordinator extends Coordinator {
   @override
-  String mainPageName = "/MainHome";
+  String routeName = "Root";
 
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? selectorViewModel;
@@ -40,7 +41,7 @@ class MainHomeCoordinator extends Coordinator {
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
       MaterialPageRoute(
-        settings: RouteSettings(name: mainPageName),
+        settings: RouteSettings(name: routeName),
         builder: (context) => MainHomeWidget(
           widgets: [summaryWidget, selectorWidget, calendarWidget],
           floattingButtons: [addSpendFloattingWidget],
@@ -129,17 +130,12 @@ class MainHomeCoordinator extends Coordinator {
   }
 
   void showAddSpendView(DateTime date) {
-    AddSpendCoordinator spendCoordinator = AddSpendCoordinator();
-    spendCoordinator.superCoordinator = this;
-    spendCoordinator.startFromModalBottomSheet(date);
-    childCoordinator.add(spendCoordinator);
+    bool isModal = true;
+    coordinator.showAddSpendView(this, isModal, date);
   }
 
   void showAddGroupWidget(DateTime date) {
-    AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator();
-    addGroupCoordinator.superCoordinator = this;
-    addGroupCoordinator.startFromDate(date);
-    childCoordinator.add(addGroupCoordinator);
+    coordinator.showAddGroupMonthView(this, date);
   }
 
   void updateCalendarView() {}
