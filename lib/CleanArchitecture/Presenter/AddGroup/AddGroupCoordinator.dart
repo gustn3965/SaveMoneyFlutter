@@ -1,17 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupList/ViewModel/AddGroupListViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupList/ViewModel/DefaultAddGroupListViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupList/Widget/AddGroupListWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupMoney/ViewModel/AddGroupMoneyViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupMoney/Widget/AddGroupMoneyWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/ViewModel/AddGroupNameViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/ViewModel/DefaultAddGroupNameViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/Widget/AddGroupNameWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupCategoryUseCase.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupMonthUseCase.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
+import 'package:save_money_flutter/main.dart';
 
 import '../../UseCase/GroupMonthFetchUseCase.dart';
 import 'AddGroupMoney/ViewModel/DefaultAddGroupMoneyViewModel.dart';
@@ -41,7 +34,7 @@ class AddGroupCoordinator extends Coordinator {
       NavigationService.currentContext!,
       MaterialPageRoute(
         settings: RouteSettings(name: "/Page1"),
-        builder: (context) => makeAddGroupWidget(date),
+        builder: (context) => makeAddGroupListWidget(date),
       ),
     );
   }
@@ -51,7 +44,7 @@ class AddGroupCoordinator extends Coordinator {
     // TODO: implement updateCurrentWidget
   }
 
-  Widget makeAddGroupWidget(DateTime date) {
+  Widget makeAddGroupListWidget(DateTime date) {
     void addCurrentGroup(DateTime date, String groupName) {
       Navigator.push(
         NavigationService.currentContext!,
@@ -75,14 +68,11 @@ class AddGroupCoordinator extends Coordinator {
       addCurrentGroup,
     );
 
-    AddGroupListViewModel groupListviewModel = DefaultAddGroupListViewModel(
-        date,
-        MockGroupCategoryFetchUseCase(),
-        MockGroupMonthFetchUseCase(),
-        actions);
+    AddGroupListViewModel groupListviewModel =
+        appDIContainer.addGroup.makeAddGroupListViewModel(date, actions);
     this.groupListviewModel = groupListviewModel;
 
-    return AddGroupListWidget(groupListviewModel);
+    return appDIContainer.addGroup.makeAddGroupListWidget(groupListviewModel);
   }
 
   Widget makeAddGroupNameWidget(DateTime date) {
@@ -109,10 +99,11 @@ class AddGroupCoordinator extends Coordinator {
       hasAlreadyCategoryName,
     );
 
-    addGroupNameViewModel = DefaultAddGroupNameViewModel(
-        date, MockGroupCategoryFetchUseCase(), actions);
+    addGroupNameViewModel =
+        appDIContainer.addGroup.makeAddGroupNameViewModel(date, actions);
 
-    return AddGroupNameWidget(addGroupNameViewModel!);
+    return appDIContainer.addGroup
+        .makeAddGroupNameWidget(addGroupNameViewModel!);
   }
 
   Widget makeAddGroupMoneyWidget(DateTime date, String groupName) {
@@ -129,10 +120,10 @@ class AddGroupCoordinator extends Coordinator {
       didAddNewGroup,
       cancelAddGroupMoney,
     );
-    addGroupMoneyViewModel = DefaultAddGroupMoneyViewModel(date, groupName,
-        actions, MockAddGroupMonthUseCase(), MockAddGroupCategoryUseCase());
-
-    return AddGroupMoneyWidget(addGroupMoneyViewModel!);
+    addGroupMoneyViewModel = appDIContainer.addGroup
+        .makeAddGroupMoneyViewModel(date, groupName, actions);
+    return appDIContainer.addGroup
+        .makeAddGroupMoneyWidget(addGroupMoneyViewModel!);
   }
 
   void showHasAlreadyCategoryNameAlert() {
@@ -156,7 +147,7 @@ class AddGroupCoordinator extends Coordinator {
   }
 
   void TEST() {
-    Widget addGroupListWidget = makeAddGroupWidget(DateTime.now());
+    Widget addGroupListWidget = makeAddGroupListWidget(DateTime.now());
     Navigator.push(
       NavigationService.currentContext!,
       MaterialPageRoute(

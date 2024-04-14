@@ -1,24 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/DefaultGroupMonthCalendarViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/DefaultGroupMonthSelectorViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/GroupMonthSelectorViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/Widget/GroupMonthSelectorWidget.dart';
-
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/DefaultGroupMonthSummaryViewModel.dart';
+
 import 'package:save_money_flutter/main.dart';
 import '../../Domain/Entity/GroupMonth.dart';
-import '../../UseCase/GroupMonthFetchUseCase.dart';
 import '../AppCoordinator.dart';
 
-import 'Calendar/Widget/GroupMonthCalendarWidget.dart';
-import 'GroupMonthSummary/Widget/GroupMonthSummaryWidget.dart';
 import 'MainHomeWidget.dart';
 
 class MainHomeCoordinator extends Coordinator {
@@ -68,9 +58,8 @@ class MainHomeCoordinator extends Coordinator {
   }
 
   Widget makeSummaryWidget() {
-    summaryViewModel =
-        DefaultGroupMonthSummaryViewModel(MockGroupMonthFetchUseCase());
-    return GroupMonthSummaryWidget(viewModel: summaryViewModel!);
+    summaryViewModel = appDIContainer.main.makeMainSummaryViewModel();
+    return appDIContainer.main.makeMainSummaryWidget(summaryViewModel!);
   }
 
   Widget makeSelectorWidget() {
@@ -80,7 +69,7 @@ class MainHomeCoordinator extends Coordinator {
     }
 
     void showAddGroup() {
-      showAddGroupWidget(calendarViewModel?.focuseDate ?? DateTime.now());
+      showAddGroupView(calendarViewModel?.focuseDate ?? DateTime.now());
     }
 
     GroupMonthSelectorActions actions = GroupMonthSelectorActions(
@@ -88,10 +77,11 @@ class MainHomeCoordinator extends Coordinator {
       showAddGroup,
     );
 
-    selectorViewModel = DefaultGroupMonthSelectorViewModel(
-        MockGroupMonthFetchUseCase(), actions);
+    selectorViewModel =
+        appDIContainer.main.makeMainGroupMonthSelectorViewModel(actions);
 
-    return GroupMonthSelectorWidget(viewModel: selectorViewModel!);
+    return appDIContainer.main
+        .makeMainGroupMonthSelectorWidget(selectorViewModel!);
   }
 
   Widget makeCalendarWidget() {
@@ -108,9 +98,10 @@ class MainHomeCoordinator extends Coordinator {
       updateSelectedDateTime,
     );
 
-    calendarViewModel = DefaultGroupMonthCalendarViewModel(
-        MockGroupMonthFetchUseCase(), actions);
-    return GroupMonthCalendarWidget(viewModel: calendarViewModel!);
+    calendarViewModel =
+        appDIContainer.main.makeMainGroupMonthCalendarViewModel(actions);
+    return appDIContainer.main
+        .makeMainGroupMonthCalendarWidget(calendarViewModel!);
   }
 
   Widget makeAddSpendFloatingButtonWidget() {
@@ -123,10 +114,9 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     addSpendFloatingButtonViewModel =
-        DefaultAddSpendFloatingButtonViewModel(actions);
-    AddSpendFloatingButtonWidget widget = AddSpendFloatingButtonWidget(
-        viewModel: addSpendFloatingButtonViewModel!);
-    return widget;
+        appDIContainer.main.makeMainAddSpendFloatingViewModel(actions);
+    return appDIContainer.main
+        .makeMainAddSpendFloatingWidget(addSpendFloatingButtonViewModel!);
   }
 
   void showAddSpendView(DateTime date) {
@@ -134,7 +124,7 @@ class MainHomeCoordinator extends Coordinator {
     coordinator.showAddSpendView(this, isModal, date);
   }
 
-  void showAddGroupWidget(DateTime date) {
+  void showAddGroupView(DateTime date) {
     coordinator.showAddGroupMonthView(this, date);
   }
 

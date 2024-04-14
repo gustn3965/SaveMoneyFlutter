@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.dart';
 import 'package:save_money_flutter/DataBase/Model/NTMonth.dart';
 import 'package:save_money_flutter/DataBase/Model/NTSpendGroup.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
@@ -39,6 +40,8 @@ import 'view_model/select_date_view_model.dart';
 // import 'N'
 
 AppCoordinator coordinator = AppCoordinator();
+AppDIContainer appDIContainer = AppDIContainer();
+
 void main() async {
   coordinator.start();
 

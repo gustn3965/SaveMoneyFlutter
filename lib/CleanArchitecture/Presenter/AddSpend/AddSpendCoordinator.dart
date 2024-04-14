@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/ViewModel/DefaultAddSpendViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/Widget/AddSpendWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/AddSpendUseCase.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendCategoryFetchUseCase.dart';
+import 'package:save_money_flutter/main.dart';
 
 import 'AddSpend/ViewModel/AddSpendViewModel.dart';
 
@@ -59,13 +55,9 @@ class AddSpendCoordinator extends Coordinator {
       updateCurrentContextWidget,
     );
 
-    addSpendViewModel = DefaultAddSpendViewModel(
-        actions,
-        date,
-        MockSpendCategoryFetchUseCase(),
-        MockGroupCategoryFetchUseCase(),
-        MockAddSpendUseCase());
-    return AddSpendWidget(addSpendViewModel!);
+    addSpendViewModel =
+        appDIContainer.addSpend.makeAddSpendViewModel(date, actions);
+    return appDIContainer.addSpend.makeAddSpendWidget(addSpendViewModel!);
   }
 
   void showDateTimePicker(DateTime date) {

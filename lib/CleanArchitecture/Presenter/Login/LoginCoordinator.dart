@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/AddGroupMoney/ViewModel/DefaultLoginAddGroupMoneyViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/AddGroupMoney/Widget/LoginAddGroupMoneyWidget.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/AddGroupName/ViewModel/DefaultLoginAddGroupNameViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/AddGroupName/ViewModel/LoginAddGroupNameViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/AddGroupName/Widget/LoginAddGroupNameWidget.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupCategoryUseCase.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupMonthUseCase.dart';
+
+import 'AddGroupName/ViewModel/LoginAddGroupNameViewModel.dart';
+import 'AddGroupMoney/ViewModel/LoginAddGroupMoneyViewModel.dart';
 
 import '../../../main.dart';
-import 'AddGroupMoney/ViewModel/LoginAddGroupMoneyViewModel.dart';
 
 class LoginCoordinator extends Coordinator {
   LoginAddGroupNameViewModel? loginAddGroupNameViewModel;
@@ -32,22 +27,15 @@ class LoginCoordinator extends Coordinator {
     Navigator.pushAndRemoveUntil(
         NavigationService.currentContext!,
         MaterialPageRoute(
-          settings: RouteSettings(name: "/Page2"),
           builder: (context) => makeLoginAddGroupNameWidget(),
         ),
         (route) => false);
-    // Navigator.push(
-    //
-    // );
   }
 
   void showMainHomeWidget() {
-    // Navigator.popUntil(NavigationService.currentContext!, (route) => false);
     pop();
 
     coordinator.showMainHomeView(null);
-
-    // Navigator.pushAndRemoveUntil(NavigationService.currentContext!, newRoute, (route) => false)
   }
 
   Widget makeLoginAddGroupNameWidget() {
@@ -64,12 +52,14 @@ class LoginCoordinator extends Coordinator {
       addGroupName,
     );
 
-    loginAddGroupNameViewModel =
-        DefaultLoginAddGroupNameViewModel(DateTime.now(), action);
-    return LoginAddGroupNameWidget(loginAddGroupNameViewModel!);
+    loginAddGroupNameViewModel = appDIContainer.login
+        .makeLoginAddGroupNameViewModel(DateTime.now(), action);
+
+    return appDIContainer.login
+        .makeLoginAddGroupNameWidget(loginAddGroupNameViewModel!);
   }
 
-  Widget makeLoginAddGroupMoneyWidget(DateTime dateTime, String categoryName) {
+  Widget makeLoginAddGroupMoneyWidget(DateTime date, String categoryName) {
     void didAddNewGroup() {
       showMainHomeWidget();
     }
@@ -83,13 +73,10 @@ class LoginCoordinator extends Coordinator {
       cancelAddGroupMoney,
     );
 
-    loginAddGroupMoneyViewModel = DefaultLoginAddGroupMoneyViewModel(
-        dateTime,
-        categoryName,
-        action,
-        MockAddGroupMonthUseCase(),
-        MockAddGroupCategoryUseCase());
-    return LoginAddGroupMoneyWidget(loginAddGroupMoneyViewModel!);
+    loginAddGroupMoneyViewModel = appDIContainer.login
+        .makeLoginAddGroupMoneyViewModel(date, categoryName, action);
+    return appDIContainer.login
+        .makeLoginAddGroupMoneyWidget(loginAddGroupMoneyViewModel!);
   }
 
   @override
