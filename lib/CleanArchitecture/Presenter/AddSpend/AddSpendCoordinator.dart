@@ -34,7 +34,7 @@ class AddSpendCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {}
 
-  void startFromModalBottomSheet(DateTime date) {
+  void startFromModalBottomSheet() {
     showModalBottomSheet(
       context: NavigationService.navigatorKey.currentContext!,
       clipBehavior: Clip.hardEdge,
@@ -46,7 +46,9 @@ class AddSpendCoordinator extends Coordinator {
             height: MediaQuery.of(context).size.height * 0.9,
             child: currentWidget);
       },
-    );
+    ).whenComplete(() {
+      pop();
+    });
   }
 
   Widget makeAddSpendWidget(DateTime date) {

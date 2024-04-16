@@ -13,44 +13,46 @@ class AddGroupListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return StreamBuilder<AddGroupListViewModel>(
-        stream: viewModel.dataStream,
-        builder: (context, snapshot) {
-          if (viewModel?.groupCategoryItems == null) {
-            return CircularProgressIndicator();
-          }
-          return Scaffold(
-            appBar: AppBar(
-                leading: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      // 사용자 정의 동작을 수행합니다.
-                      viewModel.didClickNavigationPopButton();
-                    }),
-                backgroundColor: AppColors.mainColor,
-                title: const Text(
-                  '지출 그룹 추가',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w800,
-                    height: 0,
-                  ),
-                )),
-            body: ListView.builder(
-              itemCount: (viewModel.groupCategoryItems.length) + 1,
-              itemBuilder: (context, index) {
-                if (index < viewModel.groupCategoryItems.length) {
-                  return GroupCategoryListItem(index);
-                } else {
-                  return addGroupButton();
-                }
-              },
-            ),
-          );
-        });
+    return PopScope(
+        canPop: false,
+        child: StreamBuilder<AddGroupListViewModel>(
+            stream: viewModel.dataStream,
+            builder: (context, snapshot) {
+              if (viewModel?.groupCategoryItems == null) {
+                return CircularProgressIndicator();
+              }
+              return Scaffold(
+                appBar: AppBar(
+                    leading: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          // 사용자 정의 동작을 수행합니다.
+                          viewModel.didClickNavigationPopButton();
+                        }),
+                    backgroundColor: AppColors.mainColor,
+                    title: const Text(
+                      '지출 그룹 추가',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w800,
+                        height: 0,
+                      ),
+                    )),
+                body: ListView.builder(
+                  itemCount: (viewModel.groupCategoryItems.length) + 1,
+                  itemBuilder: (context, index) {
+                    if (index < viewModel.groupCategoryItems.length) {
+                      return GroupCategoryListItem(index);
+                    } else {
+                      return addGroupButton();
+                    }
+                  },
+                ),
+              );
+            }));
   }
 
   Widget GroupCategoryListItem(int index) {

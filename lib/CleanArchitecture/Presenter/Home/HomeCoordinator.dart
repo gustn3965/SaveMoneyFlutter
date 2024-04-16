@@ -117,18 +117,11 @@ class HomeCoordinator extends Coordinator {
   }
 
   void showAddSpendView(DateTime date) {
-    bool isModal = true;
-    appCoordinator.showAddSpendView(this, isModal, date);
+    AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator(this, date);
+    addSpendCoordinator.startFromModalBottomSheet();
   }
 
   void showAddGroupView(DateTime date) {
-    for (Coordinator child in childCoordinator) {
-      if (child is AddGroupCoordinator) {
-        AddGroupCoordinator addGroupCoordinator = child as AddGroupCoordinator;
-        addGroupCoordinator.start();
-        return;
-      }
-    }
     AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator(this, date);
     addGroupCoordinator.start();
   }
