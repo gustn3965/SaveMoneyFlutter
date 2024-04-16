@@ -14,9 +14,11 @@ class AddGroupListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder<AddGroupListViewModel>(
-      stream: viewModel.dataStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        stream: viewModel.dataStream,
+        builder: (context, snapshot) {
+          if (viewModel?.groupCategoryItems == null) {
+            return CircularProgressIndicator();
+          }
           return Scaffold(
             appBar: AppBar(
                 backgroundColor: AppColors.mainColor,
@@ -42,12 +44,7 @@ class AddGroupListWidget extends StatelessWidget {
               },
             ),
           );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return CircularProgressIndicator();
-      },
-    );
+        });
   }
 
   Widget GroupCategoryListItem(int index) {

@@ -11,7 +11,7 @@ class DefaultAddGroupListViewModel extends AddGroupListViewModel {
   @override
   late AddGroupListActions actions;
   @override
-  late List<AddGroupListViewModelListItem> groupCategoryItems;
+  late List<AddGroupListViewModelListItem> groupCategoryItems = [];
   @override
   late String addGroupCategoryButtonName = '    새로운 지출 그룹 추가하기    ';
 

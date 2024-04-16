@@ -14,29 +14,18 @@ class AddGroupCoordinator extends Coordinator {
   AddGroupNameViewModel? addGroupNameViewModel;
   AddGroupMoneyViewModel? addGroupMoneyViewModel;
 
-  BuildContext? addGroupContext;
-
-  @override
-  void pop() {
-    NavigationService.navigatorKey.currentState?.popUntil(
-        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
-    superCoordinator?.childCoordinator.remove(this);
+  AddGroupCoordinator(Coordinator? superCoordinator, DateTime date)
+      : super(superCoordinator) {
+    routeName = "AddGroup";
+    currentWidget = makeAddGroupListWidget(date);
   }
 
   @override
   void start() {
-    TEST();
-  }
-
-  void startFromDate(DateTime date) {
-    addGroupContext = NavigationService.currentContext!;
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: "/Page1"),
-        builder: (context) => makeAddGroupListWidget(date),
-      ),
-    );
+    NavigationService.navigatorKey.currentState!.push(MaterialPageRoute(
+      settings: RouteSettings(name: routeName),
+      builder: (context) => currentWidget,
+    ));
   }
 
   @override
@@ -142,16 +131,6 @@ class AddGroupCoordinator extends Coordinator {
             child: const Text('확인'),
           ),
         ],
-      ),
-    );
-  }
-
-  void TEST() {
-    Widget addGroupListWidget = makeAddGroupListWidget(DateTime.now());
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        builder: (context) => addGroupListWidget,
       ),
     );
   }

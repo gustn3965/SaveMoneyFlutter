@@ -1,49 +1,49 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSelector/ViewModel/GroupMonthSelectorViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 
-import 'package:save_money_flutter/main.dart';
+import '../../../main.dart';
 import '../../Domain/Entity/GroupMonth.dart';
-import '../AppCoordinator.dart';
+import '../AddGroup/AddGroupCoordinator.dart';
+import '../AddSpend/AddSpendCoordinator.dart';
+import 'AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
+import 'Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
+import 'GroupMonthSelector/ViewModel/GroupMonthSelectorViewModel.dart';
+import 'GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
+import 'HomeWidget.dart';
 
-import 'MainHomeWidget.dart';
-
-class MainHomeCoordinator extends Coordinator {
-  @override
-  String routeName = "Root";
-
+class HomeCoordinator extends Coordinator {
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? selectorViewModel;
   GroupMonthCalendarViewModel? calendarViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
 
-  @override
-  void start() {
+  AddGroupCoordinator? addGroupCoordinator;
+  AddSpendCoordinator? addSpendCoordinator;
+
+  HomeCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
+    routeName =
+        "Home"; // MainHome에서 호출할경우 routeName은 MainHome으로. ( Navigation push를 안함 )
     Widget selectorWidget = makeSelectorWidget();
     Widget summaryWidget = makeSummaryWidget();
     Widget calendarWidget = makeCalendarWidget();
 
     Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
 
-    Navigator.push(
-      NavigationService.navigatorKey.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: routeName),
-        builder: (context) => MainHomeWidget(
-          widgets: [summaryWidget, selectorWidget, calendarWidget],
-          floattingButtons: [addSpendFloattingWidget],
-        ),
-      ),
+    currentWidget = HomeWidget(
+      widgets: [summaryWidget, selectorWidget, calendarWidget],
+      floattingButtons: [addSpendFloattingWidget],
     );
   }
 
   @override
-  void pop() {
-    Navigator.pop(NavigationService.currentContext!);
-    superCoordinator?.childCoordinator.remove(this);
+  void start() {
+    NavigationService.navigatorKey.currentState!.push(
+      MaterialPageRoute(
+        settings: RouteSettings(name: routeName),
+        builder: (context) => currentWidget,
+      ),
+    );
   }
 
   @override
@@ -54,12 +54,12 @@ class MainHomeCoordinator extends Coordinator {
     selectorViewModel?.reloadFetch();
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();
-    print('MainHomeCoordinator updateCurrentWidget....');
+    print('HomeCoordinator updateCurrentWidget....');
   }
 
   Widget makeSummaryWidget() {
-    summaryViewModel = appDIContainer.main.makeMainSummaryViewModel();
-    return appDIContainer.main.makeMainSummaryWidget(summaryViewModel!);
+    summaryViewModel = appDIContainer.home.makeMainSummaryViewModel();
+    return appDIContainer.home.makeMainSummaryWidget(summaryViewModel!);
   }
 
   Widget makeSelectorWidget() {
@@ -78,9 +78,9 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     selectorViewModel =
-        appDIContainer.main.makeMainGroupMonthSelectorViewModel(actions);
+        appDIContainer.home.makeMainGroupMonthSelectorViewModel(actions);
 
-    return appDIContainer.main
+    return appDIContainer.home
         .makeMainGroupMonthSelectorWidget(selectorViewModel!);
   }
 
@@ -99,8 +99,8 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     calendarViewModel =
-        appDIContainer.main.makeMainGroupMonthCalendarViewModel(actions);
-    return appDIContainer.main
+        appDIContainer.home.makeMainGroupMonthCalendarViewModel(actions);
+    return appDIContainer.home
         .makeMainGroupMonthCalendarWidget(calendarViewModel!);
   }
 
@@ -114,18 +114,22 @@ class MainHomeCoordinator extends Coordinator {
     );
 
     addSpendFloatingButtonViewModel =
-        appDIContainer.main.makeMainAddSpendFloatingViewModel(actions);
-    return appDIContainer.main
+        appDIContainer.home.makeMainAddSpendFloatingViewModel(actions);
+    return appDIContainer.home
         .makeMainAddSpendFloatingWidget(addSpendFloatingButtonViewModel!);
   }
 
   void showAddSpendView(DateTime date) {
     bool isModal = true;
-    coordinator.showAddSpendView(this, isModal, date);
+    appCoordinator.showAddSpendView(this, isModal, date);
   }
 
   void showAddGroupView(DateTime date) {
-    coordinator.showAddGroupMonthView(this, date);
+    if (addGroupCoordinator == null) {
+      addGroupCoordinator = AddGroupCoordinator(this, date);
+    }
+
+    addGroupCoordinator?.start();
   }
 
   void updateCalendarView() {}

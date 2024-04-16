@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 abstract class GroupMonthSummaryViewModel {
-  late String monthGroupTitle;
+  late String? monthGroupTitle;
   late int monthGroupWillSaveMoney;
   late Color monthGroupWillSaveMoneyTextColor;
   late String moneyDescription;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/AppColor/AppColors.dart';
 
-class MainHomeWidget extends StatelessWidget {
+class HomeWidget extends StatelessWidget {
   final List<Widget> widgets;
   final List<Widget> floattingButtons;
 
-  const MainHomeWidget(
+  const HomeWidget(
       {Key? key, required this.widgets, required this.floattingButtons})
       : super(key: key);
 

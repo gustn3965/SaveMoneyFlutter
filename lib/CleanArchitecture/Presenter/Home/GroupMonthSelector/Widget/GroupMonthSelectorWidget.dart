@@ -14,37 +14,30 @@ class GroupMonthSelectorWidget extends StatelessWidget {
     return StreamBuilder<GroupMonthSelectorViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return Container(
-                width: constraints.maxWidth,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 15),
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: 10.0,
-                          runSpacing: 10.0,
-                          children: <Widget>[
-                            ..._makeChipButton(snapshot.data!)
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                      ],
-                    ),
+        return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return Container(
+              width: constraints.maxWidth,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Container(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15),
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        spacing: 10.0,
+                        runSpacing: 10.0,
+                        children: <Widget>[..._makeChipButton(viewModel)],
+                      ),
+                      SizedBox(height: 15),
+                    ],
                   ),
                 ),
-              );
-            },
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return CircularProgressIndicator();
+              ),
+            );
+          },
+        );
       },
     );
   }

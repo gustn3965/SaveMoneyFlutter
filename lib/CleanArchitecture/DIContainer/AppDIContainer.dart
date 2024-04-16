@@ -1,5 +1,8 @@
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
+
+import 'HomeDIContainer.dart';
 import 'LoginDIContainer.dart';
-import 'MainDIContainer.dart';
+import 'MainTabDIContainer.dart';
 import 'AddGroupDIContainer.dart';
 import 'AddSpendDIContainer.dart';
 
@@ -14,9 +17,13 @@ class AppDIContainer {
 
   late LoginDIContainer login = LoginDIContainer(this.appStatus);
 
-  late MainDIContainer main = MainDIContainer(this.appStatus);
+  late MainTabDIContainer mainTab = MainTabDIContainer(this.appStatus);
+
+  late HomeDIContainer home = HomeDIContainer(this.appStatus);
 
   late AddSpendDIContainer addSpend = AddSpendDIContainer(this.appStatus);
 
   late AddGroupDIContainer addGroup = AddGroupDIContainer(this.appStatus);
+
+  late SettingsDIContainer settings = SettingsDIContainer(this.appStatus);
 }

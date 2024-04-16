@@ -6,14 +6,15 @@ import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 import 'GroupMonthSummaryViewModel.dart';
 
 class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
-  late String monthGroupTitle;
+  late String? monthGroupTitle = null;
   late int monthGroupWillSaveMoney;
   late Color monthGroupWillSaveMoneyTextColor;
   late String moneyDescription;
   late int monthGroupPlannedBudget;
   late int monthGroupPlannedBudgetByEveryday;
 
-  final _dataController = StreamController<GroupMonthSummaryViewModel>();
+  final _dataController =
+      StreamController<GroupMonthSummaryViewModel>.broadcast();
   Stream<GroupMonthSummaryViewModel> get dataStream => _dataController.stream;
   int? groupMonthIdentity;
 

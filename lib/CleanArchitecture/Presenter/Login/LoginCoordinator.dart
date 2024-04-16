@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
 
 import 'AddGroupName/ViewModel/LoginAddGroupNameViewModel.dart';
 import 'AddGroupMoney/ViewModel/LoginAddGroupMoneyViewModel.dart';
@@ -10,24 +11,17 @@ class LoginCoordinator extends Coordinator {
   LoginAddGroupNameViewModel? loginAddGroupNameViewModel;
   LoginAddGroupMoneyViewModel? loginAddGroupMoneyViewModel;
 
-  @override
-  void pop() {
-    NavigationService.navigatorKey.currentState?.popUntil(
-        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
-    superCoordinator?.childCoordinator.remove(this);
+  LoginCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
+    routeName = "Login";
+    currentWidget = makeLoginAddGroupNameWidget();
   }
 
   @override
   void start() {
-    showAddGroupWidget();
-    // TODO: implement start
-  }
-
-  void showAddGroupWidget() {
     Navigator.pushAndRemoveUntil(
         NavigationService.currentContext!,
         MaterialPageRoute(
-          builder: (context) => makeLoginAddGroupNameWidget(),
+          builder: (context) => currentWidget,
         ),
         (route) => false);
   }
@@ -35,7 +29,8 @@ class LoginCoordinator extends Coordinator {
   void showMainHomeWidget() {
     pop();
 
-    coordinator.showMainHomeView(null);
+    MainTabCoordinator mainHomeCoordinator = MainTabCoordinator(appCoordinator);
+    mainHomeCoordinator.start();
   }
 
   Widget makeLoginAddGroupNameWidget() {

@@ -39,11 +39,11 @@ import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
 
-AppCoordinator coordinator = AppCoordinator();
+AppCoordinator appCoordinator = AppCoordinator(null);
 AppDIContainer appDIContainer = AppDIContainer();
 
 void main() async {
-  coordinator.start();
+  appCoordinator.start();
 
   // WidgetsFlutterBinding.ensureInitialized();
   // await SqliteController().initializeAsync();

@@ -16,9 +16,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
     return StreamBuilder<GroupMonthSummaryViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return contentWidget(snapshot.data!);
-        } else if (snapshot.hasError) {
+        if (viewModel.monthGroupTitle == null) {
           return const SizedBox(
             height: 120,
             child: Center(
@@ -35,8 +33,9 @@ class GroupMonthSummaryWidget extends StatelessWidget {
               maxLines: 2,
             )),
           );
+        } else {
+          return contentWidget(viewModel);
         }
-        return const CircularProgressIndicator();
       },
     );
   }
@@ -69,7 +68,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        viewModel.monthGroupTitle,
+                        viewModel.monthGroupTitle ?? "",
                         style: TextStyle(
                           color: Color(0xFFFF005B),
                           fontSize: 22,

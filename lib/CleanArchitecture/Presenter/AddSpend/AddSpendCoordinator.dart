@@ -8,6 +8,11 @@ import 'AddSpend/ViewModel/AddSpendViewModel.dart';
 class AddSpendCoordinator extends Coordinator {
   AddSpendViewModel? addSpendViewModel;
 
+  AddSpendCoordinator(Coordinator? superCoordinator, DateTime date)
+      : super(superCoordinator) {
+    currentWidget = makeAddSpendWidget(date);
+  }
+
   @override
   void pop() {
     NavigationService.navigatorKey.currentState?.popUntil(
@@ -17,15 +22,19 @@ class AddSpendCoordinator extends Coordinator {
 
   @override
   void start() {
-    TEST();
+    Navigator.push(
+      NavigationService.currentContext!,
+      MaterialPageRoute(
+        settings: RouteSettings(name: "/Page1"),
+        builder: (context) => currentWidget,
+      ),
+    );
   }
 
   @override
   void updateCurrentWidget() {}
 
   void startFromModalBottomSheet(DateTime date) {
-    Widget addSpendWidget = makeAddSpendWidget(date);
-
     showModalBottomSheet(
       context: NavigationService.navigatorKey.currentContext!,
       clipBehavior: Clip.hardEdge,
@@ -35,7 +44,7 @@ class AddSpendCoordinator extends Coordinator {
       builder: (BuildContext context) {
         return Container(
             height: MediaQuery.of(context).size.height * 0.9,
-            child: addSpendWidget);
+            child: currentWidget);
       },
     );
   }
@@ -77,16 +86,6 @@ class AddSpendCoordinator extends Coordinator {
           ),
         );
       },
-    );
-  }
-
-  void TEST() {
-    Widget addSpendWidget = makeAddSpendWidget(DateTime.now());
-    Navigator.push(
-      NavigationService.navigatorKey.currentContext!,
-      MaterialPageRoute(
-        builder: (context) => addSpendWidget,
-      ),
     );
   }
 }

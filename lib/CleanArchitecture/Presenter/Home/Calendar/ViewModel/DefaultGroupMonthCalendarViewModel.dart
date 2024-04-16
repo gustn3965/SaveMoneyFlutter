@@ -14,7 +14,8 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
   late DateTime? selectedDate = null;
   int? groupMonthIdentity;
 
-  final _dataController = StreamController<GroupMonthCalendarViewModel>();
+  final _dataController =
+      StreamController<GroupMonthCalendarViewModel>.broadcast();
   Stream<GroupMonthCalendarViewModel> get dataStream => _dataController.stream;
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
 
