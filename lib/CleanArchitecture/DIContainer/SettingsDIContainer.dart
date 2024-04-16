@@ -8,8 +8,8 @@ class SettingsDIContainer {
 
   SettingsDIContainer(this.appStatus);
 
-  SettingsViewModel makeSettingsViewModel() {
-    return DefaultSettingsViewModel();
+  SettingsViewModel makeSettingsViewModel(SettingsAction action) {
+    return DefaultSettingsViewModel(action);
   }
 
   Widget makeSettingsWidget(SettingsViewModel viewModel) {

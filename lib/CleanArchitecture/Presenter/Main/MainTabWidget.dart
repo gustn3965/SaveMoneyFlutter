@@ -17,28 +17,21 @@ class MainTabWidget extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           body: bodyWidget,
-          // floatingActionButton:
-          //     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          //   Row(
-          //       mainAxisAlignment: MainAxisAlignment.end,
-          //       children: floattingButtons),
-          // ]),
           bottomNavigationBar: BottomNavigationBar(
-            // currentIndex: _index,
+            currentIndex: viewModel.bottomNavigationIndex,
             onTap: (value) {
               if (value == 0) {
                 viewModel.didClickHomeBottomTabButton();
               } else {
                 viewModel.didClickSettingBottomTabButton();
               }
-              // setState(() {
-              //   _index = value;
-              //   print(_index);
-              // });
             },
+            selectedItemColor: AppColors.mainHightColor,
+            showSelectedLabels: true,
+            showUnselectedLabels: false,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-              BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'menu'),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+              BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
             ],
           ),
         );
@@ -46,3 +39,55 @@ class MainTabWidget extends StatelessWidget {
     );
   }
 }
+
+// class MainTabWidget extends StatefulWidget {
+//   final MainTabViewModel viewModel;
+//   late Widget bodyWidget;
+//
+//   MainTabWidget(this.viewModel, this.bodyWidget);
+//
+//   @override
+//   State<StatefulWidget> createState() => MainTabState();
+// }
+//
+// class MainTabState extends State<MainTabWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<MainTabViewModel>(
+//       stream: widget.viewModel.dataStream,
+//       builder: (context, snapshot) {
+//         return Scaffold(
+//           backgroundColor: Colors.white,
+//           body: widget.bodyWidget,
+//           // floatingActionButton:
+//           //     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+//           //   Row(
+//           //       mainAxisAlignment: MainAxisAlignment.end,
+//           //       children: floattingButtons),
+//           // ]),
+//           bottomNavigationBar: BottomNavigationBar(
+//             currentIndex: _index,
+//             onTap: (value) {
+//               if (value == 0) {
+//                 widget.viewModel.didClickHomeBottomTabButton();
+//               } else {
+//                 widget.viewModel.didClickSettingBottomTabButton();
+//               }
+//               // setState(() {
+//               //   _index = value;
+//               //   print(_index);
+//               // });
+//             },
+//             selectedIconTheme: IconThemeData(),
+//             showSelectedLabels: true,
+//             showUnselectedLabels: false,
+//             items: [
+//               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+//               BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'menu'),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

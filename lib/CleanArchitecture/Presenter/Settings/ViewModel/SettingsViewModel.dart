@@ -6,16 +6,27 @@ class SettingsViewModelListItem {
   SettingsViewModelListItem(this.name);
 }
 
+class SettingsAction {
+  void Function() clickToMoveLogin;
+  SettingsAction(this.clickToMoveLogin);
+}
+
 abstract class SettingsViewModel {
   late List<SettingsViewModelListItem> list;
+
+  late SettingsAction action;
+
+  SettingsViewModel(this.action);
 
   // Observing
   Stream<SettingsViewModel> get dataStream;
   void dispose();
+
+  void didClickCell(int index);
 }
 
 class DefaultSettingsViewModel extends SettingsViewModel {
-  DefaultSettingsViewModel() {
+  DefaultSettingsViewModel(super.action) {
     fetchList();
   }
 
@@ -32,6 +43,15 @@ class DefaultSettingsViewModel extends SettingsViewModel {
     ];
 
     _dataController.add(this);
+  }
+
+  @override
+  void didClickCell(int index) {
+    if (index == 0) {
+      action.clickToMoveLogin();
+    } else {
+      print("아직 개발안됌");
+    }
   }
 
   @override

@@ -51,8 +51,8 @@ class AppCoordinator extends Coordinator {
     Future.delayed(const Duration(milliseconds: 1000), () {
       Navigator.pop(NavigationService.currentContext!);
 
-      showLoginView();
-      // showMainHomeView(null);
+      // showLoginView();
+      showMainHomeView(null);
       // showSettinsView(null);
 
       // TESTAddSpendWidget();

@@ -32,58 +32,42 @@ class SettingsWidget extends StatelessWidget {
           body: ListView.builder(
             itemCount: (viewModel.list.length),
             itemBuilder: (context, index) {
-              return listCell(viewModel.list[index]);
+              return listCell(index);
             },
           ),
         );
-        if (snapshot.hasData) {
-          return Scaffold(
-            appBar: AppBar(
-                backgroundColor: AppColors.mainColor,
-                title: const Text(
-                  '설정',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w800,
-                    height: 0,
-                  ),
-                )),
-            body: ListView.builder(
-              itemCount: (viewModel.list.length),
-              itemBuilder: (context, index) {
-                return listCell(viewModel.list[index]);
-              },
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return CircularProgressIndicator();
       },
     );
   }
 
-  Widget listCell(SettingsViewModelListItem item) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(left: 20, right: 10, top: 15, bottom: 10),
-        padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: Colors.black,
+  Widget listCell(int index) {
+    SettingsViewModelListItem item = viewModel.list[index];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        GestureDetector(
+          onTap: () {
+            viewModel.didClickCell(index);
+          },
+          child: Container(
+            alignment: Alignment.centerLeft,
+            margin:
+                const EdgeInsets.only(left: 20, right: 10, top: 15, bottom: 10),
+            padding: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              item.name,
+              style: TextStyle(fontSize: 15.0),
+            ),
           ),
-          borderRadius: BorderRadius.circular(20),
-        ), //  POINT: BoxDecoration
-        child: Text(
-          item.name,
-          style: TextStyle(fontSize: 15.0),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }

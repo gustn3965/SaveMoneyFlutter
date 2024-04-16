@@ -9,6 +9,7 @@ class MainTabViewModelAction {
 
 abstract class MainTabViewModel {
   late MainTabViewModelAction action;
+  int bottomNavigationIndex = 0;
 
   MainTabViewModel(this.action);
 
@@ -30,12 +31,14 @@ class DefaultMainTabViewModel extends MainTabViewModel {
   @override
   void didClickHomeBottomTabButton() {
     action.didClickHomeBottomTabButton();
+    bottomNavigationIndex = 0;
     _dataController.add(this);
   }
 
   @override
   void didClickSettingBottomTabButton() {
     action.didClickSettingBottomTabButton();
+    bottomNavigationIndex = 1;
     _dataController.add(this);
   }
 
