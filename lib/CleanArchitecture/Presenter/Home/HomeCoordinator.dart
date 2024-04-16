@@ -18,9 +18,6 @@ class HomeCoordinator extends Coordinator {
   GroupMonthCalendarViewModel? calendarViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
 
-  AddGroupCoordinator? addGroupCoordinator;
-  AddSpendCoordinator? addSpendCoordinator;
-
   HomeCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
     routeName =
         "Home"; // MainHome에서 호출할경우 routeName은 MainHome으로. ( Navigation push를 안함 )
@@ -125,11 +122,15 @@ class HomeCoordinator extends Coordinator {
   }
 
   void showAddGroupView(DateTime date) {
-    if (addGroupCoordinator == null) {
-      addGroupCoordinator = AddGroupCoordinator(this, date);
+    for (Coordinator child in childCoordinator) {
+      if (child is AddGroupCoordinator) {
+        AddGroupCoordinator addGroupCoordinator = child as AddGroupCoordinator;
+        addGroupCoordinator.start();
+        return;
+      }
     }
-
-    addGroupCoordinator?.start();
+    AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator(this, date);
+    addGroupCoordinator.start();
   }
 
   void updateCalendarView() {}

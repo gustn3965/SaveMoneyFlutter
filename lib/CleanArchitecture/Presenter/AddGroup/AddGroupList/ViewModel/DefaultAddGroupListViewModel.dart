@@ -40,6 +40,11 @@ class DefaultAddGroupListViewModel extends AddGroupListViewModel {
   }
 
   @override
+  void didClickNavigationPopButton() {
+    actions.navigationPop();
+  }
+
+  @override
   void dispose() {
     _dataController.close();
   }

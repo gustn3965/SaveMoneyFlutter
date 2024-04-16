@@ -21,6 +21,12 @@ class AddGroupListWidget extends StatelessWidget {
           }
           return Scaffold(
             appBar: AppBar(
+                leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      // 사용자 정의 동작을 수행합니다.
+                      viewModel.didClickNavigationPopButton();
+                    }),
                 backgroundColor: AppColors.mainColor,
                 title: const Text(
                   '지출 그룹 추가',

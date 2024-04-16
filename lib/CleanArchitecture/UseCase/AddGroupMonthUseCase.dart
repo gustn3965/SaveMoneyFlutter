@@ -18,7 +18,7 @@ class MockAddGroupMonthUseCase extends AddGroupMonthUseCase {
       plannedBudget: plannedBudget,
       date: date,
       groupCategory: groupCategory,
-      identity: indexDateIdFromDateTime(date),
+      identity: indexDateIdFromDateTime(DateTime.now()),
     );
     mockGroupMonthList.add(newMonth);
   }

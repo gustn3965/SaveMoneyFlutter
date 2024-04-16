@@ -14,8 +14,10 @@ class AddGroupListViewModelListItem {
 class AddGroupListActions {
   void Function(DateTime date) addNewGroup;
   void Function(DateTime date, String groupName) addCurrentGroup;
+  void Function() navigationPop;
 
-  AddGroupListActions(this.addNewGroup, this.addCurrentGroup);
+  AddGroupListActions(
+      this.addNewGroup, this.addCurrentGroup, this.navigationPop);
 }
 
 abstract class AddGroupListViewModel {
@@ -27,6 +29,7 @@ abstract class AddGroupListViewModel {
 
   void didClickAddNewGroupCategoryButton();
   void didClickAddCurrentItem(int index);
+  void didClickNavigationPopButton();
 
   Future<void> fetchGroupCategoryList();
 

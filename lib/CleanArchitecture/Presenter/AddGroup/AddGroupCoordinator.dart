@@ -52,9 +52,14 @@ class AddGroupCoordinator extends Coordinator {
       );
     }
 
+    void navigationPop() {
+      pop();
+    }
+
     AddGroupListActions actions = AddGroupListActions(
       addNewGroup,
       addCurrentGroup,
+      navigationPop,
     );
 
     AddGroupListViewModel groupListviewModel =
