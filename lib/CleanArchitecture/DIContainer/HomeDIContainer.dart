@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DefaultDaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/Widget/DaySpendListWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
 
 import '../Presenter/Home/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
 import '../Presenter/Home/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
@@ -71,5 +75,18 @@ class HomeDIContainer {
     return AddSpendFloatingButtonWidget(
       viewModel: viewModel,
     );
+  }
+
+  // Home - DaySpendList
+
+  DaySpendListViewModel makeDaySpendListViewModel(
+      DaySpendListAction action, DateTime date, int groupId) {
+    DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(
+        action, date, groupId, MockDaySpendListUseCase());
+    return viewModel;
+  }
+
+  DaySpendListWidget makeDaySpendListWidget(DaySpendListViewModel viewModel) {
+    return DaySpendListWidget(viewModel);
   }
 }

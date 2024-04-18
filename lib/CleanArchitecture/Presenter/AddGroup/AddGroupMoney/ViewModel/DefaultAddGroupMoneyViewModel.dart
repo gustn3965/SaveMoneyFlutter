@@ -10,11 +10,11 @@ class DefaultAddGroupMoneyViewModel extends AddGroupMoneyViewModel {
   @override
   late AddGroupMoneyAction actions;
   @override
-  late int plannedBudget;
+  late int plannedBudget = 0;
   @override
-  late int everyExpectedMoney;
+  late int everyExpectedMoney = 0;
   @override
-  late bool availableConfirmButton;
+  late bool availableConfirmButton = false;
   @override
   late DateTime date;
 
@@ -71,6 +71,7 @@ class DefaultAddGroupMoneyViewModel extends AddGroupMoneyViewModel {
     availableConfirmButton = false;
     plannedBudget = 0;
     everyExpectedMoney = 0;
+
     _dataController.add(this);
   }
 

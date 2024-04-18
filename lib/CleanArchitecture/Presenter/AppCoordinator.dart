@@ -31,6 +31,7 @@ abstract class Coordinator {
     superCoordinator?.childCoordinator.remove(this);
   }
 
+  // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   void updateCurrentWidget();
 
   late String routeName;

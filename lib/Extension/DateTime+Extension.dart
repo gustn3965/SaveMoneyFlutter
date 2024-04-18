@@ -39,6 +39,12 @@ bool isEqualDateMonth(DateTime dateTime, DateTime otherTime) {
   return dateTime.year == otherTime.year && dateTime.month == otherTime.month;
 }
 
+bool isEqualDateMonthAndDay(DateTime dateTime, DateTime otherTime) {
+  return dateTime.year == otherTime.year &&
+      dateTime.month == otherTime.month &&
+      dateTime.day == otherTime.day;
+}
+
 // DateTime
 
 DateTime dateTimeFromSince1970(int since) {

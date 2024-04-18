@@ -45,6 +45,7 @@ class LoginAddGroupMoneyWidget extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 controller: groupMoneyTitleController,
                                 keyboardType: TextInputType.number,
+                                autofocus: true,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
                                       RegExp('[0-9]'))
