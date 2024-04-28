@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 
 import '../../../main.dart';
@@ -132,7 +133,9 @@ class HomeCoordinator extends Coordinator {
   }
 
   Widget makeDaySpendListWidget() {
-    void showModifySpendItem(int spendId) {}
+    void showModifySpendItem(int spendId) {
+      showEditSpendView(spendId);
+    }
 
     DaySpendListAction action = DaySpendListAction(showModifySpendItem);
 
@@ -149,6 +152,12 @@ class HomeCoordinator extends Coordinator {
   void showAddGroupView(DateTime date) {
     AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator(this, date);
     addGroupCoordinator.start();
+  }
+
+  void showEditSpendView(int spendId) {
+    EditSpendCoordinator editSpendCoordinator =
+        EditSpendCoordinator(this, spendId);
+    editSpendCoordinator.startFromModalBottomSheet();
   }
 
   void updateCalendarView() {}

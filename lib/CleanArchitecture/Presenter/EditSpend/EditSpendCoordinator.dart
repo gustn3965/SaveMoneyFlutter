@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
-import 'AddSpend/ViewModel/AddSpendViewModel.dart';
+import 'ViewModel/EditSpendViewModel.dart';
 
-class AddSpendCoordinator extends Coordinator {
-  AddSpendViewModel? addSpendViewModel;
+class EditSpendCoordinator extends Coordinator {
+  EditSpendViewModel? editSpendViewModel;
 
-  AddSpendCoordinator(Coordinator? superCoordinator, DateTime date)
+  EditSpendCoordinator(Coordinator? superCoordinator, int spendId)
       : super(superCoordinator) {
-    currentWidget = makeAddSpendWidget(date);
+    currentWidget = makeEditSpendWidget(spendId);
   }
 
   @override
@@ -51,24 +51,30 @@ class AddSpendCoordinator extends Coordinator {
     });
   }
 
-  Widget makeAddSpendWidget(DateTime date) {
+  Widget makeEditSpendWidget(int spendId) {
     void showDatePicker(DateTime date) {
       showDateTimePicker(date);
     }
 
-    void didAddSpend() {
+    void didEditSpend() {
       superCoordinator?.updateCurrentWidget();
       pop();
     }
 
-    AddSpendActions actions = AddSpendActions(
+    void didDeleteSpend() {
+      superCoordinator?.updateCurrentWidget();
+      pop();
+    }
+
+    EditSpendActions actions = EditSpendActions(
       showDatePicker,
-      didAddSpend,
+      didEditSpend,
+      didDeleteSpend,
     );
 
-    addSpendViewModel =
-        appDIContainer.addSpend.makeAddSpendViewModel(date, actions);
-    return appDIContainer.addSpend.makeAddSpendWidget(addSpendViewModel!);
+    editSpendViewModel =
+        appDIContainer.editSpend.makeEditSpendViewModel(spendId, actions);
+    return appDIContainer.editSpend.makeEditSpendWidget(editSpendViewModel!);
   }
 
   void showDateTimePicker(DateTime date) {
@@ -83,7 +89,7 @@ class AddSpendCoordinator extends Coordinator {
             mode: CupertinoDatePickerMode.date,
             initialDateTime: date,
             onDateTimeChanged: (DateTime newDate) async {
-              addSpendViewModel?.didChangeDate(newDate);
+              editSpendViewModel?.didChangeDate(newDate);
             },
           ),
         );

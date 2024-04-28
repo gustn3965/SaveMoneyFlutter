@@ -76,7 +76,9 @@ class DaySpendListWidget extends StatelessWidget {
                                   ],
                                 ),
                                 FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    viewModel.didClickModifySpendItem(index);
+                                  },
                                   style: OutlinedButton.styleFrom(
                                     foregroundColor: Colors.black,
                                     backgroundColor: Color(0xFFA6BEFB),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 int dayFromMillisecondsSinceEpoch(int miliseconds) {
   DateTime time = DateTime.fromMillisecondsSinceEpoch(miliseconds);
   return time.day;
@@ -19,12 +21,13 @@ int yearFromSince1970(int since) {
 }
 
 int indexDateIdFromDateTime(DateTime dateTime) {
-  return (dateTime.millisecondsSinceEpoch / 1000).toInt();
+  print((dateTime.millisecondsSinceEpoch).toInt());
+  return (dateTime.millisecondsSinceEpoch).toInt() + Random().nextInt(1000);
 }
 
 int indexMonthDateIdFromDateTime(DateTime dateTime) {
   DateTime dateFrom = DateTime(dateTime.year, dateTime.month);
-  return (dateFrom.millisecondsSinceEpoch / 1000).toInt();
+  return (dateFrom.millisecondsSinceEpoch).toInt();
 }
 
 int daysInMonthFromSince1970(int since) {

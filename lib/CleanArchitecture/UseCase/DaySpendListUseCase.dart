@@ -6,6 +6,8 @@ import '../Domain/Entity/Spend.dart';
 
 abstract class DaySpendListUseCase {
   Future<List<Spend>> fetchDaySpendList(int groupId, DateTime date);
+
+  Future<Spend?> fetchSpend(int spendId);
 }
 
 class MockDaySpendListUseCase extends DaySpendListUseCase {
@@ -23,5 +25,17 @@ class MockDaySpendListUseCase extends DaySpendListUseCase {
     }
 
     return spendList;
+  }
+
+  @override
+  Future<Spend?> fetchSpend(int spendId) async {
+    for (GroupMonth group in mockGroupMonthList) {
+      for (Spend spend in group.spendList) {
+        if (spend.identity == spendId) {
+          return spend;
+        }
+      }
+    }
+    return null;
   }
 }
