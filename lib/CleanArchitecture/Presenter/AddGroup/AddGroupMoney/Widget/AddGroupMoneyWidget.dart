@@ -158,7 +158,7 @@ class AddGroupMoneyWidget extends StatelessWidget {
               // int date = indexMonthDateIdFromDateTime(widget.selectedDate);
               // int expectedMoney = int.parse(groupMoneyTitleController.text.replaceAll(',', ''));
               // int everyExpectedMoney = (expectedMoney / daysInMonthFromSince1970(date)).toInt();
-              // NTMonth newMonth = NTMonth(id: indexDateIdFromDateTime(DateTime.now()), date: date, groupId: widget.group.id, spendType: 0, expectedSpend: expectedMoney, everyExpectedSpend: everyExpectedMoney, additionalMoney: 0);
+              // NTMonth newMonth = NTMonth(id: generateUniqueId(), date: date, groupId: widget.group.id, spendType: 0, expectedSpend: expectedMoney, everyExpectedSpend: everyExpectedMoney, additionalMoney: 0);
               // await saveMoneyViewModel.addSpendGroup(widget.group);
               // await saveMoneyViewModel.addNtMonth(newMonth);
               //

@@ -28,7 +28,7 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
   }
 
   @override
-  Future<void> fetchDaySpendList(int groupId, DateTime date) async {
+  Future<void> fetchDaySpendList(String groupId, DateTime date) async {
     List<Spend> list =
         await daySpendListUseCase.fetchDaySpendList(groupId, date);
 

@@ -80,7 +80,7 @@ class HomeDIContainer {
   // Home - DaySpendList
 
   DaySpendListViewModel makeDaySpendListViewModel(
-      DaySpendListAction action, DateTime date, int groupId) {
+      DaySpendListAction action, DateTime date, String groupId) {
     DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(
         action, date, groupId, MockDaySpendListUseCase());
     return viewModel;

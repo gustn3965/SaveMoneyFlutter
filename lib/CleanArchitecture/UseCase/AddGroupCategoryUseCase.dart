@@ -22,9 +22,8 @@ class MockAddGroupCategoryUseCase extends AddGroupCategoryUseCase {
       return hasCategory;
     }
 
-    GroupCategory newGroupCategory = GroupCategory(
-        name: groupCategoryName,
-        identity: indexDateIdFromDateTime(DateTime.now()));
+    GroupCategory newGroupCategory =
+        GroupCategory(name: groupCategoryName, identity: generateUniqueId());
 
     mockCategoryList.add(newGroupCategory);
     return newGroupCategory;

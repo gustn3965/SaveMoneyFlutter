@@ -8,7 +8,7 @@ class GroupMonth {
 
   GroupCategory groupCategory;
 
-  int identity;
+  String identity;
 
   GroupMonth({
     required this.spendList,

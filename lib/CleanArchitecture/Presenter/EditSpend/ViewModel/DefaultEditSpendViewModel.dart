@@ -30,7 +30,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
     fetchSpend(spendId);
   }
 
-  Future<void> fetchSpend(int spendId) async {
+  Future<void> fetchSpend(String spendId) async {
     Spend? spend = await daySpendListUseCase.fetchSpend(spendId);
     if (spend != null) {
       date = spend.date;

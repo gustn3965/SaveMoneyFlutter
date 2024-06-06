@@ -14,7 +14,7 @@ class EditSpendDIContainer {
   EditSpendDIContainer(this.appStatus);
 
   EditSpendViewModel makeEditSpendViewModel(
-      int spendId, EditSpendActions action) {
+      String spendId, EditSpendActions action) {
     EditSpendViewModel viewModel = DefaultEditSpendViewModel(
         MockSpendCategoryFetchUseCase(),
         MockGroupCategoryFetchUseCase(),

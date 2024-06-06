@@ -75,7 +75,7 @@ class HomeCoordinator extends Coordinator {
     void updateSelectedGroupMonth(GroupMonth? groupMonth) {
       summaryViewModel?.fetchGroupMonth(groupMonth?.identity);
       calendarViewModel?.fetchGroupMonth(groupMonth?.identity);
-      daySpendListViewModel?.groupId = groupMonth?.identity ?? 0;
+      daySpendListViewModel?.groupId = groupMonth?.identity ?? "";
       daySpendListViewModel?.reloadFetch();
     }
 
@@ -133,14 +133,14 @@ class HomeCoordinator extends Coordinator {
   }
 
   Widget makeDaySpendListWidget() {
-    void showModifySpendItem(int spendId) {
+    void showModifySpendItem(String spendId) {
       showEditSpendView(spendId);
     }
 
     DaySpendListAction action = DaySpendListAction(showModifySpendItem);
 
     daySpendListViewModel = appDIContainer.home
-        .makeDaySpendListViewModel(action, DateTime.now(), 0);
+        .makeDaySpendListViewModel(action, DateTime.now(), "");
     return appDIContainer.home.makeDaySpendListWidget(daySpendListViewModel!);
   }
 
@@ -154,7 +154,7 @@ class HomeCoordinator extends Coordinator {
     addGroupCoordinator.start();
   }
 
-  void showEditSpendView(int spendId) {
+  void showEditSpendView(String spendId) {
     EditSpendCoordinator editSpendCoordinator =
         EditSpendCoordinator(this, spendId);
     editSpendCoordinator.startFromModalBottomSheet();

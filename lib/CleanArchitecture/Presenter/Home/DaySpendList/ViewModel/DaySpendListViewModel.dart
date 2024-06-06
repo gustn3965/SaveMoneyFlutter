@@ -1,5 +1,5 @@
 class DaySpendListAction {
-  void Function(int spendId) didClickModifySpendItem;
+  void Function(String spendId) didClickModifySpendItem;
 
   DaySpendListAction(this.didClickModifySpendItem);
 }
@@ -8,7 +8,7 @@ class DaySpendListViewModelItem {
   String categoryName;
   DateTime date;
   int spendMoney;
-  int identity;
+  String identity;
 
   DaySpendListViewModelItem(
       this.categoryName, this.date, this.spendMoney, this.identity);
@@ -19,7 +19,7 @@ abstract class DaySpendListViewModel {
 
   List<DaySpendListViewModelItem> spendList = [];
   late DateTime date;
-  late int groupId;
+  late String groupId;
   int totalSpendMoney = 0;
 
   DaySpendListViewModel(this.action, this.date, this.groupId);

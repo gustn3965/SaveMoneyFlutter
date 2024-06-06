@@ -18,7 +18,7 @@ abstract class GroupMonthCalendarViewModel {
   Future<void> didSelectDate(DateTime date);
   Future<void> didChangeMonth(DateTime date);
 
-  Future<void> fetchGroupMonth(int? groupMonthId);
+  Future<void> fetchGroupMonth(String? groupMonthId);
   void reloadFetch();
 
   // Observing

@@ -16,13 +16,13 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
   final _dataController =
       StreamController<GroupMonthSummaryViewModel>.broadcast();
   Stream<GroupMonthSummaryViewModel> get dataStream => _dataController.stream;
-  int? groupMonthIdentity;
+  String? groupMonthIdentity;
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
   DefaultGroupMonthSummaryViewModel(this.groupMonthFetchUseCase);
 
   @override
-  Future<void> fetchGroupMonth(int? identity) async {
+  Future<void> fetchGroupMonth(String? identity) async {
     groupMonthIdentity = identity;
     if (identity == null) {
       _dataController.addError(Error());

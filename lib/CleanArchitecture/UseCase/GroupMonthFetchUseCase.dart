@@ -6,10 +6,10 @@ import 'MockDataSet.dart';
 abstract class GroupMonthFetchUseCase {
   Future<List<GroupMonth>> fetchGroupMonthList(DateTime date);
 
-  Future<GroupMonth?> fetchGroupMonthByGroupId(int? groupId);
+  Future<GroupMonth?> fetchGroupMonthByGroupId(String? groupId);
 
   Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
-      int groupCategoryId, DateTime date);
+      String groupCategoryId, DateTime date);
 }
 
 class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
@@ -38,7 +38,7 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
   }
 
   @override
-  Future<GroupMonth?> fetchGroupMonthByGroupId(int? groupId) async {
+  Future<GroupMonth?> fetchGroupMonthByGroupId(String? groupId) async {
     // 예시 데이터 반환
     await Future.delayed(
         const Duration(milliseconds: 100)); // 비동기 처리를 위해 await 사용
@@ -54,7 +54,7 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
 
   @override
   Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
-      int groupCategoryId, DateTime date) async {
+      String groupCategoryId, DateTime date) async {
     for (var group in mockGroupMonthList) {
       if (group.groupCategory.identity == groupCategoryId &&
           isEqualDateMonth(group.date, date)) {

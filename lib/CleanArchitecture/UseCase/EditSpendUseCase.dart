@@ -5,7 +5,7 @@ import 'MockDataSet.dart';
 abstract class EditSpendUseCase {
   Future<bool> editSpend(Spend spend);
 
-  Future<bool> deleteSpend(int spendId);
+  Future<bool> deleteSpend(String spendId);
 }
 
 class MockEditSpendUseCase extends EditSpendUseCase {
@@ -37,7 +37,7 @@ class MockEditSpendUseCase extends EditSpendUseCase {
   }
 
   @override
-  Future<bool> deleteSpend(int spendId) async {
+  Future<bool> deleteSpend(String spendId) async {
     bool didDelete = false;
     for (GroupMonth month in mockGroupMonthList) {
       for (int index = 0; index < month.spendList.length; index++) {

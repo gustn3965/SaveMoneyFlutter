@@ -8,7 +8,7 @@ import 'ViewModel/EditSpendViewModel.dart';
 class EditSpendCoordinator extends Coordinator {
   EditSpendViewModel? editSpendViewModel;
 
-  EditSpendCoordinator(Coordinator? superCoordinator, int spendId)
+  EditSpendCoordinator(Coordinator? superCoordinator, String spendId)
       : super(superCoordinator) {
     currentWidget = makeEditSpendWidget(spendId);
   }
@@ -51,7 +51,7 @@ class EditSpendCoordinator extends Coordinator {
     });
   }
 
-  Widget makeEditSpendWidget(int spendId) {
+  Widget makeEditSpendWidget(String spendId) {
     void showDatePicker(DateTime date) {
       showDateTimePicker(date);
     }

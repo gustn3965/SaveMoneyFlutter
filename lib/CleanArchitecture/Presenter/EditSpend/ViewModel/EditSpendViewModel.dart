@@ -10,7 +10,7 @@ class EditSpendActions {
 }
 
 abstract class EditSpendViewModel {
-  int spendId;
+  String spendId;
 
   late EditSpendActions editSpendActions;
   late bool availableSaveButton;

@@ -12,7 +12,7 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
   late GroupMonthCalendarActions groupMonthCalendarActions;
   late DateTime focuseDate = DateTime.now();
   late DateTime? selectedDate = null;
-  int? groupMonthIdentity;
+  String? groupMonthIdentity;
 
   final _dataController =
       StreamController<GroupMonthCalendarViewModel>.broadcast();
@@ -36,7 +36,7 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
   }
 
   @override
-  Future<void> fetchGroupMonth(int? groupMonthId) async {
+  Future<void> fetchGroupMonth(String? groupMonthId) async {
     groupMonthIdentity = groupMonthId;
     GroupMonth? groupMonth =
         await groupMonthFetchUseCase.fetchGroupMonthByGroupId(groupMonthId);

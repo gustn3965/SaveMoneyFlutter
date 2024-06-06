@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:uuid/uuid.dart';
 
 int dayFromMillisecondsSinceEpoch(int miliseconds) {
   DateTime time = DateTime.fromMillisecondsSinceEpoch(miliseconds);
@@ -75,4 +76,8 @@ DateTime dateTimeAfterMonthDay(
     DateTime dateTime, int afterMonth, int afterDay) {
   return DateTime.utc(
       dateTime.year, dateTime.month + afterMonth, dateTime.day + afterDay);
+}
+
+String generateUniqueId() {
+  return const Uuid().v1(); // timestamp
 }

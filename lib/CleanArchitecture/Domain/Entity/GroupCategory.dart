@@ -1,6 +1,6 @@
 class GroupCategory {
   String name;
-  int identity;
+  String identity;
 
   GroupCategory({
     required this.name,

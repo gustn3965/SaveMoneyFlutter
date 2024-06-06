@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
+
 import '../../../../../Extension/int+Extension.dart';
 import '../../../../Domain/Entity/GroupCategory.dart';
 import '../../../../Domain/Entity/Spend.dart';
@@ -81,7 +83,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
         spendMoney: spendMoney,
         groupCategory: selectedGroupCategory!,
         spendCategory: selectedSpendCategory!,
-        identity: RandomInt());
+        identity: generateUniqueId());
     await addSpendUseCase.addSpend(spend);
 
     addSpendActions.didAddSpend();

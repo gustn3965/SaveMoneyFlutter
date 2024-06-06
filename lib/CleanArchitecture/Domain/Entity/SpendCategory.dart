@@ -1,6 +1,6 @@
 class SpendCategory {
   String name;
-  int identity;
+  String identity;
 
   SpendCategory({
     required this.name,

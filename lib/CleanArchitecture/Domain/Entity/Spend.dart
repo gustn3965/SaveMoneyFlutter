@@ -9,7 +9,7 @@ class Spend {
   GroupCategory groupCategory;
   SpendCategory spendCategory;
 
-  int identity;
+  String identity;
 
   Spend({
     required this.date,
