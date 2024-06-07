@@ -52,11 +52,11 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 // mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
+                  Flexible(
                     child: Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: Text(
-                        viewModel.monthGroupTitle ?? "",
+                        '${viewModel.monthGroupTitle ?? ""}',
                         style: TextStyle(
                           color: Color(0xFFFF005B),
                           fontSize: 22,
@@ -64,26 +64,28 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           height: 1.0,
                         ),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Text(
-                        '지출그룹은',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w300,
-                          height: 1.0,
-                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),
                   ),
+                  SizedBox(width: 10), // Padding을 위한 공간
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 100, // 원하는 최대 너비를 설정할 수 있습니다
+                    ),
+                    child: Text(
+                      '지출그룹은',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w300,
+                        height: 1.0,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  SizedBox(width: 10), // Padding을 위한 공간
                 ],
               ),
               SizedBox(height: 13),

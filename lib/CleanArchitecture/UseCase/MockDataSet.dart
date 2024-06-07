@@ -72,7 +72,7 @@ GroupMonth groupNow1 = GroupMonth(
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId())
   ],
-  plannedBudget: 1000,
+  plannedBudget: 100000,
   date: DateTime.now(),
   days: daysInDateTime(DateTime.now()),
   groupCategory: mockDateCategory,
