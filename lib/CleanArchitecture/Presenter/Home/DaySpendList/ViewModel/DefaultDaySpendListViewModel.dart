@@ -42,8 +42,12 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
   List<DaySpendListViewModelItem> convertItems(List<Spend> spendList) {
     List<DaySpendListViewModelItem> list = [];
     for (Spend spend in spendList) {
-      list.add(DaySpendListViewModelItem(spend.spendCategory.name, spend.date,
-          spend.spendMoney, spend.identity));
+      if (spend.spendType == SpendType.nonSpend) {
+        continue;
+      }
+
+      list.add(DaySpendListViewModelItem(spend.spendCategory?.name ?? "",
+          spend.date, spend.spendMoney, spend.identity));
     }
     return list;
   }

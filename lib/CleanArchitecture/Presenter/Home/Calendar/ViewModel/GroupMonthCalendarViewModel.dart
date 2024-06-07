@@ -14,6 +14,7 @@ abstract class GroupMonthCalendarViewModel {
   late GroupMonthCalendarActions groupMonthCalendarActions;
   late DateTime focuseDate;
   late DateTime? selectedDate;
+  late int plannedBudgeEveryDay;
 
   Future<void> didSelectDate(DateTime date);
   Future<void> didChangeMonth(DateTime date);

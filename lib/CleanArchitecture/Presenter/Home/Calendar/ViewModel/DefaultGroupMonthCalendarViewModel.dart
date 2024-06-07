@@ -12,6 +12,7 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
   late GroupMonthCalendarActions groupMonthCalendarActions;
   late DateTime focuseDate = DateTime.now();
   late DateTime? selectedDate = null;
+  late int plannedBudgeEveryDay = 0;
   String? groupMonthIdentity;
 
   final _dataController =
@@ -42,6 +43,7 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
         await groupMonthFetchUseCase.fetchGroupMonthByGroupId(groupMonthId);
 
     spendList = convertGroupMonthToMap(groupMonth);
+    plannedBudgeEveryDay = groupMonth?.plannedBudgetEveryday() ?? 0;
 
     this.focuseDate = groupMonth?.date ?? this.focuseDate;
     _dataController.add(this);

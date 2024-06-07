@@ -108,8 +108,18 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   }
 
   @override
-  void didClickNonSpendSaveButton() {
+  void didClickNonSpendSaveButton() async {
     // TODO: implement didClickNonSpendSaveButton
+    Spend editedSpend = Spend(
+        identity: spendId,
+        date: date!,
+        groupCategory: selectedGroupCategory!,
+        spendCategory: null,
+        spendMoney: 0,
+        spendType: SpendType.nonSpend);
+    await editSpendUseCase.editSpend(editedSpend);
+
+    editSpendActions.didEditSpend();
   }
 
   @override

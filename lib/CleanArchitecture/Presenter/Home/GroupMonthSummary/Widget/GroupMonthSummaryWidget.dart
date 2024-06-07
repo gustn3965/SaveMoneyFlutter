@@ -162,7 +162,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '${500000}',
+                    '${viewModel.monthGroupPlannedBudgetByEveryday}',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,

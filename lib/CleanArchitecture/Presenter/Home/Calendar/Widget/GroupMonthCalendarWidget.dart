@@ -5,6 +5,7 @@ import '../../../../Domain/Entity/Spend.dart';
 import '../ViewModel/GroupMonthCalendarViewModel.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class GroupMonthCalendarWidget extends StatelessWidget {
   final GroupMonthCalendarViewModel viewModel;
@@ -66,14 +67,10 @@ class GroupMonthCalendarWidget extends StatelessWidget {
           List<Spend> eventList = events.cast<Spend>();
           int sum = eventList.fold(
               0, (previous, current) => previous + current.spendMoney);
+          int maxMoney = viewModel.plannedBudgeEveryDay;
+          bool isOverSpend = sum > maxMoney;
+          String moneyFormatted = NumberFormat("#,###").format(sum);
 
-          // int maxMoney = 0;
-          // for (NTMonth month in selectDateViewModel.selectedNtMonths) {
-          //   maxMoney += month.everyExpectedSpend;
-          // }
-
-          // String moneyFormatted = NumberFormat("#,###")
-          //     .format(sum);
           return Padding(
             padding: const EdgeInsets.only(left: 3, right: 3),
             child: Container(
@@ -82,11 +79,11 @@ class GroupMonthCalendarWidget extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               // decoration: BoxDecoration(color: Colors.lightBlue),
               child: Text(
-                '${sum}',
+                '${moneyFormatted}',
                 maxLines: 1,
-                style: const TextStyle(
+                style: TextStyle(
                     // color: (sum > maxMoney) ? Colors.red : Colors.blue,
-                    color: Colors.red,
+                    color: isOverSpend ? Colors.red : Colors.blue,
                     fontWeight: FontWeight.w700,
                     fontSize: 10),
               ),

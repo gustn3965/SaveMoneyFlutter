@@ -11,6 +11,7 @@ class AddSpendActions {
 abstract class AddSpendViewModel {
   late AddSpendActions addSpendActions;
   late bool availableSaveButton;
+  late bool availableNonSpendSaveButton;
   late DateTime date;
   late int spendMoney;
   List<GroupCategory> groupCategoryList = [];

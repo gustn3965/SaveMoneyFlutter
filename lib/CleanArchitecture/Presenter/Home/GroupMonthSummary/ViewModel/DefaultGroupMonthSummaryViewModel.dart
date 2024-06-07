@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import '../../../../../Extension/DateTime+Extension.dart';
 import '../../../../Domain/Entity/GroupMonth.dart';
+import '../../../../Domain/Entity/Spend.dart';
 import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 import 'GroupMonthSummaryViewModel.dart';
 
@@ -33,14 +35,41 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
         await groupMonthFetchUseCase.fetchGroupMonthByGroupId(identity);
 
     monthGroupTitle = groupMonth?.groupCategory.name ?? '';
-    monthGroupWillSaveMoney = 500;
+    monthGroupWillSaveMoney = makeWillSaveMoney(groupMonth);
     monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
     moneyDescription = "돈을 모을 예정이에요.👍";
     monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
-    monthGroupPlannedBudgetByEveryday = 304;
+    monthGroupPlannedBudgetByEveryday =
+        groupMonth?.plannedBudgetEveryday() ?? 0;
 
     // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
     _dataController.add(this);
+  }
+
+  int makeWillSaveMoney(GroupMonth? groupMonth) {
+    Map<DateTime, int> map = {};
+
+    int everyDayWillSpend = groupMonth?.plannedBudgetEveryday() ?? 0;
+
+    for (Spend spend in groupMonth?.spendList ?? []) {
+      DateTime dateKey = dateTimeAfterMonthDay(spend.date, 0, 0);
+
+      int spendMoney = (-spend.spendMoney);
+      if (spend.spendType == SpendType.nonSpend) {
+        spendMoney = 0;
+      }
+
+      if (map[dateKey] == null) {
+        map[dateKey] = spendMoney + everyDayWillSpend;
+      } else {
+        map[dateKey] = (map[dateKey] ?? 0) + spendMoney;
+      }
+    }
+
+    int willSaveMoney =
+        map.values.fold(0, (previousValue, element) => previousValue + element);
+
+    return willSaveMoney;
   }
 
   @override

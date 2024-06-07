@@ -37,6 +37,11 @@ int daysInMonthFromSince1970(int since) {
   return daysInMonth;
 }
 
+int daysInDateTime(DateTime time) {
+  int daysInMonth = DateTime(time.year, time.month + 1, 0).day;
+  return daysInMonth;
+}
+
 // BOOL
 
 bool isEqualDateMonth(DateTime dateTime, DateTime otherTime) {

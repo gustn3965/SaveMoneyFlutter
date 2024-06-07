@@ -167,10 +167,12 @@ class AddSpendWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 1,
         height: 45,
         child: ElevatedButton(
-          onPressed: () async {
-            viewModel?.didClickNonSpendSaveButton();
-          },
-          child: Text('👍무소비로 저장', style: TextStyle(color: Colors.black)),
+          onPressed: (viewModel?.availableNonSpendSaveButton == true)
+              ? () async {
+                  viewModel?.didClickNonSpendSaveButton();
+                }
+              : null,
+          child: Text('👍무소비로 저장'),
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),

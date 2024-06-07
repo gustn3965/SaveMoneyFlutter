@@ -5,6 +5,7 @@ class GroupMonth {
   List<Spend> spendList;
   int plannedBudget;
   DateTime date;
+  int days;
 
   GroupCategory groupCategory;
 
@@ -14,7 +15,13 @@ class GroupMonth {
     required this.spendList,
     required this.plannedBudget,
     required this.date,
+    required this.days,
     required this.groupCategory,
     required this.identity,
   });
+
+  // util
+  int plannedBudgetEveryday() {
+    return (plannedBudget / days).toInt();
+  }
 }

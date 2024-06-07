@@ -17,6 +17,8 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late bool availableSaveButton;
   @override
+  late bool availableNonSpendSaveButton;
+  @override
   late DateTime date;
   @override
   late int spendMoney;
@@ -58,7 +60,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   void didChangeSpendMoney(int spendMoney) {
     this.spendMoney = spendMoney;
-    makeAvailableSaveButton();
+    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -91,7 +93,15 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   @override
   void didClickNonSpendSaveButton() async {
-    //TODO: useCase Save Logic
+    Spend spend = Spend(
+        date: date,
+        spendMoney: 0,
+        groupCategory: selectedGroupCategory!,
+        spendCategory: null,
+        identity: generateUniqueId(),
+        spendType: SpendType.nonSpend);
+    await addSpendUseCase.addSpend(spend);
+
     addSpendActions.didAddSpend();
   }
 
@@ -99,7 +109,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   void didClickGroupCategory(GroupCategory groupCategory) {
     // Implement the logic for clicking group category
     selectedGroupCategory = groupCategory;
-    makeAvailableSaveButton();
+    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -107,7 +117,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   void didClickSpendCategory(SpendCategory spendCategory) {
     // Implement the logic for clicking spend category
     selectedSpendCategory = spendCategory;
-    makeAvailableSaveButton();
+    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -136,7 +146,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
     if (hasSelectedCategory == false) {
       selectedGroupCategory = null;
-      makeAvailableSaveButton();
+      makeAvailableSaveButtons();
     }
 
     _dataController.add(this);
@@ -145,6 +155,11 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   void dispose() {
     _dataController.close();
+  }
+
+  void makeAvailableSaveButtons() {
+    makeAvailableSaveButton();
+    makeAvailableNonSpendButton();
   }
 
   void makeAvailableSaveButton() {
@@ -156,5 +171,14 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
     }
 
     availableSaveButton = false;
+  }
+
+  void makeAvailableNonSpendButton() {
+    if (selectedGroupCategory != null) {
+      availableNonSpendSaveButton = true;
+      return;
+    }
+
+    availableNonSpendSaveButton = false;
   }
 }

@@ -74,6 +74,7 @@ GroupMonth groupNow1 = GroupMonth(
   ],
   plannedBudget: 1000,
   date: DateTime.now(),
+  days: daysInDateTime(DateTime.now()),
   groupCategory: mockDateCategory,
   identity: generateUniqueId(),
 );
@@ -111,6 +112,7 @@ GroupMonth groupNow2 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: DateTime.now(),
+  days: daysInDateTime(DateTime.now()),
   groupCategory: mockPrivateCategory,
   identity: generateUniqueId(),
 );
@@ -148,6 +150,7 @@ GroupMonth groupNow3 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: DateTime.now(),
+  days: daysInDateTime(DateTime.now()),
   groupCategory: mockCarCategory,
   identity: generateUniqueId(),
 );
@@ -178,6 +181,7 @@ GroupMonth groupBefore1 = GroupMonth(
   ],
   plannedBudget: 1000,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockDateCategory,
   identity: generateUniqueId(),
 );
@@ -215,6 +219,7 @@ GroupMonth groupBefore2 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockPrivateCategory,
   identity: generateUniqueId(),
 );
@@ -252,6 +257,7 @@ GroupMonth groupBefore3 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockCarCategory,
   identity: generateUniqueId(),
 );
@@ -282,6 +288,7 @@ GroupMonth groupAfter1 = GroupMonth(
   ],
   plannedBudget: 1000,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockDateCategory,
   identity: generateUniqueId(),
 );
@@ -319,6 +326,7 @@ GroupMonth groupAfter2 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockPrivateCategory,
   identity: generateUniqueId(),
 );
@@ -356,6 +364,7 @@ GroupMonth groupAfter3 = GroupMonth(
   ],
   plannedBudget: 1500,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
+  days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockCarCategory,
   identity: generateUniqueId(),
 );

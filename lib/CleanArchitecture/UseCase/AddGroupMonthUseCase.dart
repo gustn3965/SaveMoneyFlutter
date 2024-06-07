@@ -17,6 +17,7 @@ class MockAddGroupMonthUseCase extends AddGroupMonthUseCase {
       spendList: [],
       plannedBudget: plannedBudget,
       date: date,
+      days: daysInDateTime(date),
       groupCategory: groupCategory,
       identity: generateUniqueId(),
     );
