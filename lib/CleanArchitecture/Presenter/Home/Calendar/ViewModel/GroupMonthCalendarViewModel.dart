@@ -20,6 +20,8 @@ abstract class GroupMonthCalendarViewModel {
   Future<void> didChangeMonth(DateTime date);
 
   Future<void> fetchGroupMonth(String? groupMonthId);
+  Future<void> fetchGroupMonthWithSpendCategories(
+      List<String> spendCategoryIds);
   void reloadFetch();
 
   // Observing

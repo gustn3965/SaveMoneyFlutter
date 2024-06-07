@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'package:flutter/material.dart';
 
@@ -15,4 +14,23 @@ Color uniqueColorFromIndex(int index) {
   int g = (index / 8).toInt() % 256;
   int b = (index / 7).toInt() % 256;
   return Color.fromRGBO(r, g, b, 1.0);
+}
+
+Color generateUniqueColor(String uuid) {
+// UUID의 여러 부분을 사용하여 RGB 값을 생성
+  String cleanUuid = uuid.replaceAll('-', '');
+// UUID의 여러 부분을 사용하여 RGB 값을 생성
+  String redHex = cleanUuid.substring(0, 8); // 첫 8자리
+  String greenHex = cleanUuid.substring(8, 16); // 다음 8자리
+  String blueHex = cleanUuid.substring(16, 24); // 다음 8자리
+
+  // 16진수 문자열을 정수로 변환 후, 8비트로 맞춤
+  int red = (int.parse(redHex, radix: 16) % 256);
+  int green = (int.parse(greenHex, radix: 16) % 256);
+  int blue = (int.parse(blueHex, radix: 16) % 256);
+
+  // Color 객체 생성
+  return Color.fromARGB(255, red, green, blue);
+
+  return Color.fromARGB(255, red, green, blue);
 }

@@ -14,7 +14,7 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
 
   DefaultDaySpendListViewModel(
       super.action, super.date, super.groupId, this.daySpendListUseCase) {
-    fetchDaySpendList(groupId, date);
+    fetchDaySpendList(groupId, date, spendCategories);
   }
 
   @override
@@ -24,25 +24,33 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
 
   @override
   void reloadFetch() {
-    fetchDaySpendList(groupId, date);
+    fetchDaySpendList(groupId, date, spendCategories);
   }
 
   @override
-  Future<void> fetchDaySpendList(String groupId, DateTime date) async {
+  Future<void> fetchDaySpendList(
+      String groupId, DateTime date, List<String> filterSpendCategories) async {
     List<Spend> list =
         await daySpendListUseCase.fetchDaySpendList(groupId, date);
 
     this.date = date;
-    spendList = convertItems(list);
+    spendList = convertItems(list, filterSpendCategories);
     totalSpendMoney = makeTotalSpendMoney(list);
 
     _dataController.add(this);
   }
 
-  List<DaySpendListViewModelItem> convertItems(List<Spend> spendList) {
+  List<DaySpendListViewModelItem> convertItems(
+      List<Spend> spendList, List<String> filterSpendcategories) {
     List<DaySpendListViewModelItem> list = [];
     for (Spend spend in spendList) {
       if (spend.spendType == SpendType.nonSpend) {
+        continue;
+      }
+
+      if (filterSpendcategories.isNotEmpty &&
+          filterSpendcategories.contains(spend.spendCategory?.identity ?? "") ==
+              false) {
         continue;
       }
 

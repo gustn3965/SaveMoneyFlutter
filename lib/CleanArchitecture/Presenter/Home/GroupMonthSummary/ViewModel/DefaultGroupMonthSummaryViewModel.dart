@@ -41,6 +41,26 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
     monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
     monthGroupPlannedBudgetByEveryday =
         groupMonth?.plannedBudgetEveryday() ?? 0;
+    monthTotalSpendMoney = makeAllSpendMoney(groupMonth, []);
+
+    // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
+    _dataController.add(this);
+  }
+
+  @override
+  Future<void> fetchGroupMonthWithSpendCategories(
+      List<String> filterSpendCategory) async {
+    GroupMonth? groupMonth = await groupMonthFetchUseCase
+        .fetchGroupMonthByGroupId(groupMonthIdentity);
+
+    monthGroupTitle = groupMonth?.groupCategory.name ?? '';
+    monthGroupWillSaveMoney = makeWillSaveMoney(groupMonth);
+    monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
+    moneyDescription = "돈을 모을 예정이에요.👍";
+    monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
+    monthGroupPlannedBudgetByEveryday =
+        groupMonth?.plannedBudgetEveryday() ?? 0;
+    monthTotalSpendMoney = makeAllSpendMoney(groupMonth, filterSpendCategory);
 
     // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
     _dataController.add(this);
@@ -70,6 +90,21 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
         map.values.fold(0, (previousValue, element) => previousValue + element);
 
     return willSaveMoney;
+  }
+
+  int makeAllSpendMoney(
+      GroupMonth? groupMonth, List<String> filterSpendCategory) {
+    int totalSpendMoney = 0;
+    for (Spend spend in groupMonth?.spendList ?? []) {
+      if (filterSpendCategory.isNotEmpty &&
+          filterSpendCategory.contains(spend.spendCategory?.identity ?? "") ==
+              false) {
+        continue;
+      }
+
+      totalSpendMoney += spend.spendMoney;
+    }
+    return totalSpendMoney;
   }
 
   @override

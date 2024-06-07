@@ -84,5 +84,5 @@ DateTime dateTimeAfterMonthDay(
 }
 
 String generateUniqueId() {
-  return const Uuid().v1(); // timestamp
+  return const Uuid().v4(); // timestamp
 }

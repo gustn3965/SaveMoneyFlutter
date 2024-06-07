@@ -7,8 +7,11 @@ abstract class GroupMonthSummaryViewModel {
   late String moneyDescription;
   late int monthGroupPlannedBudget; // 설정한 금액
   late int monthGroupPlannedBudgetByEveryday;
+  late int monthTotalSpendMoney; // 총 소비한 금액
 
   Future<void> fetchGroupMonth(String? identity);
+  Future<void> fetchGroupMonthWithSpendCategories(
+      List<String> filterSpendCategory);
   void reloadFetch();
 
   // Observing

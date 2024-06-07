@@ -42,7 +42,19 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
     GroupMonth? groupMonth =
         await groupMonthFetchUseCase.fetchGroupMonthByGroupId(groupMonthId);
 
-    spendList = convertGroupMonthToMap(groupMonth);
+    spendList = convertGroupMonthToMap(groupMonth, []);
+    plannedBudgeEveryDay = groupMonth?.plannedBudgetEveryday() ?? 0;
+
+    this.focuseDate = groupMonth?.date ?? this.focuseDate;
+    _dataController.add(this);
+  }
+
+  Future<void> fetchGroupMonthWithSpendCategories(
+      List<String> spendCategoryIds) async {
+    GroupMonth? groupMonth = await groupMonthFetchUseCase
+        .fetchGroupMonthByGroupId(groupMonthIdentity);
+
+    spendList = convertGroupMonthToMap(groupMonth, spendCategoryIds);
     plannedBudgeEveryDay = groupMonth?.plannedBudgetEveryday() ?? 0;
 
     this.focuseDate = groupMonth?.date ?? this.focuseDate;
@@ -54,10 +66,16 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
     fetchGroupMonth(groupMonthIdentity);
   }
 
-  Map<DateTime, List<Spend>> convertGroupMonthToMap(GroupMonth? groupMonth) {
+  Map<DateTime, List<Spend>> convertGroupMonthToMap(
+      GroupMonth? groupMonth, List<String> spendCategoryList) {
     Map<DateTime, List<Spend>> map = {};
 
-    for (var spend in groupMonth?.spendList ?? []) {
+    for (Spend spend in groupMonth?.spendList ?? []) {
+      if (spendCategoryList.isNotEmpty &&
+          spendCategoryList.contains(spend.spendCategory?.identity) == false) {
+        continue;
+      }
+
       DateTime dateKey = dateTimeAfterMonthDay(spend.date, 0, 0);
       if (map[dateKey] == null) {
         map[dateKey] = [spend];

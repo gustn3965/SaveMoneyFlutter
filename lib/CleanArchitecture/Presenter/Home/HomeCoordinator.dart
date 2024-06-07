@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
 
 import '../../../main.dart';
 import '../../Domain/Entity/GroupMonth.dart';
@@ -16,7 +17,8 @@ import 'HomeWidget.dart';
 
 class HomeCoordinator extends Coordinator {
   GroupMonthSummaryViewModel? summaryViewModel;
-  GroupMonthSelectorViewModel? selectorViewModel;
+  GroupMonthSelectorViewModel? groupSelectorViewModel;
+  SpendCategorySelectorViewModel? spendCategorySelectorViewModel;
   GroupMonthCalendarViewModel? calendarViewModel;
   DaySpendListViewModel? daySpendListViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
@@ -24,8 +26,9 @@ class HomeCoordinator extends Coordinator {
   HomeCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
     routeName =
         "Home"; // MainHome에서 호출할경우 routeName은 MainHome으로. ( Navigation push를 안함 )
-    Widget selectorWidget = makeSelectorWidget();
     Widget summaryWidget = makeSummaryWidget();
+    Widget groupSelectorWidget = makeGroupSelectorWidget();
+    Widget spendCategorySelectorWidget = makeSpendCategorySelectorWidget();
     Widget calendarWidget = makeCalendarWidget();
     Widget daysSpendListWidget = makeDaySpendListWidget();
 
@@ -34,7 +37,8 @@ class HomeCoordinator extends Coordinator {
     currentWidget = HomeWidget(
       widgets: [
         summaryWidget,
-        selectorWidget,
+        groupSelectorWidget,
+        spendCategorySelectorWidget,
         calendarWidget,
         daysSpendListWidget
       ],
@@ -58,7 +62,7 @@ class HomeCoordinator extends Coordinator {
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   @override
   void updateCurrentWidget() {
-    selectorViewModel?.reloadFetch();
+    groupSelectorViewModel?.reloadFetch();
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();
     daySpendListViewModel?.reloadFetch();
@@ -71,9 +75,10 @@ class HomeCoordinator extends Coordinator {
     return appDIContainer.home.makeMainSummaryWidget(summaryViewModel!);
   }
 
-  Widget makeSelectorWidget() {
+  Widget makeGroupSelectorWidget() {
     void updateSelectedGroupMonth(GroupMonth? groupMonth) {
       summaryViewModel?.fetchGroupMonth(groupMonth?.identity);
+      spendCategorySelectorViewModel?.fetchGroupMonth(groupMonth?.identity);
       calendarViewModel?.fetchGroupMonth(groupMonth?.identity);
       daySpendListViewModel?.groupId = groupMonth?.identity ?? "";
       daySpendListViewModel?.reloadFetch();
@@ -88,16 +93,37 @@ class HomeCoordinator extends Coordinator {
       showAddGroup,
     );
 
-    selectorViewModel =
+    groupSelectorViewModel =
         appDIContainer.home.makeMainGroupMonthSelectorViewModel(actions);
 
     return appDIContainer.home
-        .makeMainGroupMonthSelectorWidget(selectorViewModel!);
+        .makeMainGroupMonthSelectorWidget(groupSelectorViewModel!);
+  }
+
+  Widget makeSpendCategorySelectorWidget() {
+    void updateSelectedCategory(List<String> selectedSpendCategory) {
+      summaryViewModel
+          ?.fetchGroupMonthWithSpendCategories(selectedSpendCategory);
+      calendarViewModel
+          ?.fetchGroupMonthWithSpendCategories(selectedSpendCategory);
+      daySpendListViewModel?.spendCategories = selectedSpendCategory;
+      daySpendListViewModel?.reloadFetch();
+    }
+
+    SpendCategorySelectorActions actions = SpendCategorySelectorActions(
+      updateSelectedCategory,
+    );
+
+    spendCategorySelectorViewModel =
+        appDIContainer.home.makeMainSpendCategorySelectorViewModel(actions);
+
+    return appDIContainer.home
+        .makeMainSpendCategorySelectorWidget(spendCategorySelectorViewModel!);
   }
 
   Widget makeCalendarWidget() {
     void updateFocusDateTime(DateTime date) {
-      selectorViewModel?.fetchGroupMonthList(date);
+      groupSelectorViewModel?.fetchGroupMonthList(date);
     }
 
     void updateSelectedDateTime(DateTime date) {

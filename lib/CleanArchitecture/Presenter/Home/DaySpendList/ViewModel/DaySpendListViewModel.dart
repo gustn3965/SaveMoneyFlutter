@@ -20,6 +20,8 @@ abstract class DaySpendListViewModel {
   List<DaySpendListViewModelItem> spendList = [];
   late DateTime date;
   late String groupId;
+  late List<String> spendCategories = [];
+
   int totalSpendMoney = 0;
 
   DaySpendListViewModel(this.action, this.date, this.groupId);

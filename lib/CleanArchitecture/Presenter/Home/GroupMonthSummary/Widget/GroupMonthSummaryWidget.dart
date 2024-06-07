@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
 
 import '../ViewModel/GroupMonthSummaryViewModel.dart';
-
-import 'dart:async';
+import 'package:intl/intl.dart';
 
 class GroupMonthSummaryWidget extends StatelessWidget {
   final GroupMonthSummaryViewModel viewModel;
@@ -37,17 +36,6 @@ class GroupMonthSummaryWidget extends StatelessWidget {
           return contentWidget(viewModel);
         }
       },
-    );
-  }
-
-  Widget _buildContent(GroupMonthSummaryViewModel data) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Title: ${data.monthGroupTitle}'),
-        Text('Planned Budget: ${data.monthGroupPlannedBudget}'),
-        Text('Will Save Money: ${data.monthGroupWillSaveMoney}'),
-      ],
     );
   }
 
@@ -100,7 +88,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
               ),
               SizedBox(height: 13),
               Text(
-                '${viewModel.monthGroupWillSaveMoney}',
+                '${NumberFormat("#,###").format(viewModel.monthGroupWillSaveMoney)}',
                 style: TextStyle(
                   color: viewModel.monthGroupWillSaveMoneyTextColor,
                   fontSize: 20,
@@ -135,7 +123,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                         '설정한 금액이에요.',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 15,
                           fontFamily: 'Inter',
                           fontWeight: FontWeight.w500,
                           height: 0,
@@ -145,7 +133,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(right: 25), // 왼쪽에 10의 패딩 추가
                       child: Text(
-                        '${viewModel.monthGroupPlannedBudget}',
+                        '${NumberFormat("#,###").format(viewModel.monthGroupPlannedBudget)}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -162,7 +150,24 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '${viewModel.monthGroupPlannedBudgetByEveryday}',
+                    '매일 소비예정 (${NumberFormat("#,###").format(viewModel.monthGroupPlannedBudgetByEveryday)})',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w300,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '총 소비금액 (${NumberFormat("#,###").format(viewModel.monthTotalSpendMoney)})',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,

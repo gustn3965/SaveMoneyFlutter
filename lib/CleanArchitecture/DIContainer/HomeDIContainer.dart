@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DefaultDaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/Widget/DaySpendListWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/DefaultSpendCategorySelectorViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/Widget/SpendCategorySelectorWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
@@ -47,6 +50,20 @@ class HomeDIContainer {
   Widget makeMainGroupMonthSelectorWidget(
       GroupMonthSelectorViewModel viewModel) {
     return GroupMonthSelectorWidget(viewModel: viewModel);
+  }
+
+  // Main - SpendCategorySelector
+  SpendCategorySelectorViewModel makeMainSpendCategorySelectorViewModel(
+      SpendCategorySelectorActions action) {
+    SpendCategorySelectorViewModel viewModel =
+        DefaultSpendCategorySelectorViewModel(
+            MockGroupMonthFetchUseCase(), action);
+    return viewModel;
+  }
+
+  Widget makeMainSpendCategorySelectorWidget(
+      SpendCategorySelectorViewModel viewModel) {
+    return SpendCategorySelectorWidget(viewModel: viewModel);
   }
 
   // Main - Calendar
