@@ -6,6 +6,7 @@ import '../Domain/Entity/Spend.dart';
 
 abstract class DaySpendListUseCase {
   Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date);
+  Future<List<Spend>> fetchDaySpendLists(List<String> groupIds, DateTime date);
 
   Future<Spend?> fetchSpend(String spendId);
 }
@@ -16,6 +17,22 @@ class MockDaySpendListUseCase extends DaySpendListUseCase {
     List<Spend> spendList = [];
     for (GroupMonth group in mockGroupMonthList) {
       if (group.identity == groupId) {
+        for (Spend spend in group.spendList) {
+          if (isEqualDateMonthAndDay(date, spend.date)) {
+            spendList.add(spend);
+          }
+        }
+      }
+    }
+
+    return spendList;
+  }
+
+  Future<List<Spend>> fetchDaySpendLists(
+      List<String> groupIds, DateTime date) async {
+    List<Spend> spendList = [];
+    for (GroupMonth group in mockGroupMonthList) {
+      if (groupIds.contains(group.identity)) {
         for (Spend spend in group.spendList) {
           if (isEqualDateMonthAndDay(date, spend.date)) {
             spendList.add(spend);

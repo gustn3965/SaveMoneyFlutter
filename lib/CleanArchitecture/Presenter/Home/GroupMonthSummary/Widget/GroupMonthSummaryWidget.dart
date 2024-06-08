@@ -15,7 +15,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
     return StreamBuilder<GroupMonthSummaryViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        if (viewModel.monthGroupTitle == null) {
+        if (viewModel.monthGroupTitle.isEmpty) {
           return const SizedBox(
             height: 120,
             child: Center(

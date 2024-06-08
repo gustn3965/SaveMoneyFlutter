@@ -8,62 +8,80 @@ import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 import 'GroupMonthSummaryViewModel.dart';
 
 class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
-  late String? monthGroupTitle = null;
-  late int monthGroupWillSaveMoney;
-  late Color monthGroupWillSaveMoneyTextColor;
-  late String moneyDescription;
-  late int monthGroupPlannedBudget;
-  late int monthGroupPlannedBudgetByEveryday;
+  late String monthGroupTitle = "";
+  late int monthGroupWillSaveMoney = 0;
+  late Color monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
+  late String moneyDescription = "";
+  late int monthGroupPlannedBudget = 0;
+  late int monthGroupPlannedBudgetByEveryday = 0;
+  late int monthTotalSpendMoney = 0;
 
   final _dataController =
       StreamController<GroupMonthSummaryViewModel>.broadcast();
   Stream<GroupMonthSummaryViewModel> get dataStream => _dataController.stream;
-  String? groupMonthIdentity;
+  List<String> groupMonthIds = [];
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
   DefaultGroupMonthSummaryViewModel(this.groupMonthFetchUseCase);
 
   @override
-  Future<void> fetchGroupMonth(String? identity) async {
-    groupMonthIdentity = identity;
-    if (identity == null) {
-      _dataController.addError(Error());
-      return;
+  Future<void> fetchGroupMonths(List<String> groupsIds) async {
+    groupMonthIds = groupsIds;
+
+    List<GroupMonth> groupMonths =
+        await groupMonthFetchUseCase.fetchGroupMonthByGroupIds(groupsIds);
+
+    resetProperties();
+    for (GroupMonth groupMonth in groupMonths) {
+      monthGroupTitle = '${monthGroupTitle}${groupMonth.groupCategory.name}, ';
+      monthGroupWillSaveMoney += makeWillSaveMoney(groupMonth);
+      monthGroupPlannedBudget += groupMonth?.plannedBudget ?? 0;
+      monthGroupPlannedBudgetByEveryday +=
+          groupMonth?.plannedBudgetEveryday() ?? 0;
+      monthTotalSpendMoney += makeAllSpendMoney(groupMonth, []);
     }
+    monthGroupWillSaveMoneyTextColor =
+        monthGroupWillSaveMoney > 0 ? Colors.blueAccent : Colors.redAccent;
+    moneyDescription =
+        monthGroupWillSaveMoney > 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요ㅠ";
 
-    GroupMonth? groupMonth =
-        await groupMonthFetchUseCase.fetchGroupMonthByGroupId(identity);
-
-    monthGroupTitle = groupMonth?.groupCategory.name ?? '';
-    monthGroupWillSaveMoney = makeWillSaveMoney(groupMonth);
-    monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
-    moneyDescription = "돈을 모을 예정이에요.👍";
-    monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
-    monthGroupPlannedBudgetByEveryday =
-        groupMonth?.plannedBudgetEveryday() ?? 0;
-    monthTotalSpendMoney = makeAllSpendMoney(groupMonth, []);
-
-    // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
     _dataController.add(this);
   }
 
   @override
   Future<void> fetchGroupMonthWithSpendCategories(
       List<String> filterSpendCategory) async {
-    GroupMonth? groupMonth = await groupMonthFetchUseCase
-        .fetchGroupMonthByGroupId(groupMonthIdentity);
+    List<GroupMonth> groupMonths =
+        await groupMonthFetchUseCase.fetchGroupMonthByGroupIds(groupMonthIds);
 
-    monthGroupTitle = groupMonth?.groupCategory.name ?? '';
-    monthGroupWillSaveMoney = makeWillSaveMoney(groupMonth);
-    monthGroupWillSaveMoneyTextColor = Colors.blueAccent;
-    moneyDescription = "돈을 모을 예정이에요.👍";
-    monthGroupPlannedBudget = groupMonth?.plannedBudget ?? 0;
-    monthGroupPlannedBudgetByEveryday =
-        groupMonth?.plannedBudgetEveryday() ?? 0;
-    monthTotalSpendMoney = makeAllSpendMoney(groupMonth, filterSpendCategory);
+    resetProperties();
+
+    for (GroupMonth groupMonth in groupMonths) {
+      monthGroupTitle = '${monthGroupTitle}${groupMonth.groupCategory.name}, ';
+      monthGroupWillSaveMoney += makeWillSaveMoney(groupMonth);
+      monthGroupPlannedBudget += groupMonth?.plannedBudget ?? 0;
+      monthGroupPlannedBudgetByEveryday +=
+          groupMonth?.plannedBudgetEveryday() ?? 0;
+      monthTotalSpendMoney +=
+          makeAllSpendMoney(groupMonth, filterSpendCategory);
+    }
+    monthGroupWillSaveMoneyTextColor =
+        monthGroupWillSaveMoney > 0 ? Colors.blueAccent : Colors.redAccent;
+    moneyDescription =
+        monthGroupWillSaveMoney > 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요ㅠ";
 
     // 업데이트된 데이터를 StreamController를 통해 스트림으로 전달
     _dataController.add(this);
+  }
+
+  void resetProperties() {
+    monthGroupTitle = "";
+    monthGroupWillSaveMoney = 0;
+    monthGroupPlannedBudget = 0;
+    monthGroupPlannedBudgetByEveryday = 0;
+    monthTotalSpendMoney = 0;
+    monthGroupWillSaveMoneyTextColor = Colors.black;
+    moneyDescription = "";
   }
 
   int makeWillSaveMoney(GroupMonth? groupMonth) {
@@ -109,7 +127,8 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
 
   @override
   void reloadFetch() {
-    fetchGroupMonth(groupMonthIdentity);
+    // fetchGroupMonth(groupMonthIdentity);
+    fetchGroupMonths(groupMonthIds);
   }
 
   void dispose() {

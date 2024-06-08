@@ -10,7 +10,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   @override
   late List<GroupMonth> groupMonthList;
   @override
-  late GroupMonth? selectedGroupMonth;
+  late List<GroupMonth> selectedGroupMonths;
   @override
   late String addGroupButtonName;
 
@@ -26,17 +26,26 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   DefaultGroupMonthSelectorViewModel(
       this.groupMonthFetchUseCase, this.groupMonthSelectorActions) {
     groupMonthList = [];
-    selectedGroupMonth = null;
+    selectedGroupMonths = [];
     addGroupButtonName = "+ 지출 그룹 추가";
 
     fetchGroupMonthList(DateTime.now());
   }
 
   @override
-  void didSelectGroupMonth(GroupMonth? selectedGroupMonth) {
-    this.selectedGroupMonth = selectedGroupMonth;
+  void didSelectGroupMonth(GroupMonth selectedGroupMonth) {
+    if (selectedGroupMonths.contains(selectedGroupMonth)) {
+      selectedGroupMonths.remove(selectedGroupMonth);
+    } else {
+      selectedGroupMonths.add(selectedGroupMonth);
+    }
+
     _dataController.add(this);
-    groupMonthSelectorActions.updateSelectedGroupMonth(selectedGroupMonth);
+
+    List<String> groupMonthsIds = selectedGroupMonths.map((group) {
+      return group.identity;
+    }).toList();
+    groupMonthSelectorActions.updateSelectedGroupIds(groupMonthsIds);
   }
 
   @override
@@ -44,6 +53,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
     groupMonthSelectorActions.showAddGroup();
   }
 
+  // 기존에 선택된 그룹들기반으로, 카테고리가 맞는 새로운 selectedGroupMonths를 만들어줌.
   @override
   Future<void> fetchGroupMonthList(DateTime date) async {
     fetchedDate = date;
@@ -51,22 +61,30 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
       groupMonthList = await groupMonthFetchUseCase.fetchGroupMonthList(date);
       _dataController.add(this);
 
-      var hasSameGroupCategory = false;
-      for (var group in groupMonthList) {
-        if (this.selectedGroupMonth?.groupCategory.identity ==
-            group.groupCategory.identity) {
-          didSelectGroupMonth(group);
-          hasSameGroupCategory = true;
-          // break;
-        }
-      }
-      if (hasSameGroupCategory == false) {
-        didSelectGroupMonth(null);
-      }
+      selectedGroupMonths = makeNewSelectedGroupMonth(groupMonthList);
+
+      List<String> groupMonthsIds = selectedGroupMonths.map((group) {
+        return group.identity;
+      }).toList();
+      groupMonthSelectorActions.updateSelectedGroupIds(groupMonthsIds);
     } catch (e) {
       print("error");
       // 에러 처리
     }
+  }
+
+  List<GroupMonth> makeNewSelectedGroupMonth(
+      List<GroupMonth> fetchedNewGroupMonths) {
+    List<GroupMonth> newSelectedGroupMonth = [];
+    for (GroupMonth group in groupMonthList) {
+      List<String> groupCategoryIds = selectedGroupMonths.map((group) {
+        return group.groupCategory.identity;
+      }).toList();
+      if (groupCategoryIds.contains(group.groupCategory.identity)) {
+        newSelectedGroupMonth.add(group);
+      }
+    }
+    return newSelectedGroupMonth;
   }
 
   @override

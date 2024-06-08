@@ -76,11 +76,12 @@ class HomeCoordinator extends Coordinator {
   }
 
   Widget makeGroupSelectorWidget() {
-    void updateSelectedGroupMonth(GroupMonth? groupMonth) {
-      summaryViewModel?.fetchGroupMonth(groupMonth?.identity);
-      spendCategorySelectorViewModel?.fetchGroupMonth(groupMonth?.identity);
-      calendarViewModel?.fetchGroupMonth(groupMonth?.identity);
-      daySpendListViewModel?.groupId = groupMonth?.identity ?? "";
+    void updateSelectedGroupMonth(List<String> updateSelectedGroupIds) {
+      summaryViewModel?.fetchGroupMonths(updateSelectedGroupIds);
+      spendCategorySelectorViewModel
+          ?.fetchGroupMonthsIds(updateSelectedGroupIds);
+      calendarViewModel?.fetchGroupMonths(updateSelectedGroupIds);
+      daySpendListViewModel?.groupIds = updateSelectedGroupIds;
       daySpendListViewModel?.reloadFetch();
     }
 
@@ -166,7 +167,7 @@ class HomeCoordinator extends Coordinator {
     DaySpendListAction action = DaySpendListAction(showModifySpendItem);
 
     daySpendListViewModel = appDIContainer.home
-        .makeDaySpendListViewModel(action, DateTime.now(), "");
+        .makeDaySpendListViewModel(action, DateTime.now(), []);
     return appDIContainer.home.makeDaySpendListWidget(daySpendListViewModel!);
   }
 

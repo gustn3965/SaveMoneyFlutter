@@ -19,7 +19,7 @@ abstract class SpendCategorySelectorViewModel {
   late List<SpendCategorySelectorItemModel> items;
   late List<SpendCategorySelectorItemModel> selectedItems;
 
-  Future<void> fetchGroupMonth(String? identity);
+  Future<void> fetchGroupMonthsIds(List<String> groupMonthIds);
   void didSelectSpendItem(SpendCategorySelectorItemModel item);
   void reloadFetch();
 

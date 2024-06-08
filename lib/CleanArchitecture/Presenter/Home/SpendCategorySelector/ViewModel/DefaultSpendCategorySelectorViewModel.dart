@@ -16,7 +16,7 @@ class DefaultSpendCategorySelectorViewModel
   late List<SpendCategorySelectorItemModel> selectedItems;
 
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
-  String groupMonthIdentity = "";
+  List<String> groupMonthIds = [];
 
   DefaultSpendCategorySelectorViewModel(
       this.groupMonthFetchUseCase, this.actions) {
@@ -25,13 +25,13 @@ class DefaultSpendCategorySelectorViewModel
   }
 
   @override
-  Future<void> fetchGroupMonth(String? identity) async {
+  Future<void> fetchGroupMonthsIds(List<String> groupMonthIds) async {
     selectedItems = [];
-    groupMonthIdentity = identity ?? "";
-    GroupMonth? groupMonth =
-        await groupMonthFetchUseCase.fetchGroupMonthByGroupId(identity);
+    this.groupMonthIds = groupMonthIds;
+    List<GroupMonth> groupMonths =
+        await groupMonthFetchUseCase.fetchGroupMonthByGroupIds(groupMonthIds);
 
-    items = convertGroupMonthToItems(groupMonth);
+    items = convertGroupMonthToItems(groupMonths);
 
     _dataController.add(this);
   }
@@ -40,12 +40,9 @@ class DefaultSpendCategorySelectorViewModel
   void didSelectSpendItem(SpendCategorySelectorItemModel item) {
     if (selectedItems.contains(item)) {
       selectedItems.remove(item);
-      print("removed...");
     } else {
       selectedItems.add(item);
-      print("added...");
     }
-    print(selectedItems);
 
     actions.clickSelectedSpendCategory(selectedItems.map((item) {
       return item.categoryId;
@@ -55,15 +52,19 @@ class DefaultSpendCategorySelectorViewModel
   }
 
   @override
-  void reloadFetch() {}
+  void reloadFetch() {
+    fetchGroupMonthsIds(groupMonthIds);
+  }
 
   List<SpendCategorySelectorItemModel> convertGroupMonthToItems(
-      GroupMonth? groupMonth) {
+      List<GroupMonth> groupMonths) {
     Map<String, SpendCategory> map = {};
 
-    for (Spend spend in groupMonth?.spendList ?? []) {
-      if (spend.spendCategory != null) {
-        map[spend.spendCategory!.identity ?? ""] = spend.spendCategory!;
+    for (GroupMonth group in groupMonths) {
+      for (Spend spend in group.spendList ?? []) {
+        if (spend.spendCategory != null) {
+          map[spend.spendCategory!.identity ?? ""] = spend.spendCategory!;
+        }
       }
     }
 

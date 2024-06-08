@@ -8,6 +8,8 @@ abstract class GroupMonthFetchUseCase {
 
   Future<GroupMonth?> fetchGroupMonthByGroupId(String? groupId);
 
+  Future<List<GroupMonth>> fetchGroupMonthByGroupIds(List<String> groupIds);
+
   Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
       String groupCategoryId, DateTime date);
 }
@@ -26,15 +28,6 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
       }
     }
     return list;
-    if (isEqualDateMonth(groupNow1.date, date)) {
-      return [groupNow1, groupNow2, groupNow3];
-    } else if (isEqualDateMonth(groupBefore1.date, date)) {
-      return [groupBefore1, groupBefore2, groupBefore3];
-    } else if (isEqualDateMonth(groupAfter1.date, date)) {
-      return [groupAfter1, groupAfter2, groupAfter3];
-    } else {
-      return [];
-    }
   }
 
   @override
@@ -50,6 +43,20 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
       }
     }
     return null;
+  }
+
+  Future<List<GroupMonth>> fetchGroupMonthByGroupIds(
+      List<String> groupIds) async {
+    List<GroupMonth> groups = [];
+    await Future.delayed(
+        const Duration(milliseconds: 100)); // 비동기 처리를 위해 await 사용
+
+    for (GroupMonth group in mockGroupMonthList) {
+      if (groupIds.contains(group.identity)) {
+        groups.add(group);
+      }
+    }
+    return groups;
   }
 
   @override

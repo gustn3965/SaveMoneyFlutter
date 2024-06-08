@@ -1,16 +1,16 @@
 import '../../../../Domain/Entity/GroupMonth.dart';
 
 class GroupMonthSelectorActions {
-  final void Function(GroupMonth?) updateSelectedGroupMonth;
+  final void Function(List<String>) updateSelectedGroupIds;
   final void Function() showAddGroup;
 
-  GroupMonthSelectorActions(this.updateSelectedGroupMonth, this.showAddGroup);
+  GroupMonthSelectorActions(this.updateSelectedGroupIds, this.showAddGroup);
 }
 
 abstract class GroupMonthSelectorViewModel {
   late GroupMonthSelectorActions groupMonthSelectorActions;
   late List<GroupMonth> groupMonthList = [];
-  late GroupMonth? selectedGroupMonth;
+  late List<GroupMonth> selectedGroupMonths;
   late String addGroupButtonName;
 
   void didSelectGroupMonth(GroupMonth selectedGroupMonth);

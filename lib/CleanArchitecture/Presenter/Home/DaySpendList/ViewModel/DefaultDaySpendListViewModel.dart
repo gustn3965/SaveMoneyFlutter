@@ -13,8 +13,8 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
   Stream<DaySpendListViewModel> get dataStream => _dataController.stream;
 
   DefaultDaySpendListViewModel(
-      super.action, super.date, super.groupId, this.daySpendListUseCase) {
-    fetchDaySpendList(groupId, date, spendCategories);
+      super.action, super.date, super.groupIds, this.daySpendListUseCase) {
+    fetchDaySpendList(groupIds, date, spendCategories);
   }
 
   @override
@@ -24,14 +24,14 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
 
   @override
   void reloadFetch() {
-    fetchDaySpendList(groupId, date, spendCategories);
+    fetchDaySpendList(groupIds, date, spendCategories);
   }
 
   @override
-  Future<void> fetchDaySpendList(
-      String groupId, DateTime date, List<String> filterSpendCategories) async {
+  Future<void> fetchDaySpendList(List<String> groupIds, DateTime date,
+      List<String> filterSpendCategories) async {
     List<Spend> list =
-        await daySpendListUseCase.fetchDaySpendList(groupId, date);
+        await daySpendListUseCase.fetchDaySpendLists(groupIds, date);
 
     this.date = date;
     spendList = convertItems(list, filterSpendCategories);

@@ -48,7 +48,6 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       chipArray.add(_spendGroupChip(groupObject, viewModel));
     }
     chipArray.add(_addSpendGroupChip(viewModel));
-    chipArray.add(_allSpendGroupChip(viewModel));
     return chipArray;
   }
 
@@ -58,8 +57,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       color: Colors.transparent,
       child: FilterChip(
         showCheckmark: false,
-        selected:
-            viewModel.selectedGroupMonth?.identity == groupObject.identity,
+        selected: viewModel.selectedGroupMonths.contains(groupObject),
         backgroundColor: Colors.white,
         selectedColor: AppColors.mainRedColor,
         shape: RoundedRectangleBorder(
@@ -94,30 +92,5 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Widget _allSpendGroupChip(GroupMonthSelectorViewModel viewModel) {
-    return Material(
-      color: Colors.transparent,
-      child: FilterChip(
-        showCheckmark: false,
-        selected: false,
-        backgroundColor: AppColors.lightGrayColor,
-        selectedColor: Color(0xFFFF005B),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        label: Text("모든 그룹"),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(width: 1),
-        onSelected: (bool value) async {
-          await viewModel.fetchGroupMonthList(DateTime.now());
-        },
-      ),
-    );
-  }
-
-  void _showEditSpendGroupListWidget(BuildContext context) {
-    // 수정할 그룹 목록을 표시하는 위젯을 보여줍니다.
   }
 }
