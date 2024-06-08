@@ -24,4 +24,14 @@ class GroupMonth {
   int plannedBudgetEveryday() {
     return (plannedBudget / days).toInt();
   }
+
+  int totalSpendMoney() {
+    int spendMoney = 0;
+    for (Spend spend in spendList) {
+      if (spend.spendType == SpendType.realSpend) {
+        spendMoney += spend.spendMoney;
+      }
+    }
+    return spendMoney;
+  }
 }

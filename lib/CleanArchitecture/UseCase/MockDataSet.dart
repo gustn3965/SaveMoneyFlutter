@@ -52,27 +52,27 @@ GroupMonth groupNow1 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 0),
-        spendMoney: 100,
+        spendMoney: 1800,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 1),
-        spendMoney: 100,
+        spendMoney: 2000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 2),
-        spendMoney: 100,
+        spendMoney: 3000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId())
   ],
-  plannedBudget: 100000,
+  plannedBudget: 10000,
   date: DateTime.now(),
   days: daysInDateTime(DateTime.now()),
   groupCategory: mockDateCategory,
@@ -83,34 +83,34 @@ GroupMonth groupNow2 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 0),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 1),
-        spendMoney: 200,
+        spendMoney: 18000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 1),
-        spendMoney: 200,
+        spendMoney: 3000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 2),
-        spendMoney: 200,
+        spendMoney: 7000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 15000,
   date: DateTime.now(),
   days: daysInDateTime(DateTime.now()),
   groupCategory: mockPrivateCategory,
@@ -121,34 +121,34 @@ GroupMonth groupNow3 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 0),
-        spendMoney: 200,
+        spendMoney: 1000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 0),
-        spendMoney: 200,
+        spendMoney: 30000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 1),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterDay(DateTime.now(), 2),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 15000,
   date: DateTime.now(),
   days: daysInDateTime(DateTime.now()),
   groupCategory: mockCarCategory,
@@ -159,27 +159,27 @@ GroupMonth groupBefore1 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 5),
-        spendMoney: 100,
+        spendMoney: 60000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 6),
-        spendMoney: 100,
+        spendMoney: 1000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 7),
-        spendMoney: 100,
+        spendMoney: 3500,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId())
   ],
-  plannedBudget: 1000,
+  plannedBudget: 100000,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockDateCategory,
@@ -190,34 +190,34 @@ GroupMonth groupBefore2 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 5),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 5),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 8),
-        spendMoney: 200,
+        spendMoney: 18000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 9),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 150000,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockPrivateCategory,
@@ -228,34 +228,34 @@ GroupMonth groupBefore3 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 5),
-        spendMoney: 200,
+        spendMoney: 14000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 8),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 9),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), -1, 10),
-        spendMoney: 200,
+        spendMoney: 20000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 150000,
   date: dateTimeAfterMonthDay(DateTime.now(), -1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), -1, 0)),
   groupCategory: mockCarCategory,
@@ -266,27 +266,27 @@ GroupMonth groupAfter1 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 5),
-        spendMoney: 100,
+        spendMoney: 10000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 6),
-        spendMoney: 100,
+        spendMoney: 1500,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 7),
-        spendMoney: 100,
+        spendMoney: 3000,
         groupCategory: mockDateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId())
   ],
-  plannedBudget: 1000,
+  plannedBudget: 100000,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockDateCategory,
@@ -297,34 +297,34 @@ GroupMonth groupAfter2 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 5),
-        spendMoney: 200,
+        spendMoney: 20000,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 5),
-        spendMoney: 200,
+        spendMoney: 3200,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 8),
-        spendMoney: 200,
+        spendMoney: 18200,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 9),
-        spendMoney: 200,
+        spendMoney: 2200,
         groupCategory: mockPrivateCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 150000,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockPrivateCategory,
@@ -335,34 +335,34 @@ GroupMonth groupAfter3 = GroupMonth(
   spendList: [
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 5),
-        spendMoney: 200,
+        spendMoney: 22200,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 8),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 9),
-        spendMoney: 200,
+        spendMoney: 2000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
     Spend(
         date: dateTimeAfterMonthDay(DateTime.now(), 1, 10),
-        spendMoney: 200,
+        spendMoney: 4000,
         groupCategory: mockCarCategory,
         spendCategory: mockSpendCategoryList[
             Random().nextInt(mockSpendCategoryList.length)],
         identity: generateUniqueId()),
   ],
-  plannedBudget: 1500,
+  plannedBudget: 150000,
   date: dateTimeAfterMonthDay(DateTime.now(), 1, 0),
   days: daysInDateTime(dateTimeAfterMonthDay(DateTime.now(), 1, 0)),
   groupCategory: mockCarCategory,

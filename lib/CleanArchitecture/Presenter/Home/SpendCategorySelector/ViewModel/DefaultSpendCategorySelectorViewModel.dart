@@ -58,22 +58,34 @@ class DefaultSpendCategorySelectorViewModel
 
   List<SpendCategorySelectorItemModel> convertGroupMonthToItems(
       List<GroupMonth> groupMonths) {
+    Map<String, int> countMap = {};
     Map<String, SpendCategory> map = {};
 
     for (GroupMonth group in groupMonths) {
       for (Spend spend in group.spendList ?? []) {
         if (spend.spendCategory != null) {
-          map[spend.spendCategory!.identity ?? ""] = spend.spendCategory!;
+          map[spend.spendCategory!.identity] = spend.spendCategory!;
+
+          if (countMap[spend.spendCategory!.identity] == null) {
+            countMap[spend.spendCategory!.identity] = 1;
+          } else {
+            countMap[spend.spendCategory!.identity] =
+                countMap[spend.spendCategory!.identity]! + 1;
+          }
         }
       }
     }
 
-    return map.entries.map((entry) {
+    List<SpendCategorySelectorItemModel> items = map.entries.map((entry) {
       return SpendCategorySelectorItemModel(
-        categoryName: entry.value.name,
-        categoryId: entry.value.identity,
-      );
+          categoryName: entry.value.name,
+          categoryId: entry.value.identity,
+          count: countMap[entry.key]!);
     }).toList();
+
+    items.sort((a, b) => b.count.compareTo(a.count));
+
+    return items;
   }
 
   // Observing

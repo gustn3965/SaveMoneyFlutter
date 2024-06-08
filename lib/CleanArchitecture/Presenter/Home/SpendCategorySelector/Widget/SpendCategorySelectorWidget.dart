@@ -75,7 +75,7 @@ class SpendCategorySelectorWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
-          label: Text("# ${item.categoryName}"),
+          label: Text("# ${item.categoryName} (${item.count})"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(strokeAlign: 0.5),
           onSelected: (bool value) async {

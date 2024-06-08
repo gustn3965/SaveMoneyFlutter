@@ -193,11 +193,6 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
           borderSide: isTouched
               ? BorderSide(color: widget.touchedBarColor)
               : BorderSide(color: Colors.white, width: 0),
-          // backDrawRodData: BackgroundBarChartRodData(
-          //   show: true,
-          //   toY: 60,
-          //   color: Colors.transparent,
-          // ),
         );
 
         fromY = fromY + price + (maxPrice / 20);
@@ -213,12 +208,6 @@ class TotalSpendListBarChartState extends State<TotalSpendListBarChart> {
         return makeGroup(
             spendList[i].date, spendList[i], spendList[i].maxPrice.toDouble(),
             isTouched: this.touchedIndex == i);
-        // return makeGroupData(
-        //   spendList[i].date,
-        //   price == 0 ? 1 : price.toDouble(),
-        //   isTouched: this.touchedIndex == i,
-        //   barColor: spendList[i].color,
-        // );
       });
 
   BarChartData mainBarData(List<YearMonthCategoryModel> spendList) {

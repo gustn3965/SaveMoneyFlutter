@@ -12,6 +12,8 @@ abstract class GroupMonthFetchUseCase {
 
   Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
       String groupCategoryId, DateTime date);
+
+  Future<List<GroupMonth>> fetchGroupMonthByCategoryId(String groupCategoryId);
 }
 
 class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
@@ -70,5 +72,18 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
     }
 
     return null;
+  }
+
+  @override
+  Future<List<GroupMonth>> fetchGroupMonthByCategoryId(
+      String groupCategoryId) async {
+    List<GroupMonth> groupMonths = [];
+    for (var group in mockGroupMonthList) {
+      if (group.groupCategory.identity == groupCategoryId) {
+        groupMonths.add(group);
+      }
+    }
+
+    return groupMonths;
   }
 }

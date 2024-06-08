@@ -1,9 +1,11 @@
 class SpendCategorySelectorItemModel {
   String categoryName;
   String categoryId;
+  int count;
   SpendCategorySelectorItemModel({
     required this.categoryName,
     required this.categoryId,
+    required this.count,
   });
 }
 
