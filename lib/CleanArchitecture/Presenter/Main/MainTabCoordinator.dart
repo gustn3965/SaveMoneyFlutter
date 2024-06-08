@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/ChartCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
@@ -15,6 +16,7 @@ import 'MainTabWidget.dart';
 
 class MainTabCoordinator extends Coordinator {
   late HomeCoordinator homeCoordinator;
+  late ChartCoordinator chartCoordinator;
   late SettingsCoordinator settingsCoordinator;
 
   MainTabViewModel? mainHomeViewModel;
@@ -22,6 +24,7 @@ class MainTabCoordinator extends Coordinator {
   MainTabCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
     routeName = "MainHome";
     homeCoordinator = HomeCoordinator(this);
+    chartCoordinator = ChartCoordinator(this);
     settingsCoordinator = SettingsCoordinator(this);
     currentWidget = makeMainHomeWidget();
   }
@@ -56,7 +59,13 @@ class MainTabCoordinator extends Coordinator {
         MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
         mainTabWidget.bodyWidget = homeCoordinator.currentWidget;
       }
-      print("click Home");
+    }
+
+    void didClickChartTab() {
+      if (currentWidget is MainTabWidget) {
+        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
+        mainTabWidget.bodyWidget = chartCoordinator.currentWidget;
+      }
     }
 
     void didClickSettingTab() {
@@ -64,11 +73,11 @@ class MainTabCoordinator extends Coordinator {
         MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
         mainTabWidget.bodyWidget = settingsCoordinator.currentWidget;
       }
-      print("clickSetting");
     }
 
     MainTabViewModelAction action = MainTabViewModelAction(
       didClickHomeTab,
+      didClickChartTab,
       didClickSettingTab,
     );
 

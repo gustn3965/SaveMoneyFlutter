@@ -2,9 +2,10 @@ import 'dart:async';
 
 class MainTabViewModelAction {
   void Function() didClickHomeBottomTabButton;
+  void Function() didClickChartBottomTabButton;
   void Function() didClickSettingBottomTabButton;
-  MainTabViewModelAction(
-      this.didClickHomeBottomTabButton, this.didClickSettingBottomTabButton);
+  MainTabViewModelAction(this.didClickHomeBottomTabButton,
+      this.didClickChartBottomTabButton, this.didClickSettingBottomTabButton);
 }
 
 abstract class MainTabViewModel {
@@ -14,6 +15,7 @@ abstract class MainTabViewModel {
   MainTabViewModel(this.action);
 
   void didClickHomeBottomTabButton();
+  void didClickChartBottomTabButton();
   void didClickSettingBottomTabButton();
 
   // Observing
@@ -36,9 +38,16 @@ class DefaultMainTabViewModel extends MainTabViewModel {
   }
 
   @override
+  void didClickChartBottomTabButton() {
+    action.didClickChartBottomTabButton();
+    bottomNavigationIndex = 1;
+    _dataController.add(this);
+  }
+
+  @override
   void didClickSettingBottomTabButton() {
     action.didClickSettingBottomTabButton();
-    bottomNavigationIndex = 1;
+    bottomNavigationIndex = 2;
     _dataController.add(this);
   }
 

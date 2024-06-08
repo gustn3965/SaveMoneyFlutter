@@ -1,3 +1,4 @@
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
 
 import 'EditSpendDIContainer.dart';
@@ -29,4 +30,6 @@ class AppDIContainer {
   late AddGroupDIContainer addGroup = AddGroupDIContainer(this.appStatus);
 
   late SettingsDIContainer settings = SettingsDIContainer(this.appStatus);
+
+  late ChartDIContainer chart = ChartDIContainer(this.appStatus);
 }

@@ -22,6 +22,8 @@ class MainTabWidget extends StatelessWidget {
             onTap: (value) {
               if (value == 0) {
                 viewModel.didClickHomeBottomTabButton();
+              } else if (value == 1) {
+                viewModel.didClickChartBottomTabButton();
               } else {
                 viewModel.didClickSettingBottomTabButton();
               }
@@ -31,6 +33,7 @@ class MainTabWidget extends StatelessWidget {
             showUnselectedLabels: false,
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+              BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '차트'),
               BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
             ],
           ),
