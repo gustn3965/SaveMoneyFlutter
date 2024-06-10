@@ -38,20 +38,20 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
 
     updateSelectedItems();
 
-    makeChartModel();
+    await makeChartModel();
 
     _dataController.add(this);
   }
 
   @override
-  void didSelectSpendCategory(SpendCategoryChartSelectorItem item) {
+  void didSelectSpendCategory(SpendCategoryChartSelectorItem item) async {
     if (selectedSpendCategorySelectorItems.contains(item)) {
       selectedSpendCategorySelectorItems.remove(item);
     } else {
       selectedSpendCategorySelectorItems.add(item);
     }
 
-    makeChartModel();
+    await makeChartModel();
 
     _dataController.add(this);
   }
@@ -76,7 +76,7 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
     }
   }
 
-  void makeChartModel() async {
+  Future<void> makeChartModel() async {
     Map<int, List<SpendChartYModel>> map = {};
 
     for (SpendCategoryChartSelectorItem item

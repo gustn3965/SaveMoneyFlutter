@@ -1,3 +1,5 @@
+import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
+
 import '../../Extension/DateTime+Extension.dart';
 import '../Domain/Entity/GroupMonth.dart';
 
@@ -85,5 +87,40 @@ class MockGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
     }
 
     return groupMonths;
+  }
+}
+
+class RepoGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
+  Repository repository;
+
+  RepoGroupMonthFetchUseCase(this.repository);
+
+  @override
+  Future<List<GroupMonth>> fetchGroupMonthByCategoryId(
+      String groupCategoryId) async {
+    return await repository.fetchGroupMonthByCategoryId(groupCategoryId);
+  }
+
+  @override
+  Future<GroupMonth?> fetchGroupMonthByCategoryIdAndDateTime(
+      String groupCategoryId, DateTime date) async {
+    return await repository.fetchGroupMonthByCategoryIdAndDateTime(
+        groupCategoryId, date);
+  }
+
+  @override
+  Future<GroupMonth?> fetchGroupMonthByGroupId(String? groupId) async {
+    return await repository.fetchGroupMonthByGroupId(groupId);
+  }
+
+  @override
+  Future<List<GroupMonth>> fetchGroupMonthByGroupIds(
+      List<String> groupIds) async {
+    return await repository.fetchGroupMonthByGroupIds(groupIds);
+  }
+
+  @override
+  Future<List<GroupMonth>> fetchGroupMonthList(DateTime date) async {
+    return await repository.fetchGroupMonthList(date);
   }
 }

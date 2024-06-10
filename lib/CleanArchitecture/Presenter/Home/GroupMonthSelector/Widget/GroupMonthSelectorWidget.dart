@@ -22,6 +22,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: Container(
                   child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15),
                       Wrap(

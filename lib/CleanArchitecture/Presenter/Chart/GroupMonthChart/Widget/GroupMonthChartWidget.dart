@@ -233,7 +233,7 @@ class GroupMonthChartWidget extends StatelessWidget {
       axisSide: meta.axisSide,
       space: 16,
       child: Text(
-        '${DateFormat('yy년\nM월').format(dateTimeFromSince1970(value.toInt()))}',
+        '${DateFormat('yy년\nM월').format(dateTimeFromSince1970(value.toInt() * 1000))}',
         style: TextStyle(fontSize: 10),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:save_money_flutter/main.dart';
+
 import '../Presenter/AddGroup/AddGroupList/ViewModel/AddGroupListViewModel.dart';
 import '../Presenter/AddGroup/AddGroupList/ViewModel/DefaultAddGroupListViewModel.dart';
 import '../Presenter/AddGroup/AddGroupList/Widget/AddGroupListWidget.dart';
@@ -21,8 +23,11 @@ class AddGroupDIContainer {
   // List
   AddGroupListViewModel makeAddGroupListViewModel(
       DateTime date, AddGroupListActions action) {
-    AddGroupListViewModel viewModel = DefaultAddGroupListViewModel(date,
-        MockGroupCategoryFetchUseCase(), MockGroupMonthFetchUseCase(), action);
+    AddGroupListViewModel viewModel = DefaultAddGroupListViewModel(
+        date,
+        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
+        RepoGroupMonthFetchUseCase(appDIContainer.repository),
+        action);
     return viewModel;
   }
 
@@ -34,7 +39,7 @@ class AddGroupDIContainer {
   AddGroupNameViewModel makeAddGroupNameViewModel(
       DateTime date, AddGroupNameActions action) {
     AddGroupNameViewModel viewModel = DefaultAddGroupNameViewModel(
-        date, MockGroupCategoryFetchUseCase(), action);
+        date, RepoGroupCategoryFetchUseCase(appDIContainer.repository), action);
     return viewModel;
   }
 

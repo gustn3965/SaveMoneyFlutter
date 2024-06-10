@@ -46,7 +46,7 @@ class AppCoordinator extends Coordinator {
   AppCoordinator(super.superCoordinator);
 
   @override
-  void start() {
+  void start() async {
     runApp(LanchScreenWidget());
 
     Future.delayed(const Duration(milliseconds: 1000), () {

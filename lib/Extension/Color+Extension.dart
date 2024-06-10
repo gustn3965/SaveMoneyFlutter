@@ -19,6 +19,9 @@ Color uniqueColorFromIndex(int index) {
 Color generateUniqueColor(String uuid) {
 // UUID의 여러 부분을 사용하여 RGB 값을 생성
   String cleanUuid = uuid.replaceAll('-', '');
+  if (cleanUuid.length < 24) {
+    return Colors.black;
+  }
 // UUID의 여러 부분을 사용하여 RGB 값을 생성
   String redHex = cleanUuid.substring(0, 8); // 첫 8자리
   String greenHex = cleanUuid.substring(8, 16); // 다음 8자리

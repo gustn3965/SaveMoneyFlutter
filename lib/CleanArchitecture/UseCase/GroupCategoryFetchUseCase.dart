@@ -1,6 +1,8 @@
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
+import 'package:save_money_flutter/main.dart';
 
+import '../Data/Repository/Repository.dart';
 import '../Domain/Entity/GroupCategory.dart';
 import 'MockDataSet.dart';
 
@@ -43,5 +45,29 @@ class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
     }
 
     return null;
+  }
+}
+
+class RepoGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
+  Repository repository;
+
+  RepoGroupCategoryFetchUseCase(this.repository);
+
+  @override
+  Future<List<GroupCategory>> fetchAllGroupCategoryList() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchAllGroupCategoryList();
+  }
+
+  @override
+  Future<GroupCategory?> fetchGroupCategoryByName(String categoryName) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchGroupCategoryByName(categoryName);
+  }
+
+  @override
+  Future<List<GroupCategory>> fetchGroupCategoryList(DateTime date) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchGroupCategoryList(date);
   }
 }

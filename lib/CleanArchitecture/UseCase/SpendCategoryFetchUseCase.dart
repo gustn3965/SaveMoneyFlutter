@@ -1,4 +1,6 @@
+import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
+import 'package:save_money_flutter/main.dart';
 
 import '../Domain/Entity/Spend.dart';
 import '../Domain/Entity/SpendCategory.dart';
@@ -35,5 +37,23 @@ class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
       }
     }
     return set.toList();
+  }
+}
+
+class RepoSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
+  Repository repository;
+
+  RepoSpendCategoryFetchUseCase(this.repository);
+
+  @override
+  Future<List<SpendCategory>> fetchSpendCategoryList() async {
+    return await repository.fetchSpendCategoryList();
+  }
+
+  @override
+  Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
+      List<String> groupCategoryIds) async {
+    return await repository
+        .fetchSpendCategoryListWithGroupCategoryIds(groupCategoryIds);
   }
 }

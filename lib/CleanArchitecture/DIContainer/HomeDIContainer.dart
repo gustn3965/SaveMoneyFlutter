@@ -9,6 +9,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewM
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 
+import '../../main.dart';
 import '../Presenter/Home/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
 import '../Presenter/Home/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
 import '../Presenter/Home/Calendar/ViewModel/DefaultGroupMonthCalendarViewModel.dart';
@@ -31,7 +32,8 @@ class HomeDIContainer {
   // Main - Summary
   GroupMonthSummaryViewModel makeMainSummaryViewModel() {
     GroupMonthSummaryViewModel summaryViewModel =
-        DefaultGroupMonthSummaryViewModel(MockGroupMonthFetchUseCase());
+        DefaultGroupMonthSummaryViewModel(
+            RepoGroupMonthFetchUseCase(appDIContainer.repository));
     return summaryViewModel;
   }
 
@@ -43,7 +45,7 @@ class HomeDIContainer {
   GroupMonthSelectorViewModel makeMainGroupMonthSelectorViewModel(
       GroupMonthSelectorActions action) {
     GroupMonthSelectorViewModel viewModel = DefaultGroupMonthSelectorViewModel(
-        MockGroupMonthFetchUseCase(), action);
+        RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
     return viewModel;
   }
 
@@ -57,7 +59,7 @@ class HomeDIContainer {
       SpendCategorySelectorActions action) {
     SpendCategorySelectorViewModel viewModel =
         DefaultSpendCategorySelectorViewModel(
-            MockGroupMonthFetchUseCase(), action);
+            RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
     return viewModel;
   }
 
@@ -70,7 +72,7 @@ class HomeDIContainer {
   GroupMonthCalendarViewModel makeMainGroupMonthCalendarViewModel(
       GroupMonthCalendarActions action) {
     GroupMonthCalendarViewModel viewModel = DefaultGroupMonthCalendarViewModel(
-        MockGroupMonthFetchUseCase(), action);
+        RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
     return viewModel;
   }
 
@@ -98,8 +100,8 @@ class HomeDIContainer {
 
   DaySpendListViewModel makeDaySpendListViewModel(
       DaySpendListAction action, DateTime date, List<String> groupIds) {
-    DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(
-        action, date, groupIds, MockSpendListUseCase());
+    DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(action, date,
+        groupIds, RepoSpendListUseCase(appDIContainer.repository));
     return viewModel;
   }
 

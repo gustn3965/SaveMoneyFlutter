@@ -1,6 +1,7 @@
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
 
 import '../../Extension/DateTime+Extension.dart';
+import '../Data/Repository/Repository.dart';
 import '../Domain/Entity/GroupMonth.dart';
 import '../Domain/Entity/Spend.dart';
 
@@ -83,5 +84,42 @@ class MockSpendListUseCase extends SpendListUseCase {
       spendList.sort((a, b) => a.date.compareTo(b.date));
     }
     return spendList;
+  }
+}
+
+class RepoSpendListUseCase extends SpendListUseCase {
+  Repository repository;
+
+  RepoSpendListUseCase(this.repository);
+
+  @override
+  Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchDaySpendList(groupId, date);
+  }
+
+  @override
+  Future<List<Spend>> fetchDaySpendLists(
+      List<String> groupIds, DateTime date) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchDaySpendLists(groupIds, date);
+  }
+
+  @override
+  Future<Spend?> fetchSpend(String spendId) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchSpend(spendId);
+  }
+
+  @override
+  Future<List<Spend>> fetchSpendList(
+      {required String spendCategoryId,
+      required List<String> groupCategoryIds,
+      required bool descending}) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchSpendList(
+        spendCategoryId: spendCategoryId,
+        groupCategoryIds: groupCategoryIds,
+        descending: descending);
   }
 }

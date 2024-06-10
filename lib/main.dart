@@ -43,6 +43,8 @@ AppCoordinator appCoordinator = AppCoordinator(null);
 AppDIContainer appDIContainer = AppDIContainer();
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await appDIContainer.repository.databaseController?.initializeAsync();
   appCoordinator.start();
 
   // WidgetsFlutterBinding.ensureInitialized();

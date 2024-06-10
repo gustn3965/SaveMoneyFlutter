@@ -1,5 +1,6 @@
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/ViewModel/AddSpendViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/Widget/AddSpendWidget.dart';
+import 'package:save_money_flutter/main.dart';
 
 import '../Presenter/AddSpend/AddSpend/ViewModel/DefaultAddSpendViewModel.dart';
 import '../UseCase/AddSpendUseCase.dart';
@@ -17,8 +18,8 @@ class AddSpendDIContainer {
     AddSpendViewModel viewModel = DefaultAddSpendViewModel(
         action,
         date,
-        MockSpendCategoryFetchUseCase(),
-        MockGroupCategoryFetchUseCase(),
+        RepoSpendCategoryFetchUseCase(appDIContainer.repository),
+        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
         MockAddSpendUseCase());
     return viewModel;
   }

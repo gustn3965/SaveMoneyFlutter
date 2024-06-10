@@ -1,6 +1,8 @@
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
+import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
 
+import '../Data/Repository/DataBase/SQLite/SQLiteDataBase.dart';
 import 'EditSpendDIContainer.dart';
 import 'HomeDIContainer.dart';
 import 'LoginDIContainer.dart';
@@ -16,6 +18,8 @@ enum AppStatus {
 // TODO: - appStatus에 따라 다르게 주입해주기 ( Widget, ViewModel, UseCase )
 class AppDIContainer {
   AppStatus appStatus = AppStatus.demo;
+
+  late Repository repository = Repository(SQLiteDataBase(), null);
 
   late LoginDIContainer login = LoginDIContainer(this.appStatus);
 

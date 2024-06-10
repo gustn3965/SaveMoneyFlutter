@@ -1,6 +1,7 @@
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/EditSpendUseCase.dart';
 
+import '../../main.dart';
 import '../Presenter/EditSpend/ViewModel/DefaultEditSpendViewModel.dart';
 import '../Presenter/EditSpend/ViewModel/EditSpendViewModel.dart';
 import '../Presenter/EditSpend/Widget/EditSpendWidget.dart';
@@ -16,9 +17,9 @@ class EditSpendDIContainer {
   EditSpendViewModel makeEditSpendViewModel(
       String spendId, EditSpendActions action) {
     EditSpendViewModel viewModel = DefaultEditSpendViewModel(
-        MockSpendCategoryFetchUseCase(),
-        MockGroupCategoryFetchUseCase(),
-        MockSpendListUseCase(),
+        RepoSpendCategoryFetchUseCase(appDIContainer.repository),
+        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
+        RepoSpendListUseCase(appDIContainer.repository),
         MockEditSpendUseCase(),
         action,
         spendId);
