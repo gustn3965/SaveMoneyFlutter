@@ -16,6 +16,7 @@ abstract class EditSpendViewModel {
   late bool availableSaveButton;
   late DateTime? date = null;
   int spendMoney = 0;
+  String description = "";
   List<GroupCategory> groupCategoryList = [];
   GroupCategory? selectedGroupCategory;
   List<SpendCategory> spendCategoryList = [];
@@ -24,6 +25,7 @@ abstract class EditSpendViewModel {
   EditSpendViewModel(this.editSpendActions, this.spendId);
 
   void didChangeSpendMoney(int spendMoney);
+  void didChangeDescription(String description);
   void didChangeDate(DateTime date);
   void didClickDateButton();
   void didClickSaveButton();

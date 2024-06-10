@@ -9,9 +9,14 @@ class DaySpendListViewModelItem {
   DateTime date;
   int spendMoney;
   String identity;
+  String description;
 
   DaySpendListViewModelItem(
-      this.categoryName, this.date, this.spendMoney, this.identity);
+      {required this.categoryName,
+      required this.date,
+      required this.spendMoney,
+      required this.identity,
+      required this.description});
 }
 
 abstract class DaySpendListViewModel {

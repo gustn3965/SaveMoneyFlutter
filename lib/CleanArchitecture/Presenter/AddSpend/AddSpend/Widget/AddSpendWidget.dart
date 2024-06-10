@@ -10,12 +10,14 @@ import '../../../../../AppColor/AppColors.dart';
 class AddSpendWidget extends StatelessWidget {
   final AddSpendViewModel viewModel;
 
+  late TextEditingController descriptionTextController;
   late TextEditingController spendingTextController;
   String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
 
   AddSpendWidget(this.viewModel, {super.key}) {
     spendingTextController =
         TextEditingController(text: '${viewModel?.spendMoney ?? 0}');
+    descriptionTextController = TextEditingController();
   }
 
   @override
@@ -42,6 +44,7 @@ class AddSpendWidget extends StatelessWidget {
                           height: 20,
                         ),
                         spendTextFieldWidget(),
+                        descriptionTextFieldWidget(),
                         saveButtonWidget(context),
                         nonSpendButtonWidget(context),
                         sectionHeaderTitle("소비 그룹", 30),
@@ -105,6 +108,33 @@ class AddSpendWidget extends StatelessWidget {
 
             spendingTextController.text = text;
             viewModel.didChangeSpendMoney(int.parse(text.replaceAll(',', '')));
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget descriptionTextFieldWidget() {
+    return Material(
+      child: Container(
+        width: 200,
+        height: 80,
+        color: AppColors.whiteColor,
+        child: TextField(
+          textAlign: TextAlign.center,
+          autofocus: true,
+          controller: descriptionTextController,
+          keyboardType: TextInputType.text,
+          style: TextStyle(fontSize: 15),
+          maxLength: 40,
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+            labelText: '설명을 입력해주세요 (선택)',
+            floatingLabelAlignment: FloatingLabelAlignment.center,
+          ),
+          onChanged: (text) {
+            descriptionTextController.text = text;
+            viewModel.didChangeDescription(text);
           },
         ),
       ),

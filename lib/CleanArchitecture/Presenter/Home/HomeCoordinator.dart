@@ -33,6 +33,7 @@ class HomeCoordinator extends Coordinator {
     Widget daysSpendListWidget = makeDaySpendListWidget();
 
     Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
+    Widget spacingView = SizedBox(height: 50);
 
     currentWidget = HomeWidget(
       widgets: [
@@ -40,7 +41,8 @@ class HomeCoordinator extends Coordinator {
         groupSelectorWidget,
         spendCategorySelectorWidget,
         calendarWidget,
-        daysSpendListWidget
+        daysSpendListWidget,
+        spacingView
       ],
       floattingButtons: [addSpendFloattingWidget],
     );

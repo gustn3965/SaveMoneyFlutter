@@ -37,43 +37,50 @@ class DaySpendListWidget extends StatelessWidget {
                     child: Stack(
                       children: [
                         Align(
-                          alignment: Alignment.centerLeft,
+                          // alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 20, right: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(height: 15),
-                                    Text(
-                                      item.categoryName,
-                                      style: const TextStyle(
-                                        color: Color(0xFF0082FB),
-                                        fontSize: 20,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.0,
+                                Flexible(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(height: 15),
+                                      Text(
+                                        item.categoryName,
+                                        style: const TextStyle(
+                                          color: Color(0xFF0082FB),
+                                          fontSize: 20,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w700,
+                                          height: 1.0,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.left,
-                                      maxLines: 2,
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      '${NumberFormat("#,###").format(item.spendMoney)}원',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.0,
+                                      if (item.description.isNotEmpty)
+                                        Text("설명 : ${item.description}"),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        '${NumberFormat("#,###").format(item.spendMoney)}원',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w700,
+                                          height: 1.0,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                        maxLines: 2,
                                       ),
-                                      textAlign: TextAlign.left,
-                                      maxLines: 2,
-                                    ),
-                                    SizedBox(height: 15),
-                                  ],
+                                      SizedBox(height: 15),
+                                    ],
+                                  ),
                                 ),
                                 FilledButton(
                                   onPressed: () {

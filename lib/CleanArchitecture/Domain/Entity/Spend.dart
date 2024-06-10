@@ -5,6 +5,7 @@ import 'GroupCategory.dart';
 class Spend {
   DateTime date;
   int spendMoney;
+  String description;
 
   GroupCategory groupCategory;
   SpendCategory? spendCategory;
@@ -19,6 +20,7 @@ class Spend {
     required this.spendCategory,
     required this.identity,
     this.spendType = SpendType.realSpend,
+    this.description = "",
   });
 }
 

@@ -11,6 +11,8 @@ import '../ViewModel/EditSpendViewModel.dart';
 class EditSpendWidget extends StatelessWidget {
   final EditSpendViewModel viewModel;
 
+  late TextEditingController descriptionTextController =
+      TextEditingController(text: '${viewModel?.description ?? 0}');
   late TextEditingController spendingTextController =
       TextEditingController(text: '${viewModel?.spendMoney ?? 0}');
   String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
@@ -48,6 +50,7 @@ class EditSpendWidget extends StatelessWidget {
                           height: 20,
                         ),
                         spendTextFieldWidget(),
+                        descriptionTextFieldWidget(),
                         deleteAndSaveButtonWidget(context),
                         nonSpendButtonWidget(context),
                         sectionHeaderTitle("소비 그룹", 30),
@@ -111,6 +114,33 @@ class EditSpendWidget extends StatelessWidget {
             spendingTextController.text = text;
             // spendingTextController.selection = previousCursorPos;
             viewModel.didChangeSpendMoney(int.parse(text.replaceAll(',', '')));
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget descriptionTextFieldWidget() {
+    return Material(
+      child: Container(
+        width: 200,
+        height: 80,
+        color: AppColors.whiteColor,
+        child: TextField(
+          textAlign: TextAlign.center,
+          autofocus: true,
+          controller: descriptionTextController,
+          keyboardType: TextInputType.text,
+          style: TextStyle(fontSize: 15),
+          maxLength: 40,
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(),
+            labelText: '설명을 입력해주세요 (선택)',
+            floatingLabelAlignment: FloatingLabelAlignment.center,
+          ),
+          onChanged: (text) {
+            descriptionTextController.text = text;
+            viewModel.didChangeDescription(text);
           },
         ),
       ),

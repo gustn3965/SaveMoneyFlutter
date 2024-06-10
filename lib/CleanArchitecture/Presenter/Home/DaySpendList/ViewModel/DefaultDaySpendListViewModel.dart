@@ -54,8 +54,12 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
         continue;
       }
 
-      list.add(DaySpendListViewModelItem(spend.spendCategory?.name ?? "",
-          spend.date, spend.spendMoney, spend.identity));
+      list.add(DaySpendListViewModelItem(
+          categoryName: spend.spendCategory?.name ?? "",
+          date: spend.date,
+          spendMoney: spend.spendMoney,
+          identity: spend.identity,
+          description: spend.description));
     }
     return list;
   }

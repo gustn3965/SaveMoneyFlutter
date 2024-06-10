@@ -43,6 +43,7 @@ class AddSpendCoordinator extends Coordinator {
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
         return Container(
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.9,
             child: currentWidget);
       },

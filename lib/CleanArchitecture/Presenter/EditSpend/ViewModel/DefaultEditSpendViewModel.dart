@@ -35,6 +35,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
     if (spend != null) {
       date = spend.date;
       spendMoney = spend.spendMoney;
+      description = spend.description;
       spendId = spendId;
 
       availableSaveButton = true;
@@ -75,6 +76,12 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   }
 
   @override
+  void didChangeDescription(String description) {
+    this.description = description;
+    _dataController.add(this);
+  }
+
+  @override
   void didClickDateButton() {
     editSpendActions.showDatePicker(date ?? DateTime.now());
   }
@@ -86,7 +93,8 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
         date: date!,
         groupCategory: selectedGroupCategory!,
         spendCategory: selectedSpendCategory!,
-        spendMoney: spendMoney);
+        spendMoney: spendMoney,
+        description: description);
     await editSpendUseCase.editSpend(editedSpend);
 
     editSpendActions.didEditSpend();

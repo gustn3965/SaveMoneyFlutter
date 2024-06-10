@@ -23,6 +23,8 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late int spendMoney;
   @override
+  late String description = "";
+  @override
   late List<GroupCategory> groupCategoryList;
   @override
   GroupCategory? selectedGroupCategory;
@@ -65,6 +67,12 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   }
 
   @override
+  void didChangeDescription(String description) {
+    this.description = description;
+    _dataController.add(this);
+  }
+
+  @override
   Future<void> didChangeDate(DateTime date) async {
     this.date = DateTime.utc(date.year, date.month, date.day, 0, 0);
 
@@ -85,7 +93,8 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
         spendMoney: spendMoney,
         groupCategory: selectedGroupCategory!,
         spendCategory: selectedSpendCategory!,
-        identity: generateUniqueId());
+        identity: generateUniqueId(),
+        description: description);
     await addSpendUseCase.addSpend(spend);
 
     addSpendActions.didAddSpend();
