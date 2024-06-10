@@ -33,8 +33,16 @@ class ChartCoordinator extends Coordinator {
   }
 
   Widget makeGroupMonthChartWidget() {
+    void updateSelectedGroupCategorys(List<String> selectedGroupCategorys) {
+      spendCategoryChartViewModel
+          ?.fetchSpendCategoryList(selectedGroupCategorys);
+    }
+
+    GroupMonthChartActions action =
+        GroupMonthChartActions(updateSelectedGroupCategorys);
+
     groupMonthChartViewModel =
-        appDIContainer.chart.makeGroupMonthChartViewModel();
+        appDIContainer.chart.makeGroupMonthChartViewModel(action);
 
     return appDIContainer.chart
         .makeGroupMonthChartWidget(groupMonthChartViewModel!);

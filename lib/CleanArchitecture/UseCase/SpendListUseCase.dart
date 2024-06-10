@@ -4,14 +4,18 @@ import '../../Extension/DateTime+Extension.dart';
 import '../Domain/Entity/GroupMonth.dart';
 import '../Domain/Entity/Spend.dart';
 
-abstract class DaySpendListUseCase {
+abstract class SpendListUseCase {
   Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date);
   Future<List<Spend>> fetchDaySpendLists(List<String> groupIds, DateTime date);
+  Future<List<Spend>> fetchSpendList(
+      {required String spendCategoryId,
+      required List<String> groupCategoryIds,
+      required bool descending});
 
   Future<Spend?> fetchSpend(String spendId);
 }
 
-class MockDaySpendListUseCase extends DaySpendListUseCase {
+class MockSpendListUseCase extends SpendListUseCase {
   @override
   Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date) async {
     List<Spend> spendList = [];
@@ -54,5 +58,30 @@ class MockDaySpendListUseCase extends DaySpendListUseCase {
       }
     }
     return null;
+  }
+
+  @override
+  Future<List<Spend>> fetchSpendList(
+      {required String spendCategoryId,
+      required List<String> groupCategoryIds,
+      required bool descending}) async {
+    List<Spend> spendList = [];
+    for (GroupMonth group in mockGroupMonthList) {
+      if (groupCategoryIds.contains(group.groupCategory.identity)) {
+        for (Spend spend in group.spendList) {
+          if (spend.spendCategory != null &&
+              spend.spendCategory!.identity == spendCategoryId) {
+            spendList.add(spend);
+          }
+        }
+      }
+    }
+
+    if (descending) {
+      spendList.sort((a, b) => b.date.compareTo(a.date));
+    } else {
+      spendList.sort((a, b) => a.date.compareTo(b.date));
+    }
+    return spendList;
   }
 }

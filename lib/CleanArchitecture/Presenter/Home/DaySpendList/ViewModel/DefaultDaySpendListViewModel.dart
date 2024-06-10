@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 
 import '../../../../Domain/Entity/Spend.dart';
 import 'DaySpendListViewModel.dart';
 
 class DefaultDaySpendListViewModel extends DaySpendListViewModel {
-  DaySpendListUseCase daySpendListUseCase;
+  SpendListUseCase daySpendListUseCase;
 
   final _dataController = StreamController<DaySpendListViewModel>.broadcast();
   @override

@@ -4,12 +4,11 @@ class GroupCategoryChartSelectorItem {
   GroupCategoryChartSelectorItem(this.categoryIdentity, this.categoryName);
 }
 
-// class GroupMonthChartActions {
-//   final void Function(List<String>) updateSelectedGroupIds;
-//   final void Function() showAddGroup;
-//
-//   GroupMonthSelectorActions(this.updateSelectedGroupIds, this.showAddGroup);
-// }
+class GroupMonthChartActions {
+  final void Function(List<String>) updateSelectedGroupCategoryIds;
+
+  GroupMonthChartActions(this.updateSelectedGroupCategoryIds);
+}
 
 class GroupChartModel {
   List<GroupChartXModel> xModels;
@@ -33,7 +32,7 @@ class GroupChartYModel {
 }
 
 abstract class GroupMonthChartViewModel {
-  // GroupMonthChartActions action;
+  late GroupMonthChartActions action;
 
   List<GroupCategoryChartSelectorItem> groupCategorySelectorItems = [];
   List<GroupCategoryChartSelectorItem> selectedGroupCategorySelectorItems = [];
@@ -41,6 +40,7 @@ abstract class GroupMonthChartViewModel {
   GroupChartModel? chartModel;
 
   void didSelectGroupCategory(GroupCategoryChartSelectorItem item);
+  void reloadFetch();
 
   // Observing
   Stream<GroupMonthChartViewModel> get dataStream;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupCategory.dart';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/SpendCategory.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/ViewModel/EditSpendViewModel.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/EditSpendUseCase.dart';
 
 import '../../../Domain/Entity/Spend.dart';
@@ -13,7 +13,7 @@ import '../../../UseCase/SpendCategoryFetchUseCase.dart';
 class DefaultEditSpendViewModel extends EditSpendViewModel {
   late SpendCategoryFetchUseCase spendFetchUseCase;
   late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
-  late DaySpendListUseCase daySpendListUseCase;
+  late SpendListUseCase daySpendListUseCase;
   late EditSpendUseCase editSpendUseCase;
 
   final _dataController = StreamController<EditSpendViewModel>.broadcast();

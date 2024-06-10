@@ -1,4 +1,4 @@
-import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/EditSpendUseCase.dart';
 
 import '../Presenter/EditSpend/ViewModel/DefaultEditSpendViewModel.dart';
@@ -18,7 +18,7 @@ class EditSpendDIContainer {
     EditSpendViewModel viewModel = DefaultEditSpendViewModel(
         MockSpendCategoryFetchUseCase(),
         MockGroupCategoryFetchUseCase(),
-        MockDaySpendListUseCase(),
+        MockSpendListUseCase(),
         MockEditSpendUseCase(),
         action,
         spendId);

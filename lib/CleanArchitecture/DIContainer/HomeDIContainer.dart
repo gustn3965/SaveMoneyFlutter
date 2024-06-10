@@ -7,7 +7,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategor
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/Widget/SpendCategorySelectorWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabWidget.dart';
-import 'package:save_money_flutter/CleanArchitecture/UseCase/DaySpendListUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 
 import '../Presenter/Home/AddSpendFloatingButton/ViewModel/AddSpendFloatingButtonViewModel.dart';
 import '../Presenter/Home/AddSpendFloatingButton/Widget/AddSpendFloatingButtonWidget.dart';
@@ -99,7 +99,7 @@ class HomeDIContainer {
   DaySpendListViewModel makeDaySpendListViewModel(
       DaySpendListAction action, DateTime date, List<String> groupIds) {
     DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(
-        action, date, groupIds, MockDaySpendListUseCase());
+        action, date, groupIds, MockSpendListUseCase());
     return viewModel;
   }
 

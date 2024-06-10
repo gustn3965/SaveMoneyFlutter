@@ -9,11 +9,14 @@ import '../../../../UseCase/GroupCategoryFetchUseCase.dart';
 import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 
 class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
+  @override
+  late GroupMonthChartActions action;
+
   GroupCategoryFetchUseCase groupCategoryFetchUseCase;
   GroupMonthFetchUseCase groupMonthFetchUseCase;
 
-  DefaultGroupMonthChartViewModel(
-      this.groupCategoryFetchUseCase, this.groupMonthFetchUseCase) {
+  DefaultGroupMonthChartViewModel(this.action, this.groupCategoryFetchUseCase,
+      this.groupMonthFetchUseCase) {
     fetchAllGroupCategory();
   }
 
@@ -25,6 +28,11 @@ class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
   @override
   void dispose() {
     _dataController.close();
+  }
+
+  @override
+  void reloadFetch() async {
+    fetchAllGroupCategory();
   }
 
   void fetchAllGroupCategory() async {
@@ -45,6 +53,12 @@ class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
 
     makeChartModel();
 
+    List<String> groupCategoryIds =
+        selectedGroupCategorySelectorItems.map((item) {
+      return item.categoryIdentity;
+    }).toList();
+    action.updateSelectedGroupCategoryIds(groupCategoryIds);
+
     _dataController.add(this);
   }
 
@@ -59,7 +73,7 @@ class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
       for (GroupMonth groupMonth in groupMonths) {
         int spendMoney = groupMonth.totalSpendMoney();
         int xDate = indexMonthDateIdFromDateTime(groupMonth.date);
-        print(xDate);
+
         String groupCategoryName = groupMonth.groupCategory.name;
         String groupCategoryId = groupMonth.groupCategory.identity;
         if (map[xDate] != null) {

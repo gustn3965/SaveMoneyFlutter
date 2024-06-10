@@ -7,6 +7,8 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/SpendCatego
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/SpendCategoryChart/Widget/SpendCategoryChartWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupMonthFetchUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendCategoryFetchUseCase.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 
 import '../Presenter/Chart/GroupMonthChart/ViewModel/GroupMonthChartViewModel.dart';
 
@@ -16,9 +18,10 @@ class ChartDIContainer {
   ChartDIContainer(this.appStatus);
 
   // Chart - GroupMonth
-  GroupMonthChartViewModel makeGroupMonthChartViewModel() {
+  GroupMonthChartViewModel makeGroupMonthChartViewModel(
+      GroupMonthChartActions action) {
     return DefaultGroupMonthChartViewModel(
-        MockGroupCategoryFetchUseCase(), MockGroupMonthFetchUseCase());
+        action, MockGroupCategoryFetchUseCase(), MockGroupMonthFetchUseCase());
   }
 
   Widget makeGroupMonthChartWidget(GroupMonthChartViewModel viewModel) {
@@ -27,7 +30,8 @@ class ChartDIContainer {
 
   // Chart - SpendCategory
   SpendCategoryChartViewModel makeSpendCategoryChartViewModel() {
-    return DefaultSpendCategoryChartViewModel();
+    return DefaultSpendCategoryChartViewModel(
+        MockSpendCategoryFetchUseCase(), MockSpendListUseCase());
   }
 
   Widget makeSpendCategoryChartWidget(SpendCategoryChartViewModel viewModel) {
