@@ -32,6 +32,7 @@ class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
 
   @override
   void reloadFetch() async {
+    print("GroupMonthChart reloadFetch");
     fetchAllGroupCategory();
   }
 

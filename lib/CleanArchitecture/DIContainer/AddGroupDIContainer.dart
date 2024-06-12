@@ -23,11 +23,23 @@ class AddGroupDIContainer {
   // List
   AddGroupListViewModel makeAddGroupListViewModel(
       DateTime date, AddGroupListActions action) {
+    GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupCategoryFetchUseCase =
+            RepoGroupCategoryFetchUseCase(appDIContainer.repository);
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupCategoryFetchUseCase = MockGroupCategoryFetchUseCase();
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
+
     AddGroupListViewModel viewModel = DefaultAddGroupListViewModel(
-        date,
-        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupMonthFetchUseCase(appDIContainer.repository),
-        action);
+        date, groupCategoryFetchUseCase, groupMonthFetchUseCase, action);
     return viewModel;
   }
 
@@ -38,8 +50,19 @@ class AddGroupDIContainer {
 // Name
   AddGroupNameViewModel makeAddGroupNameViewModel(
       DateTime date, AddGroupNameActions action) {
-    AddGroupNameViewModel viewModel = DefaultAddGroupNameViewModel(
-        date, RepoGroupCategoryFetchUseCase(appDIContainer.repository), action);
+    GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupCategoryFetchUseCase =
+            RepoGroupCategoryFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupCategoryFetchUseCase = MockGroupCategoryFetchUseCase();
+        break;
+    }
+
+    AddGroupNameViewModel viewModel =
+        DefaultAddGroupNameViewModel(date, groupCategoryFetchUseCase, action);
     return viewModel;
   }
 
@@ -50,12 +73,22 @@ class AddGroupDIContainer {
 // Money
   AddGroupMoneyViewModel makeAddGroupMoneyViewModel(
       DateTime date, String groupName, AddGroupMoneyAction action) {
+    AddGroupMonthUseCase addGroupMonthUseCase;
+    AddGroupCategoryUseCase addGroupCategoryUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        addGroupMonthUseCase =
+            RepoAddGroupMonthUseCase(appDIContainer.repository);
+        addGroupCategoryUseCase =
+            RepoAddGroupCategoryUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        addGroupMonthUseCase = MockAddGroupMonthUseCase();
+        addGroupCategoryUseCase = MockAddGroupCategoryUseCase();
+        break;
+    }
     AddGroupMoneyViewModel viewModel = DefaultAddGroupMoneyViewModel(
-        date,
-        groupName,
-        action,
-        RepoAddGroupMonthUseCase(appDIContainer.repository),
-        RepoAddGroupCategoryUseCase(appDIContainer.repository));
+        date, groupName, action, addGroupMonthUseCase, addGroupCategoryUseCase);
     return viewModel;
   }
 

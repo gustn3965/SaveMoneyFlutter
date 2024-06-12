@@ -16,11 +16,32 @@ class EditSpendDIContainer {
 
   EditSpendViewModel makeEditSpendViewModel(
       String spendId, EditSpendActions action) {
+    SpendCategoryFetchUseCase spendCategoryFetchUseCase;
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    SpendListUseCase spendListUseCase;
+    EditSpendUseCase editSpendUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        spendCategoryFetchUseCase =
+            RepoSpendCategoryFetchUseCase(appDIContainer.repository);
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
+        editSpendUseCase = RepoEditSpendUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        spendCategoryFetchUseCase = MockSpendCategoryFetchUseCase();
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        spendListUseCase = MockSpendListUseCase();
+        editSpendUseCase = MockEditSpendUseCase();
+        break;
+    }
+
     EditSpendViewModel viewModel = DefaultEditSpendViewModel(
-        RepoSpendCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupMonthFetchUseCase(appDIContainer.repository),
-        RepoSpendListUseCase(appDIContainer.repository),
-        RepoEditSpendUseCase(appDIContainer.repository),
+        spendCategoryFetchUseCase,
+        groupMonthFetchUseCase,
+        spendListUseCase,
+        editSpendUseCase,
         action,
         spendId);
 

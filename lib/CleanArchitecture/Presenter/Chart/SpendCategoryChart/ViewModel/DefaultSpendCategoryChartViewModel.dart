@@ -59,6 +59,7 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
 
   @override
   void reloadFetch() async {
+    print("SpendCategoryChart reloadFetch");
     fetchSpendCategoryList(groupCategoryIds);
   }
 

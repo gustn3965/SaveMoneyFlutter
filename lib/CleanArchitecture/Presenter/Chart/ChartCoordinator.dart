@@ -59,6 +59,8 @@ class ChartCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    groupMonthChartViewModel?.reloadFetch();
+    spendCategoryChartViewModel?.reloadFetch();
     // TODO: implement updateCurrentWidget
   }
 }

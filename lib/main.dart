@@ -40,7 +40,7 @@ import 'view_model/select_date_view_model.dart';
 // import 'N'
 
 AppCoordinator appCoordinator = AppCoordinator(null);
-AppDIContainer appDIContainer = AppDIContainer();
+AppDIContainer appDIContainer = AppDIContainer(appStatus: AppStatus.mock);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

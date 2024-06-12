@@ -31,9 +31,19 @@ class HomeDIContainer {
 
   // Main - Summary
   GroupMonthSummaryViewModel makeMainSummaryViewModel() {
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
+
     GroupMonthSummaryViewModel summaryViewModel =
-        DefaultGroupMonthSummaryViewModel(
-            RepoGroupMonthFetchUseCase(appDIContainer.repository));
+        DefaultGroupMonthSummaryViewModel(groupMonthFetchUseCase);
     return summaryViewModel;
   }
 
@@ -44,8 +54,19 @@ class HomeDIContainer {
   // Main - GroupMonthSelector
   GroupMonthSelectorViewModel makeMainGroupMonthSelectorViewModel(
       GroupMonthSelectorActions action) {
-    GroupMonthSelectorViewModel viewModel = DefaultGroupMonthSelectorViewModel(
-        RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
+
+    GroupMonthSelectorViewModel viewModel =
+        DefaultGroupMonthSelectorViewModel(groupMonthFetchUseCase, action);
     return viewModel;
   }
 
@@ -57,9 +78,18 @@ class HomeDIContainer {
   // Main - SpendCategorySelector
   SpendCategorySelectorViewModel makeMainSpendCategorySelectorViewModel(
       SpendCategorySelectorActions action) {
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
     SpendCategorySelectorViewModel viewModel =
-        DefaultSpendCategorySelectorViewModel(
-            RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
+        DefaultSpendCategorySelectorViewModel(groupMonthFetchUseCase, action);
     return viewModel;
   }
 
@@ -71,8 +101,18 @@ class HomeDIContainer {
   // Main - Calendar
   GroupMonthCalendarViewModel makeMainGroupMonthCalendarViewModel(
       GroupMonthCalendarActions action) {
-    GroupMonthCalendarViewModel viewModel = DefaultGroupMonthCalendarViewModel(
-        RepoGroupMonthFetchUseCase(appDIContainer.repository), action);
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
+    GroupMonthCalendarViewModel viewModel =
+        DefaultGroupMonthCalendarViewModel(groupMonthFetchUseCase, action);
     return viewModel;
   }
 
@@ -100,8 +140,18 @@ class HomeDIContainer {
 
   DaySpendListViewModel makeDaySpendListViewModel(
       DaySpendListAction action, DateTime date, List<String> groupIds) {
-    DaySpendListViewModel viewModel = DefaultDaySpendListViewModel(action, date,
-        groupIds, RepoSpendListUseCase(appDIContainer.repository));
+    SpendListUseCase spendListUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        spendListUseCase = MockSpendListUseCase();
+        break;
+    }
+
+    DaySpendListViewModel viewModel =
+        DefaultDaySpendListViewModel(action, date, groupIds, spendListUseCase);
     return viewModel;
   }
 

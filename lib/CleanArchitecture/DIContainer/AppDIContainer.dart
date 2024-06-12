@@ -1,6 +1,7 @@
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
 
 import '../Data/Repository/DataBase/SQLite/SQLiteDataBase.dart';
 import 'EditSpendDIContainer.dart';
@@ -11,13 +12,23 @@ import 'AddGroupDIContainer.dart';
 import 'AddSpendDIContainer.dart';
 
 enum AppStatus {
-  demo,
-  real,
+  mock,
+  db,
 }
 
 // TODO: - appStatus에 따라 다르게 주입해주기 ( Widget, ViewModel, UseCase )
 class AppDIContainer {
-  AppStatus appStatus = AppStatus.demo;
+  AppStatus appStatus; // main.dart
+
+  AppDIContainer({required this.appStatus}) {
+    switch (appStatus) {
+      case AppStatus.mock:
+        MockDataSet().setupMockGroupMonth();
+        break;
+      case AppStatus.db:
+        break;
+    }
+  }
 
   late Repository repository = Repository(SQLiteDataBase(), null);
 
@@ -36,4 +47,15 @@ class AppDIContainer {
   late SettingsDIContainer settings = SettingsDIContainer(this.appStatus);
 
   late ChartDIContainer chart = ChartDIContainer(this.appStatus);
+
+  void changeAppStatus() {
+    login.appStatus = appStatus;
+    mainTab.appStatus = appStatus;
+    home.appStatus = appStatus;
+    addSpend.appStatus = appStatus;
+    editSpend.appStatus = appStatus;
+    addGroup.appStatus = appStatus;
+    settings.appStatus = appStatus;
+    chart.appStatus = appStatus;
+  }
 }

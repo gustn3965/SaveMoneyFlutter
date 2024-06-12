@@ -31,12 +31,26 @@ class LoginDIContainer {
   // Login - Add Group Name
   LoginAddGroupMoneyViewModel makeLoginAddGroupMoneyViewModel(
       DateTime date, String categoryName, LoginAddGroupMoneyAction action) {
+    AddGroupMonthUseCase addGroupMonthUseCase;
+    AddGroupCategoryUseCase addGroupCategoryUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        addGroupMonthUseCase =
+            RepoAddGroupMonthUseCase(appDIContainer.repository);
+        addGroupCategoryUseCase =
+            RepoAddGroupCategoryUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        addGroupMonthUseCase = MockAddGroupMonthUseCase();
+        addGroupCategoryUseCase = MockAddGroupCategoryUseCase();
+        break;
+    }
     LoginAddGroupMoneyViewModel viewModel = DefaultLoginAddGroupMoneyViewModel(
         date,
         categoryName,
         action,
-        RepoAddGroupMonthUseCase(appDIContainer.repository),
-        RepoAddGroupCategoryUseCase(appDIContainer.repository));
+        addGroupMonthUseCase,
+        addGroupCategoryUseCase);
     return viewModel;
   }
 

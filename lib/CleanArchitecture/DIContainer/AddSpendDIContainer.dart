@@ -15,12 +15,26 @@ class AddSpendDIContainer {
 
   AddSpendViewModel makeAddSpendViewModel(
       DateTime date, AddSpendActions action) {
-    AddSpendViewModel viewModel = DefaultAddSpendViewModel(
-        action,
-        date,
-        RepoSpendCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupMonthFetchUseCase(appDIContainer.repository),
-        RepoAddSpendUseCase(appDIContainer.repository));
+    SpendCategoryFetchUseCase spendCategoryFetchUseCase;
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    AddSpendUseCase addSpendUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        spendCategoryFetchUseCase =
+            RepoSpendCategoryFetchUseCase(appDIContainer.repository);
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        addSpendUseCase = RepoAddSpendUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        spendCategoryFetchUseCase = MockSpendCategoryFetchUseCase();
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        addSpendUseCase = MockAddSpendUseCase();
+        break;
+    }
+
+    AddSpendViewModel viewModel = DefaultAddSpendViewModel(action, date,
+        spendCategoryFetchUseCase, groupMonthFetchUseCase, addSpendUseCase);
     return viewModel;
   }
 

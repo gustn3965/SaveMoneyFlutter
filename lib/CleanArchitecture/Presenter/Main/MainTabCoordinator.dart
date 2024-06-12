@@ -50,7 +50,9 @@ class MainTabCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
-    // TODO: implement updateCurrentWidget
+    homeCoordinator.updateCurrentWidget();
+    chartCoordinator.updateCurrentWidget();
+    settingsCoordinator.updateCurrentWidget();
   }
 
   Widget makeMainHomeWidget() {
@@ -85,5 +87,13 @@ class MainTabCoordinator extends Coordinator {
 
     return appDIContainer.mainTab
         .makeMainHomeWidget(mainHomeViewModel!, homeCoordinator.currentWidget);
+  }
+
+  //------------------------------------------------------------
+  // 테스트용으로 AppStatus 변경했을떄.
+  void resetMainTabChildCoordinators() {
+    homeCoordinator = HomeCoordinator(this);
+    chartCoordinator = ChartCoordinator(this);
+    settingsCoordinator = SettingsCoordinator(this);
   }
 }

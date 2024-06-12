@@ -12,8 +12,6 @@ import '../../Extension/DateTime+Extension.dart';
 // Mock
 
 class MockDataSet {
-  MockDataSet() {}
-
   void setupMockGroupMonth() {
     for (GroupMonth groupMonth in mockGroupMonthList) {
       for (int i = 0; i < 10; i++) {

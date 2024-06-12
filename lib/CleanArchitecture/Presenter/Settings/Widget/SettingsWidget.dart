@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/ViewModel/SettingsViewModel.dart';
+import 'package:save_money_flutter/main.dart';
 
 import '../../../../AppColor/AppColors.dart';
+import '../../../DIContainer/AppDIContainer.dart';
 
 class SettingsWidget extends StatelessWidget {
   final SettingsViewModel viewModel;
@@ -42,6 +44,9 @@ class SettingsWidget extends StatelessWidget {
 
   Widget listCell(int index) {
     SettingsViewModelListItem item = viewModel.list[index];
+    if (index == 2) {
+      return appStatusWidget(item);
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -66,6 +71,46 @@ class SettingsWidget extends StatelessWidget {
               style: TextStyle(fontSize: 15.0),
             ),
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget appStatusWidget(SettingsViewModelListItem item) {
+    return Column(
+      children: [
+        Text(
+          item.name,
+          style: TextStyle(fontSize: 15.0),
+        ),
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              child: ListTile(
+                title: const Text('DB'),
+                leading: Radio<AppStatus>(
+                  value: AppStatus.db,
+                  groupValue: appDIContainer.appStatus,
+                  onChanged: (AppStatus? value) {
+                    viewModel.didChangeAppStatus(value!);
+                  },
+                ),
+              ),
+            ),
+            Flexible(
+              child: ListTile(
+                title: const Text('Mock'),
+                leading: Radio<AppStatus>(
+                  value: AppStatus.mock,
+                  groupValue: appDIContainer.appStatus,
+                  onChanged: (AppStatus? value) {
+                    viewModel.didChangeAppStatus(value!);
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

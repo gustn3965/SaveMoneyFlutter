@@ -21,10 +21,23 @@ class ChartDIContainer {
   // Chart - GroupMonth
   GroupMonthChartViewModel makeGroupMonthChartViewModel(
       GroupMonthChartActions action) {
+    GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        groupCategoryFetchUseCase =
+            RepoGroupCategoryFetchUseCase(appDIContainer.repository);
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupCategoryFetchUseCase = MockGroupCategoryFetchUseCase();
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        break;
+    }
+
     return DefaultGroupMonthChartViewModel(
-        action,
-        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupMonthFetchUseCase(appDIContainer.repository));
+        action, groupCategoryFetchUseCase, groupMonthFetchUseCase);
   }
 
   Widget makeGroupMonthChartWidget(GroupMonthChartViewModel viewModel) {
@@ -33,9 +46,22 @@ class ChartDIContainer {
 
   // Chart - SpendCategory
   SpendCategoryChartViewModel makeSpendCategoryChartViewModel() {
+    SpendCategoryFetchUseCase spendCategoryFetchUseCase;
+    SpendListUseCase spendListUseCase;
+    switch (appStatus) {
+      case AppStatus.db:
+        spendCategoryFetchUseCase =
+            RepoSpendCategoryFetchUseCase(appDIContainer.repository);
+        spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        spendCategoryFetchUseCase = MockSpendCategoryFetchUseCase();
+        spendListUseCase = MockSpendListUseCase();
+        break;
+    }
+
     return DefaultSpendCategoryChartViewModel(
-        RepoSpendCategoryFetchUseCase(appDIContainer.repository),
-        RepoSpendListUseCase(appDIContainer.repository));
+        spendCategoryFetchUseCase, spendListUseCase);
   }
 
   Widget makeSpendCategoryChartWidget(SpendCategoryChartViewModel viewModel) {
