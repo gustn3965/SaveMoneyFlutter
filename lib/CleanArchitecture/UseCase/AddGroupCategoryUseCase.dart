@@ -3,6 +3,8 @@ import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchU
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
 
+import '../Data/Repository/Repository.dart';
+
 abstract class AddGroupCategoryUseCase {
   late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
 
@@ -27,5 +29,16 @@ class MockAddGroupCategoryUseCase extends AddGroupCategoryUseCase {
 
     mockCategoryList.add(newGroupCategory);
     return newGroupCategory;
+  }
+}
+
+class RepoAddGroupCategoryUseCase extends AddGroupCategoryUseCase {
+  Repository repository;
+
+  RepoAddGroupCategoryUseCase(this.repository);
+
+  @override
+  Future<GroupCategory> addGroupCategory(String groupCategoryName) async {
+    return repository.addGroupCategory(groupCategoryName);
   }
 }

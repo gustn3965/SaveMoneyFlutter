@@ -5,112 +5,109 @@ import '../ViewModel/LoginAddGroupNameViewModel.dart';
 
 class LoginAddGroupNameWidget extends StatelessWidget {
   final LoginAddGroupNameViewModel viewModel;
-  final groupTitleController = TextEditingController();
+  late TextEditingController groupTitleController;
 
-  LoginAddGroupNameWidget(this.viewModel, {super.key});
-
+  LoginAddGroupNameWidget(this.viewModel, {super.key}) {
+    groupTitleController =
+        TextEditingController(text: '${viewModel?.groupName ?? ""}');
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder<LoginAddGroupNameViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: WillPopScope(
-                onWillPop: () async => false,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Center(
-                        child: GestureDetector(
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 80,
-                            ),
-                            Container(
-                              width: 200,
-                              height: 80,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                autofocus: true,
-                                controller: groupTitleController,
-                                keyboardType: TextInputType.text,
-                                style: TextStyle(fontSize: 20),
-                                decoration: InputDecoration(
-                                  border: UnderlineInputBorder(),
-                                  labelText: '지출그룹 이름을 정해주세요.',
-                                  floatingLabelAlignment:
-                                      FloatingLabelAlignment.center,
-                                ),
-                                onChanged: (text) {
-                                  viewModel.didChangeGroupName(text);
-                                },
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: WillPopScope(
+              onWillPop: () async => false,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Center(
+                      child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 80,
+                          ),
+                          Container(
+                            width: 200,
+                            height: 80,
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              autofocus: true,
+                              controller: groupTitleController,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(fontSize: 20),
+                              decoration: InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: '지출그룹 이름을 정해주세요.',
+                                floatingLabelAlignment:
+                                    FloatingLabelAlignment.center,
                               ),
+                              onChanged: (text) {
+                                viewModel.didChangeGroupName(text);
+                              },
                             ),
-                            SizedBox(height: 30),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "지출 항목들을 포함할 \n지출 그룹을 설정합니다.",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    height: 1.5,
-                                  ),
-                                  textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 30),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "지출 항목들을 포함할 \n지출 그룹을 설정합니다.",
+                                style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.5,
                                 ),
-                                const Text(
-                                  "가능한 한,\n지출그룹을 나누는게 좋아요.",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    height: 1.5,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                textAlign: TextAlign.center,
+                              ),
+                              const Text(
+                                "가능한 한,\n지출그룹을 나누는게 좋아요.",
+                                style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  height: 1.5,
                                 ),
-                                const SizedBox(height: 50),
-                                Image.asset('assets/addGroupImage.png'),
-                                const SizedBox(height: 60),
-                                const Text(
-                                  "변동성있는 지출그룹에서\n소비를 아껴서 돈을 모아보아요.",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.deepOrange,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 50),
+                              Image.asset('assets/addGroupImage.png'),
+                              const SizedBox(height: 60),
+                              const Text(
+                                "변동성있는 지출그룹에서\n소비를 아껴서 돈을 모아보아요.",
+                                style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.deepOrange,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
                                 ),
-                                const SizedBox(height: 30),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [nextButton()],
-                            )
-                          ],
-                        ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 30),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [nextButton()],
+                          )
+                        ],
                       ),
-                    )),
-                  ),
-                )),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return const CircularProgressIndicator();
+                    ),
+                  )),
+                ),
+              )),
+        );
       },
     );
   }

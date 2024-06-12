@@ -1,3 +1,5 @@
+import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
+
 import '../../../../Domain/Entity/GroupCategory.dart';
 import '../../../../Domain/Entity/SpendCategory.dart';
 
@@ -8,6 +10,12 @@ class AddSpendActions {
   AddSpendActions(this.showDatePicker, this.didAddSpend);
 }
 
+class AddSpendViewGroupMonthItem {
+  String groupMonthIdentity;
+  String groupCategoryName;
+  AddSpendViewGroupMonthItem(this.groupMonthIdentity, this.groupCategoryName);
+}
+
 abstract class AddSpendViewModel {
   late AddSpendActions addSpendActions;
   late bool availableSaveButton;
@@ -15,8 +23,8 @@ abstract class AddSpendViewModel {
   late DateTime date;
   late int spendMoney;
   late String description;
-  List<GroupCategory> groupCategoryList = [];
-  GroupCategory? selectedGroupCategory;
+  List<AddSpendViewGroupMonthItem> groupMonthList = [];
+  AddSpendViewGroupMonthItem? selectedGroupMonth;
   List<SpendCategory> spendCategoryList = [];
   SpendCategory? selectedSpendCategory;
 
@@ -28,7 +36,7 @@ abstract class AddSpendViewModel {
   void didClickDateButton();
   void didClickSaveButton();
   void didClickNonSpendSaveButton();
-  void didClickGroupCategory(GroupCategory groupCategory);
+  void didClickGroupMonth(AddSpendViewGroupMonthItem groupMonth);
   void didClickSpendCategory(SpendCategory spendCategory);
 
   Future<void> fetchSpendCategoryList();

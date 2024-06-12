@@ -35,6 +35,7 @@ class LoginCoordinator extends Coordinator {
 
   Widget makeLoginAddGroupNameWidget() {
     void addGroupName(DateTime date, String groupName) {
+      loginAddGroupMoneyViewModel = null;
       Navigator.push(
         NavigationService.currentContext!,
         MaterialPageRoute(
@@ -68,7 +69,7 @@ class LoginCoordinator extends Coordinator {
       cancelAddGroupMoney,
     );
 
-    loginAddGroupMoneyViewModel = appDIContainer.login
+    loginAddGroupMoneyViewModel ??= appDIContainer.login
         .makeLoginAddGroupMoneyViewModel(date, categoryName, action);
     return appDIContainer.login
         .makeLoginAddGroupMoneyWidget(loginAddGroupMoneyViewModel!);

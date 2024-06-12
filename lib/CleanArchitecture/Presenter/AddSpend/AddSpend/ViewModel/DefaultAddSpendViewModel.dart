@@ -4,10 +4,12 @@ import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
 
 import '../../../../../Extension/int+Extension.dart';
 import '../../../../Domain/Entity/GroupCategory.dart';
+import '../../../../Domain/Entity/GroupMonth.dart';
 import '../../../../Domain/Entity/Spend.dart';
 import '../../../../Domain/Entity/SpendCategory.dart';
 import '../../../../UseCase/AddSpendUseCase.dart';
 import '../../../../UseCase/GroupCategoryFetchUseCase.dart';
+import '../../../../UseCase/GroupMonthFetchUseCase.dart';
 import '../../../../UseCase/SpendCategoryFetchUseCase.dart';
 import 'AddSpendViewModel.dart';
 
@@ -25,28 +27,28 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late String description = "";
   @override
-  late List<GroupCategory> groupCategoryList;
+  late List<AddSpendViewGroupMonthItem> groupMonthList;
   @override
-  GroupCategory? selectedGroupCategory;
+  AddSpendViewGroupMonthItem? selectedGroupMonth;
   @override
   late List<SpendCategory> spendCategoryList;
   @override
   SpendCategory? selectedSpendCategory;
 
   late SpendCategoryFetchUseCase spendFetchUseCase;
-  late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+  late GroupMonthFetchUseCase groupMonthFetchUseCase;
   late AddSpendUseCase addSpendUseCase;
 
   DefaultAddSpendViewModel(
       this.addSpendActions,
       this.date,
       this.spendFetchUseCase,
-      this.groupCategoryFetchUseCase,
+      this.groupMonthFetchUseCase,
       this.addSpendUseCase) {
     availableSaveButton = false;
     spendMoney = 0;
-    groupCategoryList = [];
-    selectedGroupCategory = null;
+    groupMonthList = [];
+    selectedGroupMonth = null;
     spendCategoryList = [];
     selectedSpendCategory = null;
 
@@ -91,7 +93,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
     Spend spend = Spend(
         date: date,
         spendMoney: spendMoney,
-        groupCategory: selectedGroupCategory!,
+        groupMonthId: selectedGroupMonth!.groupMonthIdentity,
         spendCategory: selectedSpendCategory!,
         identity: generateUniqueId(),
         description: description);
@@ -105,7 +107,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
     Spend spend = Spend(
         date: date,
         spendMoney: 0,
-        groupCategory: selectedGroupCategory!,
+        groupMonthId: selectedGroupMonth!.groupMonthIdentity,
         spendCategory: null,
         identity: generateUniqueId(),
         spendType: SpendType.nonSpend);
@@ -115,9 +117,9 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   }
 
   @override
-  void didClickGroupCategory(GroupCategory groupCategory) {
+  void didClickGroupMonth(AddSpendViewGroupMonthItem groupMonth) {
     // Implement the logic for clicking group category
-    selectedGroupCategory = groupCategory;
+    selectedGroupMonth = groupMonth;
     makeAvailableSaveButtons();
     _dataController.add(this);
   }
@@ -141,24 +143,32 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   @override
   Future<void> fetchGroupCategoryList(DateTime dateTime) async {
-    List<GroupCategory> groupCategoryList =
-        await groupCategoryFetchUseCase.fetchGroupCategoryList(dateTime);
-    this.groupCategoryList = groupCategoryList;
+    List<GroupMonth> groupMonthList =
+        await groupMonthFetchUseCase.fetchGroupMonthList(dateTime);
+    this.groupMonthList = convertToItems(groupMonthList);
 
-    bool hasSelectedCategory = false;
-    for (var category in groupCategoryList) {
-      if (category.identity == selectedGroupCategory?.identity) {
-        hasSelectedCategory = true;
+    bool hasSelectedGroupMonth = false;
+    for (var groupMonth in groupMonthList) {
+      if (groupMonth.identity == selectedGroupMonth?.groupMonthIdentity) {
+        hasSelectedGroupMonth = true;
         break;
       }
     }
 
-    if (hasSelectedCategory == false) {
-      selectedGroupCategory = null;
+    if (hasSelectedGroupMonth == false) {
+      selectedGroupMonth = null;
       makeAvailableSaveButtons();
     }
 
     _dataController.add(this);
+  }
+
+  List<AddSpendViewGroupMonthItem> convertToItems(
+      List<GroupMonth> groupMonths) {
+    return groupMonths.map((groupMonth) {
+      return AddSpendViewGroupMonthItem(
+          groupMonth.identity, groupMonth.groupCategory.name);
+    }).toList();
   }
 
   @override
@@ -174,7 +184,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   void makeAvailableSaveButton() {
     if (spendMoney > 0 &&
         selectedSpendCategory != null &&
-        selectedGroupCategory != null) {
+        selectedGroupMonth != null) {
       availableSaveButton = true;
       return;
     }
@@ -183,7 +193,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   }
 
   void makeAvailableNonSpendButton() {
-    if (selectedGroupCategory != null) {
+    if (selectedGroupMonth != null) {
       availableNonSpendSaveButton = true;
       return;
     }

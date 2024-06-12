@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/AddGroupMonthUseCase.dart';
+import 'package:save_money_flutter/main.dart';
 
 import '../Presenter/Login/AddGroupMoney/ViewModel/DefaultLoginAddGroupMoneyViewModel.dart';
 import '../Presenter/Login/AddGroupMoney/ViewModel/LoginAddGroupMoneyViewModel.dart';
@@ -34,8 +35,8 @@ class LoginDIContainer {
         date,
         categoryName,
         action,
-        MockAddGroupMonthUseCase(),
-        MockAddGroupCategoryUseCase());
+        RepoAddGroupMonthUseCase(appDIContainer.repository),
+        RepoAddGroupCategoryUseCase(appDIContainer.repository));
     return viewModel;
   }
 

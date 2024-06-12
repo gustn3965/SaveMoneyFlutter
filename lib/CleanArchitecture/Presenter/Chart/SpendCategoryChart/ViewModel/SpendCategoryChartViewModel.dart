@@ -1,7 +1,9 @@
 class SpendCategoryChartSelectorItem {
   String categoryIdentity;
   String categoryName;
-  SpendCategoryChartSelectorItem(this.categoryIdentity, this.categoryName);
+  int totalCountOfSpendind;
+  SpendCategoryChartSelectorItem(
+      this.categoryIdentity, this.categoryName, this.totalCountOfSpendind);
 
   @override
   bool operator ==(Object other) {

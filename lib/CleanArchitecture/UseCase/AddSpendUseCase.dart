@@ -1,5 +1,6 @@
 import '../../Extension/DateTime+Extension.dart';
 import '../../Extension/int+Extension.dart';
+import '../Data/Repository/Repository.dart';
 import '../Domain/Entity/GroupCategory.dart';
 import '../Domain/Entity/GroupMonth.dart';
 import '../Domain/Entity/Spend.dart';
@@ -17,7 +18,7 @@ class MockAddSpendUseCase extends AddSpendUseCase {
   @override
   Future<bool> addSpend(Spend newSpend) async {
     for (GroupMonth month in mockGroupMonthList) {
-      if (month.groupCategory.identity != newSpend.groupCategory.identity) {
+      if (month.identity != newSpend.groupMonthId) {
         continue;
       }
 
@@ -65,5 +66,16 @@ class MockAddSpendUseCase extends AddSpendUseCase {
       }
     }
     return false;
+  }
+}
+
+class RepoAddSpendUseCase extends AddSpendUseCase {
+  Repository repository;
+
+  RepoAddSpendUseCase(this.repository);
+
+  @override
+  Future<bool> addSpend(Spend spend) async {
+    return await repository.addSpend(spend);
   }
 }

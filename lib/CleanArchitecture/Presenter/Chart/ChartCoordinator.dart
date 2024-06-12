@@ -15,10 +15,11 @@ class ChartCoordinator extends Coordinator {
   ChartCoordinator(Coordinator superCoordinator) : super(superCoordinator) {
     Widget groupMonthChartWidget = makeGroupMonthChartWidget();
     Widget spendCategoryChartWidget = makeSpendCategoryChartWidget();
-
+    Widget emptyBottomWidget = const SizedBox(height: 100);
     currentWidget = ChartWidget(widgets: [
       groupMonthChartWidget,
       spendCategoryChartWidget,
+      emptyBottomWidget,
     ]);
   }
 

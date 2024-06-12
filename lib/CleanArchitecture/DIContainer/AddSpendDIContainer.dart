@@ -4,7 +4,7 @@ import 'package:save_money_flutter/main.dart';
 
 import '../Presenter/AddSpend/AddSpend/ViewModel/DefaultAddSpendViewModel.dart';
 import '../UseCase/AddSpendUseCase.dart';
-import '../UseCase/GroupCategoryFetchUseCase.dart';
+import '../UseCase/GroupMonthFetchUseCase.dart';
 import '../UseCase/SpendCategoryFetchUseCase.dart';
 import 'AppDIContainer.dart';
 
@@ -19,8 +19,8 @@ class AddSpendDIContainer {
         action,
         date,
         RepoSpendCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
-        MockAddSpendUseCase());
+        RepoGroupMonthFetchUseCase(appDIContainer.repository),
+        RepoAddSpendUseCase(appDIContainer.repository));
     return viewModel;
   }
 

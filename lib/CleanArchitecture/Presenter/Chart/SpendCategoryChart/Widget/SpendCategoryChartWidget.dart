@@ -259,7 +259,7 @@ class SpendCategoryChartWidget extends StatelessWidget {
           borderRadius: BorderRadius.zero,
         );
 
-        fromY = fromY + price + (price / 10);
+        fromY = fromY + price + (2000);
         return chartRodData;
       }),
     );

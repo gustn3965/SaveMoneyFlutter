@@ -1,4 +1,5 @@
 import '../../../Domain/Entity/GroupCategory.dart';
+import '../../../Domain/Entity/GroupMonth.dart';
 import '../../../Domain/Entity/SpendCategory.dart';
 
 class EditSpendActions {
@@ -9,6 +10,12 @@ class EditSpendActions {
   EditSpendActions(this.showDatePicker, this.didEditSpend, this.didDeleteSpend);
 }
 
+class EditSpendViewGroupMonthItem {
+  String groupMonthIdentity;
+  String groupCategoryName;
+  EditSpendViewGroupMonthItem(this.groupMonthIdentity, this.groupCategoryName);
+}
+
 abstract class EditSpendViewModel {
   String spendId;
 
@@ -17,8 +24,8 @@ abstract class EditSpendViewModel {
   late DateTime? date = null;
   int spendMoney = 0;
   String description = "";
-  List<GroupCategory> groupCategoryList = [];
-  GroupCategory? selectedGroupCategory;
+  List<EditSpendViewGroupMonthItem> groupMonthList = [];
+  EditSpendViewGroupMonthItem? selectedGroupMonth;
   List<SpendCategory> spendCategoryList = [];
   SpendCategory? selectedSpendCategory;
 
@@ -31,11 +38,11 @@ abstract class EditSpendViewModel {
   void didClickSaveButton();
   void didClickDeleteButton();
   void didClickNonSpendSaveButton();
-  void didClickGroupCategory(GroupCategory groupCategory);
+  void didClickGroupMonth(EditSpendViewGroupMonthItem groupMonth);
   void didClickSpendCategory(SpendCategory spendCategory);
 
   Future<void> fetchSpendCategoryList();
-  Future<void> fetchGroupCategoryList(DateTime dateTime);
+  Future<void> fetchGroupMonthList(DateTime dateTime);
 
   // Observing
   Stream<EditSpendViewModel> get dataStream;

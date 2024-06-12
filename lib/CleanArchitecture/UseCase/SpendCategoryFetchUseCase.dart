@@ -9,7 +9,7 @@ import 'MockDataSet.dart';
 abstract class SpendCategoryFetchUseCase {
   Future<List<SpendCategory>> fetchSpendCategoryList();
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
-      List<String> groupCategoryIds);
+      {required List<String> groupCategoryIds, required bool exceptNoSpend});
 }
 
 class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
@@ -22,7 +22,8 @@ class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
 
   @override
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
-      List<String> groupCategoryIds) async {
+      {required List<String> groupCategoryIds,
+      required bool exceptNoSpend}) async {
     Set<SpendCategory> set = {};
 
     for (GroupMonth groupMonth in mockGroupMonthList) {
@@ -31,6 +32,7 @@ class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
         continue;
       }
       for (Spend spend in groupMonth.spendList) {
+        // exceptNoSpend는 mock에서 spend로 접근하고있으므로 필터링안해도됌
         if (spend.spendCategory != null) {
           set.add(spend.spendCategory!);
         }
@@ -52,8 +54,9 @@ class RepoSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
 
   @override
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
-      List<String> groupCategoryIds) async {
-    return await repository
-        .fetchSpendCategoryListWithGroupCategoryIds(groupCategoryIds);
+      {required List<String> groupCategoryIds,
+      required bool exceptNoSpend}) async {
+    return await repository.fetchSpendCategoryListWithGroupCategoryIds(
+        groupCategoryIds, exceptNoSpend);
   }
 }

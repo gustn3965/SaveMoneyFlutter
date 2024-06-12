@@ -32,7 +32,8 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
     this.groupCategoryIds = groupCategoryIds;
 
     List<SpendCategory> spendCategorys = await spendCategoryFetchUseCase
-        .fetchSpendCategoryListWithGroupCategoryIds(groupCategoryIds);
+        .fetchSpendCategoryListWithGroupCategoryIds(
+            groupCategoryIds: groupCategoryIds, exceptNoSpend: true);
 
     spendCategorySelectorItems = convertToItems(spendCategorys);
 
@@ -130,7 +131,8 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
   List<SpendCategoryChartSelectorItem> convertToItems(
       List<SpendCategory> spendCategorys) {
     return spendCategorys.map((category) {
-      return SpendCategoryChartSelectorItem(category.identity, category.name);
+      return SpendCategoryChartSelectorItem(
+          category.identity, category.name, category.totalSpendindCount);
     }).toList();
   }
 }

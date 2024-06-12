@@ -4,7 +4,7 @@ abstract class DataBaseProtocol {
   Future<void> initializeAsync();
 
   Future<List<T>> fetch<T extends DBObject>(String tableName,
-      {String? where, List<Object?>? args});
+      {String? where, List<Object?>? args, String? orderBy});
 
   Future<List<Map<String, Object?>>> fetchRawQuery(String sql,
       [List<Object?>? arguments]);

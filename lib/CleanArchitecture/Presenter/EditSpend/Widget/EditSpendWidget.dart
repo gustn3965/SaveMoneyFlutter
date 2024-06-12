@@ -246,23 +246,23 @@ class EditSpendWidget extends StatelessWidget {
 
   Widget groupCategoryListWidget() {
     List<Widget> chipArray = [];
-    for (var category in viewModel.groupCategoryList) {
+    for (var category in viewModel.groupMonthList) {
       Widget button = Material(
         color: Colors.transparent,
         child: FilterChip(
           showCheckmark: false,
-          selected:
-              viewModel.selectedGroupCategory?.identity == category.identity,
+          selected: viewModel.selectedGroupMonth?.groupMonthIdentity ==
+              category.groupMonthIdentity,
           backgroundColor: Colors.white,
           selectedColor: AppColors.mainRedColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          label: Text("${category.name}"),
+          label: Text("${category.groupCategoryName}"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(width: 1),
           onSelected: (bool value) async {
-            viewModel.didClickGroupCategory(category);
+            viewModel.didClickGroupMonth(category);
           },
         ),
       );

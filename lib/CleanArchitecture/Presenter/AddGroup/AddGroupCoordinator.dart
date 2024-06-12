@@ -35,8 +35,7 @@ class AddGroupCoordinator extends Coordinator {
 
   Widget makeAddGroupListWidget(DateTime date) {
     void addCurrentGroup(DateTime date, String groupName) {
-      Navigator.push(
-        NavigationService.currentContext!,
+      NavigationService.navigatorKey.currentState!.push(
         MaterialPageRoute(
           builder: (context) => makeAddGroupMoneyWidget(date, groupName),
         ),
@@ -44,8 +43,8 @@ class AddGroupCoordinator extends Coordinator {
     }
 
     void addNewGroup(DateTime date) {
-      Navigator.push(
-        NavigationService.currentContext!,
+      addGroupNameViewModel = null;
+      NavigationService.navigatorKey.currentState!.push(
         MaterialPageRoute(
           builder: (context) => makeAddGroupNameWidget(date),
         ),
@@ -75,8 +74,8 @@ class AddGroupCoordinator extends Coordinator {
     }
 
     void addGroupName(DateTime date, String groupName) {
-      Navigator.push(
-        NavigationService.currentContext!,
+      addGroupMoneyViewModel = null;
+      NavigationService.navigatorKey.currentState!.push(
         MaterialPageRoute(
           builder: (context) => makeAddGroupMoneyWidget(date, groupName),
         ),
@@ -93,7 +92,7 @@ class AddGroupCoordinator extends Coordinator {
       hasAlreadyCategoryName,
     );
 
-    addGroupNameViewModel =
+    addGroupNameViewModel ??=
         appDIContainer.addGroup.makeAddGroupNameViewModel(date, actions);
 
     return appDIContainer.addGroup
@@ -107,6 +106,7 @@ class AddGroupCoordinator extends Coordinator {
     }
 
     void cancelAddGroupMoney() {
+      addGroupMoneyViewModel = null;
       Navigator.pop(NavigationService.currentContext!);
     }
 
@@ -114,7 +114,7 @@ class AddGroupCoordinator extends Coordinator {
       didAddNewGroup,
       cancelAddGroupMoney,
     );
-    addGroupMoneyViewModel = appDIContainer.addGroup
+    addGroupMoneyViewModel ??= appDIContainer.addGroup
         .makeAddGroupMoneyViewModel(date, groupName, actions);
     return appDIContainer.addGroup
         .makeAddGroupMoneyWidget(addGroupMoneyViewModel!);

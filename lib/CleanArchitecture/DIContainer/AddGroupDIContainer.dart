@@ -54,8 +54,8 @@ class AddGroupDIContainer {
         date,
         groupName,
         action,
-        MockAddGroupMonthUseCase(),
-        MockAddGroupCategoryUseCase());
+        RepoAddGroupMonthUseCase(appDIContainer.repository),
+        RepoAddGroupCategoryUseCase(appDIContainer.repository));
     return viewModel;
   }
 

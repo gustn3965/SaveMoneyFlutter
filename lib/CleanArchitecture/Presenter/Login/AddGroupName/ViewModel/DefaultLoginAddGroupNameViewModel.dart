@@ -8,9 +8,9 @@ class DefaultLoginAddGroupNameViewModel extends LoginAddGroupNameViewModel {
   @override
   late LoginAddGroupNameActions addGroupNameActions;
   @override
-  late String groupName;
+  late String groupName = "";
   @override
-  late bool availableConfirmButton;
+  late bool availableConfirmButton = false;
 
   DateTime date;
 
@@ -41,8 +41,6 @@ class DefaultLoginAddGroupNameViewModel extends LoginAddGroupNameViewModel {
 
   void fetch() async {
     await Future.delayed(const Duration(milliseconds: 100));
-    availableConfirmButton = false;
-    groupName = '';
     _dataController.add(this);
   }
 

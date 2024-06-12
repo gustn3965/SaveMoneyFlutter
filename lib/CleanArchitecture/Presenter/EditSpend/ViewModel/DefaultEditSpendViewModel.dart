@@ -6,13 +6,15 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/ViewMod
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/EditSpendUseCase.dart';
 
+import '../../../Domain/Entity/GroupMonth.dart';
 import '../../../Domain/Entity/Spend.dart';
 import '../../../UseCase/GroupCategoryFetchUseCase.dart';
+import '../../../UseCase/GroupMonthFetchUseCase.dart';
 import '../../../UseCase/SpendCategoryFetchUseCase.dart';
 
 class DefaultEditSpendViewModel extends EditSpendViewModel {
   late SpendCategoryFetchUseCase spendFetchUseCase;
-  late GroupCategoryFetchUseCase groupCategoryFetchUseCase;
+  late GroupMonthFetchUseCase groupMonthFetchUseCase;
   late SpendListUseCase daySpendListUseCase;
   late EditSpendUseCase editSpendUseCase;
 
@@ -22,30 +24,35 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
 
   DefaultEditSpendViewModel(
       this.spendFetchUseCase,
-      this.groupCategoryFetchUseCase,
+      this.groupMonthFetchUseCase,
       this.daySpendListUseCase,
       this.editSpendUseCase,
       super.editSpendActions,
       super.spendId) {
+    availableSaveButton = false;
     fetchSpend(spendId);
   }
 
   Future<void> fetchSpend(String spendId) async {
     Spend? spend = await daySpendListUseCase.fetchSpend(spendId);
+
     if (spend != null) {
+      GroupMonth? groupMonth = await groupMonthFetchUseCase
+          .fetchGroupMonthByGroupId(spend!.groupMonthId);
       date = spend.date;
       spendMoney = spend.spendMoney;
       description = spend.description;
       spendId = spendId;
 
       availableSaveButton = true;
-      groupCategoryList = [];
+      groupMonthList = [];
       spendCategoryList = [];
-      selectedGroupCategory = spend.groupCategory;
+      selectedGroupMonth = EditSpendViewGroupMonthItem(
+          spend.groupMonthId, groupMonth?.groupCategory.name ?? "");
       selectedSpendCategory = spend.spendCategory;
 
       _dataController.add(this);
-      await fetchGroupCategoryList(date!);
+      await fetchGroupMonthList(date!);
       await fetchSpendCategoryList();
     }
   }
@@ -53,7 +60,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   void makeAvailableSaveButton() {
     if (spendMoney > 0 &&
         selectedSpendCategory != null &&
-        selectedGroupCategory != null) {
+        selectedGroupMonth != null) {
       availableSaveButton = true;
       return;
     }
@@ -65,7 +72,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   void didChangeDate(DateTime date) async {
     this.date = DateTime.utc(date.year, date.month, date.day, 0, 0);
 
-    await fetchGroupCategoryList(date);
+    await fetchGroupMonthList(date);
   }
 
   @override
@@ -91,7 +98,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
     Spend editedSpend = Spend(
         identity: spendId,
         date: date!,
-        groupCategory: selectedGroupCategory!,
+        groupMonthId: selectedGroupMonth!.groupMonthIdentity,
         spendCategory: selectedSpendCategory!,
         spendMoney: spendMoney,
         description: description);
@@ -109,8 +116,8 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   }
 
   @override
-  void didClickGroupCategory(GroupCategory groupCategory) {
-    selectedGroupCategory = groupCategory;
+  void didClickGroupMonth(EditSpendViewGroupMonthItem groupMonth) {
+    selectedGroupMonth = groupMonth;
     makeAvailableSaveButton();
     _dataController.add(this);
   }
@@ -121,7 +128,7 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
     Spend editedSpend = Spend(
         identity: spendId,
         date: date!,
-        groupCategory: selectedGroupCategory!,
+        groupMonthId: selectedGroupMonth!.groupMonthIdentity,
         spendCategory: null,
         spendMoney: 0,
         spendType: SpendType.nonSpend);
@@ -143,25 +150,33 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   }
 
   @override
-  Future<void> fetchGroupCategoryList(DateTime dateTime) async {
-    List<GroupCategory> groupCategoryList =
-        await groupCategoryFetchUseCase.fetchGroupCategoryList(dateTime);
-    this.groupCategoryList = groupCategoryList;
+  Future<void> fetchGroupMonthList(DateTime dateTime) async {
+    List<GroupMonth> groupMonthList =
+        await groupMonthFetchUseCase.fetchGroupMonthList(dateTime);
+    this.groupMonthList = convertToItems(groupMonthList);
 
     bool hasSelectedCategory = false;
-    for (var category in groupCategoryList) {
-      if (category.identity == selectedGroupCategory?.identity) {
+    for (var groupMonth in groupMonthList) {
+      if (groupMonth.identity == selectedGroupMonth?.groupMonthIdentity) {
         hasSelectedCategory = true;
         break;
       }
     }
 
     if (hasSelectedCategory == false) {
-      selectedGroupCategory = null;
+      selectedGroupMonth = null;
       makeAvailableSaveButton();
     }
 
     _dataController.add(this);
+  }
+
+  List<EditSpendViewGroupMonthItem> convertToItems(
+      List<GroupMonth> groupMonths) {
+    return groupMonths.map((groupMonth) {
+      return EditSpendViewGroupMonthItem(
+          groupMonth.identity, groupMonth.groupCategory.name);
+    }).toList();
   }
 
   @override

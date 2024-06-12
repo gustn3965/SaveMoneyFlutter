@@ -5,7 +5,7 @@ import '../../main.dart';
 import '../Presenter/EditSpend/ViewModel/DefaultEditSpendViewModel.dart';
 import '../Presenter/EditSpend/ViewModel/EditSpendViewModel.dart';
 import '../Presenter/EditSpend/Widget/EditSpendWidget.dart';
-import '../UseCase/GroupCategoryFetchUseCase.dart';
+import '../UseCase/GroupMonthFetchUseCase.dart';
 import '../UseCase/SpendCategoryFetchUseCase.dart';
 import 'AppDIContainer.dart';
 
@@ -18,9 +18,9 @@ class EditSpendDIContainer {
       String spendId, EditSpendActions action) {
     EditSpendViewModel viewModel = DefaultEditSpendViewModel(
         RepoSpendCategoryFetchUseCase(appDIContainer.repository),
-        RepoGroupCategoryFetchUseCase(appDIContainer.repository),
+        RepoGroupMonthFetchUseCase(appDIContainer.repository),
         RepoSpendListUseCase(appDIContainer.repository),
-        MockEditSpendUseCase(),
+        RepoEditSpendUseCase(appDIContainer.repository),
         action,
         spendId);
 

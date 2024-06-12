@@ -18,14 +18,17 @@ class Repository {
   Repository(this.databaseController, this.remoteApiController);
 
   Future<List<SpendCategory>> fetchSpendCategoryList() async {
-    List<DBSpendCategory> dbSpendCategories =
-        await databaseController.fetch(DBSpendCategory.staticClassName());
+    List<DBSpendCategory> dbSpendCategories = await databaseController.fetch(
+        DBSpendCategory.staticClassName(),
+        orderBy: "countOfSpending DESC");
 
     List<SpendCategory> spendCategories = [];
 
     for (DBSpendCategory db in dbSpendCategories) {
-      SpendCategory spendCategory =
-          SpendCategory(name: db.name, identity: db.id);
+      SpendCategory spendCategory = SpendCategory(
+          name: db.name,
+          identity: db.id,
+          totalSpendindCount: db.countOfSpending);
       spendCategories.add(spendCategory);
     }
 
@@ -34,7 +37,7 @@ class Repository {
   }
 
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
-      List<String> groupCategoryIds) async {
+      List<String> groupCategoryIds, bool exceptNoSpend) async {
     String groupCategoryIdsPlaceholders =
         groupCategoryIds.map((id) => '?').join(',');
 
@@ -53,13 +56,21 @@ class Repository {
     String spendCategoryIdsPlaceholders =
         spendCategoryIds.map((id) => '?').join(',');
 
+    List<Object> args = spendCategoryIds;
+    args.add(exceptNoSpend ? "1" : "0");
+
     List<DBSpendCategory> spendCategoryList = await databaseController.fetch(
         DBSpendCategory.staticClassName(),
-        where: "id IN ($spendCategoryIdsPlaceholders)",
-        args: spendCategoryIds);
+        where:
+            "id IN ($spendCategoryIdsPlaceholders) AND countOfSpending >= ? ",
+        args: args,
+        orderBy: "countOfSpending DESC");
 
     List<SpendCategory> list = spendCategoryList.map((category) {
-      return SpendCategory(name: category.name, identity: category.id);
+      return SpendCategory(
+          name: category.name,
+          identity: category.id,
+          totalSpendindCount: category.countOfSpending);
     }).toList();
 
     return list;
@@ -231,9 +242,97 @@ class Repository {
     return await makeSpendFromDB(spendList);
   }
 
-  // Future<bool> addSpend(Spend spend) async {
-  //   DBSpend(id: spend.identity, date: (spend.date.millisecondsSinceEpoch / 1000).toInt(), spend: spend.spend, groupMonthId: spend.groupCategory, groupCategoryId: groupCategoryId, spendCategoryId: spendCategoryId, spendType: spendType, description: description)
-  // }
+  Future<bool> addSpend(Spend spend) async {
+    List<DBGroupMonth> groupMonths = await databaseController.fetch(
+        DBGroupMonth.staticClassName(),
+        where: "id = ? ",
+        args: [spend.groupMonthId]);
+
+    if (groupMonths.first != null) {
+      String groupCategoryId = groupMonths.first!.groupCategoryId;
+
+      DBSpendType spendType = DBSpendType.spend;
+      if (spend.spendType == SpendType.nonSpend) {
+        spendType = DBSpendType.noSpend;
+      }
+      DBSpend dbSpend = DBSpend(
+          id: spend.identity,
+          date: (spend.date.millisecondsSinceEpoch / 1000).toInt(),
+          spend: spend.spendMoney,
+          groupMonthId: spend.groupMonthId,
+          groupCategoryId: groupCategoryId,
+          spendCategoryId: spend.spendCategory?.identity ?? "",
+          spendType: spendType,
+          description: spend.description);
+      await databaseController.insert(dbSpend);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> deleteSpend(String spendId) async {
+    List<DBSpend> spends = await databaseController
+        .fetch(DBSpend.staticClassName(), where: "id = ? ", args: [spendId]);
+    if (spends.first != null) {
+      DBSpend spend = spends.first;
+      await databaseController.delete(spend);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> editSpend(Spend spend) async {
+    List<DBGroupMonth> groupMonths = await databaseController.fetch(
+        DBGroupMonth.staticClassName(),
+        where: "id = ? ",
+        args: [spend.groupMonthId]);
+
+    if (groupMonths.first != null) {
+      String groupCategoryId = groupMonths.first!.groupCategoryId;
+
+      DBSpendType spendType = DBSpendType.spend;
+      if (spend.spendType == SpendType.nonSpend) {
+        spendType = DBSpendType.noSpend;
+      }
+      DBSpend dbSpend = DBSpend(
+          id: spend.identity,
+          date: (spend.date.millisecondsSinceEpoch / 1000).toInt(),
+          spend: spend.spendMoney,
+          groupMonthId: spend.groupMonthId,
+          groupCategoryId: groupCategoryId,
+          spendCategoryId: spend.spendCategory?.identity ?? "",
+          spendType: spendType,
+          description: spend.description);
+      await databaseController.update(dbSpend);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> addGroupMonth(
+      GroupCategory groupCategory, int plannedBudget, DateTime date) async {
+    int intDate = indexMonthDateIdFromDateTime(date);
+    DBGroupMonth dbGroupMonth = DBGroupMonth(
+        id: generateUniqueId(),
+        date: intDate,
+        groupCategoryId: groupCategory.identity,
+        expectedSpend: plannedBudget,
+        everyExpectedSpend: 0,
+        additionalMoney: 0);
+
+    await databaseController.insert(dbGroupMonth);
+  }
+
+  Future<GroupCategory> addGroupCategory(String groupCategoryName) async {
+    DBGroupCategory groupCategory =
+        DBGroupCategory(id: generateUniqueId(), name: groupCategoryName);
+    await databaseController.insert(groupCategory);
+
+    return GroupCategory(name: groupCategory.name, identity: groupCategory.id);
+  }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
   // ------------------------------------------------------------
@@ -277,12 +376,10 @@ class Repository {
           where: "id = ? ",
           args: [spend.spendCategoryId]);
 
-      List<DBGroupCategory> groupCategories = await databaseController.fetch(
-          DBGroupCategory.staticClassName(),
+      List<DBGroupMonth> groupMonths = await databaseController.fetch(
+          DBGroupMonth.staticClassName(),
           where: "id = ? ",
           args: [spend.groupCategoryId]);
-      GroupCategory groupCategory = GroupCategory(
-          name: groupCategories.first.name, identity: groupCategories.first.id);
 
       SpendCategory? spendCategory = spendCatgories.map((spendCategory) {
         return SpendCategory(
@@ -292,7 +389,7 @@ class Repository {
       Spend newSpend = Spend(
           date: dateTimeFromSince1970Second(spend.date),
           spendMoney: spend.spend,
-          groupCategory: groupCategory,
+          groupMonthId: spend.groupMonthId,
           spendCategory: spendCategory,
           identity: spend.id);
       spends.add(newSpend);

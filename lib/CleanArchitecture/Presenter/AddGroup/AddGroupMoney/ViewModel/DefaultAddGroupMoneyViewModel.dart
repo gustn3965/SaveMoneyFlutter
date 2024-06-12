@@ -68,10 +68,6 @@ class DefaultAddGroupMoneyViewModel extends AddGroupMoneyViewModel {
 
   void fetch() async {
     await Future.delayed(const Duration(milliseconds: 100));
-    availableConfirmButton = false;
-    plannedBudget = 0;
-    everyExpectedMoney = 0;
-
     _dataController.add(this);
   }
 

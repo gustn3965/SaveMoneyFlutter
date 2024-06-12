@@ -6,150 +6,162 @@ import 'package:intl/intl.dart';
 import '../../../../../Extension/DateTime+Extension.dart';
 import '../ViewModel/LoginAddGroupMoneyViewModel.dart';
 
-class LoginAddGroupMoneyWidget extends StatelessWidget {
+class LoginAddGroupMoneyWidget extends StatefulWidget {
   final LoginAddGroupMoneyViewModel viewModel;
 
-  String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
-  final groupMoneyTitleController = TextEditingController();
+  const LoginAddGroupMoneyWidget(this.viewModel, {super.key});
 
-  LoginAddGroupMoneyWidget(this.viewModel, {super.key});
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginAddGroupMoneyWidgetState();
+  }
+}
+
+class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
+  late TextEditingController groupMoneyTitleController;
+  String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
+
+  @override
+  void initState() {
+    super.initState();
+    groupMoneyTitleController = TextEditingController(
+      text: NumberFormat("#,###").format(widget.viewModel?.plannedBudget ?? 0),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder<LoginAddGroupMoneyViewModel>(
-      stream: viewModel.dataStream,
+      stream: widget.viewModel.dataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: SingleChildScrollView(
-              child: Center(
-                child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      child: Container(
-                        color: Colors.white,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 80,
-                            ),
-                            Container(
-                              width: 200,
-                              height: 80,
-                              child: TextField(
-                                textAlign: TextAlign.center,
-                                controller: groupMoneyTitleController,
-                                keyboardType: TextInputType.number,
-                                autofocus: true,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]'))
-                                ],
-                                style: TextStyle(fontSize: 20),
-                                decoration: InputDecoration(
-                                  // isCollapsed: true,
-                                  border: UnderlineInputBorder(),
-                                  labelText: '금액을 입력해주세요.',
-                                  floatingLabelAlignment:
-                                      FloatingLabelAlignment.center,
-                                ),
-                                onChanged: (text) {
-                                  // Provider.of<AddSpendingViewModel>(context, listen: false).currentInputMoney = int.parse(text);
-                                  text =
-                                      '${_formatNumber(text.replaceAll(',', ''))}';
-                                  groupMoneyTitleController.text = text;
-                                  int date = indexMonthDateIdFromDateTime(
-                                      viewModel.date);
-                                  int expectedMoney =
-                                      int.parse(text.replaceAll(',', ''));
-                                  int everyExpectedMoney = (expectedMoney /
-                                          daysInMonthFromSince1970(date))
-                                      .toInt();
-                                  viewModel
-                                      .didChangePlannedBudget(expectedMoney);
-                                  viewModel.didChangeEveryExpectedMoney(
-                                      everyExpectedMoney);
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 50),
-                            Text(
-                              "한달에 소비예정 금액을 정해주세요.",
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Center(
+              child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 80,
+                          ),
+                          Container(
+                            width: 200,
+                            height: 80,
+                            child: TextField(
                               textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButton(),
-                                saveButton(),
+                              controller: groupMoneyTitleController,
+                              keyboardType: TextInputType.number,
+                              autofocus: true,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[0-9]'))
                               ],
-                            ),
-                            SizedBox(height: 30),
-                            Text(
-                              "소비를 아껴서 매일",
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
+                              style: TextStyle(fontSize: 20),
+                              decoration: InputDecoration(
+                                // isCollapsed: true,
+                                border: UnderlineInputBorder(),
+                                labelText: '금액을 입력해주세요.',
+                                floatingLabelAlignment:
+                                    FloatingLabelAlignment.center,
                               ),
-                              textAlign: TextAlign.center,
+                              onChanged: (text) {
+                                if (text == '') {
+                                  text = "0";
+                                }
+                                text =
+                                    '${_formatNumber(text.replaceAll(',', ''))}';
+                                groupMoneyTitleController.text = text;
+                                int date = indexMonthDateIdFromDateTime(
+                                    widget.viewModel.date);
+                                int expectedMoney =
+                                    int.parse(text.replaceAll(',', ''));
+                                int everyExpectedMoney = (expectedMoney /
+                                        daysInMonthFromSince1970(date))
+                                    .toInt();
+                                widget.viewModel
+                                    .didChangePlannedBudget(expectedMoney);
+                                widget.viewModel.didChangeEveryExpectedMoney(
+                                    everyExpectedMoney);
+                              },
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${NumberFormat("#,###").format(viewModel.everyExpectedMoney)}",
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.deepOrangeAccent),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(width: 5),
-                                Text(
-                                  "원을 모아봐요.💪🏻",
-                                  style: TextStyle(
+                          ),
+                          SizedBox(height: 50),
+                          Text(
+                            "한달에 소비예정 금액을 정해주세요.",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              cancelButton(),
+                              saveButton(),
+                            ],
+                          ),
+                          SizedBox(height: 30),
+                          Text(
+                            "소비를 아껴서 매일",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${NumberFormat("#,###").format(widget.viewModel.everyExpectedMoney)}",
+                                style: TextStyle(
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.deepOrangeAccent),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                "원을 모아봐요.💪🏻",
+                                style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    )),
-              ),
+                    ),
+                  )),
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return const CircularProgressIndicator();
+          ),
+        );
       },
     );
   }
 
   Widget saveButton() {
     return FilledButton(
-      onPressed: viewModel.availableConfirmButton == false
+      onPressed: widget.viewModel.availableConfirmButton == false
           ? null
           : () async {
-              viewModel.didClickConfirmButton();
+              widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
         foregroundColor: Colors.black,
@@ -168,7 +180,7 @@ class LoginAddGroupMoneyWidget extends StatelessWidget {
   Widget cancelButton() {
     return FilledButton(
       onPressed: () {
-        viewModel.didClickCancelButton();
+        widget.viewModel.didClickCancelButton();
       },
       style: OutlinedButton.styleFrom(
         foregroundColor: Colors.white,

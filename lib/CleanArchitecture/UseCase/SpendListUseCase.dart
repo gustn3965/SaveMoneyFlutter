@@ -8,10 +8,11 @@ import '../Domain/Entity/Spend.dart';
 abstract class SpendListUseCase {
   Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date);
   Future<List<Spend>> fetchDaySpendLists(List<String> groupIds, DateTime date);
-  Future<List<Spend>> fetchSpendList(
-      {required String spendCategoryId,
-      required List<String> groupCategoryIds,
-      required bool descending});
+  Future<List<Spend>> fetchSpendList({
+    required String spendCategoryId,
+    required List<String> groupCategoryIds,
+    required bool descending,
+  });
 
   Future<Spend?> fetchSpend(String spendId);
 }

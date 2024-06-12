@@ -1,4 +1,5 @@
 import '../../Extension/DateTime+Extension.dart';
+import '../Data/Repository/Repository.dart';
 import '../Domain/Entity/GroupMonth.dart';
 import '../Domain/Entity/Spend.dart';
 import 'MockDataSet.dart';
@@ -16,7 +17,7 @@ class MockEditSpendUseCase extends EditSpendUseCase {
   Future<bool> editSpend(Spend newSpend) async {
     bool didDelete = false;
     for (GroupMonth month in mockGroupMonthList) {
-      if (month.groupCategory.identity != newSpend.groupCategory.identity) {
+      if (month.identity != newSpend.groupMonthId) {
         continue;
       }
 
@@ -55,5 +56,21 @@ class MockEditSpendUseCase extends EditSpendUseCase {
         month.spendList.remove(spend);
       }
     }
+  }
+}
+
+class RepoEditSpendUseCase extends EditSpendUseCase {
+  Repository repository;
+
+  RepoEditSpendUseCase(this.repository);
+
+  @override
+  Future<bool> deleteSpend(String spendId) async {
+    return await repository.deleteSpend(spendId);
+  }
+
+  @override
+  Future<bool> editSpend(Spend spend) async {
+    return await repository.editSpend(spend);
   }
 }

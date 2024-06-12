@@ -1,3 +1,4 @@
+import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/SpendCategory.dart';
 
 import 'GroupCategory.dart';
@@ -7,7 +8,7 @@ class Spend {
   int spendMoney;
   String description;
 
-  GroupCategory groupCategory;
+  String groupMonthId;
   SpendCategory? spendCategory;
 
   String identity;
@@ -16,7 +17,7 @@ class Spend {
   Spend({
     required this.date,
     required this.spendMoney,
-    required this.groupCategory,
+    required this.groupMonthId,
     required this.spendCategory,
     required this.identity,
     this.spendType = SpendType.realSpend,
