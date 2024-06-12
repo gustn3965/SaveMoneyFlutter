@@ -64,7 +64,7 @@ extension SqliteControllerMigration on SqliteController {
         where: "id = ?",
         args: [16697374578]); // 무소비
 
-    if (categoryList.first != null) {
+    if (categoryList.firstOrNull != null) {
       List<NTSpendDay> spendList = await fetch(NTSpendDay.staticClassName());
       for (NTSpendDay spendDay in spendList) {
         if (spendDay.categoryId == categoryList.first.id) {

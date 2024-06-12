@@ -248,23 +248,37 @@ class Repository {
         where: "id = ? ",
         args: [spend.groupMonthId]);
 
-    if (groupMonths.first != null) {
+    if (groupMonths.firstOrNull != null) {
       String groupCategoryId = groupMonths.first!.groupCategoryId;
 
       DBSpendType spendType = DBSpendType.spend;
       if (spend.spendType == SpendType.nonSpend) {
         spendType = DBSpendType.noSpend;
       }
+      String spendCategoryId = spend.spendCategory?.identity ?? "";
       DBSpend dbSpend = DBSpend(
           id: spend.identity,
           date: (spend.date.millisecondsSinceEpoch / 1000).toInt(),
           spend: spend.spendMoney,
           groupMonthId: spend.groupMonthId,
           groupCategoryId: groupCategoryId,
-          spendCategoryId: spend.spendCategory?.identity ?? "",
+          spendCategoryId: spendCategoryId,
           spendType: spendType,
           description: spend.description);
       await databaseController.insert(dbSpend);
+
+      // SpendCategory add countOfSpending
+      List<DBSpendCategory> spendCategorys = await databaseController.fetch(
+          DBSpendCategory.staticClassName(),
+          where: "id = ? ",
+          args: [spendCategoryId]);
+      if (spendCategorys.firstOrNull != null) {
+        DBSpendCategory spendCategory = spendCategorys.first!;
+        print(spendCategory.countOfSpending);
+        spendCategory.countOfSpending += 1;
+        await databaseController.update(spendCategory);
+        print(spendCategory.countOfSpending);
+      }
       return true;
     } else {
       return false;
@@ -274,9 +288,27 @@ class Repository {
   Future<bool> deleteSpend(String spendId) async {
     List<DBSpend> spends = await databaseController
         .fetch(DBSpend.staticClassName(), where: "id = ? ", args: [spendId]);
-    if (spends.first != null) {
+    if (spends.firstOrNull != null) {
       DBSpend spend = spends.first;
       await databaseController.delete(spend);
+
+      // spendCategory countof...
+      String spendCategoryId = spend.spendCategoryId;
+      List<DBSpendCategory> spendCategorys = await databaseController.fetch(
+          DBSpendCategory.staticClassName(),
+          where: "id = ? ",
+          args: [spendCategoryId]);
+      if (spendCategorys.firstOrNull != null) {
+        DBSpendCategory spendCategory = spendCategorys.first!;
+        print(spendCategory.countOfSpending);
+        spendCategory.countOfSpending -= 1;
+        if (spendCategory.countOfSpending < 0) {
+          spendCategory.countOfSpending = 0;
+        }
+        await databaseController.update(spendCategory);
+        print(spendCategory.countOfSpending);
+      }
+
       return true;
     } else {
       return false;
@@ -289,7 +321,7 @@ class Repository {
         where: "id = ? ",
         args: [spend.groupMonthId]);
 
-    if (groupMonths.first != null) {
+    if (groupMonths.firstOrNull != null) {
       String groupCategoryId = groupMonths.first!.groupCategoryId;
 
       DBSpendType spendType = DBSpendType.spend;
