@@ -57,10 +57,8 @@ extension SQLiteDataBaseMirgation on SQLiteDataBase {
 
     for (NTSpendCategory category in spendCategories) {
       String key = generateUniqueId();
-      DBSpendCategory newCategory = DBSpendCategory(
-          id: key,
-          name: category.name,
-          countOfSpending: category.countOfSpending);
+      DBSpendCategory newCategory =
+          DBSpendCategory(id: key, name: category.name, countOfSpending: 0);
       spendCategoryMap[category.id] = key;
       await insert(newCategory);
     }
@@ -81,9 +79,7 @@ extension SQLiteDataBaseMirgation on SQLiteDataBase {
           id: key,
           date: month.date,
           groupCategoryId: groupCategoryKey,
-          expectedSpend: month.expectedSpend,
-          everyExpectedSpend: month.everyExpectedSpend,
-          additionalMoney: month.additionalMoney);
+          plannedBudget: month.expectedSpend);
 
       groupMonthMap[month.id] = key;
       await insert(newGroupMonth);
@@ -122,6 +118,16 @@ extension SQLiteDataBaseMirgation on SQLiteDataBase {
           spendType: spendType,
           description: "");
       // groupMonthMap[spend.id] = key;
+
+      List<DBSpendCategory> spendCaegorys = await fetch(
+          DBSpendCategory.staticClassName(),
+          where: "id = ? ",
+          args: [spendCategoryKey]);
+      if (spendCaegorys.firstOrNull != null) {
+        DBSpendCategory spendCategory = spendCaegorys.first!;
+        spendCategory.countOfSpending += 1;
+        await update(spendCategory);
+      }
       await insert(newSpend);
     }
   }

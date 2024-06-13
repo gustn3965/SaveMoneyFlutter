@@ -351,9 +351,7 @@ class Repository {
         id: generateUniqueId(),
         date: intDate,
         groupCategoryId: groupCategory.identity,
-        expectedSpend: plannedBudget,
-        everyExpectedSpend: 0,
-        additionalMoney: 0);
+        plannedBudget: plannedBudget);
 
     await databaseController.insert(dbGroupMonth);
   }
@@ -392,7 +390,7 @@ class Repository {
     int days = daysInDateTime(dateTime);
     GroupMonth newGroupMonth = GroupMonth(
         spendList: spends,
-        plannedBudget: groupMonth.expectedSpend,
+        plannedBudget: groupMonth.plannedBudget,
         date: dateTime,
         days: days,
         groupCategory: groupCategory,

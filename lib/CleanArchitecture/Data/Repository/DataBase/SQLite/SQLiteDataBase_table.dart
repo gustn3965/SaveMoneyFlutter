@@ -7,9 +7,7 @@ extension SQLiteDataBaseTable on SQLiteDataBase {
         id                          TEXT NOT NULL,
         date                        INTEGER NOT NULL,
         groupCategoryId             TEXT NOT NULL,
-        expectedSpend               INTEGER NOT NULL,
-        everyExpectedSpend          INTEGER NOT NULL,
-        additionalMoney             INTEGER NOT NULL,
+        plannedBudget               INTEGER NOT NULL,
         PRIMARY KEY(id, date, groupCategoryId)
         )
     ''';
