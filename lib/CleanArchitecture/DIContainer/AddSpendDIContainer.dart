@@ -2,6 +2,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend/Widget/AddSpendWidget.dart';
 import 'package:save_money_flutter/main.dart';
 
+import '../Domain/Entity/GroupMonth.dart';
 import '../Presenter/AddSpend/AddSpend/ViewModel/DefaultAddSpendViewModel.dart';
 import '../UseCase/AddSpendUseCase.dart';
 import '../UseCase/GroupMonthFetchUseCase.dart';
@@ -14,7 +15,7 @@ class AddSpendDIContainer {
   AddSpendDIContainer(this.appStatus);
 
   AddSpendViewModel makeAddSpendViewModel(
-      DateTime date, AddSpendActions action) {
+      DateTime date, GroupMonth? selectedGroupMonth, AddSpendActions action) {
     SpendCategoryFetchUseCase spendCategoryFetchUseCase;
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     AddSpendUseCase addSpendUseCase;
@@ -33,8 +34,13 @@ class AddSpendDIContainer {
         break;
     }
 
-    AddSpendViewModel viewModel = DefaultAddSpendViewModel(action, date,
-        spendCategoryFetchUseCase, groupMonthFetchUseCase, addSpendUseCase);
+    AddSpendViewModel viewModel = DefaultAddSpendViewModel(
+        action,
+        date,
+        selectedGroupMonth,
+        spendCategoryFetchUseCase,
+        groupMonthFetchUseCase,
+        addSpendUseCase);
     return viewModel;
   }
 

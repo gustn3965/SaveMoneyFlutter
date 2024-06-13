@@ -28,7 +28,10 @@ abstract class AddSpendViewModel {
   List<SpendCategory> spendCategoryList = [];
   SpendCategory? selectedSpendCategory;
 
-  AddSpendViewModel(this.addSpendActions, this.date);
+  AddSpendViewModel(
+      {required this.addSpendActions,
+      required this.date,
+      required GroupMonth? groupMonth});
 
   void didChangeSpendMoney(int spendMoney);
   void didChangeDescription(String description);
@@ -40,7 +43,7 @@ abstract class AddSpendViewModel {
   void didClickSpendCategory(SpendCategory spendCategory);
 
   Future<void> fetchSpendCategoryList();
-  Future<void> fetchGroupCategoryList(DateTime dateTime);
+  Future<void> fetchGroupMonthList(DateTime dateTime);
 
   // Observing
   Stream<AddSpendViewModel> get dataStream;

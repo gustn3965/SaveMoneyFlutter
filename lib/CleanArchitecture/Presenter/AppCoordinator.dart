@@ -84,7 +84,8 @@ class AppCoordinator extends Coordinator {
 
   void showAddSpendView(
       Coordinator? parentCoordinator, bool isModal, DateTime date) {
-    AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator(this, date);
+    AddSpendCoordinator addSpendCoordinator =
+        AddSpendCoordinator(this, date, null);
     addSpendCoordinator.superCoordinator = parentCoordinator ?? this;
     // if (isModal) {
     //   addSpendCoordinator.startFromModalBottomSheet(date);

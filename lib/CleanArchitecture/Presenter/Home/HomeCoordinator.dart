@@ -148,7 +148,11 @@ class HomeCoordinator extends Coordinator {
 
   Widget makeAddSpendFloatingButtonWidget() {
     void showAddSpend() {
-      showAddSpendView(calendarViewModel?.selectedDate ?? DateTime.now());
+      GroupMonth? selectedGroupMonth =
+          groupSelectorViewModel?.selectedGroupMonths.firstOrNull;
+      DateTime selectedDate = calendarViewModel?.selectedDate ?? DateTime.now();
+      showAddSpendView(
+          date: selectedDate, selectedGroupMonth: selectedGroupMonth);
     }
 
     AddSpendFloatingButtonActions actions = AddSpendFloatingButtonActions(
@@ -173,8 +177,10 @@ class HomeCoordinator extends Coordinator {
     return appDIContainer.home.makeDaySpendListWidget(daySpendListViewModel!);
   }
 
-  void showAddSpendView(DateTime date) {
-    AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator(this, date);
+  void showAddSpendView(
+      {required DateTime date, required GroupMonth? selectedGroupMonth}) {
+    AddSpendCoordinator addSpendCoordinator =
+        AddSpendCoordinator(this, date, selectedGroupMonth);
     addSpendCoordinator.startFromModalBottomSheet();
   }
 

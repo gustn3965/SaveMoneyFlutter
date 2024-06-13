@@ -19,7 +19,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late bool availableSaveButton;
   @override
-  late bool availableNonSpendSaveButton;
+  late bool availableNonSpendSaveButton = false;
   @override
   late DateTime date;
   @override
@@ -42,18 +42,25 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   DefaultAddSpendViewModel(
       this.addSpendActions,
       this.date,
+      GroupMonth? groupMonth,
       this.spendFetchUseCase,
       this.groupMonthFetchUseCase,
       this.addSpendUseCase) {
     availableSaveButton = false;
     spendMoney = 0;
     groupMonthList = [];
-    selectedGroupMonth = null;
+    if (groupMonth != null) {
+      selectedGroupMonth = AddSpendViewGroupMonthItem(
+          groupMonth.identity, groupMonth.groupCategory.name);
+    } else {
+      selectedGroupMonth = null;
+    }
+
     spendCategoryList = [];
     selectedSpendCategory = null;
 
     fetchSpendCategoryList();
-    fetchGroupCategoryList(date);
+    fetchGroupMonthList(date);
   }
 
   final _dataController = StreamController<AddSpendViewModel>.broadcast();
@@ -78,7 +85,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   Future<void> didChangeDate(DateTime date) async {
     this.date = DateTime.utc(date.year, date.month, date.day, 0, 0);
 
-    await fetchGroupCategoryList(this.date);
+    await fetchGroupMonthList(this.date);
   }
 
   @override
@@ -142,7 +149,7 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   }
 
   @override
-  Future<void> fetchGroupCategoryList(DateTime dateTime) async {
+  Future<void> fetchGroupMonthList(DateTime dateTime) async {
     List<GroupMonth> groupMonthList =
         await groupMonthFetchUseCase.fetchGroupMonthList(dateTime);
     this.groupMonthList = convertToItems(groupMonthList);

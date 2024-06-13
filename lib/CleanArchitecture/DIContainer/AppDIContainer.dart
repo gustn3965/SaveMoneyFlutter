@@ -21,9 +21,12 @@ class AppDIContainer {
   AppStatus appStatus; // main.dart
 
   AppDIContainer({required this.appStatus}) {
+    // 우선은... 나중에 아래 switch구문으로 해야함, 타겟별로 새로 설치할거므로.
+    MockDataSet().setupMockGroupMonth();
+
     switch (appStatus) {
       case AppStatus.mock:
-        MockDataSet().setupMockGroupMonth();
+        // MockDataSet().setupMockGroupMonth();
         break;
       case AppStatus.db:
         break;

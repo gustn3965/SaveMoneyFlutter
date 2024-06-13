@@ -23,6 +23,7 @@ extension SQLiteDataBaseMirgation on SQLiteDataBase {
     print("⚠️⚠️ migration1Query 1 ......... succeeded");
   }
 
+  // 이전 test_database.db 마이그레이션 코드.
   Future<void> migrationQueryOldNTdbToDBdb() async {
     Map<int, String> groupCategoryMap = {};
     Map<int, String> spendCategoryMap = {};
