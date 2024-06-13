@@ -363,6 +363,24 @@ class Repository {
 
     return GroupCategory(name: groupCategory.name, identity: groupCategory.id);
   }
+
+  Future<void> addSpendCategory(SpendCategory spend) async {
+    DBSpendCategory spendCategory = DBSpendCategory(
+        id: spend.identity, name: spend.name, countOfSpending: 0);
+    await databaseController.insert(spendCategory);
+  }
+
+  Future<bool> checkHasAlreadySpendCategory(String categoryName) async {
+    List<DBSpendCategory> list = await databaseController.fetch(
+        DBSpendCategory.staticClassName(),
+        where: "name = ? ",
+        args: [categoryName]);
+    if (list.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
   // ------------------------------------------------------------

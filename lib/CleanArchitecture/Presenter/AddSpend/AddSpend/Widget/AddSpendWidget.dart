@@ -26,38 +26,33 @@ class AddSpendWidget extends StatelessWidget {
     return StreamBuilder<AddSpendViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return SingleChildScrollView(
-              child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-                        datePickerWidget(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        spendTextFieldWidget(),
-                        descriptionTextFieldWidget(),
-                        saveButtonWidget(context),
-                        nonSpendButtonWidget(context),
-                        sectionHeaderTitle("소비 그룹", 30),
-                        groupCategoryListWidget(),
-                        sectionHeaderTitle("소비 항목", 10),
-                        spendCategoryScrollWidget(context),
-                      ],
-                    ),
-                  )));
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        return CircularProgressIndicator();
+        return SingleChildScrollView(
+            child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 50,
+                      ),
+                      datePickerWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      spendTextFieldWidget(),
+                      descriptionTextFieldWidget(),
+                      saveButtonWidget(context),
+                      nonSpendButtonWidget(context),
+                      sectionHeaderTitle("소비 그룹", 30),
+                      groupCategoryListWidget(),
+                      sectionHeaderTitle("소비 항목", 10),
+                      spendCategoryScrollWidget(context),
+                    ],
+                  ),
+                )));
       },
     );
   }
@@ -283,7 +278,7 @@ class AddSpendWidget extends StatelessWidget {
                 child: TextButton(
                   onPressed: () {
                     if (index == viewModel.spendCategoryList.length) {
-                      // _showAddSpendCategory();
+                      viewModel.didClickAddSpendCategory();
                     } else {
                       SpendCategory selectedCategory =
                           viewModel.spendCategoryList[index];

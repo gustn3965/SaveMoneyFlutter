@@ -6,8 +6,10 @@ import '../../../../Domain/Entity/SpendCategory.dart';
 class AddSpendActions {
   void Function(DateTime) showDatePicker;
   void Function() didAddSpend;
+  void Function() clickAddSpendCategory;
 
-  AddSpendActions(this.showDatePicker, this.didAddSpend);
+  AddSpendActions(
+      this.showDatePicker, this.didAddSpend, this.clickAddSpendCategory);
 }
 
 class AddSpendViewGroupMonthItem {
@@ -41,6 +43,7 @@ abstract class AddSpendViewModel {
   void didClickNonSpendSaveButton();
   void didClickGroupMonth(AddSpendViewGroupMonthItem groupMonth);
   void didClickSpendCategory(SpendCategory spendCategory);
+  void didClickAddSpendCategory();
 
   Future<void> fetchSpendCategoryList();
   Future<void> fetchGroupMonthList(DateTime dateTime);

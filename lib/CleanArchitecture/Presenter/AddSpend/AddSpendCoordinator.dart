@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupMonth.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpendCategory/AddSpendCategoryCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
@@ -13,13 +14,6 @@ class AddSpendCoordinator extends Coordinator {
       Coordinator? superCoordinator, DateTime date, GroupMonth? groupMonth)
       : super(superCoordinator) {
     currentWidget = makeAddSpendWidget(date, groupMonth);
-  }
-
-  @override
-  void pop() {
-    NavigationService.navigatorKey.currentState?.popUntil(
-        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
-    superCoordinator?.childCoordinator.remove(this);
   }
 
   @override
@@ -64,14 +58,25 @@ class AddSpendCoordinator extends Coordinator {
       pop();
     }
 
+    void clickAddSpendCategory() {
+      showAddSpendCategoryView();
+    }
+
     AddSpendActions actions = AddSpendActions(
       showDatePicker,
       didAddSpend,
+      clickAddSpendCategory,
     );
 
     addSpendViewModel = appDIContainer.addSpend
         .makeAddSpendViewModel(date, selectedGroupMonth, actions);
     return appDIContainer.addSpend.makeAddSpendWidget(addSpendViewModel!);
+  }
+
+  void showAddSpendCategoryView() {
+    AddSpendCategoryCoordinator addSpendCategoryCoordinator =
+        AddSpendCategoryCoordinator(this);
+    addSpendCategoryCoordinator.startFromModalBottomSheet();
   }
 
   void showDateTimePicker(DateTime date) {

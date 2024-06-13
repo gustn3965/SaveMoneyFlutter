@@ -140,6 +140,11 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   }
 
   @override
+  void didClickAddSpendCategory() {
+    addSpendActions.clickAddSpendCategory();
+  }
+
+  @override
   Future<void> fetchSpendCategoryList() async {
     List<SpendCategory> spendCategoryList =
         await spendFetchUseCase.fetchSpendCategoryList();
@@ -164,8 +169,9 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
     if (hasSelectedGroupMonth == false) {
       selectedGroupMonth = null;
-      makeAvailableSaveButtons();
     }
+
+    makeAvailableSaveButtons();
 
     _dataController.add(this);
   }

@@ -4,6 +4,7 @@ import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
 
 import '../Data/Repository/DataBase/SQLite/SQLiteDataBase.dart';
+import 'AddSpendCategoryDIContainer.dart';
 import 'EditSpendDIContainer.dart';
 import 'HomeDIContainer.dart';
 import 'LoginDIContainer.dart';
@@ -51,6 +52,9 @@ class AppDIContainer {
 
   late ChartDIContainer chart = ChartDIContainer(this.appStatus);
 
+  late AddSpendCategoryDIContainer addSpendCategory =
+      AddSpendCategoryDIContainer(this.appStatus);
+
   void changeAppStatus() {
     login.appStatus = appStatus;
     mainTab.appStatus = appStatus;
@@ -60,5 +64,6 @@ class AppDIContainer {
     addGroup.appStatus = appStatus;
     settings.appStatus = appStatus;
     chart.appStatus = appStatus;
+    addSpendCategory.appStatus = appStatus;
   }
 }
