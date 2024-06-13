@@ -423,7 +423,8 @@ class Repository {
           spendMoney: spend.spend,
           groupMonthId: spend.groupMonthId,
           spendCategory: spendCategory,
-          identity: spend.id);
+          identity: spend.id,
+          description: spend.description);
       spends.add(newSpend);
     }
     return spends;
