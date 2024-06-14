@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/ViewModel/SettingsViewModel.dart';
 import 'package:save_money_flutter/main.dart';
 
-import '../../../../AppColor/AppColors.dart';
-import '../../../DIContainer/AppDIContainer.dart';
+import '../../../../../AppColor/AppColors.dart';
+import '../../../../DIContainer/AppDIContainer.dart';
+import '../ViewModel/SettingsViewModel.dart';
 
 class SettingsWidget extends StatelessWidget {
   final SettingsViewModel viewModel;
