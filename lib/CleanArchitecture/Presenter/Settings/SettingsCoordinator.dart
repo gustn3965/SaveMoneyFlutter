@@ -4,16 +4,18 @@ import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/SpendCategoryListCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
 import 'package:save_money_flutter/main.dart';
 
+import '../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewModel.dart';
 import 'Setting/ViewModel/SettingsViewModel.dart';
 
 class SettingsCoordinator extends Coordinator {
   SettingsViewModel? settingsViewModel;
-  SpendCategoryListViewModel? spendCategoryListViewModel;
 
   SettingsCoordinator(Coordinator superCoordinator) : super(superCoordinator) {
+    routeName = "Settings";
     currentWidget = makeSettingWidget();
   }
 
@@ -40,11 +42,9 @@ class SettingsCoordinator extends Coordinator {
     }
 
     void moveToSpendCategoryList() {
-      NavigationService.navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (context) => makeSpendCategoryListWidget(),
-        ),
-      );
+      SpendCategoryListCoordinator spendCategoryListCoordinator =
+          SpendCategoryListCoordinator(this);
+      spendCategoryListCoordinator.start();
     }
 
     void clickChangeAppStatus() {
@@ -61,25 +61,5 @@ class SettingsCoordinator extends Coordinator {
 
     settingsViewModel = appDIContainer.settings.makeSettingsViewModel(action);
     return appDIContainer.settings.makeSettingsWidget(settingsViewModel!);
-  }
-
-  Widget makeSpendCategoryListWidget() {
-    void showEditSpendCategory(String spendCategoryId) {
-      print("edit....");
-    }
-
-    void showAddSpendCategory() {
-      print("add...");
-    }
-
-    SpendCategoryListAction action = SpendCategoryListAction(
-        showEditSpendCategoryWidget: showEditSpendCategory,
-        showAddSpendCategoryWidget: showAddSpendCategory);
-
-    spendCategoryListViewModel =
-        appDIContainer.settings.makeSpendCategoryListViewModel(action);
-
-    return appDIContainer.settings
-        .makeSpendCategoryListWidget(spendCategoryListViewModel!);
   }
 }

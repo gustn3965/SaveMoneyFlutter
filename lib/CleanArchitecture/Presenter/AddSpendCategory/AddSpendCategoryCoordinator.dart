@@ -42,7 +42,7 @@ class AddSpendCategoryCoordinator extends Coordinator {
             child: currentWidget);
       },
     ).whenComplete(() {
-      popFromBottomSheet();
+      // popFromBottomSheet();
     });
   }
 

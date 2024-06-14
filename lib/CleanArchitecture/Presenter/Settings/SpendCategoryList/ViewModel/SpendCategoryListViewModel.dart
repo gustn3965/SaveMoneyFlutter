@@ -22,7 +22,7 @@ abstract class SpendCategoryListViewModel {
 
   void clickEditSpendCategoryItem(SpendCategoryListItem item);
   void clickAddSpendCategory();
-
+  void reloadData();
   // Observing
   Stream<SpendCategoryListViewModel> get dataStream;
   void dispose();

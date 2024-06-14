@@ -59,8 +59,8 @@ class AddSpendCategoryWidget extends StatelessWidget {
           maxLength: 40,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
-            labelText: '소비 카테고리 이름을 입력해주세요.',
-            floatingLabelAlignment: FloatingLabelAlignment.center,
+            labelText: '소비 카테고리 이름',
+            floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
           onChanged: (text) {
             spendCategoryTextController.text = text;

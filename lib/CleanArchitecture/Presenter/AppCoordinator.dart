@@ -9,8 +9,7 @@ import 'AddGroup/AddGroupCoordinator.dart';
 
 class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  static BuildContext? currentContext =
-      NavigationService.navigatorKey.currentContext;
+  static BuildContext? currentContext = navigatorKey.currentContext;
 }
 
 abstract class Coordinator {

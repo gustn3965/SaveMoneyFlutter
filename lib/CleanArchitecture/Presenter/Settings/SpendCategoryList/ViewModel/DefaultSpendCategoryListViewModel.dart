@@ -26,6 +26,11 @@ class DefaultSpendCategoryListViewModel extends SpendCategoryListViewModel {
     action.showAddSpendCategoryWidget();
   }
 
+  @override
+  void reloadData() {
+    fetchSpendCategoryList();
+  }
+
   void fetchSpendCategoryList() async {
     List<SpendCategory> spendCategoryList =
         await spendCategoryFetchUseCase.fetchSpendCategoryList();

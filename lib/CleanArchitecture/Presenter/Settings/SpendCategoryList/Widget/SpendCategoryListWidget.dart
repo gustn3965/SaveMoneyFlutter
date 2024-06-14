@@ -30,17 +30,28 @@ class SpendCategoryListWidget extends StatelessWidget {
                 ),
               )),
           body: ListView.builder(
-            itemCount: (viewModel.items.length) + 1,
+            itemCount: (viewModel.items.length) + 2,
             itemBuilder: (context, index) {
               if (index == 0) {
                 return addGroupButton();
+              } else if (index == 1) {
+                return ItemCountWidget();
               } else {
-                return ItemWidget(index - 1);
+                return ItemWidget(index - 2);
               }
             },
           ),
         );
       },
+    );
+  }
+
+  Widget ItemCountWidget() {
+    return Row(
+      children: [
+        SizedBox(width: 25),
+        Text('(${viewModel.items.length} 개)'),
+      ],
     );
   }
 
