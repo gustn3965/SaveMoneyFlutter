@@ -24,10 +24,6 @@ class AddSpendCategoryCoordinator extends Coordinator {
     );
   }
 
-  void popFromBottomSheet() {
-    Navigator.pop(NavigationService.navigatorKey.currentContext!);
-  }
-
   void startFromModalBottomSheet() {
     showModalBottomSheet(
       context: NavigationService.navigatorKey.currentContext!,
@@ -42,7 +38,7 @@ class AddSpendCategoryCoordinator extends Coordinator {
             child: currentWidget);
       },
     ).whenComplete(() {
-      // popFromBottomSheet();
+      // updateSuperCoordinatorWidget();
     });
   }
 
@@ -51,8 +47,17 @@ class AddSpendCategoryCoordinator extends Coordinator {
     // TODO: implement updateCurrentWidget
   }
 
+  void popFromBottomSheet() {
+    Navigator.pop(NavigationService.navigatorKey.currentContext!);
+  }
+
+  void updateSuperCoordinatorWidget() {
+    superCoordinator?.updateCurrentWidget();
+  }
+
   Widget makeAddSpendCategoryWidget() {
     void didAddSpendCategory() {
+      updateSuperCoordinatorWidget();
       popFromBottomSheet();
     }
 

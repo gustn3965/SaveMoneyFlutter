@@ -28,7 +28,9 @@ class AddSpendCoordinator extends Coordinator {
   }
 
   @override
-  void updateCurrentWidget() {}
+  void updateCurrentWidget() {
+    addSpendViewModel?.fetchSpendCategoryList();
+  }
 
   void startFromModalBottomSheet() {
     showModalBottomSheet(
@@ -44,7 +46,7 @@ class AddSpendCoordinator extends Coordinator {
             child: currentWidget);
       },
     ).whenComplete(() {
-      pop();
+      // pop();
     });
   }
 
