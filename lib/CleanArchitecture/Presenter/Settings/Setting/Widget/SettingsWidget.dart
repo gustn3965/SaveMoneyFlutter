@@ -31,6 +31,7 @@ class SettingsWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
+          backgroundColor: Colors.white,
           body: ListView.builder(
             itemCount: (viewModel.list.length),
             itemBuilder: (context, index) {

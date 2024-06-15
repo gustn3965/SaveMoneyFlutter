@@ -28,6 +28,7 @@ class MainTabWidget extends StatelessWidget {
                 viewModel.didClickSettingBottomTabButton();
               }
             },
+            backgroundColor: AppColors.whiteColor,
             selectedItemColor: AppColors.mainHightColor,
             showSelectedLabels: true,
             showUnselectedLabels: false,

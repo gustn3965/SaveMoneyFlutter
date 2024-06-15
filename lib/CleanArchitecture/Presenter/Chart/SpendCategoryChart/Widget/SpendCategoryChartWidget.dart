@@ -23,9 +23,10 @@ class SpendCategoryChartWidget extends StatelessWidget {
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Container(
-              width: constraints.maxWidth,
+              width:
+                  MediaQuery.of(NavigationService.currentContext!).size.width,
               child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 0, right: 0),
                 child: Container(
                   child: Column(
                     children: [
@@ -47,10 +48,6 @@ class SpendCategoryChartWidget extends StatelessWidget {
 
   Widget headerTitleWidget() {
     return Container(
-      // height: 65,
-      width: MediaQuery.of(NavigationService.navigatorKey.currentContext!)
-          .size
-          .width,
       color: const Color(0xFFE5E3E3),
       child: const Column(
         children: [
@@ -91,11 +88,14 @@ class SpendCategoryChartWidget extends StatelessWidget {
   }
 
   Widget spendCategorySelectorWidget() {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: 10.0,
-      runSpacing: 10.0,
-      children: <Widget>[..._makeChipButton(viewModel)],
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        spacing: 10.0,
+        runSpacing: 10.0,
+        children: <Widget>[..._makeChipButton(viewModel)],
+      ),
     );
   }
 
@@ -135,7 +135,7 @@ class SpendCategoryChartWidget extends StatelessWidget {
         height: 120,
         child: Center(
             child: Text(
-          '선택한 지출 그룹이 없습니다.',
+          '선택한 소비 카테고리가 없습니다. \n(선택해주세요)',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,

@@ -110,8 +110,8 @@ class AppCoordinator extends Coordinator {
     runApp(LanchScreenWidget());
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      showLoginView();
-      // showMainHomeView();
+      // showLoginView();
+      showMainHomeView();
       // showSettinsView();
       // showAddSpendView();
     });

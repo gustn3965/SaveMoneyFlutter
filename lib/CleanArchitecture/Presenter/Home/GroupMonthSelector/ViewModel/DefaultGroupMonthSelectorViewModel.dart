@@ -76,13 +76,17 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   List<GroupMonth> makeNewSelectedGroupMonth(
       List<GroupMonth> fetchedNewGroupMonths) {
     List<GroupMonth> newSelectedGroupMonth = [];
-    for (GroupMonth group in groupMonthList) {
+    for (GroupMonth group in fetchedNewGroupMonths) {
       List<String> groupCategoryIds = selectedGroupMonths.map((group) {
         return group.groupCategory.identity;
       }).toList();
       if (groupCategoryIds.contains(group.groupCategory.identity)) {
         newSelectedGroupMonth.add(group);
       }
+    }
+
+    if (newSelectedGroupMonth.isEmpty && fetchedNewGroupMonths.isNotEmpty) {
+      newSelectedGroupMonth.add(fetchedNewGroupMonths.first);
     }
     return newSelectedGroupMonth;
   }

@@ -22,26 +22,22 @@ class GroupMonthChartWidget extends StatelessWidget {
     return StreamBuilder<GroupMonthChartViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        return LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return Container(
-              width: constraints.maxWidth,
-              child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  child: Column(
-                    children: [
-                      headerTitleWidget(),
-                      SizedBox(height: 15),
-                      groupCategorySelectorWidget(),
-                      SizedBox(height: 15),
-                      makeBarChart(),
-                    ],
-                  ),
-                ),
+        return Container(
+          width: MediaQuery.of(NavigationService.currentContext!).size.width,
+          child: Padding(
+            padding: EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              child: Column(
+                children: [
+                  headerTitleWidget(),
+                  SizedBox(height: 15),
+                  groupCategorySelectorWidget(),
+                  SizedBox(height: 15),
+                  makeBarChart(),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         );
       },
     );
@@ -49,10 +45,6 @@ class GroupMonthChartWidget extends StatelessWidget {
 
   Widget headerTitleWidget() {
     return Container(
-      // height: 65,
-      width: MediaQuery.of(NavigationService.navigatorKey.currentContext!)
-          .size
-          .width,
       color: const Color(0xFFE5E3E3),
       child: const Column(
         children: [
@@ -93,11 +85,14 @@ class GroupMonthChartWidget extends StatelessWidget {
   }
 
   Widget groupCategorySelectorWidget() {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: 10.0,
-      runSpacing: 10.0,
-      children: <Widget>[..._makeChipButton(viewModel)],
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        spacing: 10.0,
+        runSpacing: 10.0,
+        children: <Widget>[..._makeChipButton(viewModel)],
+      ),
     );
   }
 
