@@ -9,37 +9,14 @@ class AddSpendCategoryCoordinator extends Coordinator {
   AddSpendCategoryViewModel? addSpendViewModel;
 
   AddSpendCategoryCoordinator(Coordinator? superCoordinator)
-      : super(superCoordinator) {
+      : super(superCoordinator, null) {
+    routeName = "addSpendCategory";
     currentWidget = makeAddSpendCategoryWidget();
   }
 
   @override
   void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: "/Page1"),
-        builder: (context) => currentWidget,
-      ),
-    );
-  }
-
-  void startFromModalBottomSheet() {
-    showModalBottomSheet(
-      context: NavigationService.navigatorKey.currentContext!,
-      clipBehavior: Clip.hardEdge,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context) {
-        return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: currentWidget);
-      },
-    ).whenComplete(() {
-      // updateSuperCoordinatorWidget();
-    });
+    super.start();
   }
 
   @override

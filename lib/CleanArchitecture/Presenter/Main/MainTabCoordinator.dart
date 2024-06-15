@@ -21,9 +21,11 @@ class MainTabCoordinator extends Coordinator {
 
   MainTabViewModel? mainHomeViewModel;
 
-  MainTabCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
+  MainTabCoordinator(Coordinator? superCoordinator)
+      : super(superCoordinator, null) {
     routeName = "MainHome";
     homeCoordinator = HomeCoordinator(this);
+    homeCoordinator.routeName = this.routeName;
     chartCoordinator = ChartCoordinator(this);
     settingsCoordinator = SettingsCoordinator(this);
     currentWidget = makeMainHomeWidget();
@@ -37,14 +39,7 @@ class MainTabCoordinator extends Coordinator {
 
   @override
   void start() {
-    Navigator.push(
-      NavigationService.navigatorKey.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: routeName),
-        builder: (context) => currentWidget,
-      ),
-    );
-    homeCoordinator.routeName = this.routeName;
+    super.start();
     // TODO: implement start
   }
 

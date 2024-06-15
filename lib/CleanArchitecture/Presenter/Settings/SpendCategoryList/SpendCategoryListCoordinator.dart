@@ -11,8 +11,10 @@ import '../../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewMo
 class SpendCategoryListCoordinator extends Coordinator {
   SpendCategoryListViewModel? spendCategoryListViewModel;
 
-  SpendCategoryListCoordinator(Coordinator superCoordinator)
-      : super(superCoordinator) {
+  SpendCategoryListCoordinator(
+      {required Coordinator superCoordinator,
+      required Coordinator parentTabCoordinator})
+      : super(superCoordinator, parentTabCoordinator) {
     routeName = "SpendCategoryList";
     currentWidget = makeSpendCategoryListWidget();
   }

@@ -12,7 +12,8 @@ class ChartCoordinator extends Coordinator {
   GroupMonthChartViewModel? groupMonthChartViewModel;
   SpendCategoryChartViewModel? spendCategoryChartViewModel;
 
-  ChartCoordinator(Coordinator superCoordinator) : super(superCoordinator) {
+  ChartCoordinator(Coordinator superCoordinator)
+      : super(superCoordinator, null) {
     Widget groupMonthChartWidget = makeGroupMonthChartWidget();
     Widget spendCategoryChartWidget = makeSpendCategoryChartWidget();
     Widget emptyBottomWidget = const SizedBox(height: 100);

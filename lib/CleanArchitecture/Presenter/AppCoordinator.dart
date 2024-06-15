@@ -4,6 +4,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpend
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SettingsCoordinator.dart';
+import 'package:save_money_flutter/main.dart';
 
 import 'AddGroup/AddGroupCoordinator.dart';
 
@@ -14,20 +15,80 @@ class NavigationService {
 
 abstract class Coordinator {
   Coordinator? superCoordinator;
+  Coordinator? parentNavigationCoordinator;
+
   late Widget currentWidget;
 
   // 이니셜라이저에서 currentWidget을 초기화한다.
-  Coordinator(this.superCoordinator) {
+  Coordinator(this.superCoordinator, this.parentNavigationCoordinator) {
     superCoordinator?.childCoordinator.add(this);
   }
 
   // start로 시작하는 메소드는 currentWidget만 사용한다.
-  void start();
+  void start() {
+    NavigationService.navigatorKey.currentState!.push(MaterialPageRoute(
+      settings: RouteSettings(
+        name: routeName,
+        arguments: this, // Coordinator전달
+      ),
+      builder: (context) => currentWidget,
+    ));
+  }
+
+  // push가아닌 Navigation을 바꾼다.
+  void startOnFirstNavigation() {
+    NavigationService.navigatorKey.currentState?.popUntil((route) {
+      bool isAppCoordinator =
+          route.settings.name == (appCoordinator?.routeName ?? "");
+
+      if (isAppCoordinator == false) {
+        if (route.settings.arguments is Coordinator) {
+          Coordinator coordinator = route.settings.arguments as Coordinator;
+          coordinator.superCoordinator?.childCoordinator.remove(coordinator);
+        }
+      }
+      return isAppCoordinator;
+    });
+
+    start();
+  }
+
+  void startFromModalBottomSheet() {
+    showModalBottomSheet(
+      context: NavigationService.navigatorKey.currentContext!,
+      clipBehavior: Clip.hardEdge,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
+      builder: (BuildContext context) {
+        return Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: currentWidget);
+      },
+    ).whenComplete(() {
+      // pop();
+    });
+  }
 
   void pop() {
-    NavigationService.navigatorKey.currentState?.popUntil(
-        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
+    NavigationService.navigatorKey.currentState?.pop();
     superCoordinator?.childCoordinator.remove(this);
+  }
+
+  void popUntilParentNavigation() {
+    NavigationService.navigatorKey.currentState?.popUntil((route) {
+      bool isParent =
+          route.settings.name == (parentNavigationCoordinator?.routeName ?? "");
+
+      if (isParent == false) {
+        if (route.settings.arguments is Coordinator) {
+          Coordinator coordinator = route.settings.arguments as Coordinator;
+          coordinator.superCoordinator?.childCoordinator.remove(coordinator);
+        }
+      }
+      return isParent;
+    });
   }
 
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
@@ -42,21 +103,17 @@ class AppCoordinator extends Coordinator {
   @override
   String routeName = "App";
 
-  AppCoordinator(super.superCoordinator);
+  AppCoordinator(super.superCoordinator, super.parentNavigationCoordinator);
 
   @override
   void start() async {
     runApp(LanchScreenWidget());
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      Navigator.pop(NavigationService.currentContext!);
-
-      // showLoginView();
-      showMainHomeView(null);
-      // showSettinsView(null);
-
-      // TESTAddSpendWidget();
-      // TESTAddGroupWidget();
+      showLoginView();
+      // showMainHomeView();
+      // showSettinsView();
+      // showAddSpendView();
     });
   }
 
@@ -68,51 +125,26 @@ class AppCoordinator extends Coordinator {
 
   void showLoginView() {
     LoginCoordinator loginCoordinator = LoginCoordinator(this);
-    // (parentCoordinator ?? this).childCoordinator.add(loginCoordinator);
-    loginCoordinator.start();
+    loginCoordinator.startOnFirstNavigation();
   }
 
-  void showMainHomeView(Coordinator? parentCoordinator) {
+  void showMainHomeView() {
     MainTabCoordinator mainHomeCoordinator = MainTabCoordinator(this);
-    // mainHomeCoordinator.superCoordinator = parentCoordinator ?? this;
-    mainHomeCoordinator.start();
-    // (parentCoordinator ?? this).childCoordinator.add(mainHomeCoordinator);
+    mainHomeCoordinator.startOnFirstNavigation();
   }
 
   void showMainTabMoneyView() {}
 
-  void showAddSpendView(
-      Coordinator? parentCoordinator, bool isModal, DateTime date) {
+  void showAddSpendView() {
     AddSpendCoordinator addSpendCoordinator =
-        AddSpendCoordinator(this, date, null);
-    addSpendCoordinator.superCoordinator = parentCoordinator ?? this;
-    // if (isModal) {
-    //   addSpendCoordinator.startFromModalBottomSheet(date);
-    // } else {
-    addSpendCoordinator.start();
-    // }
-
-    // (parentCoordinator ?? this).childCoordinator.add(addSpendCoordinator);
+        AddSpendCoordinator(this, DateTime.now(), null);
+    addSpendCoordinator.startOnFirstNavigation();
   }
 
-  void showSettinsView(Coordinator? parentCoordinatore) {
+  void showSettinsView() {
     SettingsCoordinator coordinator = SettingsCoordinator(this);
-    // coordinator.superCoordinator = parentCoordinatore ?? this;
-    coordinator.start();
-    // (parentCoordinatore ?? this).childCoordinator.add(coordinator);
+    coordinator.startOnFirstNavigation();
   }
-
-  // void TESTAddSpendWidget() {
-  //   AddSpendCoordinator addSpendCoordinator = AddSpendCoordinator();
-  //   addSpendCoordinator.start();
-  //   childCoordinator.add(addSpendCoordinator);
-  // }
-  //
-  // void TESTAddGroupWidget() {
-  //   AddGroupCoordinator addGroupCoordinator = AddGroupCoordinator();
-  //   addGroupCoordinator.start();
-  //   childCoordinator.add(addGroupCoordinator);
-  // }
 }
 
 class LanchScreenWidget extends StatelessWidget {

@@ -9,47 +9,18 @@ class EditSpendCoordinator extends Coordinator {
   EditSpendViewModel? editSpendViewModel;
 
   EditSpendCoordinator(Coordinator? superCoordinator, String spendId)
-      : super(superCoordinator) {
+      : super(superCoordinator, null) {
+    routeName = "EditSpend";
     currentWidget = makeEditSpendWidget(spendId);
   }
 
   @override
-  void pop() {
-    NavigationService.navigatorKey.currentState?.popUntil(
-        (route) => route.settings.name == (superCoordinator?.routeName ?? ""));
-    superCoordinator?.childCoordinator.remove(this);
-  }
-
-  @override
   void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: "/Page1"),
-        builder: (context) => currentWidget,
-      ),
-    );
+    super.start();
   }
 
   @override
   void updateCurrentWidget() {}
-
-  void startFromModalBottomSheet() {
-    showModalBottomSheet(
-      context: NavigationService.navigatorKey.currentContext!,
-      clipBehavior: Clip.hardEdge,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context) {
-        return Container(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: currentWidget);
-      },
-    ).whenComplete(() {
-      pop();
-    });
-  }
 
   Widget makeEditSpendWidget(String spendId) {
     void showDatePicker(DateTime date) {

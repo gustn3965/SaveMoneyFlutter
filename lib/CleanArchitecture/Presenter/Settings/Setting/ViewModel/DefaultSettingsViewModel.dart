@@ -9,6 +9,9 @@ class DefaultSettingsViewModel extends SettingsViewModel {
     fetchList();
   }
 
+  @override
+  late List<SettingsViewModelListItem> list = [];
+
   final _dataController = StreamController<SettingsViewModel>.broadcast();
   @override
   Stream<SettingsViewModel> get dataStream => _dataController.stream;

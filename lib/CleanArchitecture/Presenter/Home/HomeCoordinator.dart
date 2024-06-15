@@ -23,7 +23,8 @@ class HomeCoordinator extends Coordinator {
   DaySpendListViewModel? daySpendListViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
 
-  HomeCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
+  HomeCoordinator(Coordinator? superCoordinator)
+      : super(superCoordinator, null) {
     routeName =
         "Home"; // MainHome에서 호출할경우 routeName은 MainHome으로. ( Navigation push를 안함 )
     Widget summaryWidget = makeSummaryWidget();
@@ -57,9 +58,6 @@ class HomeCoordinator extends Coordinator {
       ),
     );
   }
-
-  @override
-  void startFromModalBottomSheet() {}
 
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   @override

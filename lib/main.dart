@@ -39,7 +39,7 @@ import 'view_model/save_money_view_model.dart';
 import 'view_model/select_date_view_model.dart';
 // import 'N'
 
-AppCoordinator appCoordinator = AppCoordinator(null);
+AppCoordinator appCoordinator = AppCoordinator(null, null);
 AppDIContainer appDIContainer = AppDIContainer(appStatus: AppStatus.db);
 
 void main() async {

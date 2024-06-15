@@ -12,42 +12,19 @@ class AddSpendCoordinator extends Coordinator {
 
   AddSpendCoordinator(
       Coordinator? superCoordinator, DateTime date, GroupMonth? groupMonth)
-      : super(superCoordinator) {
+      : super(superCoordinator, null) {
+    routeName = "addSpend";
     currentWidget = makeAddSpendWidget(date, groupMonth);
   }
 
   @override
   void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        settings: RouteSettings(name: "/Page1"),
-        builder: (context) => currentWidget,
-      ),
-    );
+    super.start();
   }
 
   @override
   void updateCurrentWidget() {
     addSpendViewModel?.fetchSpendCategoryList();
-  }
-
-  void startFromModalBottomSheet() {
-    showModalBottomSheet(
-      context: NavigationService.navigatorKey.currentContext!,
-      clipBehavior: Clip.hardEdge,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context) {
-        return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: currentWidget);
-      },
-    ).whenComplete(() {
-      // pop();
-    });
   }
 
   Widget makeAddSpendWidget(DateTime date, GroupMonth? selectedGroupMonth) {

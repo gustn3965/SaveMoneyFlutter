@@ -1,47 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginAddGroupMoneyCoordinator.dart';
 
 import 'AddGroupName/ViewModel/LoginAddGroupNameViewModel.dart';
-import 'AddGroupMoney/ViewModel/LoginAddGroupMoneyViewModel.dart';
 
 import '../../../main.dart';
 
 class LoginCoordinator extends Coordinator {
   LoginAddGroupNameViewModel? loginAddGroupNameViewModel;
-  LoginAddGroupMoneyViewModel? loginAddGroupMoneyViewModel;
 
-  LoginCoordinator(Coordinator? superCoordinator) : super(superCoordinator) {
+  LoginCoordinator(Coordinator? superCoordinator)
+      : super(superCoordinator, null) {
     routeName = "Login";
     currentWidget = makeLoginAddGroupNameWidget();
   }
 
   @override
   void start() {
-    Navigator.pushAndRemoveUntil(
-        NavigationService.currentContext!,
-        MaterialPageRoute(
-          builder: (context) => currentWidget,
-        ),
-        (route) => false);
+    super.start();
   }
 
-  void showMainHomeWidget() {
-    pop();
-
-    MainTabCoordinator mainHomeCoordinator = MainTabCoordinator(appCoordinator);
-    mainHomeCoordinator.start();
+  @override
+  void updateCurrentWidget() {
+    // TODO: implement updateCurrentWidget
   }
 
   Widget makeLoginAddGroupNameWidget() {
     void addGroupName(DateTime date, String groupName) {
-      loginAddGroupMoneyViewModel = null;
-      Navigator.push(
-        NavigationService.currentContext!,
-        MaterialPageRoute(
-          builder: (context) => makeLoginAddGroupMoneyWidget(date, groupName),
-        ),
-      );
+      LoginAddGroupMoneyCoordinator loginAddGroupMoneyCoordinator =
+          LoginAddGroupMoneyCoordinator(
+              superCoordinator: this,
+              parentTabCoordinator: this,
+              date: date,
+              groupName: groupName);
+      loginAddGroupMoneyCoordinator.start();
     }
 
     LoginAddGroupNameActions action = LoginAddGroupNameActions(
@@ -53,30 +45,5 @@ class LoginCoordinator extends Coordinator {
 
     return appDIContainer.login
         .makeLoginAddGroupNameWidget(loginAddGroupNameViewModel!);
-  }
-
-  Widget makeLoginAddGroupMoneyWidget(DateTime date, String categoryName) {
-    void didAddNewGroup() {
-      showMainHomeWidget();
-    }
-
-    void cancelAddGroupMoney() {
-      Navigator.pop(NavigationService.currentContext!);
-    }
-
-    LoginAddGroupMoneyAction action = LoginAddGroupMoneyAction(
-      didAddNewGroup,
-      cancelAddGroupMoney,
-    );
-
-    loginAddGroupMoneyViewModel ??= appDIContainer.login
-        .makeLoginAddGroupMoneyViewModel(date, categoryName, action);
-    return appDIContainer.login
-        .makeLoginAddGroupMoneyWidget(loginAddGroupMoneyViewModel!);
-  }
-
-  @override
-  void updateCurrentWidget() {
-    // TODO: implement updateCurrentWidget
   }
 }

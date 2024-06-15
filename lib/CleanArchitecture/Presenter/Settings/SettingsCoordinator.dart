@@ -14,7 +14,8 @@ import 'Setting/ViewModel/SettingsViewModel.dart';
 class SettingsCoordinator extends Coordinator {
   SettingsViewModel? settingsViewModel;
 
-  SettingsCoordinator(Coordinator superCoordinator) : super(superCoordinator) {
+  SettingsCoordinator(Coordinator superCoordinator)
+      : super(superCoordinator, null) {
     routeName = "Settings";
     currentWidget = makeSettingWidget();
   }
@@ -36,14 +37,14 @@ class SettingsCoordinator extends Coordinator {
 
   Widget makeSettingWidget() {
     void moveToLoginWidget() {
-      pop();
       LoginCoordinator loginCoordinator = LoginCoordinator(appCoordinator);
-      loginCoordinator.start();
+      loginCoordinator.startOnFirstNavigation();
     }
 
     void moveToSpendCategoryList() {
       SpendCategoryListCoordinator spendCategoryListCoordinator =
-          SpendCategoryListCoordinator(this);
+          SpendCategoryListCoordinator(
+              superCoordinator: this, parentTabCoordinator: this);
       spendCategoryListCoordinator.start();
     }
 
