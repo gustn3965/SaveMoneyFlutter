@@ -3,17 +3,18 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditSpen
 
 import '../../../main.dart';
 import '../AppCoordinator.dart';
+import 'EditGroupCategory/ViewModel/EditGroupCategoryViewModel.dart';
 
-class EditSpendCategoryCoordinator extends Coordinator {
-  EditSpendCategoryViewModel? editSpendCategoryViewModel;
+class EditGroupCategoryCoordinator extends Coordinator {
+  EditGroupCategoryViewModel? editGroupCategoryViewModel;
 
-  EditSpendCategoryCoordinator(
+  EditGroupCategoryCoordinator(
       {required Coordinator superCoordinator,
       required Coordinator parentTabCoordinator,
-      required String spendCategoryId})
+      required String groupCategoryId})
       : super(superCoordinator, parentTabCoordinator) {
-    routeName = "EditSpendCategory";
-    currentWidget = makeEditSpendCategoryWidget(spendCategoryId);
+    routeName = "EditGroupCategory";
+    currentWidget = makeEditGroupCategoryWidget(groupCategoryId);
   }
 
   @override
@@ -21,39 +22,38 @@ class EditSpendCategoryCoordinator extends Coordinator {
     // TODO: implement updateCurrentWidget
   }
 
-  Widget makeEditSpendCategoryWidget(String spendCategoryId) {
+  Widget makeEditGroupCategoryWidget(String groupCategoryId) {
     void doneSaveEdit() {
       superCoordinator?.updateCurrentWidget();
       pop();
     }
 
-    void doneDeleteSpendCategory() {
+    void doneDeleteGroupCategory() {
       superCoordinator?.updateCurrentWidget();
       pop();
     }
 
     void showAlertWarningEdit() {
       this.showAlertWarningEdit(
-          editSpendCategoryViewModel!.doUpdateSpendCategory);
+          editGroupCategoryViewModel!.doUpdateGroupCategory);
     }
 
     void showAlertWarningDelete() {
       this.showAlertWarningDelete(
-          editSpendCategoryViewModel!.doDeleteSpendCategory);
+          editGroupCategoryViewModel!.doDeleteSpendCategory);
     }
 
-    EditSpendCategoryActions action = EditSpendCategoryActions(
+    EditGroupCategoryActions actions = EditGroupCategoryActions(
         doneSaveEdit: doneSaveEdit,
-        doneDeleteSpendCategory: doneDeleteSpendCategory,
+        doneDeleteGroupCategory: doneDeleteGroupCategory,
         showAlertWarningEdit: showAlertWarningEdit,
         showAlertWarningDelete: showAlertWarningDelete);
 
-    editSpendCategoryViewModel = appDIContainer.settings
-        .makeEditSpendCategoryViewModel(
-            action: action, spendCategoryId: spendCategoryId);
+    editGroupCategoryViewModel = appDIContainer.settings
+        .makeEditGroupCategoryViewModel(actions, groupCategoryId);
 
     return appDIContainer.settings
-        .makeEditSpendCategoryWidget(editSpendCategoryViewModel!);
+        .makeEditGroupCategoryWidget(editGroupCategoryViewModel!);
   }
 
   void showAlertWarningEdit(Function() doneSaveEdit) {
@@ -61,7 +61,7 @@ class EditSpendCategoryCoordinator extends Coordinator {
       context: NavigationService.currentContext!,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
-          '해당 카테고리로 지출된 소비 카테고리 이름이 모두 바뀌게 됩니다.',
+          '해당 소비그룹의 이름이 모두 변경됩니다.',
         ),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(
@@ -89,7 +89,7 @@ class EditSpendCategoryCoordinator extends Coordinator {
       context: NavigationService.currentContext!,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
-          '해당 카테고리로 지출된 목록들이 모두 삭제됩니다.',
+          '해당 소비그룹으로 지출된 목록들이 모두 삭제됩니다!',
         ),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(

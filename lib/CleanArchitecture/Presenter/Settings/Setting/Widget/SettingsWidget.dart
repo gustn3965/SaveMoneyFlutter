@@ -45,7 +45,7 @@ class SettingsWidget extends StatelessWidget {
 
   Widget listCell(int index) {
     SettingsViewModelListItem item = viewModel.list[index];
-    if (index == 2) {
+    if (index == viewModel.list.length - 1) {
       return appStatusWidget(item);
     }
     return Row(

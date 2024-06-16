@@ -9,6 +9,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCat
 import 'package:save_money_flutter/main.dart';
 
 import '../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewModel.dart';
+import 'GroupCategoryListCoordinator.dart';
 import 'Setting/ViewModel/SettingsViewModel.dart';
 
 class SettingsCoordinator extends Coordinator {
@@ -38,6 +39,13 @@ class SettingsCoordinator extends Coordinator {
       spendCategoryListCoordinator.start();
     }
 
+    void moveToGroupCategoryList() {
+      GroupCategoryListCoordinator groupCategoryListCoordinator =
+          GroupCategoryListCoordinator(
+              superCoordinator: this, parentTabCoordinator: this);
+      groupCategoryListCoordinator.start();
+    }
+
     void clickChangeAppStatus() {
       if (superCoordinator is MainTabCoordinator) {
         (superCoordinator as MainTabCoordinator)
@@ -48,6 +56,7 @@ class SettingsCoordinator extends Coordinator {
     SettingsAction action = SettingsAction(
         clickToMoveLogin: moveToLoginWidget,
         clickToMoveSpendCategorys: moveToSpendCategoryList,
+        clickToMoveGroupCategorys: moveToGroupCategoryList,
         clickChangeAppStatus: clickChangeAppStatus);
 
     settingsViewModel = appDIContainer.settings.makeSettingsViewModel(action);

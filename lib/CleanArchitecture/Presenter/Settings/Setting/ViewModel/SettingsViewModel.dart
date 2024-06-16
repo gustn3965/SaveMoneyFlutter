@@ -11,10 +11,13 @@ class SettingsViewModelListItem {
 class SettingsAction {
   void Function() clickToMoveLogin;
   void Function() clickToMoveSpendCategorys;
+  void Function() clickToMoveGroupCategorys;
   void Function() clickChangeAppStatus;
+
   SettingsAction(
       {required this.clickToMoveLogin,
       required this.clickToMoveSpendCategorys,
+      required this.clickToMoveGroupCategorys,
       required this.clickChangeAppStatus});
 }
 

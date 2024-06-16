@@ -1,25 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/GroupCategoryList/ViewModel/GroupCategoryListViewModel.dart';
 
 import '../../../../../AppColor/AppColors.dart';
 
-class SpendCategoryListWidget extends StatelessWidget {
-  final SpendCategoryListViewModel viewModel;
+class GroupCategoryListWidget extends StatelessWidget {
+  final GroupCategoryListViewModel viewModel;
 
-  SpendCategoryListWidget(this.viewModel);
+  GroupCategoryListWidget(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return StreamBuilder<SpendCategoryListViewModel>(
+    return StreamBuilder<GroupCategoryListViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
               backgroundColor: AppColors.mainColor,
               title: const Text(
-                '소비 카테고리 목록',
+                '소비 그룹 목록',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -30,14 +30,12 @@ class SpendCategoryListWidget extends StatelessWidget {
                 ),
               )),
           body: ListView.builder(
-            itemCount: (viewModel.items.length) + 2,
+            itemCount: (viewModel.items.length) + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return addGroupButton();
-              } else if (index == 1) {
                 return ItemCountWidget();
               } else {
-                return ItemWidget(index - 2);
+                return ItemWidget(index - 1);
               }
             },
           ),
@@ -56,7 +54,7 @@ class SpendCategoryListWidget extends StatelessWidget {
   }
 
   Widget ItemWidget(int index) {
-    SpendCategoryListItem item = viewModel.items[index];
+    GroupCategoryListItem item = viewModel.items[index];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -70,7 +68,7 @@ class SpendCategoryListWidget extends StatelessWidget {
               width: 1,
               color: Colors.black,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(20),
           ), //  POINT: BoxDecoration
           child: Text(
             item.name,
@@ -82,7 +80,7 @@ class SpendCategoryListWidget extends StatelessWidget {
           // padding: const EdgeInsets.all(10.0),
           child: FilledButton(
             onPressed: () {
-              viewModel.clickEditSpendCategoryItem(item);
+              viewModel.clickEditGroupCategoryItem(item);
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.black,
@@ -98,30 +96,6 @@ class SpendCategoryListWidget extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  Widget addGroupButton() {
-    return Container(
-      margin: const EdgeInsets.only(top: 15),
-      child: Center(
-        child: FilledButton(
-          onPressed: () {
-            viewModel.clickAddSpendCategory();
-          },
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.black,
-            backgroundColor: const Color(0xFFA6BEFB),
-            disabledBackgroundColor: const Color(0xFFD5DFF9),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-          ),
-          child: Text(viewModel.addSpendCategoryString),
-        ),
-      ),
     );
   }
 }

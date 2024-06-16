@@ -1,5 +1,4 @@
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
-import 'package:save_money_flutter/CleanArchitecture/DIContainer/EditSpendCategoryDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
@@ -56,9 +55,6 @@ class AppDIContainer {
   late AddSpendCategoryDIContainer addSpendCategory =
       AddSpendCategoryDIContainer(appStatus);
 
-  late EditSpendCategoryDIContainer editSpendCategory =
-      EditSpendCategoryDIContainer(appStatus);
-
   void changeAppStatus() {
     login.appStatus = appStatus;
     mainTab.appStatus = appStatus;
@@ -69,6 +65,5 @@ class AppDIContainer {
     settings.appStatus = appStatus;
     chart.appStatus = appStatus;
     addSpendCategory.appStatus = appStatus;
-    editSpendCategory.appStatus = appStatus;
   }
 }

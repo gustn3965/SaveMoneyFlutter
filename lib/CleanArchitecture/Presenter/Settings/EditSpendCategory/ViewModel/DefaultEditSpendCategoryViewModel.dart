@@ -50,7 +50,6 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
     makeAvailableEditButton();
 
     _dataController.add(this);
-    // TODO: implement didChangeSpendCategoryName
   }
 
   @override
@@ -90,9 +89,9 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
       this.spendCategoryName = spendCategory.name;
 
       await fetchSpendListIn(spendCategoryId);
-    }
 
-    _dataController.add(this);
+      _dataController.add(this);
+    }
   }
 
   Future<void> fetchSpendListIn(String spendCategoryId) async {

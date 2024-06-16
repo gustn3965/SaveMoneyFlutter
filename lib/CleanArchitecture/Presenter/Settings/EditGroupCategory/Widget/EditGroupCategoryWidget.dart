@@ -1,33 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditSpendCategory/ViewModel/EditSpendCategoryViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/ViewModel/EditGroupCategoryViewModel.dart';
 
 import '../../../../../AppColor/AppColors.dart';
 import '../../../AppCoordinator.dart';
 import 'package:intl/intl.dart';
 
-class EditSpendCategoryWidget extends StatelessWidget {
-  EditSpendCategoryViewModel viewModel;
+class EditGroupCategoryWidget extends StatelessWidget {
+  EditGroupCategoryViewModel viewModel;
 
   late TextEditingController spendCategoryTextController =
       TextEditingController();
 
-  EditSpendCategoryWidget(this.viewModel, {super.key}) {
+  EditGroupCategoryWidget(this.viewModel, {super.key}) {
     viewModel.dataStream.listen((event) {
-      spendCategoryTextController.text = event.spendCategoryName;
+      spendCategoryTextController.text = event.groupCategoryName;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<EditSpendCategoryViewModel>(
+    return StreamBuilder<EditGroupCategoryViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
             appBar: AppBar(
                 backgroundColor: AppColors.mainColor,
                 title: const Text(
-                  '소비 카테고리 수정',
+                  '소비 그룹 수정',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -56,7 +56,7 @@ class EditSpendCategoryWidget extends StatelessWidget {
                           ),
                           cancelAndConfirmButtons(),
                           SizedBox(height: 40),
-                          if (viewModel.spendListItem.isNotEmpty)
+                          if (viewModel.groupListItem.isNotEmpty)
                             spendListHeader(),
                           spendListWidget(),
                         ],
@@ -86,7 +86,7 @@ class EditSpendCategoryWidget extends StatelessWidget {
           ),
           onChanged: (text) {
             spendCategoryTextController.text = text;
-            viewModel.didChangeSpendCategoryName(text);
+            viewModel.didChangeGroupCategoryName(text);
           },
         ),
       ),
@@ -169,8 +169,8 @@ class EditSpendCategoryWidget extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    "해당 소비 카테고리에 지출된 내역 (${viewModel.spendListItem.length} 개)",
-                    style: const TextStyle(
+                    '해당 그룹에 지출된 내역 (${viewModel.groupListItem.length} 개)',
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -192,9 +192,9 @@ class EditSpendCategoryWidget extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         primary: false,
-        itemCount: viewModel.spendListItem.length,
+        itemCount: viewModel.groupListItem.length,
         itemBuilder: (BuildContext context, int index) {
-          EditSpendCategoryItem item = viewModel.spendListItem[index];
+          EditGroupCategoryItem item = viewModel.groupListItem[index];
           return Container(
             width: MediaQuery.of(context).size.width,
             child: Stack(
@@ -222,12 +222,23 @@ class EditSpendCategoryWidget extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (item.description.isNotEmpty)
-                          Text("설명 : ${item.description}"),
+                        Row(
+                          children: [
+                            Text("소비된 금액: "),
+                            Text(
+                              item.totalSpendMoneyString,
+                              style: TextStyle(
+                                color: item.totalSpendMoney > item.plannedbudget
+                                    ? Colors.redAccent
+                                    : Colors.blueAccent,
+                              ),
+                            ),
+                          ],
+                        ),
                         if (item.date.isNotEmpty) Text("날짜 : ${item.date}"),
                         SizedBox(height: 10),
                         Text(
-                          '${NumberFormat("#,###").format(item.spendMoney)}원',
+                          item.plannedbudgetString,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,

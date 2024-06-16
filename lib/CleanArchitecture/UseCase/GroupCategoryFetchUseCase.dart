@@ -12,6 +12,7 @@ abstract class GroupCategoryFetchUseCase {
   Future<List<GroupCategory>> fetchAllGroupCategoryList();
 
   Future<GroupCategory?> fetchGroupCategoryByName(String categoryName);
+  Future<GroupCategory?> fetchGroupCategoryById(String categoryId);
 }
 
 class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
@@ -46,6 +47,19 @@ class MockGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
 
     return null;
   }
+
+  @override
+  Future<GroupCategory?> fetchGroupCategoryById(String categoryId) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    for (GroupCategory category in mockCategoryList) {
+      if (category.identity == categoryId) {
+        return category;
+      }
+    }
+
+    return null;
+  }
 }
 
 class RepoGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
@@ -69,5 +83,11 @@ class RepoGroupCategoryFetchUseCase extends GroupCategoryFetchUseCase {
   Future<List<GroupCategory>> fetchGroupCategoryList(DateTime date) async {
     await Future.delayed(const Duration(milliseconds: 100));
     return await repository.fetchGroupCategoryList(date);
+  }
+
+  @override
+  Future<GroupCategory?> fetchGroupCategoryById(String categoryId) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    return await repository.fetchGroupCategoryById(categoryId);
   }
 }

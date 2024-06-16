@@ -52,6 +52,7 @@ class SQLiteDataBase implements DataBaseProtocol {
       version: DB_SCHEME_VERSION,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
+      onOpen: _onOpen,
     );
   }
 
@@ -139,6 +140,20 @@ class SQLiteDataBase implements DataBaseProtocol {
       queryForCreateDBSpendCategory(),
       queryForCreateSpendCategoryIndexDBSpend(),
       queryForCreateGroupCategoryIndexDBSpend(),
+    ];
+
+    for (String query in querys) {
+      await db.execute(query);
+    }
+  }
+
+  // TABLE
+  Future<void> _onOpen(Database db) async {
+    int version = await db.getVersion();
+    print("👍👍 DB ON OPEN! dbVersion: ${version}");
+
+    List<String> querys = [
+      queryForCreateGroupMonthIdIndexDBSpend(),
     ];
 
     for (String query in querys) {

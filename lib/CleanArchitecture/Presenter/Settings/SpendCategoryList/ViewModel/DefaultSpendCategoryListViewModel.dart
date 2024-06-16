@@ -42,7 +42,7 @@ class DefaultSpendCategoryListViewModel extends SpendCategoryListViewModel {
   List<SpendCategoryListItem> convertToItem(
       List<SpendCategory> spendCategoryList) {
     return spendCategoryList
-        .map((e) => SpendCategoryListItem(e.name, e.identity, "수정하기"))
+        .map((e) => SpendCategoryListItem("# ${e.name}", e.identity, "수정하기"))
         .toList();
   }
 

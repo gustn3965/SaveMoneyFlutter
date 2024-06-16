@@ -39,6 +39,14 @@ extension SQLiteDataBaseTable on SQLiteDataBase {
     return sql;
   }
 
+  String queryForCreateGroupMonthIdIndexDBSpend() {
+    String sql = '''
+            CREATE INDEX IF NOT EXISTS idx_groupMonthId
+        ON DBSpend (groupMonthId)
+  ''';
+    return sql;
+  }
+
   String queryForCreateSpendCategoryIndexDBSpend() {
     String sql = '''
             CREATE INDEX IF NOT EXISTS idx_spendCategoryId

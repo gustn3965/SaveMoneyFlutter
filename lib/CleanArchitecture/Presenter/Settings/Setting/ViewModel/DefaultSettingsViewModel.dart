@@ -21,6 +21,7 @@ class DefaultSettingsViewModel extends SettingsViewModel {
 
     list = [
       SettingsViewModelListItem("Dev- 로그인화면"),
+      SettingsViewModelListItem("소비 그룹 목록"),
       SettingsViewModelListItem("소비 카테고리 목록"),
       SettingsViewModelListItem("Dev - AppStatus"),
     ];
@@ -32,6 +33,8 @@ class DefaultSettingsViewModel extends SettingsViewModel {
   void didClickCell(int index) {
     if (index == 0) {
       action.clickToMoveLogin();
+    } else if (index == 1) {
+      action.clickToMoveGroupCategorys();
     } else {
       action.clickToMoveSpendCategorys();
     }

@@ -152,6 +152,17 @@ class Repository {
     }).firstOrNull;
   }
 
+  Future<GroupCategory?> fetchGroupCategoryById(String categoryId) async {
+    List<DBGroupCategory> groupCategories = await databaseController.fetch(
+        DBGroupCategory.staticClassName(),
+        where: "id = ? ",
+        args: [categoryId]);
+
+    return groupCategories.map((category) {
+      return GroupCategory(name: category.name, identity: category.id);
+    }).firstOrNull;
+  }
+
   Future<List<GroupCategory>> fetchGroupCategoryList(DateTime date) async {
     String sql = '''
     SELECT DISTINCT groupCategoryId
@@ -447,6 +458,48 @@ class Repository {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<void> updateGroupCategory(GroupCategory groupCategory) async {
+    List<DBGroupCategory> dbGroupCategorys = await databaseController.fetch(
+        DBGroupCategory.staticClassName(),
+        where: "id = ? ",
+        args: [groupCategory.identity]);
+    if (dbGroupCategorys.firstOrNull != null) {
+      DBGroupCategory dbGroupCategory = dbGroupCategorys.first;
+      dbGroupCategory.name = groupCategory.name;
+
+      await databaseController.update(dbGroupCategory);
+    }
+  }
+
+  Future<void> deleteGroupCategory(GroupCategory groupCategory) async {
+    List<DBGroupMonth> dbGroupMonths = await databaseController.fetch(
+        DBGroupMonth.staticClassName(),
+        where: "groupCategoryId = ? ",
+        args: [groupCategory.identity]);
+
+    for (DBGroupMonth dbGroupMonth in dbGroupMonths) {
+      List<DBSpend> dbSpendList = await databaseController.fetch(
+          DBSpend.staticClassName(),
+          where: "groupMonthId = ? ",
+          args: [dbGroupMonth.id]);
+
+      for (DBSpend dbSpend in dbSpendList) {
+        await databaseController.delete(dbSpend);
+      }
+
+      await databaseController.delete(dbGroupMonth);
+    }
+
+    List<DBGroupCategory> dbGroupCategorys = await databaseController.fetch(
+        DBGroupCategory.staticClassName(),
+        where: "id = ? ",
+        args: [groupCategory.identity]);
+    if (dbGroupCategorys.firstOrNull != null) {
+      DBGroupCategory dbGroupCategory = dbGroupCategorys.first;
+      await databaseController.delete(dbGroupCategory);
     }
   }
   // ------------------------------------------------------------
