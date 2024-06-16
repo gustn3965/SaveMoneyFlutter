@@ -17,21 +17,12 @@ class ChartCoordinator extends Coordinator {
     Widget groupMonthChartWidget = makeGroupMonthChartWidget();
     Widget spendCategoryChartWidget = makeSpendCategoryChartWidget();
     Widget emptyBottomWidget = const SizedBox(height: 100);
+    routeName = "chartTab";
     currentWidget = ChartWidget(widgets: [
       groupMonthChartWidget,
       spendCategoryChartWidget,
       emptyBottomWidget,
     ]);
-  }
-
-  @override
-  void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        builder: (context) => currentWidget,
-      ),
-    );
   }
 
   Widget makeGroupMonthChartWidget() {

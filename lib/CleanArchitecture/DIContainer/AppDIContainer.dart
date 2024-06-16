@@ -1,4 +1,5 @@
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/EditSpendCategoryDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
@@ -36,24 +37,27 @@ class AppDIContainer {
 
   late Repository repository = Repository(SQLiteDataBase(), null);
 
-  late LoginDIContainer login = LoginDIContainer(this.appStatus);
+  late LoginDIContainer login = LoginDIContainer(appStatus);
 
-  late MainTabDIContainer mainTab = MainTabDIContainer(this.appStatus);
+  late MainTabDIContainer mainTab = MainTabDIContainer(appStatus);
 
-  late HomeDIContainer home = HomeDIContainer(this.appStatus);
+  late HomeDIContainer home = HomeDIContainer(appStatus);
 
-  late AddSpendDIContainer addSpend = AddSpendDIContainer(this.appStatus);
+  late AddSpendDIContainer addSpend = AddSpendDIContainer(appStatus);
 
-  late EditSpendDIContainer editSpend = EditSpendDIContainer(this.appStatus);
+  late EditSpendDIContainer editSpend = EditSpendDIContainer(appStatus);
 
-  late AddGroupDIContainer addGroup = AddGroupDIContainer(this.appStatus);
+  late AddGroupDIContainer addGroup = AddGroupDIContainer(appStatus);
 
-  late SettingsDIContainer settings = SettingsDIContainer(this.appStatus);
+  late SettingsDIContainer settings = SettingsDIContainer(appStatus);
 
-  late ChartDIContainer chart = ChartDIContainer(this.appStatus);
+  late ChartDIContainer chart = ChartDIContainer(appStatus);
 
   late AddSpendCategoryDIContainer addSpendCategory =
-      AddSpendCategoryDIContainer(this.appStatus);
+      AddSpendCategoryDIContainer(appStatus);
+
+  late EditSpendCategoryDIContainer editSpendCategory =
+      EditSpendCategoryDIContainer(appStatus);
 
   void changeAppStatus() {
     login.appStatus = appStatus;
@@ -65,5 +69,6 @@ class AppDIContainer {
     settings.appStatus = appStatus;
     chart.appStatus = appStatus;
     addSpendCategory.appStatus = appStatus;
+    editSpendCategory.appStatus = appStatus;
   }
 }

@@ -8,6 +8,8 @@ import 'MockDataSet.dart';
 
 abstract class SpendCategoryFetchUseCase {
   Future<List<SpendCategory>> fetchSpendCategoryList();
+  Future<SpendCategory?> fetchSpendCategoryById(
+      {required String spendCategoryId});
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
       {required List<String> groupCategoryIds, required bool exceptNoSpend});
 }
@@ -18,6 +20,18 @@ class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
     await Future.delayed(const Duration(milliseconds: 100));
 
     return mockSpendCategoryList;
+  }
+
+  @override
+  Future<SpendCategory?> fetchSpendCategoryById(
+      {required String spendCategoryId}) async {
+    for (SpendCategory spendCategory in mockSpendCategoryList) {
+      if (spendCategory.identity == spendCategoryId) {
+        return spendCategory;
+      }
+    }
+
+    return null;
   }
 
   @override
@@ -50,6 +64,13 @@ class RepoSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
   @override
   Future<List<SpendCategory>> fetchSpendCategoryList() async {
     return await repository.fetchSpendCategoryList();
+  }
+
+  @override
+  Future<SpendCategory?> fetchSpendCategoryById(
+      {required String spendCategoryId}) async {
+    return await repository.fetchSpendCategoryById(
+        spendCategoryId: spendCategoryId);
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
-import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/SpendCategoryListCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryListCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
 import 'package:save_money_flutter/main.dart';
 
@@ -18,16 +18,6 @@ class SettingsCoordinator extends Coordinator {
       : super(superCoordinator, null) {
     routeName = "Settings";
     currentWidget = makeSettingWidget();
-  }
-
-  @override
-  void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        builder: (context) => currentWidget,
-      ),
-    );
   }
 
   @override

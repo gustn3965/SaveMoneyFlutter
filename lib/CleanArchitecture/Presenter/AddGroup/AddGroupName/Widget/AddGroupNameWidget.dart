@@ -19,8 +19,8 @@ class AddGroupNameWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          body: WillPopScope(
-              onWillPop: () async => false,
+          body: PopScope(
+              canPop: false,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),

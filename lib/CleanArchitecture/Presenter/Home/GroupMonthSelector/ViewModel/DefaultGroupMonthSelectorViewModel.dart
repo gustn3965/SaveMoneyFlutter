@@ -35,7 +35,10 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   @override
   void didSelectGroupMonth(GroupMonth selectedGroupMonth) {
     if (selectedGroupMonths.contains(selectedGroupMonth)) {
-      selectedGroupMonths.remove(selectedGroupMonth);
+      if (selectedGroupMonths.length > 1) {
+        // 최소한개는 선택되있게하려고. (빈페이지랑 높이가 계속 달라져서 불편함)
+        selectedGroupMonths.remove(selectedGroupMonth);
+      }
     } else {
       selectedGroupMonths.add(selectedGroupMonth);
     }

@@ -16,7 +16,6 @@ class AddSpendCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return StreamBuilder<AddSpendCategoryViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {

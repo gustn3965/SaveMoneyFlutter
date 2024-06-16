@@ -6,6 +6,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoord
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SettingsCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
+import '../../AppColor/AppColors.dart';
 import 'AddGroup/AddGroupCoordinator.dart';
 
 class NavigationService {
@@ -27,12 +28,11 @@ abstract class Coordinator {
   // start로 시작하는 메소드는 currentWidget만 사용한다.
   void start() {
     NavigationService.navigatorKey.currentState!.push(MaterialPageRoute(
-      settings: RouteSettings(
-        name: routeName,
-        arguments: this, // Coordinator전달
-      ),
-      builder: (context) => currentWidget,
-    ));
+        settings: RouteSettings(
+          name: routeName,
+          arguments: this, // Coordinator전달
+        ),
+        builder: (context) => currentWidget));
   }
 
   // push가아닌 Navigation을 바꾼다.
@@ -62,6 +62,7 @@ abstract class Coordinator {
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context) {
         return Container(
+            color: AppColors.whiteColor,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.9,
             child: currentWidget);

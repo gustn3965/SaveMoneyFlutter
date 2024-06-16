@@ -21,11 +21,6 @@ class AddGroupCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-  }
-
-  @override
   void updateCurrentWidget() {
     groupListviewModel?.fetchGroupCategoryList();
   }

@@ -15,11 +15,6 @@ class EditSpendCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-  }
-
-  @override
   void updateCurrentWidget() {}
 
   Widget makeEditSpendWidget(String spendId) {

@@ -49,16 +49,6 @@ class HomeCoordinator extends Coordinator {
     );
   }
 
-  @override
-  void start() {
-    NavigationService.navigatorKey.currentState!.push(
-      MaterialPageRoute(
-        settings: RouteSettings(name: routeName),
-        builder: (context) => currentWidget,
-      ),
-    );
-  }
-
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   @override
   void updateCurrentWidget() {

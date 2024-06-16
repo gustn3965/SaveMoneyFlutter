@@ -19,11 +19,6 @@ class AddGroupNameCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-  }
-
-  @override
   void updateCurrentWidget() {
     superCoordinator?.updateCurrentWidget();
   }

@@ -16,11 +16,6 @@ class LoginCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-  }
-
-  @override
   void updateCurrentWidget() {
     // TODO: implement updateCurrentWidget
   }

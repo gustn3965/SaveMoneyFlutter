@@ -38,12 +38,6 @@ class MainTabCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-    // TODO: implement start
-  }
-
-  @override
   void updateCurrentWidget() {
     homeCoordinator.updateCurrentWidget();
     chartCoordinator.updateCurrentWidget();

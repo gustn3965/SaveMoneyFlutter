@@ -39,106 +39,68 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
       builder: (context, snapshot) {
         return Scaffold(
           backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: Center(
-              child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 80,
-                          ),
-                          Container(
-                            width: 200,
-                            height: 80,
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: groupMoneyTitleController,
-                              keyboardType: TextInputType.number,
-                              autofocus: true,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9]'))
-                              ],
-                              style: TextStyle(fontSize: 20),
-                              decoration: const InputDecoration(
-                                // isCollapsed: true,
-                                border: UnderlineInputBorder(),
-                                labelText: '금액을 입력해주세요.',
-                                floatingLabelAlignment:
-                                    FloatingLabelAlignment.center,
-                              ),
-                              onChanged: (text) {
-                                if (text == '') {
-                                  text = "0";
-                                }
-                                text =
-                                    '${_formatNumber(text.replaceAll(',', ''))}';
-                                groupMoneyTitleController.text = text;
-                                int date = indexMonthDateIdFromDateTime(
-                                    widget.viewModel.date);
-                                int expectedMoney =
-                                    int.parse(text.replaceAll(',', ''));
-                                int everyExpectedMoney = (expectedMoney /
-                                        daysInMonthFromSince1970(date))
-                                    .toInt();
-                                widget.viewModel
-                                    .didChangePlannedBudget(expectedMoney);
-                                widget.viewModel.didChangeEveryExpectedMoney(
-                                    everyExpectedMoney);
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 50),
-                          const Text(
-                            "한달에 소비예정 금액을 정해주세요.",
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          body: PopScope(
+              canPop: false,
+              child: SingleChildScrollView(
+                child: Center(
+                  child: GestureDetector(
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        child: Container(
+                          color: Colors.white,
+                          child: Column(
                             children: [
-                              cancelButton(),
-                              saveButton(),
-                            ],
-                          ),
-                          SizedBox(height: 30),
-                          const Text(
-                            "소비를 아껴서 매일",
-                            style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                NumberFormat("#,###").format(
-                                    widget.viewModel.everyExpectedMoney),
-                                style: const TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.deepOrangeAccent),
-                                textAlign: TextAlign.center,
+                              const SizedBox(
+                                height: 80,
                               ),
-                              SizedBox(width: 5),
+                              Container(
+                                width: 200,
+                                height: 80,
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  controller: groupMoneyTitleController,
+                                  keyboardType: TextInputType.number,
+                                  autofocus: true,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9]'))
+                                  ],
+                                  style: TextStyle(fontSize: 20),
+                                  decoration: const InputDecoration(
+                                    // isCollapsed: true,
+                                    border: UnderlineInputBorder(),
+                                    labelText: '금액을 입력해주세요.',
+                                    floatingLabelAlignment:
+                                        FloatingLabelAlignment.center,
+                                  ),
+                                  onChanged: (text) {
+                                    if (text == '') {
+                                      text = "0";
+                                    }
+                                    text =
+                                        '${_formatNumber(text.replaceAll(',', ''))}';
+                                    groupMoneyTitleController.text = text;
+                                    int date = indexMonthDateIdFromDateTime(
+                                        widget.viewModel.date);
+                                    int expectedMoney =
+                                        int.parse(text.replaceAll(',', ''));
+                                    int everyExpectedMoney = (expectedMoney /
+                                            daysInMonthFromSince1970(date))
+                                        .toInt();
+                                    widget.viewModel
+                                        .didChangePlannedBudget(expectedMoney);
+                                    widget.viewModel
+                                        .didChangeEveryExpectedMoney(
+                                            everyExpectedMoney);
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 50),
                               const Text(
-                                "원을 모아봐요.💪🏻",
+                                "한달에 소비예정 금액을 정해주세요.",
                                 style: TextStyle(
                                   fontStyle: FontStyle.normal,
                                   fontSize: 20,
@@ -146,14 +108,56 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
+                              SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  cancelButton(),
+                                  saveButton(),
+                                ],
+                              ),
+                              SizedBox(height: 30),
+                              const Text(
+                                "소비를 아껴서 매일",
+                                style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    NumberFormat("#,###").format(
+                                        widget.viewModel.everyExpectedMoney),
+                                    style: const TextStyle(
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.deepOrangeAccent),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(width: 5),
+                                  const Text(
+                                    "원을 모아봐요.💪🏻",
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                  )),
-            ),
-          ),
+                        ),
+                      )),
+                ),
+              )),
         );
       },
     );

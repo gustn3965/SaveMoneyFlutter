@@ -5,8 +5,9 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpendCategory/
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
 
-import '../../../../main.dart';
-import '../../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewModel.dart';
+import '../../../main.dart';
+import '../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewModel.dart';
+import 'EditSpendCategoryCoordinator.dart';
 
 class SpendCategoryListCoordinator extends Coordinator {
   SpendCategoryListViewModel? spendCategoryListViewModel;
@@ -20,25 +21,18 @@ class SpendCategoryListCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    Navigator.push(
-      NavigationService.currentContext!,
-      MaterialPageRoute(
-        builder: (context) => currentWidget,
-      ),
-    );
-  }
-
-  @override
   void updateCurrentWidget() {
     spendCategoryListViewModel?.reloadData();
   }
 
   Widget makeSpendCategoryListWidget() {
     void showEditSpendCategory(String spendCategoryId) {
-      print("edit.... 미구현 ");
-
-      // TODO: implement updateCurrentWidget
+      EditSpendCategoryCoordinator editSpendCategoryCoordinator =
+          EditSpendCategoryCoordinator(
+              superCoordinator: this,
+              parentTabCoordinator: this,
+              spendCategoryId: spendCategoryId);
+      editSpendCategoryCoordinator.start();
     }
 
     void showAddSpendCategory() {

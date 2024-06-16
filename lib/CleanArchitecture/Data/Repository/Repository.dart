@@ -36,6 +36,24 @@ class Repository {
     return spendCategories;
   }
 
+  Future<SpendCategory?> fetchSpendCategoryById(
+      {required String spendCategoryId}) async {
+    List<DBSpendCategory> spendCategoryList = await databaseController.fetch(
+        DBSpendCategory.staticClassName(),
+        where: "id = ? ",
+        args: [spendCategoryId]);
+
+    if (spendCategoryList.firstOrNull != null) {
+      DBSpendCategory spendCategory = spendCategoryList.first;
+      return SpendCategory(
+          name: spendCategory.name,
+          identity: spendCategory.id,
+          totalSpendindCount: spendCategory.countOfSpending);
+    }
+
+    return null;
+  }
+
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
       List<String> groupCategoryIds, bool exceptNoSpend) async {
     String groupCategoryIdsPlaceholders =
@@ -74,6 +92,44 @@ class Repository {
     }).toList();
 
     return list;
+  }
+
+  Future<void> updateSpendCategory(SpendCategory spendCategory) async {
+    String spendCategoryId = spendCategory.identity;
+    List<DBSpendCategory> spendCategoryList = await databaseController.fetch(
+        DBSpendCategory.staticClassName(),
+        where: "id = ? ",
+        args: [spendCategoryId]);
+
+    if (spendCategoryList.firstOrNull != null) {
+      DBSpendCategory dbspendCategory = spendCategoryList.first;
+      dbspendCategory.name = spendCategory.name;
+      await databaseController.update(dbspendCategory);
+    }
+  }
+
+  Future<void> deleteSpendCategory(SpendCategory spendCategory) async {
+    String spendCateogryId = spendCategory.identity;
+    List<DBSpend> spendList = await databaseController.fetch(
+        DBSpend.staticClassName(),
+        where: "spendCategoryId = ? ",
+        args: [spendCateogryId]);
+
+    // 관련 db spend 삭제.
+    for (DBSpend spend in spendList) {
+      await databaseController.delete(spend);
+    }
+
+    List<DBSpendCategory> spendCategoryList = await databaseController.fetch(
+        DBSpendCategory.staticClassName(),
+        where: "id = ? ",
+        args: [spendCateogryId]);
+
+    // db spendcategory 삭제.
+    if (spendCategoryList.firstOrNull != null) {
+      DBSpendCategory dbspendCategory = spendCategoryList.first;
+      await databaseController.delete(dbspendCategory);
+    }
   }
 
   Future<List<GroupCategory>> fetchAllGroupCategoryList() async {
@@ -240,6 +296,18 @@ class Repository {
             "spendCategoryId = ? AND groupCategoryId IN ($groupCategoryIdsPlaceholders) order by date DESC",
         args: args);
     return await makeSpendFromDB(spendList);
+  }
+
+  @override
+  Future<List<Spend>> fetchSpendListBySpendCategoryId(
+      {required String spendCategoryId, required bool descending}) async {
+    String oderBy = descending ? "date DESC" : "date";
+    List<DBSpend> dbSpendList = await databaseController.fetch(
+        DBSpend.staticClassName(),
+        where: "spendCategoryId = ? ",
+        args: [spendCategoryId],
+        orderBy: oderBy);
+    return makeSpendFromDB(dbSpendList);
   }
 
   Future<bool> addSpend(Spend spend) async {

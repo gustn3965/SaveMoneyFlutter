@@ -64,18 +64,6 @@ class GroupMonthChartWidget extends StatelessWidget {
                       height: 0,
                     ),
                   )),
-              Padding(
-                  padding: EdgeInsets.only(right: 40), // 왼쪽에 10의 패딩 추가
-                  child: Text(
-                    '',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                      height: 0,
-                    ),
-                  )),
             ],
           ),
           SizedBox(height: 10),

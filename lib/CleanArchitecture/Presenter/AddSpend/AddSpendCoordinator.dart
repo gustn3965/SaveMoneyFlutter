@@ -18,11 +18,6 @@ class AddSpendCoordinator extends Coordinator {
   }
 
   @override
-  void start() {
-    super.start();
-  }
-
-  @override
   void updateCurrentWidget() {
     addSpendViewModel?.fetchSpendCategoryList();
   }
