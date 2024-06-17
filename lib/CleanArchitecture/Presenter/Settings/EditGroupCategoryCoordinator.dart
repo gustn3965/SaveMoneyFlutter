@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupMonthMoneyCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditSpendCategory/ViewModel/EditSpendCategoryViewModel.dart';
 
 import '../../../main.dart';
@@ -19,6 +20,7 @@ class EditGroupCategoryCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    editGroupCategoryViewModel?.reloadData();
     // TODO: implement updateCurrentWidget
   }
 
@@ -43,11 +45,17 @@ class EditGroupCategoryCoordinator extends Coordinator {
           editGroupCategoryViewModel!.doDeleteSpendCategory);
     }
 
+    void showEditGroupMonthMoney(String groupMonthId) {
+      EditGroupMonthMoneyCoordinator editGroupMonthMoneyCoordinator = EditGroupMonthMoneyCoordinator(superCoordinator: this, parentTabCoordinator: this, groupMonthId: groupMonthId);
+      editGroupMonthMoneyCoordinator.start();
+    }
+
     EditGroupCategoryActions actions = EditGroupCategoryActions(
         doneSaveEdit: doneSaveEdit,
         doneDeleteGroupCategory: doneDeleteGroupCategory,
         showAlertWarningEdit: showAlertWarningEdit,
-        showAlertWarningDelete: showAlertWarningDelete);
+        showAlertWarningDelete: showAlertWarningDelete,
+    showEditGroupMonthMoney: showEditGroupMonthMoney);
 
     editGroupCategoryViewModel = appDIContainer.settings
         .makeEditGroupCategoryViewModel(actions, groupCategoryId);

@@ -3,12 +3,14 @@ class EditGroupCategoryActions {
   void Function() doneDeleteGroupCategory;
   void Function() showAlertWarningEdit;
   void Function() showAlertWarningDelete;
+  void Function(String groupMonthid) showEditGroupMonthMoney;
 
   EditGroupCategoryActions(
       {required this.doneSaveEdit,
       required this.doneDeleteGroupCategory,
       required this.showAlertWarningEdit,
-      required this.showAlertWarningDelete});
+      required this.showAlertWarningDelete,
+      required this.showEditGroupMonthMoney});
 }
 
 class EditGroupCategoryItem {
@@ -46,6 +48,8 @@ abstract class EditGroupCategoryViewModel {
   void didClickItemEditGroupMoney(EditGroupCategoryItem item);
   void doUpdateGroupCategory();
   void doDeleteSpendCategory();
+
+  void reloadData();
   // Observing
   Stream<EditGroupCategoryViewModel> get dataStream;
   void dispose();

@@ -59,7 +59,7 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
 
   @override
   void didClickItemEditGroupMoney(EditGroupCategoryItem item) {
-
+actions.showEditGroupMonthMoney(item.groupMonthId);
   }
 
   @override
@@ -78,6 +78,11 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
   @override
   void dispose() {
     _dataController.close();
+  }
+
+  @override
+  void reloadData() {
+    fetchGroupCategory(groupCategoryId);
   }
 
   void fetchGroupCategory(String groupCategoryId) async {

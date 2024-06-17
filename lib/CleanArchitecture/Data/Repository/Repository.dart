@@ -502,6 +502,25 @@ class Repository {
       await databaseController.delete(dbGroupCategory);
     }
   }
+
+  Future<void> updateGroupMonth(GroupMonth groupMonth) async {
+
+    List<DBGroupMonth> dbGroupMonths = await databaseController.fetch(DBGroupMonth.staticClassName(), where: "id = ? ", args: [groupMonth.identity]);
+    if (dbGroupMonths.firstOrNull != null) {
+      DBGroupMonth dbGroupMonth = dbGroupMonths.first;
+      dbGroupMonth.plannedBudget = groupMonth.plannedBudget;
+
+      await databaseController.update(dbGroupMonth);
+    }
+  }
+  Future<void> deleteGroupMonth(GroupMonth groupMonth) async {
+    List<DBGroupMonth> dbGroupMonths = await databaseController.fetch(DBGroupMonth.staticClassName(), where: "id = ? ", args: [groupMonth.identity]);
+    if (dbGroupMonths.firstOrNull != null) {
+      DBGroupMonth dbGroupMonth = dbGroupMonths.first;
+
+      await databaseController.delete(dbGroupMonth);
+    }
+  }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
   // ------------------------------------------------------------

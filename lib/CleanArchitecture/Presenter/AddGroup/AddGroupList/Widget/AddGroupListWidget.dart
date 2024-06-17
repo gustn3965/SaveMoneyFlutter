@@ -14,7 +14,7 @@ class AddGroupListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return PopScope(
-        canPop: false,
+        canPop: true,
         child: StreamBuilder<AddGroupListViewModel>(
             stream: viewModel.dataStream,
             builder: (context, snapshot) {

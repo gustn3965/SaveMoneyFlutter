@@ -3,6 +3,9 @@ import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/ViewModel/DefaultEditGroupCategoryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/ViewModel/EditGroupCategoryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/Widget/EditGroupCategoryWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupMonthMoney/ViewModel/DefaultEditGroupMonthMoneyViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupMonthMoney/ViewModel/EditGroupMonthMoneyViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupMonthMoney/Widget/EditGroupMonthMoneyWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/GroupCategoryList/ViewModel/DefaultGroupCategoryListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/GroupCategoryList/ViewModel/GroupCategoryListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/GroupCategoryList/Widget/GroupCategoryListWidget.dart';
@@ -20,6 +23,7 @@ import '../Presenter/Settings/EditSpendCategory/Widget/EditSpendCategoryWidget.d
 import '../Presenter/Settings/Setting/ViewModel/DefaultSettingsViewModel.dart';
 import '../Presenter/Settings/Setting/ViewModel/SettingsViewModel.dart';
 import '../Presenter/Settings/Setting/Widget/SettingsWidget.dart';
+import '../UseCase/EditGroupMonthUseCase.dart';
 import '../UseCase/EditSpendCategoryUseCase.dart';
 import '../UseCase/GroupMonthFetchUseCase.dart';
 import '../UseCase/SpendListUseCase.dart';
@@ -157,4 +161,30 @@ class SettingsDIContainer {
       EditGroupCategoryViewModel viewModel) {
     return EditGroupCategoryWidget(viewModel);
   }
+
+  // EditGroupMonthMoney
+
+EditGroupMonthMoneyViewModel makeEditGroupMonthMoneyViewModel(EditGroupMonthMoneyAction actions, String groupMonthId) {
+  GroupMonthFetchUseCase groupMonthFetchUseCase;
+  EditGroupMonthUseCase editGroupMonthUseCase;
+
+  switch (appStatus) {
+    case AppStatus.db:
+      groupMonthFetchUseCase =
+          RepoGroupMonthFetchUseCase(appDIContainer.repository);
+      editGroupMonthUseCase =
+          RepoEditGroupMonthUseCase(appDIContainer.repository);
+      break;
+    case AppStatus.mock:
+      groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+      editGroupMonthUseCase = MockEditGroupMonthUseCase();
+      break;
+  }
+
+  return DefaultEditGroupMonthMoneyViewModel(groupMonthId, actions, groupMonthFetchUseCase, editGroupMonthUseCase);
+}
+
+EditGroupMonthMoneyWidget makeEditGroupMonthMoneyWidget(EditGroupMonthMoneyViewModel viewModel) {
+    return EditGroupMonthMoneyWidget(viewModel);
+}
 }
