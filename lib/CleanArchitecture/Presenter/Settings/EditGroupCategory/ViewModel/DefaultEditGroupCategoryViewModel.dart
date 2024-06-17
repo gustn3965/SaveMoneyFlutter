@@ -58,6 +58,11 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
   }
 
   @override
+  void didClickItemEditGroupMoney(EditGroupCategoryItem item) {
+
+  }
+
+  @override
   void doDeleteSpendCategory() async {
     await editGroupCategoryUseCase.deleteGroupCategory(groupCategory);
     actions.doneDeleteGroupCategory();
@@ -105,7 +110,9 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
             plannedbudgetString:
                 "목표금액: ${NumberFormat("#,###").format(e.plannedBudget)} 원",
             totalSpendMoney: e.totalSpendMoney(),
-            plannedbudget: e.plannedBudget))
+            plannedbudget: e.plannedBudget,
+    editMoneyButtonString: "금액 수정",
+    groupMonthId: e.identity))
         .toList();
   }
 

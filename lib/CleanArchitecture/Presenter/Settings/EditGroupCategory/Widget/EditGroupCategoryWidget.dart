@@ -203,56 +203,76 @@ class EditGroupCategoryWidget extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20, right: 10),
-                    // child: Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        SizedBox(height: 15),
-                        Text(
-                          item.groupName,
-                          style: const TextStyle(
-                            color: Color(0xFF0082FB),
-                            fontSize: 20,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            height: 1.0,
-                          ),
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Row(
+                        Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("소비된 금액: "),
+                            SizedBox(height: 15),
                             Text(
-                              item.totalSpendMoneyString,
-                              style: TextStyle(
-                                color: item.totalSpendMoney > item.plannedbudget
-                                    ? Colors.redAccent
-                                    : Colors.blueAccent,
+                              item.groupName,
+                              style: const TextStyle(
+                                color: Color(0xFF0082FB),
+                                fontSize: 20,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                height: 1.0,
                               ),
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            Row(
+                              children: [
+                                Text("소비된 금액: "),
+                                Text(
+                                  item.totalSpendMoneyString,
+                                  style: TextStyle(
+                                    color: item.totalSpendMoney > item.plannedbudget
+                                        ? Colors.redAccent
+                                        : Colors.blueAccent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (item.date.isNotEmpty) Text("날짜 : ${item.date}"),
+                            SizedBox(height: 10),
+                            Text(
+                              item.plannedbudgetString,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                height: 1.0,
+                              ),
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                            ),
+                            SizedBox(height: 15),
                           ],
                         ),
-                        if (item.date.isNotEmpty) Text("날짜 : ${item.date}"),
-                        SizedBox(height: 10),
-                        Text(
-                          item.plannedbudgetString,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            height: 1.0,
-                          ),
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
                         ),
-                        SizedBox(height: 15),
+                        FilledButton(
+                          onPressed: () {
+                            viewModel.didClickItemEditGroupMoney(item);
+                          },
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.black,
+                            backgroundColor: Color(0xFFA6BEFB),
+                            disabledBackgroundColor: Color(0xFFD5DFF9),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                            ),
+                          ),
+                          child: Text(item.editMoneyButtonString),
+                        )
                       ],
                     ),
-                    // ),
                   ),
                 ),
               ],

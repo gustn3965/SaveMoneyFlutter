@@ -18,6 +18,8 @@ class EditGroupCategoryItem {
   late String plannedbudgetString;
   late int totalSpendMoney;
   late int plannedbudget;
+  late String editMoneyButtonString;
+  late String groupMonthId;
 
   EditGroupCategoryItem(
       {required this.groupName,
@@ -25,7 +27,9 @@ class EditGroupCategoryItem {
       required this.date,
       required this.plannedbudgetString,
       required this.totalSpendMoney,
-      required this.plannedbudget});
+      required this.plannedbudget,
+      required this.editMoneyButtonString,
+      required this.groupMonthId});
 }
 
 abstract class EditGroupCategoryViewModel {
@@ -39,6 +43,7 @@ abstract class EditGroupCategoryViewModel {
   void didChangeGroupCategoryName(String categoryName);
   void didClickEditButton();
   void didClickDeleteButton();
+  void didClickItemEditGroupMoney(EditGroupCategoryItem item);
   void doUpdateGroupCategory();
   void doDeleteSpendCategory();
   // Observing
