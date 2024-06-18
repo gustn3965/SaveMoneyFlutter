@@ -29,6 +29,7 @@ class SpendCategoryListWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
+          backgroundColor: Colors.white,
           body: ListView.builder(
             itemCount: (viewModel.items.length) + 2,
             itemBuilder: (context, index) {

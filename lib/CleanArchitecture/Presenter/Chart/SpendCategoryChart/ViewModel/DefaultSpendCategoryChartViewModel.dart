@@ -86,10 +86,11 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
       List<Spend> spendList = await spendListUseCase.fetchSpendList(
           spendCategoryId: item.categoryIdentity,
           groupCategoryIds: groupCategoryIds,
-          descending: false);
+          descending: true);
 
       // 년월 key로 SpendList만들어둠.
-      Map<int, List<Spend>> groupedByYearMonth = {};
+      Map<int, List<Spend>> groupedByYearMonth = makeDefaultGroupedByYearMonth(spendList);
+
       for (var spend in spendList) {
         DateTime date = spend.date;
         DateTime monthYearDate = DateTime(date.year, date.month);
@@ -106,8 +107,8 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
       groupedByYearMonth.forEach((key, spendList) {
         int totalSpendMoney =
             spendList.fold(0, (sum, item) => sum + item.spendMoney);
-        String groupCategoryName = spendList.first.spendCategory?.name ?? "";
-        String spendCategoryId = spendList.first.spendCategory?.identity ?? "";
+        String groupCategoryName = spendList.firstOrNull?.spendCategory?.name ?? "";
+        String spendCategoryId = spendList.firstOrNull?.spendCategory?.identity ?? "";
 
         if (!map.containsKey(key)) {
           map[key] = [];
@@ -123,10 +124,45 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
       int xIndex = entry.key;
       List<SpendChartYModel> yModels = entry.value;
       return SpendChartXModel(xIndex, yModels);
-    }).toList();
+    }).toList()..sort((a, b) => b.xIndex.compareTo(a.xIndex));
 
     SpendChartModel chartModel = SpendChartModel(xModels);
     this.chartModel = chartModel;
+  }
+
+  Map<int, List<Spend>> makeDefaultGroupedByYearMonth(List<Spend> spendList) {
+    Map<int, List<Spend>> groupedByYearMonth = {};
+    // 첫월 ~ 마지막월 key를 먼저만들어둠.
+    DateTime? firstDate;
+    DateTime lastDate;
+    if (spendList.firstOrNull != null) {
+      Spend spendFirst = spendList.first;
+      DateTime date = spendFirst.date;
+      firstDate = DateTime(date.year, date.month);
+    }
+      DateTime date = DateTime.now();
+      lastDate = DateTime(date.year, date.month);
+
+    if (firstDate != null) {
+      List<DateTime> monthList = [];
+      DateTime currentMonth = firstDate;
+      if (lastDate.isBefore(firstDate)) {
+        currentMonth = lastDate;
+        lastDate = firstDate;
+      }
+
+      while (currentMonth.isBefore(lastDate) || currentMonth.isAtSameMomentAs(lastDate)) {
+        monthList.add(currentMonth);
+        currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+      }
+
+      monthList.forEach((date) {
+        int monthYearKey = date.millisecondsSinceEpoch;
+        groupedByYearMonth[monthYearKey] = [];
+      });
+    }
+
+    return groupedByYearMonth;
   }
 
   List<SpendCategoryChartSelectorItem> convertToItems(

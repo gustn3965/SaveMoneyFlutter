@@ -45,9 +45,9 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
       monthTotalSpendMoney += makeAllSpendMoney(groupMonth, []);
     }
     monthGroupWillSaveMoneyTextColor =
-        monthGroupWillSaveMoney > 0 ? Colors.blueAccent : Colors.redAccent;
+        monthGroupWillSaveMoney >= 0 ? Colors.blueAccent : Colors.redAccent;
     moneyDescription =
-        monthGroupWillSaveMoney > 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요😢";
+        monthGroupWillSaveMoney >= 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요😢";
 
     _dataController.add(this);
   }

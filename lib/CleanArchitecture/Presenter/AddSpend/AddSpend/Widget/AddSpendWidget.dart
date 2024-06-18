@@ -256,7 +256,7 @@ class AddSpendWidget extends StatelessWidget {
         height: 300,
         // color: AppColors.lightGrayColor,
         child: GridView.builder(
-            padding: const EdgeInsets.all(0.0),
+            padding: const EdgeInsets.only(bottom: 70.0),
             shrinkWrap: true,
             physics: AlwaysScrollableScrollPhysics(),
             itemCount: viewModel.spendCategoryList.length + 1,

@@ -29,6 +29,7 @@ class GroupCategoryListWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
+            backgroundColor: Colors.white,
           body: ListView.builder(
             itemCount: (viewModel.items.length) + 1,
             itemBuilder: (context, index) {

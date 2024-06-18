@@ -41,6 +41,7 @@ class AddGroupListWidget extends StatelessWidget {
                         height: 0,
                       ),
                     )),
+                backgroundColor: Colors.white,
                 body: ListView.builder(
                   itemCount: (viewModel.groupCategoryItems.length) + 1,
                   itemBuilder: (context, index) {

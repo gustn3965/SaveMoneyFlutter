@@ -300,12 +300,14 @@ class Repository {
         groupCategoryIds.map((id) => '?').join(',');
 
     List<Object> args = [spendCategoryId];
+    String desc = descending ? "DESC" : "";
     args.addAll(groupCategoryIds);
     List<DBSpend> spendList = await databaseController.fetch(
         DBSpend.staticClassName(),
         where:
-            "spendCategoryId = ? AND groupCategoryId IN ($groupCategoryIdsPlaceholders) order by date DESC",
-        args: args);
+            "spendCategoryId = ? AND groupCategoryId IN ($groupCategoryIdsPlaceholders)",
+        args: args,
+    orderBy: "date ${desc}");
     return await makeSpendFromDB(spendList);
   }
 
