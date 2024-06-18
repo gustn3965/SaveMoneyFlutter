@@ -49,6 +49,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       chipArray.add(_spendGroupChip(groupObject, viewModel));
     }
     chipArray.add(_addSpendGroupChip(viewModel));
+    chipArray.add(_addEnableMultiSelectGroupChip(viewModel));
     return chipArray;
   }
 
@@ -90,6 +91,27 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         side: BorderSide(width: 1),
         onSelected: (bool value) {
           viewModel.didSelectAddGroupMonth();
+        },
+      ),
+    );
+  }
+
+  Widget _addEnableMultiSelectGroupChip(GroupMonthSelectorViewModel viewModel) {
+    return Material(
+      color: Colors.transparent,
+      child: FilterChip(
+        showCheckmark: false,
+        selected: viewModel.enableMultiSelectChip,
+        backgroundColor: Colors.white,
+        selectedColor: AppColors.mainColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        label: Text(viewModel.enableMultiSelectChipName),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        side: BorderSide(width: 1),
+        onSelected: (bool value) {
+          viewModel.didSelectEnableMultiSelectChip(value);
         },
       ),
     );

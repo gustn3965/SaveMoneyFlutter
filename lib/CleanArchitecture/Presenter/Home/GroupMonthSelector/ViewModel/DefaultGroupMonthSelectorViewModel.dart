@@ -14,6 +14,11 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   @override
   late String addGroupButtonName;
 
+  @override
+  late String enableMultiSelectChipName;
+  @override
+  late bool enableMultiSelectChip;
+
   final GroupMonthFetchUseCase groupMonthFetchUseCase;
   late DateTime fetchedDate;
 
@@ -28,6 +33,8 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
     groupMonthList = [];
     selectedGroupMonths = [];
     addGroupButtonName = "+ 지출 그룹 추가";
+    enableMultiSelectChipName = "✅복수 선택";
+    enableMultiSelectChip = false;
 
     fetchGroupMonthList(DateTime.now());
   }
@@ -40,7 +47,11 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
         selectedGroupMonths.remove(selectedGroupMonth);
       }
     } else {
-      selectedGroupMonths.add(selectedGroupMonth);
+      if (enableMultiSelectChip) {
+        selectedGroupMonths.add(selectedGroupMonth);
+      } else {
+        selectedGroupMonths = [selectedGroupMonth];
+      }
     }
 
     _dataController.add(this);
@@ -54,6 +65,19 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
   @override
   void didSelectAddGroupMonth() {
     groupMonthSelectorActions.showAddGroup();
+  }
+
+  @override
+  void didSelectEnableMultiSelectChip(bool enableMultiSelect) {
+    enableMultiSelectChip = enableMultiSelect;
+
+    selectedGroupMonths = [selectedGroupMonths.last];
+    List<String> groupMonthsIds = selectedGroupMonths.map((group) {
+      return group.identity;
+    }).toList();
+    groupMonthSelectorActions.updateSelectedGroupIds(groupMonthsIds);
+
+    _dataController.add(this);
   }
 
   // 기존에 선택된 그룹들기반으로, 카테고리가 맞는 새로운 selectedGroupMonths를 만들어줌.

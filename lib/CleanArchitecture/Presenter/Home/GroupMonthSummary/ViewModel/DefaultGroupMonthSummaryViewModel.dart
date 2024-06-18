@@ -32,8 +32,12 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
         await groupMonthFetchUseCase.fetchGroupMonthByGroupIds(groupsIds);
 
     resetProperties();
-    for (GroupMonth groupMonth in groupMonths) {
-      monthGroupTitle = '${monthGroupTitle}${groupMonth.groupCategory.name}, ';
+    for (int index = 0; index < groupMonths.length; index ++) {
+      GroupMonth groupMonth = groupMonths[index];
+      monthGroupTitle = '${monthGroupTitle}${groupMonth.groupCategory.name}';
+      if (index + 1 < groupMonths.length) {
+        monthGroupTitle = '${monthGroupTitle}, ';
+      }
       monthGroupWillSaveMoney += makeWillSaveMoney(groupMonth);
       monthGroupPlannedBudget += groupMonth?.plannedBudget ?? 0;
       monthGroupPlannedBudgetByEveryday +=
@@ -43,7 +47,7 @@ class DefaultGroupMonthSummaryViewModel extends GroupMonthSummaryViewModel {
     monthGroupWillSaveMoneyTextColor =
         monthGroupWillSaveMoney > 0 ? Colors.blueAccent : Colors.redAccent;
     moneyDescription =
-        monthGroupWillSaveMoney > 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요ㅠ";
+        monthGroupWillSaveMoney > 0 ? "돈을 모을 예정이에요.👍" : "돈이 나갈 예정이에요😢";
 
     _dataController.add(this);
   }
