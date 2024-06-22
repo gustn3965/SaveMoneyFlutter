@@ -24,7 +24,7 @@ class ChartDIContainer {
     GroupCategoryFetchUseCase groupCategoryFetchUseCase;
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupCategoryFetchUseCase =
             RepoGroupCategoryFetchUseCase(appDIContainer.repository);
         groupMonthFetchUseCase =
@@ -49,7 +49,7 @@ class ChartDIContainer {
     SpendCategoryFetchUseCase spendCategoryFetchUseCase;
     SpendListUseCase spendListUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendCategoryFetchUseCase =
             RepoSpendCategoryFetchUseCase(appDIContainer.repository);
         spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);

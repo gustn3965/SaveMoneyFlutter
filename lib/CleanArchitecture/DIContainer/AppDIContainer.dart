@@ -14,7 +14,8 @@ import 'AddSpendDIContainer.dart';
 
 enum AppStatus {
   mock,
-  db,
+  cbt,
+  real,
 }
 
 // TODO: - appStatus에 따라 다르게 주입해주기 ( Widget, ViewModel, UseCase )
@@ -27,9 +28,11 @@ class AppDIContainer {
 
     switch (appStatus) {
       case AppStatus.mock:
-        // MockDataSet().setupMockGroupMonth();
+        MockDataSet().setupMockGroupMonth();
         break;
-      case AppStatus.db:
+      case AppStatus.cbt:
+        break;
+      case AppStatus.real:
         break;
     }
   }

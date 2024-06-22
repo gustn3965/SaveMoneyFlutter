@@ -5,7 +5,9 @@ import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.
 class SettingsViewModelListItem {
   String name;
 
-  SettingsViewModelListItem(this.name);
+  void Function() doAction;
+
+  SettingsViewModelListItem({required this.name, required this.doAction});
 }
 
 class SettingsAction {
@@ -33,5 +35,4 @@ abstract class SettingsViewModel {
   void dispose();
 
   void didClickCell(int index);
-  void didChangeAppStatus(AppStatus appStatus);
 }

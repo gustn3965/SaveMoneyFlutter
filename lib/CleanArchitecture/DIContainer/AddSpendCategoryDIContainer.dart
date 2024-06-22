@@ -15,7 +15,7 @@ class AddSpendCategoryDIContainer {
       AddSpendCategoryActions action) {
     AddSpendCategoryUseCase addSpendCategoryUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         addSpendCategoryUseCase =
             RepoAddSpendCategoryUseCase(appDIContainer.repository);
         break;

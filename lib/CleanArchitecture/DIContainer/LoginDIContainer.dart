@@ -34,7 +34,7 @@ class LoginDIContainer {
     AddGroupMonthUseCase addGroupMonthUseCase;
     AddGroupCategoryUseCase addGroupCategoryUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         addGroupMonthUseCase =
             RepoAddGroupMonthUseCase(appDIContainer.repository);
         addGroupCategoryUseCase =

@@ -26,7 +26,7 @@ class AddGroupDIContainer {
     GroupCategoryFetchUseCase groupCategoryFetchUseCase;
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupCategoryFetchUseCase =
             RepoGroupCategoryFetchUseCase(appDIContainer.repository);
         groupMonthFetchUseCase =
@@ -52,7 +52,7 @@ class AddGroupDIContainer {
       DateTime date, AddGroupNameActions action) {
     GroupCategoryFetchUseCase groupCategoryFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupCategoryFetchUseCase =
             RepoGroupCategoryFetchUseCase(appDIContainer.repository);
         break;
@@ -76,7 +76,7 @@ class AddGroupDIContainer {
     AddGroupMonthUseCase addGroupMonthUseCase;
     AddGroupCategoryUseCase addGroupCategoryUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         addGroupMonthUseCase =
             RepoAddGroupMonthUseCase(appDIContainer.repository);
         addGroupCategoryUseCase =

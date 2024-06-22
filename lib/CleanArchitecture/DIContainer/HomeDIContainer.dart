@@ -33,7 +33,7 @@ class HomeDIContainer {
   GroupMonthSummaryViewModel makeMainSummaryViewModel() {
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupMonthFetchUseCase =
             RepoGroupMonthFetchUseCase(appDIContainer.repository);
         break;
@@ -56,7 +56,7 @@ class HomeDIContainer {
       GroupMonthSelectorActions action) {
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupMonthFetchUseCase =
             RepoGroupMonthFetchUseCase(appDIContainer.repository);
         break;
@@ -80,7 +80,7 @@ class HomeDIContainer {
       SpendCategorySelectorActions action) {
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupMonthFetchUseCase =
             RepoGroupMonthFetchUseCase(appDIContainer.repository);
         break;
@@ -103,7 +103,7 @@ class HomeDIContainer {
       GroupMonthCalendarActions action) {
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupMonthFetchUseCase =
             RepoGroupMonthFetchUseCase(appDIContainer.repository);
         break;
@@ -142,7 +142,7 @@ class HomeDIContainer {
       DaySpendListAction action, DateTime date, List<String> groupIds) {
     SpendListUseCase spendListUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
         break;
       case AppStatus.mock:

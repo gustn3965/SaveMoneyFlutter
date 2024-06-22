@@ -20,7 +20,7 @@ class AddSpendDIContainer {
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     AddSpendUseCase addSpendUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendCategoryFetchUseCase =
             RepoSpendCategoryFetchUseCase(appDIContainer.repository);
         groupMonthFetchUseCase =

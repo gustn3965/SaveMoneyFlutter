@@ -21,7 +21,7 @@ class EditSpendDIContainer {
     SpendListUseCase spendListUseCase;
     EditSpendUseCase editSpendUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendCategoryFetchUseCase =
             RepoSpendCategoryFetchUseCase(appDIContainer.repository);
         groupMonthFetchUseCase =

@@ -46,7 +46,7 @@ class SettingsDIContainer {
     SpendCategoryFetchUseCase spendCategoryFetchUseCase;
 
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendCategoryFetchUseCase =
             RepoSpendCategoryFetchUseCase(appDIContainer.repository);
         break;
@@ -68,7 +68,7 @@ class SettingsDIContainer {
     GroupCategoryFetchUseCase groupCategoryFetchUseCase;
 
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupCategoryFetchUseCase =
             RepoGroupCategoryFetchUseCase(appDIContainer.repository);
         break;
@@ -94,7 +94,7 @@ class SettingsDIContainer {
     SpendListUseCase spendListUseCase;
     GroupMonthFetchUseCase groupMonthFetchUseCase;
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         spendCategoryFetchUseCase =
             RepoSpendCategoryFetchUseCase(appDIContainer.repository);
         editSpendCategoryUseCase =
@@ -134,7 +134,7 @@ class SettingsDIContainer {
     EditGroupCategoryUseCase editGroupCategoryUseCase;
 
     switch (appStatus) {
-      case AppStatus.db:
+      case AppStatus.cbt || AppStatus.real:
         groupMonthFetchUseCase =
             RepoGroupMonthFetchUseCase(appDIContainer.repository);
         groupCategoryFetchUseCase =
@@ -169,7 +169,7 @@ EditGroupMonthMoneyViewModel makeEditGroupMonthMoneyViewModel(EditGroupMonthMone
   EditGroupMonthUseCase editGroupMonthUseCase;
 
   switch (appStatus) {
-    case AppStatus.db:
+    case AppStatus.cbt || AppStatus.real:
       groupMonthFetchUseCase =
           RepoGroupMonthFetchUseCase(appDIContainer.repository);
       editGroupMonthUseCase =

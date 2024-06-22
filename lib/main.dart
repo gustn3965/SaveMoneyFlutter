@@ -7,16 +7,36 @@ import 'CleanArchitecture/Presenter/AppCoordinator.dart';
 
 
 AppCoordinator appCoordinator = AppCoordinator(null, null);
-AppDIContainer appDIContainer = AppDIContainer(appStatus: AppStatus.db);
+AppDIContainer appDIContainer = AppDIContainer(appStatus: AppStatus.cbt); // main에서 다시 초기화
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  print(">>>>>>>>>start main>>>>>>>>>>>>");
 
+
+  WidgetsFlutterBinding.ensureInitialized();
+  AppStatus appStatus = await getAppStatusFromChannel();
+  appDIContainer = AppDIContainer(appStatus: appStatus);
+
+  await appDIContainer.repository.databaseController?.initializeAsync();
+  appCoordinator.start();
+
+
+  print("<<<<<<<<<<<<start main<<<<<<<<<<<<");
+}
+
+Future<AppStatus> getAppStatusFromChannel() async {
   String flavor = await const MethodChannel('flavor')
       .invokeMethod<String>('getFlavor') ?? "";
 
   print("🟠🟠GET FLAVOR: ${flavor}🟠🟠");
 
-  await appDIContainer.repository.databaseController?.initializeAsync();
-  appCoordinator.start();
+  if (flavor == "cbt") {
+    return AppStatus.cbt;
+  } else if (flavor == "mock") {
+    return AppStatus.mock;
+  } else if (flavor == "real") {
+    return AppStatus.real;
+  } else {
+    return AppStatus.mock;
+  }
 }
