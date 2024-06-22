@@ -21,6 +21,7 @@ class EditSpendWidget extends StatelessWidget {
     viewModel.dataStream.listen((event) {
       spendingTextController.text =
           NumberFormat("#,###").format(event.spendMoney);
+      descriptionTextController.text = event.description ?? "";
     });
   }
 
