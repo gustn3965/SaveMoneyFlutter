@@ -3,7 +3,6 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
-
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -40,9 +39,30 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    flavorDimensions "app"
+
+    // dev 와 product 로 환경을 구분했습니다.
+    productFlavors {
+        mock {
+            dimension "app"
+            applicationId "com.hyunsu.saveMoneyFlutter.mock"
+            resValue "string", "app_name", "mock falvor example"
+        }
+        cbt {
+            dimension "app"
+            applicationId "com.hyunsu.saveMoneyFlutter.cbt"
+            resValue "string", "app_name", "cbt falvor example"
+        }
+        real {
+            dimension "app"
+            applicationId "com.hyunsu.saveMoneyFlutter.real"
+            resValue "string", "app_name", "real falvor example"
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.hyunsu.saveMoney.save_money_flutter"
+        applicationId "com.hyunsu.saveMoneyFlutter.cbt"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
