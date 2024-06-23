@@ -5,6 +5,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpendCategory/
 import 'package:save_money_flutter/Extension/DateTime+Extension.dart';
 
 import '../../../../UseCase/AddSpendCategoryUseCase.dart';
+import '../../../../UseCase/SpendCategoryFetchUseCase.dart';
 
 class DefaultAddSpendCategoryViewModel extends AddSpendCategoryViewModel {
   @override
@@ -13,11 +14,13 @@ class DefaultAddSpendCategoryViewModel extends AddSpendCategoryViewModel {
   late bool availableConfirmButton = false;
   @override
   late String spendCategoryName = "";
-
+@override
+late int maxNameLength = SpendCategory.maxNameLength;
   late AddSpendCategoryUseCase addSpendCategoryUseCase;
+  late SpendCategoryFetchUseCase spendCategoryFetchUseCase;
 
   DefaultAddSpendCategoryViewModel(
-      this.actions, this.addSpendCategoryUseCase) {}
+      this.actions, this.addSpendCategoryUseCase, this.spendCategoryFetchUseCase) {}
 
   final _dataController =
       StreamController<AddSpendCategoryViewModel>.broadcast();
@@ -47,7 +50,7 @@ class DefaultAddSpendCategoryViewModel extends AddSpendCategoryViewModel {
   }
 
   Future<bool> checkHasAlreadySameSpendCategory() async {
-    return await addSpendCategoryUseCase
+    return await spendCategoryFetchUseCase
         .checkHasAlreadySpendCategory(spendCategoryName);
   }
 

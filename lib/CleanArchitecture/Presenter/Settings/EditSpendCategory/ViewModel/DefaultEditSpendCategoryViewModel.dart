@@ -22,6 +22,8 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
   late String spendCategoryName = "";
   @override
   late List<EditSpendCategoryItem> spendListItem = [];
+  @override
+  late int maxNameLength = SpendCategory.maxNameLength;
 
   late String spendCategoryId = "";
   late SpendCategory spendCategory;
@@ -61,7 +63,12 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
 
   @override
   void didClickEditButton() async {
-    actions.showAlertWarningEdit();
+    bool hasAlreadySameName = await spendCategoryFetchUseCase.checkHasAlreadySpendCategory(spendCategoryName);
+    if (hasAlreadySameName) {
+      actions.showAlertSameName();
+    } else {
+      actions.showAlertWarningEdit();
+    }
   }
 
   @override
@@ -87,8 +94,9 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
         .fetchSpendCategoryById(spendCategoryId: spendCategoryId);
 
     if (spendCategory != null) {
-      this.spendCategory = spendCategory;
-      this.spendCategoryName = spendCategory.name;
+      SpendCategory newSpendCategory = SpendCategory(name: spendCategory.name, identity: spendCategory.identity);
+      this.spendCategory = newSpendCategory;
+      this.spendCategoryName = newSpendCategory.name;
 
       await fetchSpendListIn(spendCategoryId);
 

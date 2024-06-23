@@ -27,6 +27,8 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late String description = "";
   @override
+  int maxDescriptionLength = Spend.maxDescriptionLength;
+  @override
   late List<AddSpendViewGroupMonthItem> groupMonthList;
   @override
   AddSpendViewGroupMonthItem? selectedGroupMonth;

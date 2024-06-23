@@ -124,7 +124,7 @@ class AddSpendWidget extends StatelessWidget {
           controller: descriptionTextController,
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
-          maxLength: 40,
+          maxLength: viewModel.maxDescriptionLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
             labelText: '설명을 입력해주세요 (선택)',

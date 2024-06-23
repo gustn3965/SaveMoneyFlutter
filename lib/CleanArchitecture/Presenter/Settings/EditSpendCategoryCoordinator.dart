@@ -39,6 +39,11 @@ class EditSpendCategoryCoordinator extends Coordinator {
           editSpendCategoryViewModel!.doUpdateSpendCategory);
     }
 
+    void showAlertSameName() {
+      this.showAlertSameName(
+          editSpendCategoryViewModel!.doUpdateSpendCategory);
+    }
+
     void showAlertWarningDelete() {
       this.showAlertWarningDelete(
           editSpendCategoryViewModel!.doDeleteSpendCategory);
@@ -48,6 +53,7 @@ class EditSpendCategoryCoordinator extends Coordinator {
         doneSaveEdit: doneSaveEdit,
         doneDeleteSpendCategory: doneDeleteSpendCategory,
         showAlertWarningEdit: showAlertWarningEdit,
+        showAlertSameName: showAlertSameName,
         showAlertWarningDelete: showAlertWarningDelete);
 
     editSpendCategoryViewModel = appDIContainer.settings
@@ -64,6 +70,34 @@ class EditSpendCategoryCoordinator extends Coordinator {
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
           '해당 카테고리로 지출된 소비 카테고리 이름이 모두 바뀌게 됩니다.',
+        ),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            isDestructiveAction: false,
+            onPressed: () async {
+              NavigationService.navigatorKey.currentState?.pop();
+            },
+            child: const Text('취소'),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              NavigationService.navigatorKey.currentState?.pop();
+              doneSaveEdit();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showAlertSameName(Function() doneSaveEdit) {
+    showCupertinoDialog<void>(
+      context: NavigationService.currentContext!,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(
+          '변경하고자 하는 이름이 이미 존재합니다. \n변경할경우 "카테고리 이름"이 소비된 내역의 "설명"에 포함됩니다.',
         ),
         actions: <CupertinoDialogAction>[
           CupertinoDialogAction(

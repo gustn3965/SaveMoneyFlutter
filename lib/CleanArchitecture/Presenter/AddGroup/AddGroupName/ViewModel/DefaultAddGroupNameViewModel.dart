@@ -11,7 +11,8 @@ class DefaultAddGroupNameViewModel extends AddGroupNameViewModel {
   late String groupName = "";
   @override
   late bool availableConfirmButton = false;
-
+@override
+late int maxNameLength = GroupCategory.maxNameLength;
   DateTime date;
 
   GroupCategoryFetchUseCase groupCategoryFetchUseCase;

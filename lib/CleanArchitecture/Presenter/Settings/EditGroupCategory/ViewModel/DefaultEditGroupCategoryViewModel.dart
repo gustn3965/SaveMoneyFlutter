@@ -20,6 +20,8 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
   late String groupCategoryName = "";
   @override
   late List<EditGroupCategoryItem> groupListItem = [];
+  @override
+  late int maxNameLength = GroupCategory.maxNameLength;
 
   final _dataController =
       StreamController<EditGroupCategoryViewModel>.broadcast();

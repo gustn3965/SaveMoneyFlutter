@@ -12,6 +12,7 @@ abstract class AddSpendCategoryViewModel {
   late bool availableConfirmButton;
 
   late String spendCategoryName;
+  late int maxNameLength;
 
   void didChangeSpendCategoryName(String categoryName);
   void didClickConfirmButton();

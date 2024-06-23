@@ -11,7 +11,8 @@ class DefaultLoginAddGroupNameViewModel extends LoginAddGroupNameViewModel {
   late String groupName = "";
   @override
   late bool availableConfirmButton = false;
-
+  @override
+  late int maxNameLength = GroupCategory.maxNameLength;
   DateTime date;
 
   final _dataController =

@@ -13,6 +13,7 @@ import '../../../UseCase/GroupMonthFetchUseCase.dart';
 import '../../../UseCase/SpendCategoryFetchUseCase.dart';
 
 class DefaultEditSpendViewModel extends EditSpendViewModel {
+  late int maxDescriptionLength = Spend.maxDescriptionLength;
   late SpendCategoryFetchUseCase spendFetchUseCase;
   late GroupMonthFetchUseCase groupMonthFetchUseCase;
   late SpendListUseCase daySpendListUseCase;

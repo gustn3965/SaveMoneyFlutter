@@ -9,4 +9,7 @@ class SpendCategory {
     required this.identity,
     this.totalSpendindCount = 0,
   });
+
+  // util
+  static int maxNameLength = 50;
 }

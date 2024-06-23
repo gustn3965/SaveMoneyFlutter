@@ -103,8 +103,25 @@ class Repository {
 
     if (spendCategoryList.firstOrNull != null) {
       DBSpendCategory dbspendCategory = spendCategoryList.first;
-      dbspendCategory.name = spendCategory.name;
-      await databaseController.update(dbspendCategory);
+
+      // 똑같은 이름으로 변경할경우, merge. (변경하고자 하는 category에 소비된 Spend의 description에 변경전의 앞에 category이름을 넣어줌)
+      List<DBSpendCategory> alreadySameCategoryList = await databaseController.fetch(DBSpendCategory.staticClassName(), where: "name = ? ", args: [spendCategory.name]);
+      if (alreadySameCategoryList.firstOrNull != null) {
+        DBSpendCategory alreadySameCategory = alreadySameCategoryList.first;
+
+        List<DBSpend> spendList = await databaseController.fetch(DBSpend.staticClassName(), where: "spendCategoryId = ? ", args:[spendCategory.identity]);
+        for (DBSpend spend in spendList) {
+          String newDescription = "(${dbspendCategory.name}) ${spend.description}";
+          spend.description = newDescription;
+          spend.spendCategoryId = alreadySameCategory.id;
+          await databaseController.update(spend);
+        }
+        await databaseController.delete(dbspendCategory);
+      } else {
+
+        dbspendCategory.name = spendCategory.name;
+        await databaseController.update(dbspendCategory);
+      }
     }
   }
 

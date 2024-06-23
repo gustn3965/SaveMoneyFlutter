@@ -8,7 +8,7 @@ abstract class LoginAddGroupNameViewModel {
   late LoginAddGroupNameActions addGroupNameActions;
   late String groupName;
   late bool availableConfirmButton;
-
+late int maxNameLength;
   LoginAddGroupNameViewModel(DateTime date);
 
   void didChangeGroupName(String groupName);

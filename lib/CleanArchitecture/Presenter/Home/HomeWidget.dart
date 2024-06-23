@@ -20,7 +20,7 @@ class HomeWidget extends StatelessWidget {
             },
             child: const Text(
               // DateFormat('yyyy-MM').format(selectDateViewModel.focusedDay),
-              "2024-12월",
+              "홈",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,

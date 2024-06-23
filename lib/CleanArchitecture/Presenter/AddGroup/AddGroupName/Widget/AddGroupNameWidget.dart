@@ -45,7 +45,7 @@ class AddGroupNameWidget extends StatelessWidget {
                               controller: groupTitleController,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 20),
-                              maxLength: 20,
+                              maxLength: viewModel.maxNameLength,
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(),
                                 labelText: '지출그룹 이름을 정해주세요.',

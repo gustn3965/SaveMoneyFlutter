@@ -22,6 +22,7 @@ abstract class EditSpendViewModel {
   late EditSpendActions editSpendActions;
   late bool availableSaveButton;
   late DateTime? date = null;
+  late int maxDescriptionLength;
   int spendMoney = 0;
   String description = "";
   List<EditSpendViewGroupMonthItem> groupMonthList = [];

@@ -40,6 +40,7 @@ abstract class EditGroupCategoryViewModel {
   late bool availableEditButton;
   late bool availableDeleteButton;
   late String groupCategoryName;
+  late int maxNameLength;
 
   late List<EditGroupCategoryItem> groupListItem;
 

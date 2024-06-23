@@ -2,12 +2,14 @@ class EditSpendCategoryActions {
   void Function() doneSaveEdit;
   void Function() doneDeleteSpendCategory;
   void Function() showAlertWarningEdit;
+  void Function() showAlertSameName;
   void Function() showAlertWarningDelete;
 
   EditSpendCategoryActions(
       {required this.doneSaveEdit,
       required this.doneDeleteSpendCategory,
       required this.showAlertWarningEdit,
+      required this.showAlertSameName,
       required this.showAlertWarningDelete});
 }
 
@@ -30,15 +32,22 @@ abstract class EditSpendCategoryViewModel {
   late bool availableEditButton;
   late bool availableDeleteButton;
   late String spendCategoryName;
+  late int maxNameLength;
 
   late List<EditSpendCategoryItem> spendListItem;
 
   void didChangeSpendCategoryName(String categoryName);
+
   void didClickEditButton();
+
   void didClickDeleteButton();
+
   void doUpdateSpendCategory();
+
   void doDeleteSpendCategory();
+
   // Observing
   Stream<EditSpendCategoryViewModel> get dataStream;
+
   void dispose();
 }

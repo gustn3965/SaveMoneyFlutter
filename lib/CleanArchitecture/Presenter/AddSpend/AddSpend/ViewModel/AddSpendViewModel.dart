@@ -25,6 +25,7 @@ abstract class AddSpendViewModel {
   late DateTime date;
   late int spendMoney;
   late String description;
+  late int maxDescriptionLength;
   List<AddSpendViewGroupMonthItem> groupMonthList = [];
   AddSpendViewGroupMonthItem? selectedGroupMonth;
   List<SpendCategory> spendCategoryList = [];

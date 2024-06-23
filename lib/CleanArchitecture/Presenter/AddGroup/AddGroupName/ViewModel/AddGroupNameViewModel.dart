@@ -11,6 +11,7 @@ abstract class AddGroupNameViewModel {
   late AddGroupNameActions addGroupNameActions;
   late String groupName;
   late bool availableConfirmButton;
+  late int maxNameLength;
 
   AddGroupNameViewModel(DateTime date);
 

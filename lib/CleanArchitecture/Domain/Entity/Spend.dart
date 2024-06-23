@@ -23,6 +23,9 @@ class Spend {
     this.spendType = SpendType.realSpend,
     this.description = "",
   });
+
+  // util
+  static int maxDescriptionLength = 50;
 }
 
 enum SpendType {

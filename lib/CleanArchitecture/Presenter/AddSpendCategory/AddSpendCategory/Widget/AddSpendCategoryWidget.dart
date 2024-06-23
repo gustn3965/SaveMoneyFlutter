@@ -55,7 +55,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
           controller: spendCategoryTextController,
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
-          maxLength: 40,
+          maxLength: viewModel.maxNameLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
             labelText: '소비 카테고리 이름',

@@ -12,6 +12,7 @@ abstract class SpendCategoryFetchUseCase {
       {required String spendCategoryId});
   Future<List<SpendCategory>> fetchSpendCategoryListWithGroupCategoryIds(
       {required List<String> groupCategoryIds, required bool exceptNoSpend});
+  Future<bool> checkHasAlreadySpendCategory(String categoryName);
 }
 
 class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
@@ -54,6 +55,16 @@ class MockSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
     }
     return set.toList();
   }
+
+  @override
+  Future<bool> checkHasAlreadySpendCategory(String categoryName) async {
+    for (SpendCategory spendCategory in mockSpendCategoryList) {
+      if (spendCategory.name == categoryName) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 class RepoSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
@@ -79,5 +90,10 @@ class RepoSpendCategoryFetchUseCase extends SpendCategoryFetchUseCase {
       required bool exceptNoSpend}) async {
     return await repository.fetchSpendCategoryListWithGroupCategoryIds(
         groupCategoryIds, exceptNoSpend);
+  }
+
+  @override
+  Future<bool> checkHasAlreadySpendCategory(String categoryName) async {
+    return await repository.checkHasAlreadySpendCategory(categoryName);
   }
 }
