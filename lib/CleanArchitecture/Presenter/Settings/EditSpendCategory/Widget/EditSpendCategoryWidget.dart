@@ -111,7 +111,7 @@ class EditSpendCategoryWidget extends StatelessWidget {
                     0.35,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: (true)
+                  onPressed: (viewModel?.availableDeleteButton == true)
                       ? () async {
                           viewModel?.didClickDeleteButton();
                         }

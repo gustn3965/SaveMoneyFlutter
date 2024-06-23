@@ -17,6 +17,8 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
   @override
   late bool availableEditButton = false;
   @override
+  late bool availableDeleteButton = false;
+  @override
   late String spendCategoryName = "";
   @override
   late List<EditSpendCategoryItem> spendListItem = [];
@@ -90,6 +92,7 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
 
       await fetchSpendListIn(spendCategoryId);
 
+      availableDeleteButton = true;
       _dataController.add(this);
     }
   }

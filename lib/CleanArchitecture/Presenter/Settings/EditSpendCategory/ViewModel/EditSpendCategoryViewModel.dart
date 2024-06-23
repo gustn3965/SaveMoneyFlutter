@@ -28,6 +28,7 @@ abstract class EditSpendCategoryViewModel {
   late EditSpendCategoryActions actions;
 
   late bool availableEditButton;
+  late bool availableDeleteButton;
   late String spendCategoryName;
 
   late List<EditSpendCategoryItem> spendListItem;

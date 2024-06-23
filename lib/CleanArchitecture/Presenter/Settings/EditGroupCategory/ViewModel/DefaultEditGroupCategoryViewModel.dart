@@ -15,6 +15,8 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
   @override
   late bool availableEditButton = false;
   @override
+  late bool availableDeleteButton = false;
+  @override
   late String groupCategoryName = "";
   @override
   late List<EditGroupCategoryItem> groupListItem = [];
@@ -94,6 +96,7 @@ actions.showEditGroupMonthMoney(item.groupMonthId);
 
       await fetchGroupMonthListIn(groupCategoryId);
 
+      availableDeleteButton = true;
       _dataController.add(this);
     }
   }

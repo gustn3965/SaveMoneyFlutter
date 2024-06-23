@@ -38,6 +38,7 @@ abstract class EditGroupCategoryViewModel {
   late EditGroupCategoryActions actions;
 
   late bool availableEditButton;
+  late bool availableDeleteButton;
   late String groupCategoryName;
 
   late List<EditGroupCategoryItem> groupListItem;

@@ -79,6 +79,8 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
                                   onChanged: (text) {
                                     if (text == '') {
                                       text = "0";
+                                    } else if (int.parse(text) > 99999999999) { // 천억
+                                      text = "99999999999";
                                     }
                                     text =
                                         '${_formatNumber(text.replaceAll(',', ''))}';
