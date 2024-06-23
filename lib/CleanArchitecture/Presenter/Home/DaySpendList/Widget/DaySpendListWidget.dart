@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/AppColor/AppColors.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,7 @@ class DaySpendListWidget extends StatelessWidget {
                   DaySpendListViewModelItem item = viewModel.spendList[index];
                   return Container(
                     // height: 100,
+                    padding: const EdgeInsets.only(bottom: 30),
                     width: MediaQuery.of(context).size.width,
                     child: Stack(
                       children: [
@@ -118,18 +120,18 @@ class DaySpendListWidget extends StatelessWidget {
     return Container(
       // height: 65,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: Color(0xFFF0EEEE),
+      color: AppColors.lightGrayColor,
       child: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
             children: [
               Padding(
                   padding:
-                      EdgeInsets.only(left: 40, right: 10), // 왼쪽에 10의 패딩 추가
+                      EdgeInsets.only(left: 20, right: 10), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    '${viewModel.date.month}월${viewModel.date.day}일',
+                    '${viewModel.date.month}월${viewModel.date.day}일 (${viewModel.spendList.length})',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -140,7 +142,7 @@ class DaySpendListWidget extends StatelessWidget {
                   )),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 40),
+                  padding: EdgeInsets.only(left: 10, right: 20),
                   child: Text(
                     viewModel.totalSpendMoney == 0
                         ? '소비된 내역이 없습니다.'
@@ -158,7 +160,7 @@ class DaySpendListWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
         ],
       ),
     );

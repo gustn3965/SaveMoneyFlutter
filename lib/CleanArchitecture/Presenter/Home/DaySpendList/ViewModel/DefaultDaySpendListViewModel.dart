@@ -35,7 +35,7 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
 
     this.date = date;
     spendList = convertItems(list, filterSpendCategories);
-    totalSpendMoney = makeTotalSpendMoney(list);
+    totalSpendMoney = makeTotalSpendMoney(spendList);
 
     _dataController.add(this);
   }
@@ -64,9 +64,9 @@ class DefaultDaySpendListViewModel extends DaySpendListViewModel {
     return list;
   }
 
-  int makeTotalSpendMoney(List<Spend> spendList) {
+  int makeTotalSpendMoney(List<DaySpendListViewModelItem> spendList) {
     int totalMoney = 0;
-    for (Spend spend in spendList) {
+    for (DaySpendListViewModelItem spend in spendList) {
       totalMoney += spend.spendMoney;
     }
 

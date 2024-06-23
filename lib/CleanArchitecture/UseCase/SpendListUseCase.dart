@@ -9,8 +9,13 @@ abstract class SpendListUseCase {
   Future<List<Spend>> fetchDaySpendList(String groupId, DateTime date);
   Future<List<Spend>> fetchDaySpendLists(List<String> groupIds, DateTime date);
   Future<List<Spend>> fetchSpendList({
-    required String spendCategoryId,
+    required List<String> spendCategoryIds,
     required List<String> groupCategoryIds,
+    required bool descending,
+  });
+  Future<List<Spend>> fetchSpendListGroupIds({
+    required List<String> spendCategoryIds,
+    required List<String> groupIds,
     required bool descending,
   });
   Future<List<Spend>> fetchSpendListBySpendCategoryId(
@@ -66,7 +71,7 @@ class MockSpendListUseCase extends SpendListUseCase {
 
   @override
   Future<List<Spend>> fetchSpendList(
-      {required String spendCategoryId,
+      {required List<String> spendCategoryIds,
       required List<String> groupCategoryIds,
       required bool descending}) async {
     List<Spend> spendList = [];
@@ -74,7 +79,7 @@ class MockSpendListUseCase extends SpendListUseCase {
       if (groupCategoryIds.contains(group.groupCategory.identity)) {
         for (Spend spend in group.spendList) {
           if (spend.spendCategory != null &&
-              spend.spendCategory!.identity == spendCategoryId) {
+              spendCategoryIds.contains(spend.spendCategory!.identity)) {
             spendList.add(spend);
           }
         }
@@ -110,6 +115,32 @@ class MockSpendListUseCase extends SpendListUseCase {
 
     return spendList;
   }
+
+  @override
+  Future<List<Spend>> fetchSpendListGroupIds({
+    required List<String> spendCategoryIds,
+    required List<String> groupIds,
+    required bool descending,
+  }) async  {
+    List<Spend> spendList = [];
+    for (GroupMonth group in mockGroupMonthList) {
+      if (groupIds.contains(group.identity)) {
+        for (Spend spend in group.spendList) {
+          if (spend.spendCategory != null &&
+              spendCategoryIds.contains(spend.spendCategory!.identity)) {
+            spendList.add(spend);
+          }
+        }
+      }
+    }
+
+    if (descending) {
+      spendList.sort((a, b) => b.date.compareTo(a.date));
+    } else {
+      spendList.sort((a, b) => a.date.compareTo(b.date));
+    }
+    return spendList;
+  }
 }
 
 class RepoSpendListUseCase extends SpendListUseCase {
@@ -138,12 +169,12 @@ class RepoSpendListUseCase extends SpendListUseCase {
 
   @override
   Future<List<Spend>> fetchSpendList(
-      {required String spendCategoryId,
+      {required List<String> spendCategoryIds,
       required List<String> groupCategoryIds,
       required bool descending}) async {
     await Future.delayed(const Duration(milliseconds: 100));
     return await repository.fetchSpendList(
-        spendCategoryId: spendCategoryId,
+        spendCategoryIds: spendCategoryIds,
         groupCategoryIds: groupCategoryIds,
         descending: descending);
   }
@@ -153,5 +184,14 @@ class RepoSpendListUseCase extends SpendListUseCase {
       {required String spendCategoryId, required bool descending}) async {
     return await repository.fetchSpendListBySpendCategoryId(
         spendCategoryId: spendCategoryId, descending: descending);
+  }
+
+  @override
+  Future<List<Spend>> fetchSpendListGroupIds({
+    required List<String> spendCategoryIds,
+    required List<String> groupIds,
+    required bool descending,
+  }) async  {
+return await repository.fetchSpendListGroupIds(spendCategoryIds: spendCategoryIds, groupIds: groupIds, descending: descending);
   }
 }

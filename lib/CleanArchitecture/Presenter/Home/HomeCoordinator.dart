@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
 
 import '../../../main.dart';
@@ -21,6 +22,7 @@ class HomeCoordinator extends Coordinator {
   SpendCategorySelectorViewModel? spendCategorySelectorViewModel;
   GroupMonthCalendarViewModel? calendarViewModel;
   DaySpendListViewModel? daySpendListViewModel;
+  MonthSpendListViewModel? monthSpendListViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
 
   HomeCoordinator(Coordinator? superCoordinator)
@@ -32,6 +34,7 @@ class HomeCoordinator extends Coordinator {
     Widget spendCategorySelectorWidget = makeSpendCategorySelectorWidget();
     Widget calendarWidget = makeCalendarWidget();
     Widget daysSpendListWidget = makeDaySpendListWidget();
+    Widget monthSpendListWidget = makeMonthSpendListWidget();
 
     Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
     Widget spacingView = SizedBox(height: 50);
@@ -43,6 +46,7 @@ class HomeCoordinator extends Coordinator {
         spendCategorySelectorWidget,
         calendarWidget,
         daysSpendListWidget,
+        monthSpendListWidget,
         spacingView
       ],
       floattingButtons: [addSpendFloattingWidget],
@@ -73,6 +77,8 @@ class HomeCoordinator extends Coordinator {
       calendarViewModel?.fetchGroupMonths(updateSelectedGroupIds);
       daySpendListViewModel?.groupIds = updateSelectedGroupIds;
       daySpendListViewModel?.reloadFetch();
+      monthSpendListViewModel?.groupIds = updateSelectedGroupIds;
+      monthSpendListViewModel?.reloadFetch();
     }
 
     void showAddGroup() {
@@ -99,6 +105,8 @@ class HomeCoordinator extends Coordinator {
           ?.fetchGroupMonthWithSpendCategories(selectedSpendCategory);
       daySpendListViewModel?.spendCategories = selectedSpendCategory;
       daySpendListViewModel?.reloadFetch();
+      monthSpendListViewModel?.spendCategories = selectedSpendCategory;
+      monthSpendListViewModel?.reloadFetch();
     }
 
     SpendCategorySelectorActions actions = SpendCategorySelectorActions(
@@ -163,6 +171,19 @@ class HomeCoordinator extends Coordinator {
     daySpendListViewModel = appDIContainer.home
         .makeDaySpendListViewModel(action, DateTime.now(), []);
     return appDIContainer.home.makeDaySpendListWidget(daySpendListViewModel!);
+  }
+
+  Widget makeMonthSpendListWidget() {
+    void showModifySpendItem(String spendId) {
+      showEditSpendView(spendId);
+    }
+
+    MonthSpendListAction action = MonthSpendListAction(showModifySpendItem);
+
+    monthSpendListViewModel = appDIContainer.home.makeMonthSpendListViewModel(action, []);
+
+    return appDIContainer.home.makeMonthSpendListWidget(monthSpendListViewModel!);
+
   }
 
   void showAddSpendView(

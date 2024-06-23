@@ -84,7 +84,7 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
     for (SpendCategoryChartSelectorItem item
         in selectedSpendCategorySelectorItems) {
       List<Spend> spendList = await spendListUseCase.fetchSpendList(
-          spendCategoryId: item.categoryIdentity,
+          spendCategoryIds: [item.categoryIdentity],
           groupCategoryIds: groupCategoryIds,
           descending: true);
 

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DefaultDaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/Widget/DaySpendListWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/DefaultMonthSpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/Widget/MonthSpendListWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/DefaultSpendCategorySelectorViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/Widget/SpendCategorySelectorWidget.dart';
@@ -158,4 +161,26 @@ class HomeDIContainer {
   DaySpendListWidget makeDaySpendListWidget(DaySpendListViewModel viewModel) {
     return DaySpendListWidget(viewModel);
   }
+
+  // Home - MonthSpendList
+
+MonthSpendListViewModel makeMonthSpendListViewModel(MonthSpendListAction action, List<String> groupIds) {
+
+  SpendListUseCase spendListUseCase;
+  switch (appStatus) {
+    case AppStatus.cbt || AppStatus.real:
+      spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
+      break;
+    case AppStatus.mock:
+      spendListUseCase = MockSpendListUseCase();
+      break;
+  }
+
+  MonthSpendListViewModel viewModel = DefaultMonthSpendListViewModel(action, groupIds, spendListUseCase);
+  return viewModel;
+}
+
+MonthSpendListWidget makeMonthSpendListWidget(MonthSpendListViewModel viewModel) {
+    return MonthSpendListWidget(viewModel);
+}
 }

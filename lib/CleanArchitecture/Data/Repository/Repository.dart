@@ -290,7 +290,8 @@ class Repository {
     String groupIdsPlaceholders = groupIds.map((id) => '?').join(',');
 
     DateTime maxDate = dateTimeAfterDay(date, 1);
-    List<Object> args = groupIds;
+    List<Object> args = [];
+    args.addAll(groupIds);
     args.add(indexMonthAndDayIdFromDateTime(date).toString());
     args.add(indexMonthAndDayIdFromDateTime(maxDate).toString());
     List<DBSpend> spendList = await databaseController.fetch(
@@ -310,21 +311,52 @@ class Repository {
   }
 
   Future<List<Spend>> fetchSpendList(
-      {required String spendCategoryId,
+      {required List<String> spendCategoryIds,
       required List<String> groupCategoryIds,
       required bool descending}) async {
+    String spendCategoryIdsPlaceholders =
+    spendCategoryIds.map((id) => '?').join(',');
     String groupCategoryIdsPlaceholders =
         groupCategoryIds.map((id) => '?').join(',');
 
-    List<Object> args = [spendCategoryId];
-    String desc = descending ? "DESC" : "";
+    List<Object> args = [];
+    args.addAll(spendCategoryIds);
     args.addAll(groupCategoryIds);
+    String desc = descending ? "DESC" : "";
     List<DBSpend> spendList = await databaseController.fetch(
         DBSpend.staticClassName(),
         where:
-            "spendCategoryId = ? AND groupCategoryId IN ($groupCategoryIdsPlaceholders)",
+            "spendCategoryId IN ($spendCategoryIdsPlaceholders) AND groupCategoryId IN ($groupCategoryIdsPlaceholders) AND spendType = 1",
         args: args,
-    orderBy: "date ${desc}");
+    orderBy: "date $desc");
+    return await makeSpendFromDB(spendList);
+  }
+
+  Future<List<Spend>> fetchSpendListGroupIds({
+    required List<String> spendCategoryIds,
+    required List<String> groupIds,
+    required bool descending,
+  }) async {
+    String spendCategoryIdsPlaceholders =
+    spendCategoryIds.map((id) => '?').join(',');
+
+    String groupIdsPlaceholders =
+    groupIds.map((id) => '?').join(',');
+
+    List<Object> args = [];
+    args.addAll(spendCategoryIds);
+    args.addAll(groupIds);
+
+    String where =  "spendCategoryId IN ($spendCategoryIdsPlaceholders) AND groupMonthId IN ($groupIdsPlaceholders) AND spendType = 1 ";
+    if (spendCategoryIdsPlaceholders.isEmpty) {
+      where = "groupMonthId IN ($groupIdsPlaceholders) AND spendType = 1";
+    }
+    String desc = descending ? "DESC" : "";
+    List<DBSpend> spendList = await databaseController.fetch(
+        DBSpend.staticClassName(),
+        where: where,
+        args: args,
+        orderBy: "date $desc");
     return await makeSpendFromDB(spendList);
   }
 
