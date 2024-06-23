@@ -27,11 +27,13 @@ class EditGroupCategoryCoordinator extends Coordinator {
   Widget makeEditGroupCategoryWidget(String groupCategoryId) {
     void doneSaveEdit() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 
     void doneDeleteGroupCategory() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
@@ -95,6 +97,17 @@ abstract class Coordinator {
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   void updateCurrentWidget();
 
+  // 오버라이딩 불가하도로
+  @nonVirtual
+  void triggerTopUpdateWidget() {
+    if (superCoordinator != null) {
+      superCoordinator?.triggerTopUpdateWidget();
+    } else {
+      updateCurrentWidget();
+    }
+  }
+
+
   late String routeName;
 
   List<Coordinator> childCoordinator = [];
@@ -122,7 +135,11 @@ class AppCoordinator extends Coordinator {
   void pop() {}
 
   @override
-  void updateCurrentWidget() {}
+  void updateCurrentWidget() {
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
+  }
 
   void showLoginView() {
     LoginCoordinator loginCoordinator = LoginCoordinator(this);

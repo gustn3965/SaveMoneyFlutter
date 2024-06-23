@@ -25,6 +25,7 @@ class EditGroupMonthMoneyCoordinator extends Coordinator {
   Widget makeEditGroupMonthMoneyWidget(String groupMonthId) {
     void didEditGroupMonthMoney() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

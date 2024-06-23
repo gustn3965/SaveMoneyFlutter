@@ -24,11 +24,13 @@ class EditSpendCategoryCoordinator extends Coordinator {
   Widget makeEditSpendCategoryWidget(String spendCategoryId) {
     void doneSaveEdit() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 
     void doneDeleteSpendCategory() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

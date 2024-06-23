@@ -30,6 +30,7 @@ class AddSpendCategoryCoordinator extends Coordinator {
   Widget makeAddSpendCategoryWidget() {
     void didAddSpendCategory() {
       updateSuperCoordinatorWidget();
+      triggerTopUpdateWidget();
       popFromBottomSheet();
     }
 
