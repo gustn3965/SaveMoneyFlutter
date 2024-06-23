@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:save_money_flutter/AppColor/AppColors.dart';
 
 import '../ViewModel/AddSpendFloatingButtonViewModel.dart';
 
@@ -13,9 +14,11 @@ class AddSpendFloatingButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return FloatingActionButton(
+      heroTag: 'addspend',
       onPressed: () {
         viewModel.didClickButton();
       },
+      backgroundColor: AppColors.mainRedColor,
       tooltip: 'Increment',
       child: const Icon(Icons.add),
     );

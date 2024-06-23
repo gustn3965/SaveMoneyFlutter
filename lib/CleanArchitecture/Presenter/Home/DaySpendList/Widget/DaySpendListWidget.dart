@@ -90,7 +90,7 @@ class DaySpendListWidget extends StatelessWidget {
                                   },
                                   style: OutlinedButton.styleFrom(
                                     foregroundColor: Colors.black,
-                                    backgroundColor: Color(0xFFA6BEFB),
+                                    backgroundColor: AppColors.editColorGray,
                                     disabledBackgroundColor: Color(0xFFD5DFF9),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
@@ -123,7 +123,7 @@ class DaySpendListWidget extends StatelessWidget {
       color: AppColors.lightGrayColor,
       child: Column(
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
             children: [
@@ -134,7 +134,7 @@ class DaySpendListWidget extends StatelessWidget {
                     '${viewModel.date.month}월${viewModel.date.day}일 (${viewModel.spendList.length})',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
                       height: 0,
@@ -149,7 +149,7 @@ class DaySpendListWidget extends StatelessWidget {
                         : '${NumberFormat("#,###").format(viewModel.totalSpendMoney)}원',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                       height: 1.2,
@@ -160,7 +160,7 @@ class DaySpendListWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
         ],
       ),
     );

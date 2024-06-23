@@ -68,7 +68,7 @@ class SpendCategorySelectorWidget extends StatelessWidget {
       child: FilterChip(
           showCheckmark: false,
           selected: viewModel.selectedItems.contains(item),
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.whitelightGrayColor,
           selectedColor: generateUniqueColor(item.categoryId),
           // shadowColor: Colors.grey,
           // elevation: 4,

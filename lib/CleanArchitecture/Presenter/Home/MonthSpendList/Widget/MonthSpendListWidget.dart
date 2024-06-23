@@ -56,10 +56,10 @@ class MonthSpendListWidget extends StatelessWidget {
     return Container(
       // height: 65,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: AppColors.mainColor,
+      color: AppColors.mainLighColor,
       child: Column(
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 왼쪽과 오른쪽 정렬 설정
             children: [
@@ -70,7 +70,7 @@ class MonthSpendListWidget extends StatelessWidget {
                     '월 소비 목록 (${viewModel.onlyItemListCount()})',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
                       height: 0,
@@ -85,7 +85,7 @@ class MonthSpendListWidget extends StatelessWidget {
                         : '총 ${NumberFormat("#,###").format(viewModel.totalSpendMoney)}원',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                       height: 1.2,
@@ -96,7 +96,7 @@ class MonthSpendListWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 15),
         ],
       ),
     );
@@ -202,7 +202,7 @@ class MonthSpendListWidget extends StatelessWidget {
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.black,
-                      backgroundColor: Color(0xFFA6BEFB),
+                      backgroundColor: AppColors.editColorGray,
                       disabledBackgroundColor: Color(0xFFD5DFF9),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(

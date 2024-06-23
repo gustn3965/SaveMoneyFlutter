@@ -66,11 +66,13 @@ class SpendCategoryListWidget extends StatelessWidget {
           margin:
               const EdgeInsets.only(left: 20, right: 10, top: 15, bottom: 10),
           padding: const EdgeInsets.all(10.0),
+
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
               color: Colors.black,
             ),
+            color: AppColors.whitelightGrayColor,
             borderRadius: BorderRadius.circular(5),
           ), //  POINT: BoxDecoration
           child: Text(
@@ -87,7 +89,7 @@ class SpendCategoryListWidget extends StatelessWidget {
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.black,
-              backgroundColor: Color(0xFFA6BEFB),
+              backgroundColor: AppColors.editColorGray,
               disabledBackgroundColor: Color(0xFFD5DFF9),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(

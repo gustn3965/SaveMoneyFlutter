@@ -261,7 +261,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                           },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.black,
-                            backgroundColor: Color(0xFFA6BEFB),
+                            backgroundColor: AppColors.editColorGray,
                             disabledBackgroundColor: Color(0xFFD5DFF9),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DefaultDaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/Widget/DaySpendListWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/LeftMonthFloatingButton/ViewModel/LeftMonthFloatingButtonViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/LeftMonthFloatingButton/Widget/LeftMonthFloatingButtonWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/DefaultMonthSpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/Widget/MonthSpendListWidget.dart';
@@ -24,6 +26,8 @@ import '../Presenter/Home/GroupMonthSelector/Widget/GroupMonthSelectorWidget.dar
 import '../Presenter/Home/GroupMonthSummary/ViewModel/DefaultGroupMonthSummaryViewModel.dart';
 import '../Presenter/Home/GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
 import '../Presenter/Home/GroupMonthSummary/Widget/GroupMonthSummaryWidget.dart';
+import '../Presenter/Home/RightMonthFloatingButton/ViewModel/RightMonthFloatingButtonViewModel.dart';
+import '../Presenter/Home/RightMonthFloatingButton/Widget/RightMonthFloatingButtonWidget.dart';
 import '../UseCase/GroupMonthFetchUseCase.dart';
 import 'AppDIContainer.dart';
 
@@ -137,6 +141,20 @@ class HomeDIContainer {
     return AddSpendFloatingButtonWidget(
       viewModel: viewModel,
     );
+  }
+
+  LeftMonthFloatingButtonViewModel makeLeftMonthFloatingViewModel(DateTime date, LeftMonthFloatingButtonActions actions) {
+    return DefaultLeftMonthFloatingButtonViewModel(date, actions);
+  }
+  Widget makeLeftMonthFloatingWidget(LeftMonthFloatingButtonViewModel viewModel) {
+    return LeftMonthFloatingButtonWidget(viewModel: viewModel);
+  }
+
+  RightMonthFloatingButtonViewModel makeRightMonthFloatingViewModel(DateTime date, RightMonthFloatingButtonActions actions) {
+    return DefaultRightMonthFloatingButtonViewModel(date, actions);
+  }
+  Widget makeRightMonthFloatingWidget(RightMonthFloatingButtonViewModel viewModel) {
+    return RightMonthFloatingButtonWidget(viewModel: viewModel);
   }
 
   // Home - DaySpendList

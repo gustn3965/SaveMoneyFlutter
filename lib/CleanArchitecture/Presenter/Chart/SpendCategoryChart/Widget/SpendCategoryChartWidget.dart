@@ -101,7 +101,7 @@ class SpendCategoryChartWidget extends StatelessWidget {
       child: FilterChip(
           showCheckmark: false,
           selected: viewModel.selectedSpendCategorySelectorItems.contains(item),
-          backgroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.whitelightGrayColor,
           selectedColor: generateUniqueColor(item.categoryIdentity),
           // shadowColor: Colors.grey,
           // elevation: 4,

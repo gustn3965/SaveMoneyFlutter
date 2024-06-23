@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/LeftMonthFloatingButton/Widget/LeftMonthFloatingButtonWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
 
@@ -15,6 +16,8 @@ import 'Calendar/ViewModel/GroupMonthCalendarViewModel.dart';
 import 'GroupMonthSelector/ViewModel/GroupMonthSelectorViewModel.dart';
 import 'GroupMonthSummary/ViewModel/GroupMonthSummaryViewModel.dart';
 import 'HomeWidget.dart';
+import 'LeftMonthFloatingButton/ViewModel/LeftMonthFloatingButtonViewModel.dart';
+import 'RightMonthFloatingButton/ViewModel/RightMonthFloatingButtonViewModel.dart';
 
 class HomeCoordinator extends Coordinator {
   GroupMonthSummaryViewModel? summaryViewModel;
@@ -24,6 +27,9 @@ class HomeCoordinator extends Coordinator {
   DaySpendListViewModel? daySpendListViewModel;
   MonthSpendListViewModel? monthSpendListViewModel;
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
+  LeftMonthFloatingButtonViewModel? leftMonthFloatingButtonViewModel;
+  RightMonthFloatingButtonViewModel? rightMonthFloatingButtonViewModel;
+
 
   HomeCoordinator(Coordinator? superCoordinator)
       : super(superCoordinator, null) {
@@ -37,6 +43,9 @@ class HomeCoordinator extends Coordinator {
     Widget monthSpendListWidget = makeMonthSpendListWidget();
 
     Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
+    Widget moveLeftFloattingWidget = makeLeftMonthFloatingButtonWidget();
+    Widget moveRightFloattingWidget = makeRightMonthFloatingButtonWidget();
+
     Widget spacingView = SizedBox(height: 50);
 
     currentWidget = HomeWidget(
@@ -49,7 +58,7 @@ class HomeCoordinator extends Coordinator {
         monthSpendListWidget,
         spacingView
       ],
-      floattingButtons: [addSpendFloattingWidget],
+      floattingButtons: [moveLeftFloattingWidget, moveRightFloattingWidget, addSpendFloattingWidget],
     );
   }
 
@@ -60,6 +69,7 @@ class HomeCoordinator extends Coordinator {
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();
     daySpendListViewModel?.reloadFetch();
+    monthSpendListViewModel?.reloadFetch();
 
     print('HomeCoordinator updateCurrentWidget....');
   }
@@ -128,7 +138,6 @@ class HomeCoordinator extends Coordinator {
     void updateSelectedDateTime(DateTime date) {
       daySpendListViewModel?.date = date;
       daySpendListViewModel?.reloadFetch();
-      print('Updating selected date time: $date');
     }
 
     GroupMonthCalendarActions actions = GroupMonthCalendarActions(
@@ -159,6 +168,40 @@ class HomeCoordinator extends Coordinator {
         appDIContainer.home.makeMainAddSpendFloatingViewModel(actions);
     return appDIContainer.home
         .makeMainAddSpendFloatingWidget(addSpendFloatingButtonViewModel!);
+  }
+
+  Widget makeLeftMonthFloatingButtonWidget() {
+    void moveLeftMonth(DateTime date) {
+      calendarViewModel?.focuseDate = date;
+      groupSelectorViewModel?.fetchGroupMonthList(date);
+      rightMonthFloatingButtonViewModel?.currentDate = date;
+    }
+
+    LeftMonthFloatingButtonActions actions = LeftMonthFloatingButtonActions(
+      moveLeftMonth,
+    );
+
+    leftMonthFloatingButtonViewModel =
+        appDIContainer.home.makeLeftMonthFloatingViewModel(DateTime.now(), actions);
+    return appDIContainer.home
+        .makeLeftMonthFloatingWidget(leftMonthFloatingButtonViewModel!);
+  }
+
+  Widget makeRightMonthFloatingButtonWidget() {
+    void moveRightMonth(DateTime date) {
+      calendarViewModel?.focuseDate = date;
+      groupSelectorViewModel?.fetchGroupMonthList(date);
+      leftMonthFloatingButtonViewModel?.currentDate = date;
+    }
+
+    RightMonthFloatingButtonActions actions = RightMonthFloatingButtonActions(
+      moveRightMonth,
+    );
+
+    rightMonthFloatingButtonViewModel =
+        appDIContainer.home.makeRightMonthFloatingViewModel(DateTime.now(), actions);
+    return appDIContainer.home
+        .makeRightMonthFloatingWidget(rightMonthFloatingButtonViewModel!);
   }
 
   Widget makeDaySpendListWidget() {
