@@ -135,8 +135,8 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
     // 첫월 ~ 마지막월 key를 먼저만들어둠.
     DateTime? firstDate;
     DateTime lastDate;
-    if (spendList.firstOrNull != null) {
-      Spend spendFirst = spendList.first;
+    if (spendList.lastOrNull != null) {
+      Spend spendFirst = spendList.last;
       DateTime date = spendFirst.date;
       firstDate = DateTime(date.year, date.month);
     }

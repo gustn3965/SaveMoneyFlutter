@@ -52,7 +52,7 @@ class AddSpendCategoryCoordinator extends Coordinator {
   }
 
   void showHasAlreadyCategoryNameAlert() {
-    showCupertinoModalPopup<void>(
+    showCupertinoDialog<void>(
       context: NavigationService.currentContext!,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(

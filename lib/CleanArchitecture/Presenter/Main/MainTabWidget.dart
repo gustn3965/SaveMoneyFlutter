@@ -15,30 +15,36 @@ class MainTabWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.white,
-          body: bodyWidget,
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: viewModel.bottomNavigationIndex,
-            onTap: (value) {
-              if (value == 0) {
-                viewModel.didClickHomeBottomTabButton();
-              } else if (value == 1) {
-                viewModel.didClickChartBottomTabButton();
-              } else {
-                viewModel.didClickSettingBottomTabButton();
-              }
-            },
-            backgroundColor: AppColors.whiteColor,
-            selectedItemColor: AppColors.mainHightColor,
-            showSelectedLabels: true,
-            showUnselectedLabels: false,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-              BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '차트'),
-              BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
-            ],
-          ),
-        );
+            backgroundColor: Colors.white,
+            body: bodyWidget,
+            bottomNavigationBar: Theme(
+              data: Theme.of(context).copyWith(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: BottomNavigationBar(
+                currentIndex: viewModel.bottomNavigationIndex,
+                onTap: (value) {
+                  if (value == 0) {
+                    viewModel.didClickHomeBottomTabButton();
+                  } else if (value == 1) {
+                    viewModel.didClickChartBottomTabButton();
+                  } else {
+                    viewModel.didClickSettingBottomTabButton();
+                  }
+                },
+                backgroundColor: AppColors.whiteColor,
+                selectedItemColor: AppColors.mainHightColor,
+                showSelectedLabels: true,
+                showUnselectedLabels: false,
+                items: [
+                  BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.bar_chart), label: '차트'),
+                  BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
+                ],
+              ),
+            ));
       },
     );
   }

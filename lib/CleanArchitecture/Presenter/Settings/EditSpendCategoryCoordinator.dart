@@ -57,7 +57,7 @@ class EditSpendCategoryCoordinator extends Coordinator {
   }
 
   void showAlertWarningEdit(Function() doneSaveEdit) {
-    showCupertinoModalPopup<void>(
+    showCupertinoDialog<void>(
       context: NavigationService.currentContext!,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
@@ -85,7 +85,7 @@ class EditSpendCategoryCoordinator extends Coordinator {
   }
 
   void showAlertWarningDelete(Function() doneDeleteSpendCategory) {
-    showCupertinoModalPopup<void>(
+    showCupertinoDialog<void>(
       context: NavigationService.currentContext!,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text(
