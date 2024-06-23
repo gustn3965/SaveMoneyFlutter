@@ -121,6 +121,7 @@ class RepoGroupMonthFetchUseCase extends GroupMonthFetchUseCase {
 
   @override
   Future<List<GroupMonth>> fetchGroupMonthList(DateTime date) async {
-    return await repository.fetchGroupMonthList(date);
+    List<GroupMonth> groupMonths = await repository.fetchGroupMonthList(date);
+    return groupMonths..sort((a, b) => a.groupCategory.name.compareTo(b.groupCategory.name));
   }
 }

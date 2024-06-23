@@ -44,7 +44,7 @@ class EditSpendCoordinator extends Coordinator {
   }
 
   void showDateTimePicker(DateTime date) {
-    showCupertinoDialog(
+    showCupertinoModalPopup(
       context: NavigationService.navigatorKey.currentContext!,
       barrierDismissible: true,
       builder: (BuildContext context) {

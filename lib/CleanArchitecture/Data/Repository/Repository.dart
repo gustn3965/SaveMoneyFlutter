@@ -151,7 +151,7 @@ class Repository {
 
   Future<List<GroupCategory>> fetchAllGroupCategoryList() async {
     List<DBGroupCategory> groupCategories =
-        await databaseController.fetch(DBGroupCategory.staticClassName());
+        await databaseController.fetch(DBGroupCategory.staticClassName(), orderBy: "name");
 
     return groupCategories.map((group) {
       return GroupCategory(name: group.name, identity: group.id);
