@@ -23,4 +23,6 @@ class AppColors {
 
   static Color editColorGray = Color(0xFFC4C1C1);
 
+  static Color deepGrayColor = Color(0xFF8F8F8F);
+
 }

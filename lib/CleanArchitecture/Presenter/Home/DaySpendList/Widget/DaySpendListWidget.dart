@@ -26,89 +26,8 @@ class DaySpendListWidget extends StatelessWidget {
           return Column(
             children: [
               headerWidget(),
-              ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: viewModel.spendList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  DaySpendListViewModelItem item = viewModel.spendList[index];
-                  return Container(
-                    // height: 100,
-                    padding: const EdgeInsets.only(bottom: 30),
-                    width: MediaQuery.of(context).size.width,
-                    child: Stack(
-                      children: [
-                        Align(
-                          // alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Flexible(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(height: 15),
-                                      Text(
-                                        item.categoryName,
-                                        style: const TextStyle(
-                                          color: Color(0xFF0082FB),
-                                          fontSize: 20,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w700,
-                                          height: 1.0,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      if (item.description.isNotEmpty)
-                                        Text("설명 : ${item.description}"),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        '${NumberFormat("#,###").format(item.spendMoney)}원',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontFamily: 'Inter',
-                                          fontWeight: FontWeight.w700,
-                                          height: 1.0,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                        maxLines: 2,
-                                      ),
-                                      SizedBox(height: 15),
-                                    ],
-                                  ),
-                                ),
-                                FilledButton(
-                                  onPressed: () {
-                                    viewModel.didClickModifySpendItem(index);
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.black,
-                                    backgroundColor: AppColors.editColorGray,
-                                    disabledBackgroundColor: Color(0xFFD5DFF9),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Text('수정'),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              dayListWidget(),
+              SizedBox(height: 40),
             ],
           );
         }
@@ -163,6 +82,92 @@ class DaySpendListWidget extends StatelessWidget {
           SizedBox(height: 15),
         ],
       ),
+    );
+  }
+
+  Widget dayListWidget() {
+    return ListView.builder(
+      shrinkWrap: true,
+      primary: false,
+      itemCount: viewModel.spendList.length,
+      itemBuilder: (BuildContext context, int index) {
+        DaySpendListViewModelItem item = viewModel.spendList[index];
+        return Container(
+          // height: 100,
+          // padding: const EdgeInsets.only(bottom: 30),
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: [
+              Align(
+                // alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 15),
+                            Text(
+                              item.categoryName,
+                              style: const TextStyle(
+                                color: Color(0xFF0082FB),
+                                fontSize: 20,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                height: 1.0,
+                              ),
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            if (item.description.isNotEmpty)
+                              Text("설명 : ${item.description}"),
+                            SizedBox(height: 10),
+                            Text(
+                              '${NumberFormat("#,###").format(item.spendMoney)}원',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                height: 1.0,
+                              ),
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                            ),
+                            SizedBox(height: 15),
+                          ],
+                        ),
+                      ),
+                      FilledButton(
+                        onPressed: () {
+                          viewModel.didClickModifySpendItem(index);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: AppColors.editColorGray,
+                          disabledBackgroundColor: Color(0xFFD5DFF9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                        ),
+                        child: Text('수정'),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

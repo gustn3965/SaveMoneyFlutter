@@ -1,4 +1,5 @@
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/SearchDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/Repository.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/MockDataSet.dart';
@@ -55,6 +56,8 @@ class AppDIContainer {
 
   late ChartDIContainer chart = ChartDIContainer(appStatus);
 
+  late SearchDIContainer search = SearchDIContainer(appStatus);
+
   late AddSpendCategoryDIContainer addSpendCategory =
       AddSpendCategoryDIContainer(appStatus);
 
@@ -67,6 +70,7 @@ class AppDIContainer {
     addGroup.appStatus = appStatus;
     settings.appStatus = appStatus;
     chart.appStatus = appStatus;
+    search.appStatus = appStatus;
     addSpendCategory.appStatus = appStatus;
   }
 }

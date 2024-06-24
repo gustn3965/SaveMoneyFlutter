@@ -572,6 +572,24 @@ class Repository {
       await databaseController.delete(dbGroupMonth);
     }
   }
+
+  Future<List<Spend>> searchSpendByCategoryNameAndDescription({required String search, required bool descDate}) async {
+
+    List<DBSpendCategory> spendCategoryList = await databaseController.fetch(DBSpendCategory.staticClassName(), where: "name LIKE '%$search%'");
+
+    List<String> spendCategoryIds = spendCategoryList.map((e) => e.id).toList();
+
+    String spendCategoryIdsPlaceholders =
+    spendCategoryIds.map((id) => '?').join(',');
+
+    String orderByDate = " date DESC";
+    if (descDate == false) {
+      orderByDate = " date ";
+    }
+    List<DBSpend> dbSpendList = await databaseController.fetch(DBSpend.staticClassName(), where: "spendCategoryId IN ($spendCategoryIdsPlaceholders)", args: spendCategoryIds, orderBy: orderByDate);
+
+    return makeSpendFromDB(dbSpendList);
+  }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
   // ------------------------------------------------------------

@@ -6,6 +6,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/ChartCoordi
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Search/SearchCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SettingsCoordinator.dart';
 
 import 'package:save_money_flutter/main.dart';
@@ -17,6 +18,7 @@ import 'MainTabWidget.dart';
 class MainTabCoordinator extends Coordinator {
   late HomeCoordinator homeCoordinator;
   late ChartCoordinator chartCoordinator;
+  late SearchCoordinator searchCoordinator;
   late SettingsCoordinator settingsCoordinator;
 
   MainTabViewModel? mainHomeViewModel;
@@ -27,6 +29,7 @@ class MainTabCoordinator extends Coordinator {
     homeCoordinator = HomeCoordinator(this);
     homeCoordinator.routeName = this.routeName;
     chartCoordinator = ChartCoordinator(this);
+    searchCoordinator = SearchCoordinator(this);
     settingsCoordinator = SettingsCoordinator(this);
     currentWidget = makeMainHomeWidget();
   }
@@ -59,6 +62,13 @@ class MainTabCoordinator extends Coordinator {
       }
     }
 
+    void didClickSearchTab() {
+      if (currentWidget is MainTabWidget) {
+        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
+        mainTabWidget.bodyWidget = searchCoordinator.currentWidget;
+      }
+    }
+
     void didClickSettingTab() {
       if (currentWidget is MainTabWidget) {
         MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
@@ -67,9 +77,10 @@ class MainTabCoordinator extends Coordinator {
     }
 
     MainTabViewModelAction action = MainTabViewModelAction(
-      didClickHomeTab,
-      didClickChartTab,
-      didClickSettingTab,
+      didClickHomeBottomTabButton: didClickHomeTab,
+      didClickChartBottomTabButton: didClickChartTab,
+      didClickSearchBottomTabButton: didClickSearchTab,
+      didClickSettingBottomTabButton: didClickSettingTab,
     );
 
     mainHomeViewModel = appDIContainer.mainTab.makeMainHomeViewModel(action);

@@ -25,28 +25,29 @@ class MainTabWidget extends StatelessWidget {
               child: BottomNavigationBar(
                 currentIndex: viewModel.bottomNavigationIndex,
                 onTap: (value) {
-                  if (value == 0) {
-                    viewModel.didClickHomeBottomTabButton();
-                  } else if (value == 1) {
-                    viewModel.didClickChartBottomTabButton();
-                  } else {
-                    viewModel.didClickSettingBottomTabButton();
-                  }
+                  viewModel.didClickTabItem(viewModel.tabItems[value]);
                 },
-                backgroundColor: AppColors.whiteColor,
+                backgroundColor: Colors.white,
                 selectedItemColor: AppColors.mainHightColor,
+                unselectedItemColor: AppColors.deepGrayColor,
+
                 showSelectedLabels: true,
                 showUnselectedLabels: false,
-                items: [
-                  BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.bar_chart), label: '차트'),
-                  BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
-                ],
+                items: makeBottomBarItems()
+                // items: [
+                //   BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
+                //   BottomNavigationBarItem(
+                //       icon: Icon(Icons.bar_chart), label: '차트'),
+                //   BottomNavigationBarItem(icon: Icon(Icons.menu), label: '설정'),
+                // ],
               ),
             ));
       },
     );
+  }
+
+  List<BottomNavigationBarItem> makeBottomBarItems() {
+    return viewModel.tabItems.map((e) => BottomNavigationBarItem(icon: e.icon, label: e.name, backgroundColor: AppColors.whiteColor)).toList();
   }
 }
 
