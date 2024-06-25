@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Search/SearchSpend/ViewModel/SearchSpendViewModel.dart';
 
 import '../../../../../AppColor/AppColors.dart';
@@ -29,8 +30,16 @@ class SearchSpendWidget extends StatelessWidget {
                   // primary: false,
                   itemCount: viewModel.items.length,
                   itemBuilder: (BuildContext context, int index) {
+
                     SearchSpendItem item = viewModel.items[index];
-                    return spendItemWidget(item, index);
+
+                    if (item is SearchSpendItemDate) {
+                      return dateHeaderWidget(item);
+                    } else if (item is SearchSpendItemSpend) {
+                      return spendItemWidget(item, index);
+                    } else {
+                      return SizedBox(height: 20);
+                    }
                   },
                 ),
               ),
@@ -76,7 +85,7 @@ class SearchSpendWidget extends StatelessWidget {
         color: AppColors.whiteColor,
         child: TextField(
           textAlign: TextAlign.center,
-          autofocus: true,
+          autofocus: false,
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
           maxLength: viewModel.maxNameLength,
@@ -121,7 +130,49 @@ class SearchSpendWidget extends StatelessWidget {
     );
   }
 
-  Widget spendItemWidget(SearchSpendItem item, int index) {
+  Widget dateHeaderWidget(SearchSpendItemDate item) {
+    return Container(
+      // height: 40,
+      width: MediaQuery.of(NavigationService.currentContext!).size.width,
+      color: AppColors.lightGrayColor,
+      child: Column(
+        children: [
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start, // 왼쪽과 오른쪽 정렬 설정
+            children: [
+              Padding(
+                  padding:
+                  EdgeInsets.only(left:20, right: 10), // 왼쪽에 10의 패딩 추가
+                  child: Text(
+                    '${item.dateString}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
+                  )),
+              Text(
+                '(${DateFormat.EEEE('ko').format(item.date)})',
+                style: TextStyle(
+                  color: item.date.weekday == DateTime.sunday ? AppColors.mainRedColor : Colors.black,
+                  fontSize: 15,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                  height: 0,
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  Widget spendItemWidget(SearchSpendItemSpend item, int index) {
     return Container(
       // height: 100,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
@@ -14,32 +13,36 @@ class DefaultMonthSpendListViewModel extends MonthSpendListViewModel {
   @override
   late List<String> spendCategories = [];
 
-  DefaultMonthSpendListViewModel(super.action, super.groupIds, this.groupSpendListUseCase) {
+  DefaultMonthSpendListViewModel(
+      super.action, super.groupIds, this.groupSpendListUseCase) {
     fetchDaySpendList(groupIds, spendCategories);
   }
 
   @override
   void didClickModifySpendItem(int index) {
-
     MonthSpendListItem item = spendList[index];
     if (item is MonthSpendListItemSpend) {
       MonthSpendListItemSpend itemSpend = item;
       action.didClickModifySpendItem(itemSpend.identity);
     }
   }
-@override
+
+  @override
   int onlyItemListCount() {
-  return spendList.where((item) => item is MonthSpendListItemSpend).length;
-}
+    return spendList.where((item) => item is MonthSpendListItemSpend).length;
+  }
+
   @override
   void reloadFetch() {
     fetchDaySpendList(groupIds, spendCategories);
   }
 
-  Future<void> fetchDaySpendList(List<String> selectedGroupIds,
-      List<String> filterSpendCategories) async {
-    List<Spend> list =
-    await groupSpendListUseCase.fetchSpendListGroupIds(spendCategoryIds: filterSpendCategories, groupIds: selectedGroupIds, descending: true);
+  Future<void> fetchDaySpendList(
+      List<String> selectedGroupIds, List<String> filterSpendCategories) async {
+    List<Spend> list = await groupSpendListUseCase.fetchSpendListGroupIds(
+        spendCategoryIds: filterSpendCategories,
+        groupIds: selectedGroupIds,
+        descending: true);
 
     spendList = convertItems(list);
     totalSpendMoney = makeTotalSpendMoney(list);
@@ -47,20 +50,27 @@ class DefaultMonthSpendListViewModel extends MonthSpendListViewModel {
     _dataController.add(this);
   }
 
-  List<MonthSpendListItem> convertItems(
-      List<Spend> spendList) {
-List<MonthSpendListItem> items = [];
+  List<MonthSpendListItem> convertItems(List<Spend> spendList) {
+    List<MonthSpendListItem> items = [];
 
     Set<DateTime> dateSet = {};
 
     for (Spend spend in spendList) {
-      DateTime date = DateTime(spend.date.year, spend.date.month, spend.date.day);
+      DateTime date =
+          DateTime(spend.date.year, spend.date.month, spend.date.day);
+
+      MonthSpendListItemSpend spendItem = MonthSpendListItemSpend(
+          categoryName: spend.spendCategory?.name ?? "",
+          date: spend.date,
+          spendMoney: spend.spendMoney,
+          identity: spend.identity,
+          description: spend.description);
       if (dateSet.contains(date)) {
-        items.add(MonthSpendListItemSpend(categoryName: spend.spendCategory?.name ?? "", date: spend.date, spendMoney: spend.spendMoney, identity: spend.identity, description: spend.description));
+        items.add(spendItem);
       } else {
         dateSet.add(date);
         items.add(MonthSpendListItemDate(date: date));
-        items.add(MonthSpendListItemSpend(categoryName: spend.spendCategory?.name ?? "", date: spend.date, spendMoney: spend.spendMoney, identity: spend.identity, description: spend.description));
+        items.add(spendItem);
       }
     }
 
@@ -80,11 +90,12 @@ List<MonthSpendListItem> items = [];
 
   // Observing
   final _dataController = StreamController<MonthSpendListViewModel>.broadcast();
+
   @override
   Stream<MonthSpendListViewModel> get dataStream => _dataController.stream;
+
   @override
   void dispose() {
     _dataController.close();
   }
-
 }

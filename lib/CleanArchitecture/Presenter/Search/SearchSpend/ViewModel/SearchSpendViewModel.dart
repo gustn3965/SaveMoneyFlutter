@@ -5,8 +5,15 @@ class SearchSpendAction {
   SearchSpendAction({required this.didClickEditSpend});
 }
 
-
 class SearchSpendItem {
+
+}
+class SearchSpendItemDate extends SearchSpendItem {
+  String dateString;
+  DateTime date;
+  SearchSpendItemDate({required this.dateString, required this.date});
+}
+class SearchSpendItemSpend extends SearchSpendItem {
   String spendIdentity;
   String groupCategoryName;
   String spendCategoryName;
@@ -14,7 +21,7 @@ class SearchSpendItem {
   String spendMoneyString;
   String dateString;
 
-  SearchSpendItem({required this.spendIdentity, required this.groupCategoryName, required this.spendCategoryName, required this.description, required this.spendMoneyString, required this.dateString});
+  SearchSpendItemSpend({required this.spendIdentity, required this.groupCategoryName, required this.spendCategoryName, required this.description, required this.spendMoneyString, required this.dateString});
 }
 
 abstract class SearchSpendViewModel {
@@ -30,7 +37,7 @@ abstract class SearchSpendViewModel {
 
   void didChangeSearchName(String searchName);
   void didClickSearchButton();
-  void didClickEditSpendItem(SearchSpendItem item);
+  void didClickEditSpendItem(SearchSpendItemSpend item);
 
   // Observing
   Stream<SearchSpendViewModel> get dataStream;

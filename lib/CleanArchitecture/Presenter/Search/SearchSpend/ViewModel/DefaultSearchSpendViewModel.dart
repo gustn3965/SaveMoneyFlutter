@@ -18,7 +18,7 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
   }
 
   @override
-  void didClickEditSpendItem(SearchSpendItem item) {
+  void didClickEditSpendItem(SearchSpendItemSpend item) {
     action.didClickEditSpend(item.spendIdentity);
   }
 
@@ -42,15 +42,34 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
   }
 
   List<SearchSpendItem> convertToItem(List<Spend> spendList) {
-    return spendList.map((e) {
-      return SearchSpendItem(
-          spendIdentity: e.identity,
-          groupCategoryName: e.groupMonthId,
-          spendCategoryName: e.spendCategory?.name ?? "",
-          description: e.description,
-          spendMoneyString: '${NumberFormat("#,###").format(e.spendMoney)}원',
-          dateString: DateFormat('yyyy-MM-dd').format(e.date));
-    }).toList();
+
+    List<SearchSpendItem> items = [];
+
+    Set<DateTime> dateSet = {};
+
+    DateFormat dateFormat = DateFormat('yyyy-MM');
+    for (Spend spend in spendList) {
+      DateTime date =
+      DateTime(spend.date.year, spend.date.month, spend.date.day);
+
+      SearchSpendItemSpend spendItem = SearchSpendItemSpend(
+          spendIdentity: spend.identity,
+          groupCategoryName: spend.groupMonthId,
+          spendCategoryName: spend.spendCategory?.name ?? "",
+          description: spend.description,
+          spendMoneyString: '${NumberFormat("#,###").format(spend.spendMoney)}원',
+          dateString: DateFormat('yyyy-MM-dd').format(spend.date));
+
+      if (dateSet.contains(date)) {
+        items.add(spendItem);
+      } else {
+        dateSet.add(date);
+        items.add(SearchSpendItemDate(dateString: dateFormat.format(date), date: date));
+        items.add(spendItem);
+      }
+    }
+
+    return items;
   }
 
   // observing
