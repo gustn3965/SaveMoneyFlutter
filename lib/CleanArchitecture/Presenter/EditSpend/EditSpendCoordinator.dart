@@ -29,6 +29,7 @@ class EditSpendCoordinator extends Coordinator {
 
     void didDeleteSpend() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

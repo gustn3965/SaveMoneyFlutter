@@ -39,6 +39,7 @@ abstract class SearchSpendViewModel {
   void didClickSearchButton();
   void didClickEditSpendItem(SearchSpendItemSpend item);
 
+  void reloadData();
   // Observing
   Stream<SearchSpendViewModel> get dataStream;
   void dispose();

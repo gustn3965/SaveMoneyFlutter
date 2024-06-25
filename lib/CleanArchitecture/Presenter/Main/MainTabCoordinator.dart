@@ -44,6 +44,7 @@ class MainTabCoordinator extends Coordinator {
   void updateCurrentWidget() {
     homeCoordinator.updateCurrentWidget();
     chartCoordinator.updateCurrentWidget();
+    searchCoordinator.updateCurrentWidget();
     settingsCoordinator.updateCurrentWidget();
   }
 

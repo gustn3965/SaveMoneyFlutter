@@ -35,6 +35,11 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
     _dataController.add(this);
   }
 
+  @override
+  void reloadData() {
+    didClickSearchButton();
+  }
+
   Future<List<Spend>> searchSpendList() async {
     return
         await searchSpendUseCase.searchSpendByCategoryNameAndDescription(

@@ -22,7 +22,7 @@ class SearchCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
-    // TODO: implement updateCurrentWidget
+    searchSpendViewModel?.reloadData();
   }
 
   Widget makeSearchSpendWidget() {
