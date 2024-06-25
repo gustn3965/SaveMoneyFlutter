@@ -586,7 +586,7 @@ class Repository {
     if (descDate == false) {
       orderByDate = " date ";
     }
-    List<DBSpend> dbSpendList = await databaseController.fetch(DBSpend.staticClassName(), where: "spendCategoryId IN ($spendCategoryIdsPlaceholders)", args: spendCategoryIds, orderBy: orderByDate);
+    List<DBSpend> dbSpendList = await databaseController.fetch(DBSpend.staticClassName(), where: "spendCategoryId IN ($spendCategoryIdsPlaceholders) OR description LIKE '%$search%'", args: spendCategoryIds, orderBy: orderByDate);
 
     return makeSpendFromDB(dbSpendList);
   }

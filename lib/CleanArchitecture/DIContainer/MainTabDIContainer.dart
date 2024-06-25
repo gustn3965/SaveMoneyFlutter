@@ -22,13 +22,13 @@ class MainTabDIContainer {
   MainTabDIContainer(this.appStatus);
 
   // Main
-  MainTabViewModel makeMainHomeViewModel(MainTabViewModelAction action) {
-    MainTabViewModel viewModel = DefaultMainTabViewModel(action);
+  MainTabViewModel makeMainHomeViewModel() {
+    MainTabViewModel viewModel = DefaultMainTabViewModel();
     return viewModel;
   }
 
   MainTabWidget makeMainHomeWidget(
-      MainTabViewModel viewModel, Widget bodyWidget) {
-    return MainTabWidget(viewModel, bodyWidget);
+      MainTabViewModel viewModel, List<Widget> bodyWidgets) {
+    return MainTabWidget(viewModel, bodyWidgets);
   }
 }

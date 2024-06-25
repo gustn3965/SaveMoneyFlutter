@@ -48,45 +48,17 @@ class MainTabCoordinator extends Coordinator {
   }
 
   Widget makeMainHomeWidget() {
-    void didClickHomeTab() {
-      if (currentWidget is MainTabWidget) {
-        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
-        mainTabWidget.bodyWidget = homeCoordinator.currentWidget;
-      }
-    }
 
-    void didClickChartTab() {
-      if (currentWidget is MainTabWidget) {
-        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
-        mainTabWidget.bodyWidget = chartCoordinator.currentWidget;
-      }
-    }
+    mainHomeViewModel = appDIContainer.mainTab.makeMainHomeViewModel();
 
-    void didClickSearchTab() {
-      if (currentWidget is MainTabWidget) {
-        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
-        mainTabWidget.bodyWidget = searchCoordinator.currentWidget;
-      }
-    }
-
-    void didClickSettingTab() {
-      if (currentWidget is MainTabWidget) {
-        MainTabWidget mainTabWidget = currentWidget as MainTabWidget;
-        mainTabWidget.bodyWidget = settingsCoordinator.currentWidget;
-      }
-    }
-
-    MainTabViewModelAction action = MainTabViewModelAction(
-      didClickHomeBottomTabButton: didClickHomeTab,
-      didClickChartBottomTabButton: didClickChartTab,
-      didClickSearchBottomTabButton: didClickSearchTab,
-      didClickSettingBottomTabButton: didClickSettingTab,
-    );
-
-    mainHomeViewModel = appDIContainer.mainTab.makeMainHomeViewModel(action);
-
+    List<Widget> bodyWidgets = [
+      homeCoordinator.currentWidget,
+      chartCoordinator.currentWidget,
+      searchCoordinator.currentWidget,
+      settingsCoordinator.currentWidget
+    ];
     return appDIContainer.mainTab
-        .makeMainHomeWidget(mainHomeViewModel!, homeCoordinator.currentWidget);
+        .makeMainHomeWidget(mainHomeViewModel!, bodyWidgets);
   }
 
   //------------------------------------------------------------

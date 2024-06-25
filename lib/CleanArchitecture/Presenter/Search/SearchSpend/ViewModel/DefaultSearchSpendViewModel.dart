@@ -24,13 +24,21 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
 
   @override
   void didClickSearchButton() async {
+    if (searchName.trim().isEmpty) {
+      return;
+    }
     List<Spend> spendList =
-        await searchSpendUseCase.searchSpendByCategoryNameAndDescription(
-            search: searchName, descDate: true);
+        await searchSpendList();
     print(spendList.length);
 
     items = convertToItem(spendList);
     _dataController.add(this);
+  }
+
+  Future<List<Spend>> searchSpendList() async {
+    return
+        await searchSpendUseCase.searchSpendByCategoryNameAndDescription(
+        search: searchName, descDate: true);
   }
 
   List<SearchSpendItem> convertToItem(List<Spend> spendList) {

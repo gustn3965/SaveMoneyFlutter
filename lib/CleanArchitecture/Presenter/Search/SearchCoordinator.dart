@@ -11,12 +11,12 @@ class SearchCoordinator extends Coordinator {
   SearchCoordinator(Coordinator superCoordinator)
       : super(superCoordinator, null) {
     Widget searchSpendWidget = makeSearchSpendWidget();
-    Widget emptyBottomWidget = const SizedBox(height: 100);
+    // Widget emptyBottomWidget = const SizedBox(height: 100);
     routeName = "searchTab";
 
     currentWidget = SearchWidget(widgets: [
       searchSpendWidget,
-      emptyBottomWidget,
+      // emptyBottomWidget,
     ]);
   }
 

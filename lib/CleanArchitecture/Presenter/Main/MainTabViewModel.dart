@@ -21,10 +21,10 @@ class MainTabItem {
 abstract class MainTabViewModel {
 
   List<MainTabItem> tabItems = [];
-  late MainTabViewModelAction action;
+  // late MainTabViewModelAction action;
   int bottomNavigationIndex = 0;
 
-  MainTabViewModel(this.action);
+  MainTabViewModel();
 
   void didClickTabItem(MainTabItem item);
 
@@ -40,7 +40,7 @@ abstract class MainTabViewModel {
 }
 
 class DefaultMainTabViewModel extends MainTabViewModel {
-  DefaultMainTabViewModel(super.action) {
+  DefaultMainTabViewModel() {
     tabItems = [
       MainTabItem(icon: Icon(Icons.home), name: "홈", clickTabAction: didClickHomeBottomTabButton),
       MainTabItem(icon: Icon(Icons.bar_chart), name: "차트", clickTabAction: didClickChartBottomTabButton),
@@ -60,28 +60,28 @@ class DefaultMainTabViewModel extends MainTabViewModel {
 
   @override
   void didClickHomeBottomTabButton() {
-    action.didClickHomeBottomTabButton();
+    // action.didClickHomeBottomTabButton();
     bottomNavigationIndex = 0;
     _dataController.add(this);
   }
 
   @override
   void didClickChartBottomTabButton() {
-    action.didClickChartBottomTabButton();
+    // action.didClickChartBottomTabButton();
     bottomNavigationIndex = 1;
     _dataController.add(this);
   }
 
   @override
   void didClickSearchBottomTabButton() {
-    action.didClickSearchBottomTabButton();
+    // action.didClickSearchBottomTabButton();
     bottomNavigationIndex = 2;
     _dataController.add(this);
   }
 
   @override
   void didClickSettingBottomTabButton() {
-    action.didClickSettingBottomTabButton();
+    // action.didClickSettingBottomTabButton();
     bottomNavigationIndex = 3;
     _dataController.add(this);
   }

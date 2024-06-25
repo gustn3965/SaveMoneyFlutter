@@ -16,35 +16,58 @@ class SearchSpendWidget extends StatelessWidget {
     return StreamBuilder<SearchSpendViewModel>(
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, top: 10, right: 20, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  descriptionTextFieldWidget(),
-                  searchButton(),
-                ],
+        return Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              topSearchWidget(),
+              searchedCountWidget(),
+              Expanded(
+                child: ListView.builder(
+                  // shrinkWrap: false,
+                  // primary: false,
+                  itemCount: viewModel.items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    SearchSpendItem item = viewModel.items[index];
+                    return spendItemWidget(item, index);
+                  },
+                ),
               ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: viewModel.items.length,
-              itemBuilder: (BuildContext context, int index) {
-                SearchSpendItem item = viewModel.items[index];
-
-                return spendItemWidget(item, index);
-              },
-            )
-          ],
+            ],
+          ),
         );
       },
     );
   }
 
+  Widget topSearchWidget() {
+    return Container(
+      height: 100,
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            descriptionTextFieldWidget(),
+            searchButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget searchedCountWidget() {
+    return Padding(
+        padding:
+            const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+        child: Text('(${viewModel.items.length} 개)', textAlign: TextAlign.start,));
+  }
+
+  // Widget searchedSpendListWidget() {
+  //
+  // }
   Widget descriptionTextFieldWidget() {
     return Material(
       child: Container(
@@ -62,6 +85,9 @@ class SearchSpendWidget extends StatelessWidget {
             labelText: '소비 카테고리 이름',
             floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
+          onSubmitted: (String value) {
+            viewModel.didClickSearchButton();
+          },
           onChanged: (text) {
             viewModel.didChangeSearchName(text);
           },
@@ -81,7 +107,7 @@ class SearchSpendWidget extends StatelessWidget {
       label: Text('검색'), // 버튼 텍스트
       style: ElevatedButton.styleFrom(
           foregroundColor: AppColors.whiteColor,
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: AppColors.mainHightColor,
           // 버튼의 배경색을 파란색으로 설정
           // textStyle: TextStyle(color: AppColors.whiteColor),
           shape: RoundedRectangleBorder(

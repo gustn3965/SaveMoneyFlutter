@@ -5,9 +5,9 @@ import 'MainTabViewModel.dart';
 
 class MainTabWidget extends StatelessWidget {
   final MainTabViewModel viewModel;
-  late Widget bodyWidget;
+  late List<Widget> bodyWidgets;
 
-  MainTabWidget(this.viewModel, this.bodyWidget);
+  MainTabWidget(this.viewModel, this.bodyWidgets);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,10 @@ class MainTabWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
             backgroundColor: Colors.white,
-            body: bodyWidget,
+            body: IndexedStack(
+              index: viewModel.bottomNavigationIndex,
+              children: bodyWidgets,
+            ),
             bottomNavigationBar: Theme(
               data: Theme.of(context).copyWith(
                 splashColor: Colors.transparent,
