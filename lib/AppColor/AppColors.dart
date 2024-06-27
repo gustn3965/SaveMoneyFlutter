@@ -15,6 +15,7 @@ class AppColors {
   // 검은색바탕
   static Color lightGrayColor = Colors.black12;
 
+  static Color lightDarkColor = Color(0xFF2F2F2F);
 
   // 흰색바탕
   static Color whiteColor = Colors.white;
@@ -23,6 +24,6 @@ class AppColors {
 
   static Color editColorGray = Color(0xFFC4C1C1);
 
-  static Color deepGrayColor = Color(0xFF8F8F8F);
+  static Color deepGrayColor = Color(0xFFC4C1C1);
 
 }

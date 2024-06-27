@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/SpendCategoryChart/ViewModel/SpendCategoryChartViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendCategoryFetchUseCase.dart';
 
-import '../../../../Domain/Entity/GroupMonth.dart';
+import '../../../../../Extension/DateTime+Extension.dart';
 import '../../../../Domain/Entity/Spend.dart';
 import '../../../../Domain/Entity/SpendCategory.dart';
 import '../../../../UseCase/SpendListUseCase.dart';
@@ -14,7 +15,7 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
   SpendCategoryFetchUseCase spendCategoryFetchUseCase;
   SpendListUseCase spendListUseCase;
 
-  DefaultSpendCategoryChartViewModel(
+  DefaultSpendCategoryChartViewModel(super.action,
       this.spendCategoryFetchUseCase, this.spendListUseCase) {}
 
   final _dataController =
@@ -61,6 +62,16 @@ class DefaultSpendCategoryChartViewModel extends SpendCategoryChartViewModel {
   void reloadFetch() async {
     print("SpendCategoryChart reloadFetch");
     fetchSpendCategoryList(groupCategoryIds);
+  }
+
+  @override
+  void clickChart({required int xIndex, required int yIndex}) {
+    SpendChartXModel xModel = chartModel!.xModels[xIndex];
+    SpendChartYModel yModel = xModel.yModels[yIndex];
+    int totalMoney = xModel.yModels.fold(0, (sum, yModel) => sum + yModel.yIndex);
+    String dateString = DateFormat('yyyy-MM').format(dateTimeFromSince1970(xModel.xIndex));
+    SpendChartToastModel toastModel = SpendChartToastModel(categoryMoney: yModel.yIndex, categoryName: yModel.name, totalMoney: totalMoney, dateString: dateString);
+    action.showToastYChart(toastModel);
   }
 
   void updateSelectedItems() {

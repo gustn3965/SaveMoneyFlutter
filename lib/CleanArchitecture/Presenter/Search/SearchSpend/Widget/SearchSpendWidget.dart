@@ -153,17 +153,7 @@ class SearchSpendWidget extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       height: 0,
                     ),
-                  )),
-              Text(
-                '(${DateFormat.EEEE('ko').format(item.date)})',
-                style: TextStyle(
-                  color: item.date.weekday == DateTime.sunday ? AppColors.mainRedColor : Colors.black,
-                  fontSize: 15,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w500,
-                  height: 0,
-                ),
-              )
+                  ))
             ],
           ),
           SizedBox(height: 10),
@@ -206,7 +196,22 @@ class SearchSpendWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 10),
                         if (item.dateString.isNotEmpty)
-                          Text("날짜 : ${item.dateString}"),
+                          Row(
+                            children: [
+                              Text("날짜 : ${item.dateString}"),
+                              SizedBox(width: 5),
+                              Text(
+                                '(${DateFormat.EEEE('ko').format(item.date)})',
+                                style: TextStyle(
+                                  color: item.date.weekday == DateTime.sunday ? AppColors.mainRedColor : Colors.black,
+                                  fontSize: 13,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  height: 0,
+                                ),
+                              )
+                            ]
+                          ),
                         if (item.description.isNotEmpty)
                           Text("설명 : ${item.description}"),
                         SizedBox(height: 10),

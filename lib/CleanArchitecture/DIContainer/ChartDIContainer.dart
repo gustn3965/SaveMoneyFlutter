@@ -45,7 +45,8 @@ class ChartDIContainer {
   }
 
   // Chart - SpendCategory
-  SpendCategoryChartViewModel makeSpendCategoryChartViewModel() {
+  SpendCategoryChartViewModel makeSpendCategoryChartViewModel(
+      SpendCategoryChartActions action) {
     SpendCategoryFetchUseCase spendCategoryFetchUseCase;
     SpendListUseCase spendListUseCase;
     switch (appStatus) {
@@ -61,7 +62,7 @@ class ChartDIContainer {
     }
 
     return DefaultSpendCategoryChartViewModel(
-        spendCategoryFetchUseCase, spendListUseCase);
+        action, spendCategoryFetchUseCase, spendListUseCase);
   }
 
   Widget makeSpendCategoryChartWidget(SpendCategoryChartViewModel viewModel) {

@@ -18,12 +18,19 @@ class SpendCategoryChartSelectorItem {
   int get hashCode => categoryIdentity.hashCode;
 }
 
-// class GroupMonthChartActions {
-//   final void Function(List<String>) updateSelectedGroupIds;
-//   final void Function() showAddGroup;
-//
-//   GroupMonthSelectorActions(this.updateSelectedGroupIds, this.showAddGroup);
-// }
+class SpendCategoryChartActions {
+  final void Function(SpendChartToastModel toastModel) showToastYChart;
+
+  SpendCategoryChartActions(this.showToastYChart);
+}
+
+class SpendChartToastModel {
+  int categoryMoney;
+  String categoryName;
+  int totalMoney;
+  String dateString;
+  SpendChartToastModel({required this.categoryMoney, required this.categoryName, required this.totalMoney, required this.dateString});
+}
 
 class SpendChartModel {
   List<SpendChartXModel> xModels;
@@ -50,14 +57,19 @@ class SpendChartYModel {
 }
 
 abstract class SpendCategoryChartViewModel {
+  late SpendCategoryChartActions action;
+
   List<String> selectedGroupCategoryIds = [];
   List<SpendCategoryChartSelectorItem> spendCategorySelectorItems = [];
   List<SpendCategoryChartSelectorItem> selectedSpendCategorySelectorItems = [];
 
   SpendChartModel? chartModel;
 
+  SpendCategoryChartViewModel(this.action);
+
   void fetchSpendCategoryList(List<String> groupCategoryIds);
   void didSelectSpendCategory(SpendCategoryChartSelectorItem item);
+  void clickChart({required int xIndex, required int yIndex});
   void reloadFetch();
 
   // Observing

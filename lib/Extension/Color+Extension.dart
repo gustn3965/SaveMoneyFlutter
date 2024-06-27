@@ -37,3 +37,9 @@ Color generateUniqueColor(String uuid) {
 
   return Color.fromARGB(255, red, green, blue);
 }
+
+Color darkColor(Color color) {
+  final hsl = HSLColor.fromColor(color);
+  final darkenedHsl = hsl.withLightness((hsl.lightness - 0.2).clamp(0.0, 1.0));
+  return darkenedHsl.toColor();
+}

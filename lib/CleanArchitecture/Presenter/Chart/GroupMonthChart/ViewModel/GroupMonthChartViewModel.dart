@@ -6,8 +6,17 @@ class GroupCategoryChartSelectorItem {
 
 class GroupMonthChartActions {
   final void Function(List<String>) updateSelectedGroupCategoryIds;
+  final void Function(GroupChartToastModel toastModel) showToastYChart;
 
-  GroupMonthChartActions(this.updateSelectedGroupCategoryIds);
+  GroupMonthChartActions(this.updateSelectedGroupCategoryIds, this.showToastYChart);
+}
+
+class GroupChartToastModel {
+  int categoryMoney;
+  String categoryName;
+  int totalMoney;
+  String dateString;
+  GroupChartToastModel({required this.categoryMoney, required this.categoryName, required this.totalMoney, required this.dateString});
 }
 
 class GroupChartModel {
@@ -40,6 +49,7 @@ abstract class GroupMonthChartViewModel {
   GroupChartModel? chartModel;
 
   void didSelectGroupCategory(GroupCategoryChartSelectorItem item);
+  void clickChart({required int xIndex, required int yIndex});
   void reloadFetch();
 
   // Observing

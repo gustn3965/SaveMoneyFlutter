@@ -9,10 +9,17 @@ import '../../../../../Extension/DateTime+Extension.dart';
 import '../../../AppCoordinator.dart';
 import '../ViewModel/SpendCategoryChartViewModel.dart';
 
-class SpendCategoryChartWidget extends StatelessWidget {
+class SpendCategoryChartWidget extends StatefulWidget {
   final SpendCategoryChartViewModel viewModel;
 
   SpendCategoryChartWidget(this.viewModel);
+
+  _SpendCategoryChartState createState() => _SpendCategoryChartState();
+}
+class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
+  late SpendCategoryChartViewModel viewModel = widget.viewModel;
+
+  int? touchedGroupIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -166,12 +173,27 @@ class SpendCategoryChartWidget extends StatelessWidget {
   BarChartData mainBarData(SpendChartModel chartModel) {
     return BarChartData(
       barTouchData: BarTouchData(
+        touchCallback: (FlTouchEvent event, BarTouchResponse? response) {
+          if (response != null && response.spot != null) {
+
+            int xIndex = response.spot!.touchedBarGroupIndex;
+            int yIndex = response.spot!.touchedRodDataIndex;
+            SpendChartYModel yModel = chartModel.xModels[xIndex].yModels[yIndex];
+
+            setState(() {
+              touchedGroupIndex = xIndex;
+            });
+
+            if (event is FlTapDownEvent || event is FlLongPressMoveUpdate) {
+              viewModel.clickChart(xIndex: xIndex, yIndex: yIndex);
+            }
+          }
+        },
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.black,
-          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-          tooltipMargin: -100,
-          direction: TooltipDirection.bottom,
+          tooltipBgColor: Colors.transparent,
+          getTooltipItem: (group, groupIndex, rod, rodIndex) => null,
         ),
+
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -232,6 +254,7 @@ class SpendCategoryChartWidget extends StatelessWidget {
 
   BarChartGroupData makeGroup(SpendChartXModel xModel) {
     double fromY = 0;
+    bool isTouched = touchedGroupIndex != null && viewModel.chartModel?.xModels[touchedGroupIndex!].xIndex == xModel.xIndex;
     return BarChartGroupData(
       x: xModel.xIndex,
       groupVertically: true,
@@ -241,9 +264,9 @@ class SpendCategoryChartWidget extends StatelessWidget {
         Color barColor = generateUniqueColor(yModel.spendCategoryId);
         BarChartRodData chartRodData = BarChartRodData(
           fromY: fromY,
-          toY: fromY + price,
-          color: barColor,
-          width: 22,
+          toY: fromY + price + (isTouched ? (fromY + price) / 10 : 0),
+          color: isTouched ? darkColor(barColor) : barColor,
+          width: 22 + (isTouched ? 7 : 0),
           borderRadius: BorderRadius.zero,
         );
 

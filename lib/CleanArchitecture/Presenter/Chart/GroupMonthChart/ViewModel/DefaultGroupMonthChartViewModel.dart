@@ -7,6 +7,7 @@ import '../../../../Domain/Entity/GroupCategory.dart';
 import '../../../../Domain/Entity/GroupMonth.dart';
 import '../../../../UseCase/GroupCategoryFetchUseCase.dart';
 import '../../../../UseCase/GroupMonthFetchUseCase.dart';
+import 'package:intl/intl.dart';
 
 class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
   @override
@@ -34,6 +35,16 @@ class DefaultGroupMonthChartViewModel extends GroupMonthChartViewModel {
   void reloadFetch() async {
     print("GroupMonthChart reloadFetch");
     fetchAllGroupCategory();
+  }
+
+  @override
+  void clickChart({required int xIndex, required int yIndex}) {
+    GroupChartXModel xModel = chartModel!.xModels[xIndex];
+    GroupChartYModel yModel = xModel.yModels[yIndex];
+    int totalMoney = xModel.yModels.fold(0, (sum, yModel) => sum + yModel.yIndex);
+    String dateString = DateFormat('yyyy-MM').format(dateTimeYearMonthDaySince1970(xModel.xIndex * 1000));
+    GroupChartToastModel toastModel = GroupChartToastModel(categoryMoney: yModel.yIndex, categoryName: yModel.name, totalMoney: totalMoney, dateString: dateString);
+    action.showToastYChart(toastModel);
   }
 
   void fetchAllGroupCategory() async {

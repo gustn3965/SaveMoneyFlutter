@@ -11,10 +11,17 @@ import '../../../../../Extension/Color+Extension.dart';
 import '../../../../../Extension/DateTime+Extension.dart';
 import '../../../AppCoordinator.dart';
 
-class GroupMonthChartWidget extends StatelessWidget {
+class GroupMonthChartWidget extends StatefulWidget {
   final GroupMonthChartViewModel viewModel;
 
   GroupMonthChartWidget(this.viewModel);
+
+  _GroupMonthChartState createState() => _GroupMonthChartState();
+}
+class _GroupMonthChartState extends State<GroupMonthChartWidget> {
+  late GroupMonthChartViewModel viewModel = widget.viewModel;
+
+  int? touchedGroupIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -164,12 +171,27 @@ class GroupMonthChartWidget extends StatelessWidget {
   BarChartData mainBarData(GroupChartModel chartModel) {
     return BarChartData(
       barTouchData: BarTouchData(
+        touchCallback: (FlTouchEvent event, BarTouchResponse? response) {
+          if (response != null && response.spot != null) {
+
+            int xIndex = response.spot!.touchedBarGroupIndex;
+            int yIndex = response.spot!.touchedRodDataIndex;
+            GroupChartYModel yModel = chartModel.xModels[xIndex].yModels[yIndex];
+
+            setState(() {
+              touchedGroupIndex = xIndex;
+            });
+
+            if (event is FlTapDownEvent || event is FlLongPressMoveUpdate) {
+              viewModel.clickChart(xIndex: xIndex, yIndex: yIndex);
+            }
+          }
+        },
         touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.black,
-          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-          tooltipMargin: -100,
-          direction: TooltipDirection.bottom,
+          tooltipBgColor: Colors.transparent,
+          getTooltipItem: (group, groupIndex, rod, rodIndex) => null,
         ),
+
       ),
       titlesData: FlTitlesData(
         show: true,
@@ -230,6 +252,7 @@ class GroupMonthChartWidget extends StatelessWidget {
 
   BarChartGroupData makeGroup(GroupChartXModel xModel) {
     double fromY = 0;
+    bool isTouched = touchedGroupIndex != null && viewModel.chartModel?.xModels[touchedGroupIndex!].xIndex == xModel.xIndex;
     return BarChartGroupData(
       x: xModel.xIndex,
       groupVertically: true,
@@ -239,9 +262,9 @@ class GroupMonthChartWidget extends StatelessWidget {
         Color barColor = generateUniqueColor(yModel.groupCategoryId);
         BarChartRodData chartRodData = BarChartRodData(
           fromY: fromY,
-          toY: fromY + price,
-          color: barColor,
-          width: 22,
+          toY: fromY + price + (isTouched ? (fromY + price) / 10 : 0),
+          color: isTouched ? darkColor(barColor) : barColor,
+          width: 22 + (isTouched ? 7 : 0),
           borderRadius: BorderRadius.zero,
         );
 

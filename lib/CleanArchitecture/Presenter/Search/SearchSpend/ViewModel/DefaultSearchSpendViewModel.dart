@@ -56,6 +56,8 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
     for (Spend spend in spendList) {
       DateTime date =
       DateTime(spend.date.year, spend.date.month, spend.date.day);
+      DateTime dateYYYYMM =
+      DateTime(spend.date.year, spend.date.month);
 
       SearchSpendItemSpend spendItem = SearchSpendItemSpend(
           spendIdentity: spend.identity,
@@ -63,13 +65,14 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
           spendCategoryName: spend.spendCategory?.name ?? "",
           description: spend.description,
           spendMoneyString: '${NumberFormat("#,###").format(spend.spendMoney)}원',
-          dateString: DateFormat('yyyy-MM-dd').format(spend.date));
+          dateString: DateFormat('yyyy-MM-dd').format(spend.date),
+      date: date);
 
-      if (dateSet.contains(date)) {
+      if (dateSet.contains(dateYYYYMM)) {
         items.add(spendItem);
       } else {
-        dateSet.add(date);
-        items.add(SearchSpendItemDate(dateString: dateFormat.format(date), date: date));
+        dateSet.add(dateYYYYMM);
+        items.add(SearchSpendItemDate(dateString: dateFormat.format(dateYYYYMM), date: dateYYYYMM));
         items.add(spendItem);
       }
     }
