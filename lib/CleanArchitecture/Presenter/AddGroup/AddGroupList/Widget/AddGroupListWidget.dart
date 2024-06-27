@@ -104,9 +104,10 @@ class AddGroupListWidget extends StatelessWidget {
                           }
                         : null,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: appColors.blackColor(),
-                  backgroundColor: appColors.mainHightColor(),
-                  disabledBackgroundColor: appColors.mainHightDisableColor(),
+                  foregroundColor: appColors.whiteColor(),
+                  disabledForegroundColor: appColors.lightBlackColor(),
+                  backgroundColor: appColors.confirmColor(),
+                  disabledBackgroundColor: appColors.confirmDisableColor(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
@@ -130,9 +131,10 @@ class AddGroupListWidget extends StatelessWidget {
             viewModel.didClickAddNewGroupCategoryButton();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: appColors.blackColor(),
-            backgroundColor: appColors.mainHightColor(),
-            disabledBackgroundColor: appColors.mainHightDisableColor(),
+            foregroundColor: appColors.whiteColor(),
+            disabledForegroundColor: appColors.lightBlackColor(),
+            backgroundColor: appColors.confirmColor(),
+            disabledBackgroundColor: appColors.confirmDisableColor(),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(20),

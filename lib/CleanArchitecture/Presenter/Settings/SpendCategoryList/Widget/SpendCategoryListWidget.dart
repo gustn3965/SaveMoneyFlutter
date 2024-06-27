@@ -89,8 +89,8 @@ class SpendCategoryListWidget extends StatelessWidget {
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: appColors.blackColor(),
-              backgroundColor: AppColors.editColorGray,
-              disabledBackgroundColor: Color(0xFFD5DFF9),
+              backgroundColor: appColors.editColorGray(),
+              disabledBackgroundColor: appColors.editDisableColorGray(),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
@@ -113,9 +113,9 @@ class SpendCategoryListWidget extends StatelessWidget {
             viewModel.clickAddSpendCategory();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: appColors.blackColor(),
-            backgroundColor: const Color(0xFFA6BEFB),
-            disabledBackgroundColor: const Color(0xFFD5DFF9),
+            foregroundColor: appColors.whiteColor(),
+            backgroundColor: appColors.confirmColor(),
+            disabledBackgroundColor: appColors.confirmDisableColor(),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(20),

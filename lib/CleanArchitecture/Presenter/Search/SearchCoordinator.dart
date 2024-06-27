@@ -4,10 +4,13 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Search/SearchSpen
 import 'package:save_money_flutter/main.dart';
 
 import '../EditSpend/EditSpendCoordinator.dart';
+import 'SearchViewModel.dart';
 import 'SearchWidget.dart';
 
 class SearchCoordinator extends Coordinator {
   SearchSpendViewModel? searchSpendViewModel;
+
+  SearchViewModel searchViewModel = SearchViewModel();
 
   SearchCoordinator(Coordinator superCoordinator)
       : super(superCoordinator, null) {
@@ -15,7 +18,7 @@ class SearchCoordinator extends Coordinator {
     // Widget emptyBottomWidget = const SizedBox(height: 100);
     routeName = "searchTab";
 
-    currentWidget = SearchWidget(widgets: [
+    currentWidget = SearchWidget(viewModel: searchViewModel, widgets: [
       searchSpendWidget,
       // emptyBottomWidget,
     ]);
@@ -23,6 +26,8 @@ class SearchCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    searchViewModel.reloadData();
+
     searchSpendViewModel?.reloadData();
   }
 

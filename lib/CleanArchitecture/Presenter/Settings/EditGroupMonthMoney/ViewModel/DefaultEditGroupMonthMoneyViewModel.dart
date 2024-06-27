@@ -70,6 +70,10 @@ late GroupMonth? groupMonth;
   void didClickCancelButton() {
     actions.didCancelEdit();
   }
+  @override
+  void reloadData() {
+    _dataController.add(this);
+  }
 
   void fetch() async {
     GroupMonth? groupMonth = await groupMonthFetchUseCase.fetchGroupMonthByGroupId(groupMonthId);

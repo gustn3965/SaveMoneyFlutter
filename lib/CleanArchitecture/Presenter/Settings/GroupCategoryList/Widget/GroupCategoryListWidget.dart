@@ -85,8 +85,8 @@ class GroupCategoryListWidget extends StatelessWidget {
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: appColors.blackColor(),
-              backgroundColor: Color(0xFFA6BEFB),
-              disabledBackgroundColor: Color(0xFFD5DFF9),
+              backgroundColor: appColors.editColorGray(),
+              disabledBackgroundColor: appColors.editDisableColorGray(),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),

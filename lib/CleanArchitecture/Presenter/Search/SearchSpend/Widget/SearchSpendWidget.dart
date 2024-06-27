@@ -94,6 +94,12 @@ class SearchSpendWidget extends StatelessWidget {
           maxLength: viewModel.maxNameLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
             labelText: '소비 카테고리 이름',
             floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
@@ -119,9 +125,9 @@ class SearchSpendWidget extends StatelessWidget {
       label: Text('검색'), // 버튼 텍스트
       style: ElevatedButton.styleFrom(
           foregroundColor: appColors.whiteColor(),
-          backgroundColor: appColors.mainHightColor(),
-          // 버튼의 배경색을 파란색으로 설정
-          // textStyle: TextStyle(color: AppappColors.whiteColor()Color),
+          disabledForegroundColor: appColors.lightBlackColor(),
+          backgroundColor: appColors.confirmColor(),
+          disabledBackgroundColor: appColors.confirmDisableColor(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5), // 모서리 반경 설정
           ),
@@ -240,7 +246,7 @@ class SearchSpendWidget extends StatelessWidget {
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: appColors.blackColor(),
-                      backgroundColor: AppColors.editColorGray,
+                      backgroundColor: appColors.editColorGray(),
                       disabledBackgroundColor: Color(0xFFD5DFF9),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(

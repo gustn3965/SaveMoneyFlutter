@@ -2,45 +2,54 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../AppColor/AppColors.dart';
+import 'SearchViewModel.dart';
 
 class SearchWidget extends StatelessWidget {
   final List<Widget> widgets;
 
-  SearchWidget({required this.widgets});
+  final SearchViewModel viewModel;
+
+  SearchWidget({Key? key, required this.viewModel, required this.widgets}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '검색',
-            style: TextStyle(
-              color: appColors.blackColor(),
-              fontSize: 20,
-              fontStyle: FontStyle.italic,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w800,
-              height: 0,
-            ),
-          ),
-          backgroundColor: appColors.mainColor(),
-        ),
-        backgroundColor: appColors.whiteColor(),
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Column(
-            // 🧡 추후에  더생긴다면 아래의 ScrollView로 바꾸고, SearchSpendWidget의 ListView는 Expanded가 아닌 Container로 감싸서 높이지정해주기.
-            children: widgets,
-          ),
-        )
-        // body: SingleChildScrollView(
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.stretch,
-        //     children: widgets,
-        //   ),
-        // ),
-        );
+    return StreamBuilder<SearchViewModel>(
+        stream: viewModel.dataStream,
+        builder: (context, snapshot) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  '검색',
+                  style: TextStyle(
+                    color: appColors.blackColor(),
+                    fontSize: 20,
+                    fontStyle: FontStyle.italic,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w800,
+                    height: 0,
+                  ),
+                ),
+                backgroundColor: appColors.mainColor(),
+              ),
+              backgroundColor: appColors.whiteColor(),
+              body: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: Column(
+                  // 🧡 추후에  더생긴다면 아래의 ScrollView로 바꾸고, SearchSpendWidget의 ListView는 Expanded가 아닌 Container로 감싸서 높이지정해주기.
+                  children: widgets,
+                ),
+              )
+            // body: SingleChildScrollView(
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.stretch,
+            //     children: widgets,
+            //   ),
+            // ),
+          );
+        }
+    );
+
   }
 }

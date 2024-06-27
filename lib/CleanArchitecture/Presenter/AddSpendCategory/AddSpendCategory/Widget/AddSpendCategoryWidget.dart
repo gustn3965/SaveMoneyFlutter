@@ -44,8 +44,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
   }
 
   Widget descriptionTextFieldWidget() {
-    return Material(
-      child: Container(
+    return Container(
         width: 200,
         height: 80,
         color: appColors.whiteColor(),
@@ -54,10 +53,16 @@ class AddSpendCategoryWidget extends StatelessWidget {
           autofocus: true,
           controller: spendCategoryTextController,
           keyboardType: TextInputType.text,
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 15, color: appColors.blackColor()),
           maxLength: viewModel.maxNameLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
             labelText: '소비 카테고리 이름',
             floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
@@ -66,7 +71,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
             viewModel.didChangeSpendCategoryName(text);
           },
         ),
-      ),
+
     );
   }
 
@@ -98,7 +103,8 @@ class AddSpendCategoryWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Colors.red,
+                    backgroundColor: appColors.buttonCancelColor(),
+                    disabledBackgroundColor: appColors.buttonDisableCancelColor(),
                   ),
                 ),
               ),
@@ -123,8 +129,9 @@ class AddSpendCategoryWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: appColors.mainHightColor(),
-                    disabledBackgroundColor:  appColors.mainHightDisableColor(),
+                    disabledForegroundColor: appColors.lightBlackColor(),
+                    backgroundColor: appColors.confirmColor(),
+                    disabledBackgroundColor: appColors.confirmDisableColor(),
                   ),
                 ),
               ),

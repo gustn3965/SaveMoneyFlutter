@@ -81,6 +81,12 @@ class EditSpendCategoryWidget extends StatelessWidget {
           maxLength: viewModel.maxNameLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
             labelText: '소비 카테고리 이름',
             floatingLabelAlignment: FloatingLabelAlignment.start,
           ),
@@ -121,7 +127,8 @@ class EditSpendCategoryWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Colors.red,
+                    backgroundColor: appColors.deleteButton(),
+                    disabledBackgroundColor: appColors.deleteDisableButton(),
                   ),
                 ),
               ),
@@ -145,7 +152,9 @@ class EditSpendCategoryWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Color(0xFF2C62F0),
+                    disabledForegroundColor: appColors.lightBlackColor(),
+                    backgroundColor: appColors.confirmColor(),
+                    disabledBackgroundColor: appColors.confirmDisableColor(),
                   ),
                 ),
               ),

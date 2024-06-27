@@ -19,6 +19,10 @@ class GroupCategoryListCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     groupCategoryListViewModel?.reloadData();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeGroupCategoryListWidget() {

@@ -89,7 +89,7 @@ class ChartCoordinator extends Coordinator {
         //위치지정
         timeInSecForIosWeb: 1,
         //ios및웹용 시간
-        backgroundColor: AppColors.lightDarkColor,
+        backgroundColor: appColors.lightBlackColor(),
         //배경색
         textColor: appColors.whiteColor(),
         //글자색

@@ -25,6 +25,8 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
   @override
   void didClickSearchButton() async {
     if (searchName.trim().isEmpty) {
+      items = [];
+      _dataController.add(this);
       return;
     }
     List<Spend> spendList =

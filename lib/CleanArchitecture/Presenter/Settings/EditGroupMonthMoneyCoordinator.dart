@@ -19,7 +19,11 @@ class EditGroupMonthMoneyCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
-    // TODO: implement updateCurrentWidget
+    editGroupMonthMoneyViewModel?.reloadData();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeEditGroupMonthMoneyWidget(String groupMonthId) {

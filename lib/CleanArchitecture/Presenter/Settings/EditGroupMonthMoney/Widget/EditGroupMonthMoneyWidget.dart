@@ -59,9 +59,15 @@ class EditGroupMonthMoneyWidget extends StatelessWidget {
                                         RegExp('[0-9]'))
                                   ],
                                   style: TextStyle(fontSize: 20),
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     // isCollapsed: true,
                                     border: UnderlineInputBorder(),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+                                    ),
                                     labelText: '금액을 입력해주세요.',
                                     floatingLabelAlignment:
                                     FloatingLabelAlignment.center,
@@ -163,9 +169,10 @@ class EditGroupMonthMoneyWidget extends StatelessWidget {
         viewModel.didClickConfirmButton();
       },
       style: OutlinedButton.styleFrom(
-        foregroundColor: appColors.blackColor(),
-        backgroundColor: Color(0xFFA6BEFB),
-        disabledBackgroundColor: Color(0xFFD5DFF9),
+        foregroundColor: appColors.whiteColor(),
+        disabledForegroundColor: appColors.lightBlackColor(),
+        backgroundColor: appColors.confirmColor(),
+        disabledBackgroundColor: appColors.confirmDisableColor(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
@@ -183,8 +190,8 @@ class EditGroupMonthMoneyWidget extends StatelessWidget {
       },
       style: OutlinedButton.styleFrom(
         foregroundColor: appColors.whiteColor(),
-        backgroundColor: Color(0xFF575759),
-        disabledBackgroundColor: Color(0xFF575759),
+        backgroundColor: appColors.buttonCancelColor(),
+        disabledBackgroundColor: appColors.buttonDisableCancelColor(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

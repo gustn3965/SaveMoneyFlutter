@@ -12,6 +12,16 @@ class AppColors {
   bool isDarkMode() {
     return PlatformDispatcher.instance.platformBrightness == Brightness.dark;
   }
+
+  // main color
+  Color mainRedColor() {
+    if (isDarkMode()) {
+      return Color(0xFFC90040);
+    } else {
+      return Color(0xFFFF2171);
+    }
+  }
+
   Color mainLighColor() {
     if (isDarkMode()) {
       return Color(0xFF1D5BFC);
@@ -20,39 +30,19 @@ class AppColors {
     }
   }
 
-  Color whiteColor() {
-    if (isDarkMode()) {
-      return Color(0xFF000000);
-    } else {
-      return Color(0xFFFFFFFF);
-    }
-  }
-
-  Color lightGrayColor() {
-    if (isDarkMode()) {
-      return Color(0xFF414141);
-    } else {
-      return Color(0xFFBEBEBE);
-    }
-  }
-
-  Color blackColor() {
-    if (isDarkMode()) {
-      return Color(0xFFFFFFFF);
-    } else {
-      return Color(0xFF000000);
-    }
-  }
-
-  Color constBlackColor() {
-    return Color(0xFF000000);
-  }
-
   Color mainColor() {
     if (isDarkMode()) {
       return Color(0xFF4071F3);
     } else {
       return Color(0xFFA6BDFA);
+    }
+  }
+
+  Color mainTintColor() {
+    if (isDarkMode()) {
+      return Color(0xFF0035C7);
+    } else {
+      return Color(0xFF547EF5);
     }
   }
 
@@ -72,14 +62,131 @@ class AppColors {
     }
   }
 
-  Color mainRedColor() {
+
+  // -----------------------------------------------------
+
+
+
+
+
+
+
+  // white
+  Color whiteColor() {
     if (isDarkMode()) {
-      return Color(0xFFC90040);
+      return Color(0xFF000000);
     } else {
-      return Color(0xFFFF2171);
+      return Color(0xFFFFFFFF);
     }
   }
 
+  Color constWhiteColor() {
+    return Color(0xFFFFFFFF);
+  }
+
+  // gray
+  Color lightGrayColor() {
+    if (isDarkMode()) {
+      return Color(0xFF414141);
+    } else {
+      return Color(0xFFBEBEBE);
+    }
+  }
+
+  //
+  Color whiteAlphaColor() {
+    if (isDarkMode()) {
+      return Color(0x1AFFFFFF);
+    } else {
+      return Color(0xFFFFFF);
+    }
+  }
+
+
+  // back
+  Color blackColor() {
+    if (isDarkMode()) {
+      return Color(0xFFFFFFFF);
+    } else {
+      return Color(0xFF000000);
+    }
+  }
+
+  Color lightBlackColor() {
+    if (isDarkMode()) {
+      return Color(0xFFABA8A8);
+    } else {
+      return Color(0xFF2F2F2F);
+    }
+  }
+
+  Color constBlackColor() {
+    return Color(0xFF000000);
+  }
+
+
+
+
+
+
+
+
+
+  // button delete
+  Color deleteButton() {
+    if (isDarkMode()) {
+      return Color(0xFFD30344);
+    } else {
+      return Color(0xFFEF0C51);
+    }
+  }
+  Color deleteDisableButton() {
+    if (isDarkMode()) {
+      return Color(0xFFAB6A7E);
+    } else {
+      return Color(0xFFEC98B3);
+    }
+  }
+
+
+  // button confirm, save,
+  Color confirmColor() {
+    if (isDarkMode()) {
+      return Color(0xFF0B4BF3);
+    } else {
+      return Color(0xFF1D5BFC);
+    }
+  }
+  Color confirmDisableColor() {
+    if (isDarkMode()) {
+      return Color(0xFF1A2F72);
+    } else {
+      return Color(0xFF8DAAF3);
+    }
+  }
+
+
+  // button edit
+  Color editColorGray() {
+    if (isDarkMode()) {
+      return Color(0xFF706E6E);
+    } else {
+      return Color(0xFFC4C1C1);
+    }
+  }
+
+  // button edit
+  Color editDisableColorGray() {
+    if (isDarkMode()) {
+      return Color(0xFFADABAB);
+    } else {
+      return Color(0xFF4F4E4E);
+    }
+  }
+
+
+
+  // button cancel
   Color buttonCancelColor() {
     if (isDarkMode()) {
       return Color(0xFF575759);
@@ -108,14 +215,14 @@ class AppColors {
   // 검은색바탕
   // static Color lightGrayColor = Colors.black12;
 
-  static Color lightDarkColor = Color(0xFF2F2F2F);
+  // static Color lightDarkColor = Color(0xFF2F2F2F);
 
   // 흰색바탕
   // static Color whiteColor = appColors.whiteColor();
 
   static Color whitelightGrayColor = Color(0xFFF1F1F1);
 
-  static Color editColorGray = Color(0xFFC4C1C1);
+  // static Color editColorGray = Color(0xFFC4C1C1);
 
   static Color deepGrayColor = Color(0xFFC4C1C1);
 

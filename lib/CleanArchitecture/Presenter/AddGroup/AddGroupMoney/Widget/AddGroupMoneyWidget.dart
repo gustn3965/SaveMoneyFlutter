@@ -70,9 +70,15 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
                                         RegExp('[0-9]'))
                                   ],
                                   style: TextStyle(fontSize: 20),
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     // isCollapsed: true,
                                     border: UnderlineInputBorder(),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+                                    ),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+                                    ),
                                     labelText: '금액을 입력해주세요.',
                                     floatingLabelAlignment:
                                         FloatingLabelAlignment.center,
@@ -174,9 +180,10 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
               widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: appColors.blackColor(),
-        backgroundColor: appColors.mainHightColor(),
-        disabledBackgroundColor: appColors.mainHightDisableColor(),
+        foregroundColor: appColors.whiteColor(),
+        disabledForegroundColor: appColors.lightBlackColor(),
+        backgroundColor: appColors.confirmColor(),
+        disabledBackgroundColor: appColors.confirmDisableColor(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

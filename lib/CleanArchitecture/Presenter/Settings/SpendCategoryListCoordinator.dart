@@ -23,6 +23,10 @@ class SpendCategoryListCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     spendCategoryListViewModel?.reloadData();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeSpendCategoryListWidget() {

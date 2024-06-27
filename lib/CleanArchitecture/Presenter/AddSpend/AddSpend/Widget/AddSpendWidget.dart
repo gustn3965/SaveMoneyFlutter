@@ -92,6 +92,13 @@ class AddSpendWidget extends StatelessWidget {
           style: TextStyle(fontSize: 20, color: appColors.blackColor()),
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
+            labelStyle: TextStyle(color: appColors.blackColor()),
             labelText: '소비금액을 입력해주세요.',
             floatingLabelAlignment: FloatingLabelAlignment.center,
           ),
@@ -127,6 +134,13 @@ class AddSpendWidget extends StatelessWidget {
 
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
+            labelStyle: TextStyle(color: appColors.blackColor()),
             labelText: '설명을 입력해주세요 (선택)',
             floatingLabelAlignment: FloatingLabelAlignment.center,
           ),
@@ -159,8 +173,9 @@ class AddSpendWidget extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 foregroundColor: appColors.whiteColor(),
-                backgroundColor: appColors.mainHightColor(),
-                disabledBackgroundColor:  appColors.mainHightDisableColor(),
+                disabledForegroundColor: appColors.lightBlackColor(),
+                backgroundColor: appColors.confirmColor(),
+                disabledBackgroundColor: appColors.confirmDisableColor(),
               ),
             ),
           ),
@@ -224,7 +239,7 @@ class AddSpendWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          label: Text("${groupMonth.groupCategoryName}"),
+          label: Text("${groupMonth.groupCategoryName}", style: TextStyle(color: appColors.blackColor())),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(width: 1, color: appColors.blackColor()),
           onSelected: (bool value) async {
@@ -270,10 +285,10 @@ class AddSpendWidget extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 color: index == (viewModel.spendCategoryList.length)
-                    ? Colors.red
+                    ? appColors.mainRedColor()
                     : viewModel.selectedSpendCategory?.identity ==
                             viewModel.spendCategoryList[index].identity
-                        ? appColors.mainHightColor()
+                        ? appColors.mainTintColor()
                         : appColors.mainColor(),
                 child: TextButton(
                   onPressed: () {

@@ -50,6 +50,12 @@ class AddGroupNameWidget extends StatelessWidget {
                               maxLength: viewModel.maxNameLength,
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+                                ),
                                 labelText: '지출그룹 이름을 정해주세요.',
                                 floatingLabelAlignment:
                                     FloatingLabelAlignment.center,
@@ -127,9 +133,10 @@ class AddGroupNameWidget extends StatelessWidget {
               viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: appColors.blackColor(),
-        backgroundColor: appColors.mainHightColor(),
-        disabledBackgroundColor: appColors.mainHightDisableColor(),
+        foregroundColor: appColors.whiteColor(),
+        disabledForegroundColor: appColors.lightBlackColor(),
+        backgroundColor: appColors.confirmColor(),
+        disabledBackgroundColor: appColors.confirmDisableColor(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

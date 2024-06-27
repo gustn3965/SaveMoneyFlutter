@@ -13,14 +13,20 @@ class LeftMonthFloatingButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return FloatingActionButton(
-      heroTag: 'leftmonth',
-      onPressed: () {
-        viewModel.didClickButton();
-      },
-      tooltip: 'Increment',
-      backgroundColor: appColors.lightGrayColor(),
-      child: const Icon(Icons.chevron_left_outlined),
+    return StreamBuilder<LeftMonthFloatingButtonViewModel>(
+        stream: viewModel.dataStream,
+        builder: (context, snapshot) {
+          return FloatingActionButton(
+            heroTag: 'leftmonth',
+            onPressed: () {
+              viewModel.didClickButton();
+            },
+            tooltip: 'Increment',
+            backgroundColor: appColors.lightGrayColor(),
+            child: const Icon(Icons.chevron_left_outlined),
+          );
+        }
     );
+
   }
 }

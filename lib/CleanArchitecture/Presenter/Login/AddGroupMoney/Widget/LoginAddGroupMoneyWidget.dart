@@ -69,6 +69,12 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
                               decoration: InputDecoration(
                                 // isCollapsed: true,
                                 border: UnderlineInputBorder(),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+                                ),
                                 labelText: '금액을 입력해주세요.',
                                 floatingLabelAlignment:
                                     FloatingLabelAlignment.center,
@@ -167,9 +173,10 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
               widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: appColors.blackColor(),
-        backgroundColor: appColors.mainHightColor(),
-        disabledBackgroundColor: appColors.mainHightDisableColor(),
+        foregroundColor: appColors.whiteColor(),
+        disabledForegroundColor: appColors.lightBlackColor(),
+        backgroundColor: appColors.confirmColor(),
+        disabledBackgroundColor: appColors.confirmDisableColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

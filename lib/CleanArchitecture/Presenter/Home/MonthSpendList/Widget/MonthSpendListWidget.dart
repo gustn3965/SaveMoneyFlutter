@@ -209,7 +209,7 @@ class MonthSpendListWidget extends StatelessWidget {
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: appColors.blackColor(),
-                      backgroundColor: AppColors.editColorGray,
+                      backgroundColor: appColors.editColorGray(),
                       disabledBackgroundColor: Color(0xFFD5DFF9),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(

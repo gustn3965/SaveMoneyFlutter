@@ -79,6 +79,9 @@ class HomeCoordinator extends Coordinator {
     daySpendListViewModel?.reloadFetch();
     monthSpendListViewModel?.reloadFetch();
 
+    leftMonthFloatingButtonViewModel?.reloadData();
+    rightMonthFloatingButtonViewModel?.reloadData();
+
     for (Coordinator child in childCoordinator) {
       child.updateCurrentWidget();
     }

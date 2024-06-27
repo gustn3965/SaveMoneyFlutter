@@ -67,7 +67,7 @@ abstract class Coordinator extends WidgetsBindingObserver {
       context: NavigationService.navigatorKey.currentContext!,
       clipBehavior: Clip.hardEdge,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: appColors.whiteAlphaColor(),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
       builder: (BuildContext context, ) {

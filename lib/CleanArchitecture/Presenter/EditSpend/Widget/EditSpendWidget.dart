@@ -101,6 +101,12 @@ class EditSpendWidget extends StatelessWidget {
           style: TextStyle(fontSize: 20, color: appColors.blackColor()),
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
             labelText: '소비금액을 입력해주세요.',
             floatingLabelAlignment: FloatingLabelAlignment.center,
           ),
@@ -138,6 +144,12 @@ class EditSpendWidget extends StatelessWidget {
           maxLength: viewModel.maxDescriptionLength,
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainTintColor(), width: 2.0),
+            ),
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
+            ),
             labelText: '설명을 입력해주세요 (선택)',
             floatingLabelAlignment: FloatingLabelAlignment.center,
           ),
@@ -259,7 +271,7 @@ class EditSpendWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          label: Text("${category.groupCategoryName}"),
+          label: Text("${category.groupCategoryName}",style: TextStyle(color: appColors.blackColor())),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(width: 1, color: appColors.blackColor()),
           onSelected: (bool value) async {
@@ -305,11 +317,11 @@ class EditSpendWidget extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 color: index == (viewModel.spendCategoryList.length)
-                    ? Colors.red
+                    ? appColors.mainRedColor()
                     : viewModel.selectedSpendCategory?.identity ==
                             viewModel.spendCategoryList[index].identity
-                        ? appColors.mainHightColor()
-                        : appColors.mainColor(),
+                    ? appColors.mainTintColor()
+                    : appColors.mainColor(),
                 child: TextButton(
                   onPressed: () {
                     if (index == viewModel.spendCategoryList.length) {

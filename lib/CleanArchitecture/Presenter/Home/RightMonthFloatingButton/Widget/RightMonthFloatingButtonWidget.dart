@@ -12,19 +12,23 @@ class RightMonthFloatingButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    // TODO: implement build
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: FloatingActionButton(
-        heroTag: 'rightmonth',
-        onPressed: () {
-          viewModel.didClickButton();
-        },
-        backgroundColor: appColors.lightGrayColor(),
-        tooltip: 'Increment',
-        child: const Icon(Icons.chevron_right_outlined),
-      ),
+    return StreamBuilder<RightMonthFloatingButtonViewModel>(
+        stream: viewModel.dataStream,
+        builder: (context, snapshot) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: 'rightmonth',
+              onPressed: () {
+                viewModel.didClickButton();
+              },
+              backgroundColor: appColors.lightGrayColor(),
+              tooltip: 'Increment',
+              child: const Icon(Icons.chevron_right_outlined),
+            ),
+          );
+    }
     );
+
   }
 }

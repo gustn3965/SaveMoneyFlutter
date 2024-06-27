@@ -65,7 +65,7 @@ class AddSpendCoordinator extends Coordinator {
       builder: (BuildContext context) {
         return Container(
           height: 300.0,
-          color: appColors.whiteColor(),
+          color: appColors.constWhiteColor(),
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             initialDateTime: date,

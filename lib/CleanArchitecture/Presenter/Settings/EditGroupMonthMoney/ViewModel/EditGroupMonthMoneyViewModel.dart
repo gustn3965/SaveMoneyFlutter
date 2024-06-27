@@ -20,7 +20,7 @@ abstract class EditGroupMonthMoneyViewModel {
   void didChangeEveryExpectedMoney(int everyExpectedMoney);
   void didClickConfirmButton();
   void didClickCancelButton();
-
+  void reloadData();
   // Observing
   Stream<EditGroupMonthMoneyViewModel> get dataStream;
   void dispose();
