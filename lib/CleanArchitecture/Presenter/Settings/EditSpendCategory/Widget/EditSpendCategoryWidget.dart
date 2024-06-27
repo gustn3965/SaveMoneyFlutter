@@ -159,7 +159,7 @@ class EditSpendCategoryWidget extends StatelessWidget {
 
   Widget spendListHeader() {
     return Container(
-      color: const Color(0xFFE5E3E3),
+      color: appColors.lightGrayColor(),
       child: Column(
         children: [
           SizedBox(height: 10),

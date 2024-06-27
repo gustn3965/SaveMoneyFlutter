@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:save_money_flutter/CleanArchitecture/Domain/Entity/GroupCategory.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/ViewModel/AddGroupNameViewModel.dart';
@@ -53,6 +54,10 @@ late int maxNameLength = GroupCategory.maxNameLength;
     addGroupNameActions.cancelAddGroupName();
   }
 
+  @override
+  void reloadData() {
+    _dataController.add(this);
+  }
   void fetch() async {
     await Future.delayed(const Duration(milliseconds: 100));
     _dataController.add(this);

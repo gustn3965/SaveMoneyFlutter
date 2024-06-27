@@ -17,7 +17,7 @@ abstract class AddSpendCategoryViewModel {
   void didChangeSpendCategoryName(String categoryName);
   void didClickConfirmButton();
   void didClickCancelButton();
-
+  void reloadData();
   // Observing
   Stream<AddSpendCategoryViewModel> get dataStream;
   void dispose();

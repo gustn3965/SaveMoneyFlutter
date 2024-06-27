@@ -24,7 +24,10 @@ class SettingsCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     settingsViewModel?.reloadData();
-    // TODO: implement updateCurrentWidget
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeSettingWidget() {

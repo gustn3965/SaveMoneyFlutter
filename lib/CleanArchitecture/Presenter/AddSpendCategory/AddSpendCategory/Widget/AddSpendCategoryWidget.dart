@@ -123,7 +123,8 @@ class AddSpendCategoryWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Color(0xFF2C62F0),
+                    backgroundColor: appColors.mainHightColor(),
+                    disabledBackgroundColor:  appColors.mainHightDisableColor(),
                   ),
                 ),
               ),

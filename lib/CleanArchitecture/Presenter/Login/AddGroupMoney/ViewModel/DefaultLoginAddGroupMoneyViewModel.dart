@@ -67,6 +67,11 @@ class DefaultLoginAddGroupMoneyViewModel extends LoginAddGroupMoneyViewModel {
     actions.cancelAddGroupMoney();
   }
 
+  @override
+  void reloadData() {
+    _dataController.add(this);
+  }
+
   void fetch() async {
     await Future.delayed(const Duration(milliseconds: 100));
     _dataController.add(this);

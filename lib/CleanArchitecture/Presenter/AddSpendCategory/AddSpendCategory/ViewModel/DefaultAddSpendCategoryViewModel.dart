@@ -59,6 +59,10 @@ late int maxNameLength = SpendCategory.maxNameLength;
         SpendCategory(name: spendCategoryName, identity: generateUniqueId());
     return await addSpendCategoryUseCase.addSpendCategory(newSpendCategory);
   }
+  @override
+  void reloadData() {
+    _dataController.add(this);
+  }
 
   void makeAvailableSaveButtons() {
     if (spendCategoryName.trim().isEmpty) {

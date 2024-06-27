@@ -20,6 +20,7 @@ class AddGroupMoneyCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    addGroupMoneyViewModel?.reloadData();
     // TODO: implement updateCurrentWidget
   }
 

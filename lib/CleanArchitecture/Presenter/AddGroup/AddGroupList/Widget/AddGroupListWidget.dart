@@ -105,8 +105,8 @@ class AddGroupListWidget extends StatelessWidget {
                         : null,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: appColors.blackColor(),
-                  backgroundColor: Color(0xFFA6BEFB),
-                  disabledBackgroundColor: Color(0xFFD5DFF9),
+                  backgroundColor: appColors.mainHightColor(),
+                  disabledBackgroundColor: appColors.mainHightDisableColor(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
@@ -131,8 +131,8 @@ class AddGroupListWidget extends StatelessWidget {
           },
           style: OutlinedButton.styleFrom(
             foregroundColor: appColors.blackColor(),
-            backgroundColor: const Color(0xFFA6BEFB),
-            disabledBackgroundColor: const Color(0xFFD5DFF9),
+            backgroundColor: appColors.mainHightColor(),
+            disabledBackgroundColor: appColors.mainHightDisableColor(),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(20),

@@ -168,8 +168,8 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
             },
       style: OutlinedButton.styleFrom(
         foregroundColor: appColors.blackColor(),
-        backgroundColor: Color(0xFFA6BEFB),
-        disabledBackgroundColor: Color(0xFFD5DFF9),
+        backgroundColor: appColors.mainHightColor(),
+        disabledBackgroundColor: appColors.mainHightDisableColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
@@ -187,8 +187,8 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
       },
       style: OutlinedButton.styleFrom(
         foregroundColor: appColors.whiteColor(),
-        backgroundColor: Color(0xFF575759),
-        disabledBackgroundColor: Color(0xFF575759),
+        backgroundColor: appColors.buttonCancelColor(),
+        disabledBackgroundColor: appColors.buttonDisableCancelColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

@@ -17,6 +17,11 @@ class LoginCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    loginAddGroupNameViewModel?.reloadData();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
     // TODO: implement updateCurrentWidget
   }
 

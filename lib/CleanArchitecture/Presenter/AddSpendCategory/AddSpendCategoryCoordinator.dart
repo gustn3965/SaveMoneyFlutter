@@ -16,6 +16,7 @@ class AddSpendCategoryCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    addSpendViewModel?.reloadData();
     // TODO: implement updateCurrentWidget
   }
 

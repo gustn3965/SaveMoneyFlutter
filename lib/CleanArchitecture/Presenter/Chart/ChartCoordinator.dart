@@ -8,11 +8,14 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.da
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Chart/GroupMonthChart/Widget/GroupMonthChartWidget.dart';
 import 'package:save_money_flutter/main.dart';
 
+import 'ChartViewModel.dart';
 import 'ChartWidget.dart';
 import 'GroupMonthChart/ViewModel/GroupMonthChartViewModel.dart';
 import 'SpendCategoryChart/ViewModel/SpendCategoryChartViewModel.dart';
 
 class ChartCoordinator extends Coordinator {
+  ChartViewModel chartBaseViewModel = ChartViewModel();
+
   GroupMonthChartViewModel? groupMonthChartViewModel;
   SpendCategoryChartViewModel? spendCategoryChartViewModel;
 
@@ -22,7 +25,7 @@ class ChartCoordinator extends Coordinator {
     Widget spendCategoryChartWidget = makeSpendCategoryChartWidget();
     Widget emptyBottomWidget = const SizedBox(height: 100);
     routeName = "chartTab";
-    currentWidget = ChartWidget(widgets: [
+    currentWidget = ChartWidget(viewModel: chartBaseViewModel, widgets: [
       groupMonthChartWidget,
       spendCategoryChartWidget,
       emptyBottomWidget,
@@ -68,9 +71,10 @@ class ChartCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    chartBaseViewModel.reloadData();
+
     groupMonthChartViewModel?.reloadFetch();
     spendCategoryChartViewModel?.reloadFetch();
-    // TODO: implement updateCurrentWidget
   }
 
   void showToastYChart(

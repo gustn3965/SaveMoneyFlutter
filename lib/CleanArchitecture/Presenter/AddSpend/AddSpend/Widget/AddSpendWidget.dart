@@ -79,8 +79,7 @@ class AddSpendWidget extends StatelessWidget {
   }
 
   Widget spendTextFieldWidget() {
-    return Material(
-      child: Container(
+    return Container(
         width: 200,
         height: 80,
         color: appColors.whiteColor(),
@@ -90,7 +89,7 @@ class AddSpendWidget extends StatelessWidget {
           controller: spendingTextController,
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]'))],
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, color: appColors.blackColor()),
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
             labelText: '소비금액을 입력해주세요.',
@@ -110,13 +109,11 @@ class AddSpendWidget extends StatelessWidget {
             viewModel.didChangeSpendMoney(int.parse(text.replaceAll(',', '')));
           },
         ),
-      ),
     );
   }
 
   Widget descriptionTextFieldWidget() {
-    return Material(
-      child: Container(
+    return Container(
         width: 200,
         height: 80,
         color: appColors.whiteColor(),
@@ -125,8 +122,9 @@ class AddSpendWidget extends StatelessWidget {
           autofocus: true,
           controller: descriptionTextController,
           keyboardType: TextInputType.text,
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 15, color: appColors.blackColor()),
           maxLength: viewModel.maxDescriptionLength,
+
           decoration: InputDecoration(
             border: UnderlineInputBorder(),
             labelText: '설명을 입력해주세요 (선택)',
@@ -137,7 +135,6 @@ class AddSpendWidget extends StatelessWidget {
             viewModel.didChangeDescription(text);
           },
         ),
-      ),
     );
   }
 

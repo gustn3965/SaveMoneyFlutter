@@ -18,7 +18,7 @@ abstract class LoginAddGroupMoneyViewModel {
   void didChangeEveryExpectedMoney(int everyExpectedMoney);
   void didClickConfirmButton();
   void didClickCancelButton();
-
+  void reloadData();
   // Observing
   Stream<LoginAddGroupMoneyViewModel> get dataStream;
   void dispose();

@@ -21,7 +21,10 @@ class EditGroupCategoryCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     editGroupCategoryViewModel?.reloadData();
-    // TODO: implement updateCurrentWidget
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeEditGroupCategoryWidget(String groupCategoryId) {

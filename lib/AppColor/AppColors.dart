@@ -44,6 +44,10 @@ class AppColors {
     }
   }
 
+  Color constBlackColor() {
+    return Color(0xFF000000);
+  }
+
   Color mainColor() {
     if (isDarkMode()) {
       return Color(0xFF4071F3);
@@ -73,6 +77,22 @@ class AppColors {
       return Color(0xFFC90040);
     } else {
       return Color(0xFFFF2171);
+    }
+  }
+
+  Color buttonCancelColor() {
+    if (isDarkMode()) {
+      return Color(0xFF575759);
+    } else {
+      return Color(0xFF575759);
+    }
+  }
+
+  Color buttonDisableCancelColor() {
+    if (isDarkMode()) {
+      return Color(0xFF8A8A8A);
+    } else {
+      return Color(0xFF8A8A8A);
     }
   }
 

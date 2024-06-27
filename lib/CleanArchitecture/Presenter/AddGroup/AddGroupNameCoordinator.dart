@@ -20,7 +20,11 @@ class AddGroupNameCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
-    superCoordinator?.updateCurrentWidget();
+
+    addGroupNameViewModel?.reloadData();
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeAddGroupNameWidget(DateTime date) {

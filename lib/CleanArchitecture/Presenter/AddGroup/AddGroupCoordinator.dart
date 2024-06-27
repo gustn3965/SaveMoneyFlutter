@@ -23,6 +23,10 @@ class AddGroupCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     groupListviewModel?.fetchGroupCategoryList();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeAddGroupListWidget(DateTime date) {

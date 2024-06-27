@@ -21,6 +21,9 @@ class AddSpendCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     addSpendViewModel?.fetchSpendCategoryList();
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
   }
 
   Widget makeAddSpendWidget(DateTime date, GroupMonth? selectedGroupMonth) {

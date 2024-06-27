@@ -65,6 +65,10 @@ class DefaultAddGroupMoneyViewModel extends AddGroupMoneyViewModel {
   void didClickCancelButton() {
     actions.cancelAddGroupMoney();
   }
+  @override
+  void reloadData() {
+    _dataController.add(this);
+  }
 
   void fetch() async {
     await Future.delayed(const Duration(milliseconds: 100));

@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/LeftMonthFloatingButton/Widget/LeftMonthFloatingButtonWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/MonthSpendList/ViewModel/MonthSpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/ViewModel/SpendCategorySelectorViewModel.dart';
@@ -21,6 +22,9 @@ import 'LeftMonthFloatingButton/ViewModel/LeftMonthFloatingButtonViewModel.dart'
 import 'RightMonthFloatingButton/ViewModel/RightMonthFloatingButtonViewModel.dart';
 
 class HomeCoordinator extends Coordinator {
+
+  HomeViewModel homeBaseViewModel = HomeViewModel();
+
   GroupMonthSummaryViewModel? summaryViewModel;
   GroupMonthSelectorViewModel? groupSelectorViewModel;
   SpendCategorySelectorViewModel? spendCategorySelectorViewModel;
@@ -50,6 +54,7 @@ class HomeCoordinator extends Coordinator {
     Widget spacingView = SizedBox(height: 50);
 
     currentWidget = HomeWidget(
+      viewModel: homeBaseViewModel,
       widgets: [
         summaryWidget,
         groupSelectorWidget,
@@ -66,12 +71,17 @@ class HomeCoordinator extends Coordinator {
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   @override
   void updateCurrentWidget() {
-    currentWidget = currentWidget;
+    homeBaseViewModel.reloadData();
+
     groupSelectorViewModel?.reloadFetch();
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();
     daySpendListViewModel?.reloadFetch();
     monthSpendListViewModel?.reloadFetch();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
 
     print('HomeCoordinator updateCurrentWidget....');
   }

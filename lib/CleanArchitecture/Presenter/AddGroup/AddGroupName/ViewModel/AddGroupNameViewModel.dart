@@ -19,6 +19,7 @@ abstract class AddGroupNameViewModel {
   void didClickConfirmButton();
   void didClickCancelButton();
 
+  void reloadData();
   // Observing
   Stream<AddGroupNameViewModel> get dataStream;
   void dispose();

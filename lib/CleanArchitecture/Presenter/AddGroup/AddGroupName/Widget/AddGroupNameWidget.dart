@@ -84,7 +84,11 @@ class AddGroupNameWidget extends StatelessWidget {
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 50),
-                              Image.asset('assets/addGroupImage.png'),
+                              Container(
+                                color: appColors.whiteColor(),
+                                child: Image.asset('assets/addGroupImage.png'),
+                              ),
+
                               const SizedBox(height: 60),
                               const Text(
                                 "변동성있는 지출그룹에서\n소비를 아껴서 돈을 모아보아요.",
@@ -124,8 +128,8 @@ class AddGroupNameWidget extends StatelessWidget {
             },
       style: OutlinedButton.styleFrom(
         foregroundColor: appColors.blackColor(),
-        backgroundColor: const Color(0xFFA6BEFB),
-        disabledBackgroundColor: const Color(0xFFD5DFF9),
+        backgroundColor: appColors.mainHightColor(),
+        disabledBackgroundColor: appColors.mainHightDisableColor(),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
@@ -143,8 +147,8 @@ class AddGroupNameWidget extends StatelessWidget {
       },
       style: OutlinedButton.styleFrom(
         foregroundColor: appColors.whiteColor(),
-        backgroundColor: Color(0xFF575759),
-        disabledBackgroundColor: Color(0xFF575759),
+        backgroundColor: appColors.buttonCancelColor(),
+        disabledBackgroundColor: appColors.buttonDisableCancelColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20),

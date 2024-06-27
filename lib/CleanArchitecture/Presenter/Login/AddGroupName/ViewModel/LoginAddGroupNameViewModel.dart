@@ -13,7 +13,7 @@ late int maxNameLength;
 
   void didChangeGroupName(String groupName);
   void didClickConfirmButton();
-
+  void reloadData();
   // Observing
   Stream<LoginAddGroupNameViewModel> get dataStream;
   void dispose();

@@ -20,6 +20,7 @@ class LoginAddGroupMoneyCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    addGroupMoneyViewModel?.reloadData();
     // TODO: implement updateCurrentWidget
   }
 
