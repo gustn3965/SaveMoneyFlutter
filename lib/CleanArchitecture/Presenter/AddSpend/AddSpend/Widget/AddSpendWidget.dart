@@ -12,6 +12,7 @@ class AddSpendWidget extends StatelessWidget {
 
   late TextEditingController descriptionTextController;
   late TextEditingController spendingTextController;
+
   String _formatNumber(String s) => NumberFormat("#,###").format(int.parse(s));
 
   AddSpendWidget(this.viewModel, {super.key}) {
@@ -98,10 +99,11 @@ class AddSpendWidget extends StatelessWidget {
           onChanged: (text) {
             if (text == '') {
               text = "0";
-            } else if (int.parse(text) > 99999999999) { // 천억
+            } else if (int.parse(text) > 99999999999) {
+              // 천억
               text = "99999999999";
             }
-            
+
             text = '${_formatNumber(text.replaceAll(',', ''))}';
 
             spendingTextController.text = text;

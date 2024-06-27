@@ -29,6 +29,7 @@ class AddSpendCoordinator extends Coordinator {
 
     void didAddSpend() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

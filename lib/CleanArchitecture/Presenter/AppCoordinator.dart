@@ -60,14 +60,28 @@ abstract class Coordinator {
       context: NavigationService.navigatorKey.currentContext!,
       clipBehavior: Clip.hardEdge,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context) {
-        return Container(
-            color: AppColors.whiteColor,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: currentWidget);
+      builder: (BuildContext context, ) {
+        return DraggableScrollableSheet(
+            initialChildSize: 0.9,
+            maxChildSize: 0.9,
+            minChildSize: 0.5,
+          builder: (context, scrollController) {
+              return ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(27),
+                ),
+                child: Container(
+                  color: AppColors.whiteColor,
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: currentWidget,
+                  ),
+                )
+              );
+      });
       },
     ).whenComplete(() {
       // pop();
