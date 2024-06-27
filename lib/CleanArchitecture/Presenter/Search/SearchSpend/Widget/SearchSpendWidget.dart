@@ -124,7 +124,7 @@ class SearchSpendWidget extends StatelessWidget {
       icon: Icon(Icons.search), // 검색 아이콘
       label: Text('검색'), // 버튼 텍스트
       style: ElevatedButton.styleFrom(
-          foregroundColor: appColors.whiteColor(),
+          foregroundColor: appColors.constWhiteColor(),
           disabledForegroundColor: appColors.lightBlackColor(),
           backgroundColor: appColors.confirmColor(),
           disabledBackgroundColor: appColors.confirmDisableColor(),

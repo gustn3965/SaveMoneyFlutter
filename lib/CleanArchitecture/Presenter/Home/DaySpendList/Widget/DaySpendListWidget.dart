@@ -18,22 +18,28 @@ class DaySpendListWidget extends StatelessWidget {
         if (viewModel.spendList.length == 0) {
           return Container(
             color: appColors.whiteColor(),
-            child: Column(
-              children: [
-                headerWidget(),
-                SizedBox(height: 40),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                children: [
+                  headerWidget(),
+                  SizedBox(height: 40),
+                ],
+              ),
             ),
           );
         } else {
           return Container(
             color: appColors.whiteColor(),
-            child: Column(
-              children: [
-                headerWidget(),
-                dayListWidget(),
-                SizedBox(height: 40),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                children: [
+                  headerWidget(),
+                  dayListWidget(),
+                  SizedBox(height: 40),
+                ],
+              ),
             ),
           );
         }

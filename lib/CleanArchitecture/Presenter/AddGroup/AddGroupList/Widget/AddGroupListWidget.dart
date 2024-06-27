@@ -104,7 +104,7 @@ class AddGroupListWidget extends StatelessWidget {
                           }
                         : null,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: appColors.whiteColor(),
+                  foregroundColor: appColors.constWhiteColor(),
                   disabledForegroundColor: appColors.lightBlackColor(),
                   backgroundColor: appColors.confirmColor(),
                   disabledBackgroundColor: appColors.confirmDisableColor(),
@@ -131,7 +131,7 @@ class AddGroupListWidget extends StatelessWidget {
             viewModel.didClickAddNewGroupCategoryButton();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: appColors.whiteColor(),
+            foregroundColor: appColors.constWhiteColor(),
             disabledForegroundColor: appColors.lightBlackColor(),
             backgroundColor: appColors.confirmColor(),
             disabledBackgroundColor: appColors.confirmDisableColor(),

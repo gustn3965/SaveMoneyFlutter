@@ -113,7 +113,7 @@ class SpendCategoryListWidget extends StatelessWidget {
             viewModel.clickAddSpendCategory();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: appColors.whiteColor(),
+            foregroundColor: appColors.constWhiteColor(),
             backgroundColor: appColors.confirmColor(),
             disabledBackgroundColor: appColors.confirmDisableColor(),
             shape: const RoundedRectangleBorder(

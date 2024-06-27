@@ -128,7 +128,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: appColors.whiteColor(),
+                    foregroundColor: appColors.constWhiteColor(),
                     disabledForegroundColor: appColors.lightBlackColor(),
                     backgroundColor: appColors.confirmColor(),
                     disabledBackgroundColor: appColors.confirmDisableColor(),

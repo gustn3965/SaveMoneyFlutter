@@ -172,7 +172,7 @@ class AddSpendWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                foregroundColor: appColors.whiteColor(),
+                foregroundColor: appColors.constWhiteColor(),
                 disabledForegroundColor: appColors.lightBlackColor(),
                 backgroundColor: appColors.confirmColor(),
                 disabledBackgroundColor: appColors.confirmDisableColor(),
@@ -239,7 +239,10 @@ class AddSpendWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          label: Text("${groupMonth.groupCategoryName}", style: TextStyle(color: appColors.blackColor())),
+          label: Padding(
+            padding: const EdgeInsets.only(top: 2, bottom: 2),
+            child: Text("${groupMonth.groupCategoryName}", style: TextStyle(color: appColors.blackColor())),
+          ),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(width: 1, color: appColors.blackColor()),
           onSelected: (bool value) async {

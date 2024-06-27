@@ -173,7 +173,7 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
               widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: appColors.whiteColor(),
+        foregroundColor: appColors.constWhiteColor(),
         disabledForegroundColor: appColors.lightBlackColor(),
         backgroundColor: appColors.confirmColor(),
         disabledBackgroundColor: appColors.confirmDisableColor(),

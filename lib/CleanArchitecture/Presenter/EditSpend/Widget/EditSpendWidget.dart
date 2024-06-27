@@ -185,8 +185,10 @@ class EditSpendWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Colors.red,
+                    foregroundColor: appColors.constWhiteColor(),
+                    disabledForegroundColor: appColors.lightBlackColor(),
+                    backgroundColor: appColors.deleteButton(),
+                    disabledBackgroundColor: appColors.deleteDisableButton(),
                   ),
                 ),
               ),
@@ -207,7 +209,9 @@ class EditSpendWidget extends StatelessWidget {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     foregroundColor: appColors.whiteColor(),
-                    backgroundColor: Color(0xFF2C62F0),
+                    disabledForegroundColor: appColors.lightBlackColor(),
+                    backgroundColor: appColors.confirmColor(),
+                    disabledBackgroundColor: appColors.confirmDisableColor(),
                   ),
                 ),
               ),

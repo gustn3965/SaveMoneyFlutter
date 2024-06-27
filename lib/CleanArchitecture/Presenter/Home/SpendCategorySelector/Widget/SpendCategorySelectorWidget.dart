@@ -27,31 +27,34 @@ class SpendCategorySelectorWidget extends StatelessWidget {
         } else {
           return Container(
             color: appColors.whiteColor(),
-            child: Column(
-              children: [
-                Text('소비된 카테고리 ${viewModel.items.length}개',
-                    style: TextStyle(fontSize: 18)),
-                LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Container(
-                      height: 50.0,
-                      // color: appColors.whiteColor(),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          primary: false,
-                          itemCount: viewModel.items.length,
-                          itemBuilder: (context, index) {
-                            return spendCategoryChip(viewModel.items[index]);
-                          },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Column(
+                children: [
+                  Text('소비된 카테고리 ${viewModel.items.length}개',
+                      style: TextStyle(fontSize: 18)),
+                  LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      return Container(
+                        height: 50.0,
+                        // color: appColors.mainRedColor(),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0, right: 0),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: viewModel.items.length,
+                            itemBuilder: (context, index) {
+                              return spendCategoryChip(viewModel.items[index]);
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -81,7 +84,8 @@ class SpendCategorySelectorWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
-          label: Text("# ${item.categoryName} (${item.count})"),
+          label: Text("# ${item.categoryName} (${item.count})",
+              style: TextStyle(color: appColors.blackColor())),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           side: BorderSide(strokeAlign: 0.5, color: appColors.blackColor()),
           onSelected: (bool value) async {

@@ -66,8 +66,11 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        label: Text("${groupObject.groupCategory.name}",
-            style: TextStyle(color: appColors.blackColor())),
+        label: Padding(
+          padding: const EdgeInsets.only(top: 2, bottom: 2),
+          child: Text("${groupObject.groupCategory.name}",
+              style: TextStyle(color: appColors.blackColor())),
+        ),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) async {
@@ -88,7 +91,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        label: Text(viewModel.addGroupButtonName),
+        label: Text(viewModel.addGroupButtonName, style: TextStyle(color: appColors.blackColor())),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) {
@@ -109,7 +112,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        label: Text(viewModel.enableMultiSelectChipName),
+        label: Text(viewModel.enableMultiSelectChipName, style: TextStyle(color: appColors.blackColor())),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) {
