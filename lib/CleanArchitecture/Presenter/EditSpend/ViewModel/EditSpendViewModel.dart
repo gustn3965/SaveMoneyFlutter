@@ -6,8 +6,9 @@ class EditSpendActions {
   void Function(DateTime) showDatePicker;
   void Function() didEditSpend;
   void Function() didDeleteSpend;
+  void Function() clickAddSpendCategory;
 
-  EditSpendActions(this.showDatePicker, this.didEditSpend, this.didDeleteSpend);
+  EditSpendActions(this.showDatePicker, this.didEditSpend, this.didDeleteSpend, this.clickAddSpendCategory);
 }
 
 class EditSpendViewGroupMonthItem {
@@ -41,6 +42,8 @@ abstract class EditSpendViewModel {
   void didClickNonSpendSaveButton();
   void didClickGroupMonth(EditSpendViewGroupMonthItem groupMonth);
   void didClickSpendCategory(SpendCategory spendCategory);
+  void didClickAddSpendCategory();
+  void reloadData();
 
   Future<void> fetchSpendCategoryList();
   Future<void> fetchGroupMonthList(DateTime dateTime);

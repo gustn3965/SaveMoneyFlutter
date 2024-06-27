@@ -329,7 +329,7 @@ class EditSpendWidget extends StatelessWidget {
                 child: TextButton(
                   onPressed: () {
                     if (index == viewModel.spendCategoryList.length) {
-                      // _showAddSpendCategory();
+                      viewModel.didClickAddSpendCategory();
                     } else {
                       SpendCategory selectedCategory =
                           viewModel.spendCategoryList[index];

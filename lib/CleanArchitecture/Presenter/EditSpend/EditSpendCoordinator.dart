@@ -4,6 +4,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.da
 import 'package:save_money_flutter/main.dart';
 
 import '../../../AppColor/AppColors.dart';
+import '../AddSpendCategory/AddSpendCategoryCoordinator.dart';
 import 'ViewModel/EditSpendViewModel.dart';
 
 class EditSpendCoordinator extends Coordinator {
@@ -16,7 +17,13 @@ class EditSpendCoordinator extends Coordinator {
   }
 
   @override
-  void updateCurrentWidget() {}
+  void updateCurrentWidget() {
+    editSpendViewModel?.reloadData();
+
+    for (Coordinator child in childCoordinator) {
+      child.updateCurrentWidget();
+    }
+  }
 
   Widget makeEditSpendWidget(String spendId) {
     void showDatePicker(DateTime date) {
@@ -35,10 +42,17 @@ class EditSpendCoordinator extends Coordinator {
       pop();
     }
 
+    void showAddSpendCategoryView() {
+      AddSpendCategoryCoordinator addSpendCategoryCoordinator =
+          AddSpendCategoryCoordinator(this);
+      addSpendCategoryCoordinator.startFromModalBottomSheet();
+    }
+
     EditSpendActions actions = EditSpendActions(
       showDatePicker,
       didEditSpend,
       didDeleteSpend,
+      showAddSpendCategoryView,
     );
 
     editSpendViewModel =

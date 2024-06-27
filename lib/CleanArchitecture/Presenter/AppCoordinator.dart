@@ -139,9 +139,9 @@ class AppCoordinator extends Coordinator {
   String routeName = "App";
 
   AppCoordinator(super.superCoordinator, super.parentNavigationCoordinator);
+
   @override
   void didChangePlatformBrightness() {
-    // Call the callback function when brightness changes
     print(PlatformDispatcher.instance.platformBrightness);
     triggerTopUpdateWidget();
   }

@@ -146,6 +146,11 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   }
 
   @override
+  void didClickAddSpendCategory() {
+    editSpendActions.clickAddSpendCategory();
+  }
+
+  @override
   void dispose() {
     _dataController.close();
   }
@@ -169,6 +174,11 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
       makeAvailableSaveButton();
     }
 
+    _dataController.add(this);
+  }
+
+  @override
+  void reloadData() {
     _dataController.add(this);
   }
 
