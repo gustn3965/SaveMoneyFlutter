@@ -24,6 +24,7 @@ class EditSpendCoordinator extends Coordinator {
 
     void didEditSpend() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       pop();
     }
 

@@ -3,6 +3,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.da
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Search/SearchSpend/ViewModel/SearchSpendViewModel.dart';
 import 'package:save_money_flutter/main.dart';
 
+import '../EditSpend/EditSpendCoordinator.dart';
 import 'SearchWidget.dart';
 
 class SearchCoordinator extends Coordinator {
@@ -26,7 +27,11 @@ class SearchCoordinator extends Coordinator {
   }
 
   Widget makeSearchSpendWidget() {
-    void showEditSpend(String spendId) {}
+    void showEditSpend(String spendId) {
+      EditSpendCoordinator editSpendCoordinator =
+      EditSpendCoordinator(this, spendId);
+      editSpendCoordinator.startFromModalBottomSheet();
+    }
     SearchSpendAction action =
         SearchSpendAction(didClickEditSpend: showEditSpend);
 
