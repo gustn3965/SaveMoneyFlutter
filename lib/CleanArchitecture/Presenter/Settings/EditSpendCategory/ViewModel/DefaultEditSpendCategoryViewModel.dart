@@ -49,6 +49,11 @@ class DefaultEditSpendCategoryViewModel extends EditSpendCategoryViewModel {
   Stream<EditSpendCategoryViewModel> get dataStream => _dataController.stream;
 
   @override
+  void didClickNavigationPopButton() {
+    actions.navigationPop();
+  }
+
+  @override
   void didChangeSpendCategoryName(String categoryName) {
     spendCategoryName = categoryName;
     makeAvailableEditButton();

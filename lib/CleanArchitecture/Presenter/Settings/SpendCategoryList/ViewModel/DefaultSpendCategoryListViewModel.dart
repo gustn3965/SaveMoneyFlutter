@@ -16,6 +16,12 @@ class DefaultSpendCategoryListViewModel extends SpendCategoryListViewModel {
       {required this.action, required this.spendCategoryFetchUseCase}) {
     fetchSpendCategoryList();
   }
+
+  @override
+  void didClickNavigationPopButton() {
+    action.navigationPop();
+  }
+
   @override
   void clickEditSpendCategoryItem(SpendCategoryListItem item) {
     action.showEditSpendCategoryWidget(item.categoryId);

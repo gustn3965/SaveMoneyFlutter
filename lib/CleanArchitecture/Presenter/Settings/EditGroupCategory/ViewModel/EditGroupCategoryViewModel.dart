@@ -3,6 +3,7 @@ class EditGroupCategoryActions {
   void Function() doneDeleteGroupCategory;
   void Function() showAlertWarningEdit;
   void Function() showAlertWarningDelete;
+  void Function() navigationPop;
   void Function(String groupMonthid) showEditGroupMonthMoney;
 
   EditGroupCategoryActions(
@@ -10,7 +11,8 @@ class EditGroupCategoryActions {
       required this.doneDeleteGroupCategory,
       required this.showAlertWarningEdit,
       required this.showAlertWarningDelete,
-      required this.showEditGroupMonthMoney});
+      required this.showEditGroupMonthMoney,
+      required this.navigationPop});
 }
 
 class EditGroupCategoryItem {
@@ -44,15 +46,24 @@ abstract class EditGroupCategoryViewModel {
 
   late List<EditGroupCategoryItem> groupListItem;
 
+  void didClickNavigationPopButton();
+
   void didChangeGroupCategoryName(String categoryName);
+
   void didClickEditButton();
+
   void didClickDeleteButton();
+
   void didClickItemEditGroupMoney(EditGroupCategoryItem item);
+
   void doUpdateGroupCategory();
+
   void doDeleteSpendCategory();
 
   void reloadData();
+
   // Observing
   Stream<EditGroupCategoryViewModel> get dataStream;
+
   void dispose();
 }

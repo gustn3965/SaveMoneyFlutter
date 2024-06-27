@@ -17,6 +17,12 @@ class SpendCategoryListWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
+              leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    // 사용자 정의 동작을 수행합니다.
+                    viewModel.didClickNavigationPopButton();
+                  }),
               backgroundColor: appColors.mainColor(),
               title: Text(
                 '소비 카테고리 목록',

@@ -19,6 +19,11 @@ class DefaultGroupCategoryListViewModel extends GroupCategoryListViewModel {
   }
 
   @override
+  void didClickNavigationPopButton() {
+    action.navigationPop();
+  }
+
+  @override
   void clickEditGroupCategoryItem(GroupCategoryListItem item) {
     // TODO: implement clickEditGroupCategoryItem
     action.showEditGroupCategoryWidget(item.categoryId);

@@ -50,8 +50,16 @@ class EditGroupCategoryCoordinator extends Coordinator {
           editGroupCategoryViewModel!.doDeleteSpendCategory);
     }
 
+    void navigationPop() {
+      pop();
+    }
+
     void showEditGroupMonthMoney(String groupMonthId) {
-      EditGroupMonthMoneyCoordinator editGroupMonthMoneyCoordinator = EditGroupMonthMoneyCoordinator(superCoordinator: this, parentTabCoordinator: this, groupMonthId: groupMonthId);
+      EditGroupMonthMoneyCoordinator editGroupMonthMoneyCoordinator =
+          EditGroupMonthMoneyCoordinator(
+              superCoordinator: this,
+              parentTabCoordinator: this,
+              groupMonthId: groupMonthId);
       editGroupMonthMoneyCoordinator.start();
     }
 
@@ -60,7 +68,8 @@ class EditGroupCategoryCoordinator extends Coordinator {
         doneDeleteGroupCategory: doneDeleteGroupCategory,
         showAlertWarningEdit: showAlertWarningEdit,
         showAlertWarningDelete: showAlertWarningDelete,
-    showEditGroupMonthMoney: showEditGroupMonthMoney);
+        showEditGroupMonthMoney: showEditGroupMonthMoney,
+        navigationPop: navigationPop);
 
     editGroupCategoryViewModel = appDIContainer.settings
         .makeEditGroupCategoryViewModel(actions, groupCategoryId);

@@ -49,12 +49,17 @@ class EditSpendCategoryCoordinator extends Coordinator {
           editSpendCategoryViewModel!.doDeleteSpendCategory);
     }
 
+    void navigationPop() {
+      pop();
+    }
+
     EditSpendCategoryActions action = EditSpendCategoryActions(
         doneSaveEdit: doneSaveEdit,
         doneDeleteSpendCategory: doneDeleteSpendCategory,
         showAlertWarningEdit: showAlertWarningEdit,
         showAlertSameName: showAlertSameName,
-        showAlertWarningDelete: showAlertWarningDelete);
+        showAlertWarningDelete: showAlertWarningDelete,
+        navigationPop: navigationPop);
 
     editSpendCategoryViewModel = appDIContainer.settings
         .makeEditSpendCategoryViewModel(

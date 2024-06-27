@@ -4,13 +4,15 @@ class EditSpendCategoryActions {
   void Function() showAlertWarningEdit;
   void Function() showAlertSameName;
   void Function() showAlertWarningDelete;
+  void Function() navigationPop;
 
   EditSpendCategoryActions(
       {required this.doneSaveEdit,
       required this.doneDeleteSpendCategory,
       required this.showAlertWarningEdit,
       required this.showAlertSameName,
-      required this.showAlertWarningDelete});
+      required this.showAlertWarningDelete,
+      required this.navigationPop});
 }
 
 class EditSpendCategoryItem {
@@ -35,6 +37,8 @@ abstract class EditSpendCategoryViewModel {
   late int maxNameLength;
 
   late List<EditSpendCategoryItem> spendListItem;
+
+  void didClickNavigationPopButton();
 
   void didChangeSpendCategoryName(String categoryName);
 

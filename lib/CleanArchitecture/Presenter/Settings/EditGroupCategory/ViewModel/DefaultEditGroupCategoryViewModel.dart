@@ -44,6 +44,11 @@ class DefaultEditGroupCategoryViewModel extends EditGroupCategoryViewModel {
   }
 
   @override
+  void didClickNavigationPopButton() {
+    actions.navigationPop();
+  }
+
+  @override
   void didChangeGroupCategoryName(String categoryName) {
     groupCategoryName = categoryName;
     makeAvailableEditButton();

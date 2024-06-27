@@ -35,8 +35,13 @@ class GroupCategoryListCoordinator extends Coordinator {
       editGroupCategoryCoordinator.start();
     }
 
+    void navigationPop() {
+      pop();
+    }
+
     GroupCategoryListAction action = GroupCategoryListAction(
-        showEditGroupCategoryWidget: showEditSpendCategory);
+        showEditGroupCategoryWidget: showEditSpendCategory,
+        navigationPop: navigationPop);
 
     groupCategoryListViewModel =
         appDIContainer.settings.makeGroupCategoryListViewModel(action);

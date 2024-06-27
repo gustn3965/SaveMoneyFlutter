@@ -45,9 +45,14 @@ class SpendCategoryListCoordinator extends Coordinator {
       addSpendCategoryCoordinator.startFromModalBottomSheet();
     }
 
+    void navigationPop() {
+      pop();
+    }
+
     SpendCategoryListAction action = SpendCategoryListAction(
         showEditSpendCategoryWidget: showEditSpendCategory,
-        showAddSpendCategoryWidget: showAddSpendCategory);
+        showAddSpendCategoryWidget: showAddSpendCategory,
+        navigationPop: navigationPop);
 
     spendCategoryListViewModel =
         appDIContainer.settings.makeSpendCategoryListViewModel(action);
