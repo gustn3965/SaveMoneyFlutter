@@ -87,7 +87,7 @@ class ChartCoordinator extends Coordinator {
         //ios및웹용 시간
         backgroundColor: AppColors.lightDarkColor,
         //배경색
-        textColor: Colors.white,
+        textColor: appColors.whiteColor(),
         //글자색
         fontSize: 16.0 //폰트사이즈
         );

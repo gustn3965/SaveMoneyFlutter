@@ -25,11 +25,11 @@ class EditGroupCategoryWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
             appBar: AppBar(
-                backgroundColor: AppColors.mainColor,
-                title: const Text(
+                backgroundColor: appColors.mainColor(),
+                title: Text(
                   '소비 그룹 수정',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: appColors.blackColor(),
                     fontSize: 20,
                     fontStyle: FontStyle.italic,
                     fontFamily: 'Inter',
@@ -44,7 +44,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height,
-                      color: Colors.white,
+                      color: appColors.whiteColor(),
                       child: Column(
                         children: [
                           SizedBox(
@@ -71,7 +71,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
       child: Container(
         width: 200,
         height: 80,
-        color: AppColors.whiteColor,
+        color: appColors.whiteColor(),
         child: TextField(
           textAlign: TextAlign.center,
           autofocus: true,
@@ -120,7 +120,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: Colors.white,
+                    foregroundColor: appColors.whiteColor(),
                     backgroundColor: Colors.red,
                   ),
                 ),
@@ -144,7 +144,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: Colors.white,
+                    foregroundColor: appColors.whiteColor(),
                     backgroundColor: Color(0xFF2C62F0),
                   ),
                 ),
@@ -171,7 +171,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                   child: Text(
                     '해당 그룹에 지출된 내역 (${viewModel.groupListItem.length} 개)',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 16,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -242,7 +242,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                             Text(
                               item.plannedbudgetString,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: appColors.blackColor(),
                                 fontSize: 16,
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w700,
@@ -260,7 +260,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                             viewModel.didClickItemEditGroupMoney(item);
                           },
                           style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.black,
+                            foregroundColor: appColors.blackColor(),
                             backgroundColor: AppColors.editColorGray,
                             disabledBackgroundColor: Color(0xFFD5DFF9),
                             shape: RoundedRectangleBorder(

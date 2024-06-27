@@ -19,7 +19,7 @@ class LeftMonthFloatingButtonWidget extends StatelessWidget {
         viewModel.didClickButton();
       },
       tooltip: 'Increment',
-      backgroundColor: AppColors.whitelightGrayColor,
+      backgroundColor: appColors.lightGrayColor(),
       child: const Icon(Icons.chevron_left_outlined),
     );
   }

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupMoney/ViewModel/AddGroupMoneyViewModel.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../AppColor/AppColors.dart';
 import '../../../../../Extension/DateTime+Extension.dart';
 
 class AddGroupMoneyWidget extends StatefulWidget {
@@ -38,7 +39,7 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
       stream: widget.viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: PopScope(
               canPop: false,
               child: SingleChildScrollView(
@@ -50,7 +51,7 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                         child: Container(
-                          color: Colors.white,
+                          color: appColors.whiteColor(),
                           child: Column(
                             children: [
                               const SizedBox(
@@ -173,7 +174,7 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
               widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.black,
+        foregroundColor: appColors.blackColor(),
         backgroundColor: Color(0xFFA6BEFB),
         disabledBackgroundColor: Color(0xFFD5DFF9),
         shape: const RoundedRectangleBorder(
@@ -192,7 +193,7 @@ class _AddGroupMoneyWidgetState extends State<AddGroupMoneyWidget> {
         widget.viewModel.didClickCancelButton();
       },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
+        foregroundColor: appColors.whiteColor(),
         backgroundColor: Color(0xFF575759),
         disabledBackgroundColor: Color(0xFF575759),
         shape: const RoundedRectangleBorder(

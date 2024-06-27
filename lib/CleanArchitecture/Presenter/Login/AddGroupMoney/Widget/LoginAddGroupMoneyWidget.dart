@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../AppColor/AppColors.dart';
 import '../../../../../Extension/DateTime+Extension.dart';
 import '../ViewModel/LoginAddGroupMoneyViewModel.dart';
 
@@ -36,7 +37,7 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
       stream: widget.viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: SingleChildScrollView(
             child: Center(
               child: GestureDetector(
@@ -46,7 +47,7 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Container(
-                      color: Colors.white,
+                      color: appColors.whiteColor(),
                       child: Column(
                         children: [
                           SizedBox(
@@ -166,7 +167,7 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
               widget.viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.black,
+        foregroundColor: appColors.blackColor(),
         backgroundColor: Color(0xFFA6BEFB),
         disabledBackgroundColor: Color(0xFFD5DFF9),
         shape: RoundedRectangleBorder(
@@ -185,7 +186,7 @@ class _LoginAddGroupMoneyWidgetState extends State<LoginAddGroupMoneyWidget> {
         widget.viewModel.didClickCancelButton();
       },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
+        foregroundColor: appColors.whiteColor(),
         backgroundColor: Color(0xFF575759),
         disabledBackgroundColor: Color(0xFF575759),
         shape: RoundedRectangleBorder(

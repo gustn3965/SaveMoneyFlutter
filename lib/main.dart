@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.dart';
 // Widget
+import 'AppColor/AppColors.dart';
 import 'CleanArchitecture/Presenter/AppCoordinator.dart';
 
 
@@ -13,7 +14,9 @@ void main() async {
   print(">>>>>>>>>start main>>>>>>>>>>>>");
 
 
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized()
+  .addObserver(appCoordinator);
+
   AppStatus appStatus = await getAppStatusFromChannel();
   appDIContainer = AppDIContainer(appStatus: appStatus);
 

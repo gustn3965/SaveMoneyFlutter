@@ -21,7 +21,7 @@ class RightMonthFloatingButtonWidget extends StatelessWidget {
         onPressed: () {
           viewModel.didClickButton();
         },
-        backgroundColor: AppColors.whitelightGrayColor,
+        backgroundColor: appColors.lightGrayColor(),
         tooltip: 'Increment',
         child: const Icon(Icons.chevron_right_outlined),
       ),

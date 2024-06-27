@@ -18,34 +18,40 @@ class MonthSpendListWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         if (viewModel.spendList.length == 0) {
-          return Column(
-            children: [
-              headerWidget(),
-              SizedBox(height: 40),
-            ],
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                headerWidget(),
+                SizedBox(height: 40),
+              ],
+            ),
           );
         } else {
-          return Column(
-            children: [
-              headerWidget(),
-              ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: viewModel.spendList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  MonthSpendListItem item = viewModel.spendList[index];
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                headerWidget(),
+                ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: viewModel.spendList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    MonthSpendListItem item = viewModel.spendList[index];
 
-                  if (item is MonthSpendListItemDate) {
-                    return dateHeaderWidget(item);
-                  } else if (item is MonthSpendListItemSpend) {
-                    return spendItemWidget(item, index);
-                  } else {
-                    return SizedBox(height: 20);
-                  }
+                    if (item is MonthSpendListItemDate) {
+                      return dateHeaderWidget(item);
+                    } else if (item is MonthSpendListItemSpend) {
+                      return spendItemWidget(item, index);
+                    } else {
+                      return SizedBox(height: 20);
+                    }
 
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           );
         }
       },
@@ -56,7 +62,7 @@ class MonthSpendListWidget extends StatelessWidget {
     return Container(
       // height: 65,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: AppColors.mainLighColor,
+      color: appColors.mainColor(),
       child: Column(
         children: [
           SizedBox(height: 15),
@@ -69,7 +75,7 @@ class MonthSpendListWidget extends StatelessWidget {
                   child: Text(
                     '월 소비 목록 (${viewModel.onlyItemListCount()})',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -84,7 +90,7 @@ class MonthSpendListWidget extends StatelessWidget {
                         ? '소비된 내역이 없습니다.'
                         : '총 ${NumberFormat("#,###").format(viewModel.totalSpendMoney)}원',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
@@ -106,7 +112,7 @@ class MonthSpendListWidget extends StatelessWidget {
     return Container(
       // height: 40,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: AppColors.lightGrayColor,
+      color: appColors.lightGrayColor(),
       child: Column(
         children: [
           SizedBox(height: 10),
@@ -119,7 +125,7 @@ class MonthSpendListWidget extends StatelessWidget {
                   child: Text(
                     '${item.date.month}월${item.date.day}일',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 17,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -129,7 +135,7 @@ class MonthSpendListWidget extends StatelessWidget {
               Text(
                 '(${DateFormat.EEEE('ko').format(item.date)})',
                 style: TextStyle(
-                  color: item.date.weekday == DateTime.sunday ? AppColors.mainRedColor : Colors.black,
+                  color: item.date.weekday == DateTime.sunday ? appColors.mainRedColor() : appColors.blackColor(),
                   fontSize: 15,
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w500,
@@ -148,6 +154,7 @@ class MonthSpendListWidget extends StatelessWidget {
     return Container(
       // height: 100,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
+      color: appColors.whiteColor(),
       child: Stack(
         children: [
           Align(
@@ -183,7 +190,7 @@ class MonthSpendListWidget extends StatelessWidget {
                         Text(
                           '${NumberFormat("#,###").format(item.spendMoney)}원',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: appColors.blackColor(),
                             fontSize: 20,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w700,
@@ -201,7 +208,7 @@ class MonthSpendListWidget extends StatelessWidget {
                       viewModel.didClickModifySpendItem(index);
                     },
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
+                      foregroundColor: appColors.blackColor(),
                       backgroundColor: AppColors.editColorGray,
                       disabledBackgroundColor: Color(0xFFD5DFF9),
                       shape: RoundedRectangleBorder(

@@ -16,37 +16,43 @@ class SpendCategorySelectorWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         if (viewModel.items.length == 0) {
-          return Column(
-            children: [
-              Text('소비된 카테고리가 없습니다.', style: TextStyle(fontSize: 18)),
-            ],
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                Text('소비된 카테고리가 없습니다.', style: TextStyle(fontSize: 18)),
+              ],
+            ),
           );
         } else {
-          return Column(
-            children: [
-              Text('소비된 카테고리 ${viewModel.items.length}개',
-                  style: TextStyle(fontSize: 18)),
-              LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Container(
-                    height: 50.0,
-                    // color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: viewModel.items.length,
-                        itemBuilder: (context, index) {
-                          return spendCategoryChip(viewModel.items[index]);
-                        },
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                Text('소비된 카테고리 ${viewModel.items.length}개',
+                    style: TextStyle(fontSize: 18)),
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Container(
+                      height: 50.0,
+                      // color: appColors.whiteColor(),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: viewModel.items.length,
+                          itemBuilder: (context, index) {
+                            return spendCategoryChip(viewModel.items[index]);
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                    );
+                  },
+                ),
+              ],
+            ),
           );
         }
       },
@@ -68,7 +74,7 @@ class SpendCategorySelectorWidget extends StatelessWidget {
       child: FilterChip(
           showCheckmark: false,
           selected: viewModel.selectedItems.contains(item),
-          backgroundColor: AppColors.whitelightGrayColor,
+          backgroundColor: appColors.whiteColor(),
           selectedColor: generateUniqueColor(item.categoryId),
           // shadowColor: Colors.grey,
           // elevation: 4,
@@ -77,7 +83,7 @@ class SpendCategorySelectorWidget extends StatelessWidget {
           ),
           label: Text("# ${item.categoryName} (${item.count})"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          side: BorderSide(strokeAlign: 0.5),
+          side: BorderSide(strokeAlign: 0.5, color: appColors.blackColor()),
           onSelected: (bool value) async {
             viewModel.didSelectSpendItem(item);
             // bool isFind = await saveMoneyViewModel.updateSelectedGroups([categoryObject]);

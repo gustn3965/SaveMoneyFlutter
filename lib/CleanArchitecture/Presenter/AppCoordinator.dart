@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -16,7 +18,7 @@ class NavigationService {
   static BuildContext? currentContext = navigatorKey.currentContext;
 }
 
-abstract class Coordinator {
+abstract class Coordinator extends WidgetsBindingObserver {
   Coordinator? superCoordinator;
   Coordinator? parentNavigationCoordinator;
 
@@ -34,7 +36,12 @@ abstract class Coordinator {
           name: routeName,
           arguments: this, // Coordinator전달
         ),
-        builder: (context) => currentWidget));
+        builder: (context) => MaterialApp(
+            themeMode: ThemeMode.system,
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            home: currentWidget,
+        )));
   }
 
   // push가아닌 Navigation을 바꾼다.
@@ -74,7 +81,7 @@ abstract class Coordinator {
                   top: Radius.circular(27),
                 ),
                 child: Container(
-                  color: AppColors.whiteColor,
+                  color: appColors.whiteColor(),
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: currentWidget,
@@ -132,6 +139,12 @@ class AppCoordinator extends Coordinator {
   String routeName = "App";
 
   AppCoordinator(super.superCoordinator, super.parentNavigationCoordinator);
+  @override
+  void didChangePlatformBrightness() {
+    // Call the callback function when brightness changes
+    print(PlatformDispatcher.instance.platformBrightness);
+    triggerTopUpdateWidget();
+  }
 
   @override
   void start() async {
@@ -184,8 +197,8 @@ class LanchScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: NavigationService.navigatorKey,
-      home: const Scaffold(
-        backgroundColor: Colors.white,
+      home: Scaffold(
+        backgroundColor: appColors.whiteColor(),
       ),
     );
   }

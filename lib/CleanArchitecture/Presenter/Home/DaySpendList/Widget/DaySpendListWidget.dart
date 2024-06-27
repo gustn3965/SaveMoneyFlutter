@@ -16,19 +16,25 @@ class DaySpendListWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         if (viewModel.spendList.length == 0) {
-          return Column(
-            children: [
-              headerWidget(),
-              SizedBox(height: 40),
-            ],
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                headerWidget(),
+                SizedBox(height: 40),
+              ],
+            ),
           );
         } else {
-          return Column(
-            children: [
-              headerWidget(),
-              dayListWidget(),
-              SizedBox(height: 40),
-            ],
+          return Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              children: [
+                headerWidget(),
+                dayListWidget(),
+                SizedBox(height: 40),
+              ],
+            ),
           );
         }
       },
@@ -39,7 +45,7 @@ class DaySpendListWidget extends StatelessWidget {
     return Container(
       // height: 65,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: AppColors.lightGrayColor,
+      color: appColors.lightGrayColor(),
       child: Column(
         children: [
           SizedBox(height: 15),
@@ -52,7 +58,7 @@ class DaySpendListWidget extends StatelessWidget {
                   child: Text(
                     '${viewModel.date.month}월${viewModel.date.day}일 (${viewModel.spendList.length})',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -67,7 +73,7 @@ class DaySpendListWidget extends StatelessWidget {
                         ? '소비된 내역이 없습니다.'
                         : '${NumberFormat("#,###").format(viewModel.totalSpendMoney)}원',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 18,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
@@ -95,6 +101,7 @@ class DaySpendListWidget extends StatelessWidget {
         return Container(
           // height: 100,
           // padding: const EdgeInsets.only(bottom: 30),
+          color: appColors.whiteColor(),
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: [
@@ -131,7 +138,7 @@ class DaySpendListWidget extends StatelessWidget {
                             Text(
                               '${NumberFormat("#,###").format(item.spendMoney)}원',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: appColors.blackColor(),
                                 fontSize: 20,
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w700,
@@ -149,7 +156,7 @@ class DaySpendListWidget extends StatelessWidget {
                           viewModel.didClickModifySpendItem(index);
                         },
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.black,
+                          foregroundColor: appColors.blackColor(),
                           backgroundColor: AppColors.editColorGray,
                           disabledBackgroundColor: Color(0xFFD5DFF9),
                           shape: RoundedRectangleBorder(

@@ -15,7 +15,7 @@ class MainTabWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: appColors.whiteColor(),
             body: IndexedStack(
               index: viewModel.bottomNavigationIndex,
               children: bodyWidgets,
@@ -30,8 +30,8 @@ class MainTabWidget extends StatelessWidget {
                 onTap: (value) {
                   viewModel.didClickTabItem(viewModel.tabItems[value]);
                 },
-                backgroundColor: Colors.white,
-                selectedItemColor: AppColors.mainHightColor,
+                backgroundColor: appColors.whiteColor(),
+                selectedItemColor: appColors.mainHightColor(),
                 unselectedItemColor: AppColors.deepGrayColor,
 
                 showSelectedLabels: true,
@@ -50,7 +50,7 @@ class MainTabWidget extends StatelessWidget {
   }
 
   List<BottomNavigationBarItem> makeBottomBarItems() {
-    return viewModel.tabItems.map((e) => BottomNavigationBarItem(icon: e.icon, label: e.name, backgroundColor: AppColors.whiteColor)).toList();
+    return viewModel.tabItems.map((e) => BottomNavigationBarItem(icon: e.icon, label: e.name, backgroundColor: appColors.whiteColor())).toList();
   }
 }
 
@@ -71,7 +71,7 @@ class MainTabWidget extends StatelessWidget {
 //       stream: widget.viewModel.dataStream,
 //       builder: (context, snapshot) {
 //         return Scaffold(
-//           backgroundColor: Colors.white,
+//           backgroundColor: appColors.whiteColor(),
 //           body: widget.bodyWidget,
 //           // floatingActionButton:
 //           //     Column(mainAxisAlignment: MainAxisAlignment.end, children: [

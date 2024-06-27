@@ -29,11 +29,11 @@ class AddGroupListWidget extends StatelessWidget {
                           // 사용자 정의 동작을 수행합니다.
                           viewModel.didClickNavigationPopButton();
                         }),
-                    backgroundColor: AppColors.mainColor,
-                    title: const Text(
+                    backgroundColor: appColors.mainColor(),
+                    title: Text(
                       '지출 그룹 추가',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: appColors.blackColor(),
                         fontSize: 20,
                         fontStyle: FontStyle.italic,
                         fontFamily: 'Inter',
@@ -41,7 +41,7 @@ class AddGroupListWidget extends StatelessWidget {
                         height: 0,
                       ),
                     )),
-                backgroundColor: Colors.white,
+                backgroundColor: appColors.whiteColor(),
                 body: ListView.builder(
                   itemCount: (viewModel.groupCategoryItems.length) + 1,
                   itemBuilder: (context, index) {
@@ -67,7 +67,7 @@ class AddGroupListWidget extends StatelessWidget {
             SlidableAction(
               onPressed: (context) {},
               backgroundColor: Color(0xFFFE4A49),
-              foregroundColor: Colors.white,
+              foregroundColor: appColors.whiteColor(),
               icon: Icons.delete,
               label: '삭제',
             ),
@@ -84,7 +84,7 @@ class AddGroupListWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1,
-                  color: Colors.black,
+                  color: appColors.blackColor(),
                 ),
                 borderRadius: BorderRadius.circular(20),
               ), //  POINT: BoxDecoration
@@ -104,7 +104,7 @@ class AddGroupListWidget extends StatelessWidget {
                           }
                         : null,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.black,
+                  foregroundColor: appColors.blackColor(),
                   backgroundColor: Color(0xFFA6BEFB),
                   disabledBackgroundColor: Color(0xFFD5DFF9),
                   shape: RoundedRectangleBorder(
@@ -130,7 +130,7 @@ class AddGroupListWidget extends StatelessWidget {
             viewModel.didClickAddNewGroupCategoryButton();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.black,
+            foregroundColor: appColors.blackColor(),
             backgroundColor: const Color(0xFFA6BEFB),
             disabledBackgroundColor: const Color(0xFFD5DFF9),
             shape: const RoundedRectangleBorder(

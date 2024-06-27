@@ -17,6 +17,7 @@ class GroupMonthSelectorWidget extends StatelessWidget {
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Container(
+              color: appColors.whiteColor(),
               width: constraints.maxWidth,
               child: Padding(
                 padding: EdgeInsets.only(left: 20, right: 20),
@@ -60,14 +61,14 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       child: FilterChip(
         showCheckmark: false,
         selected: viewModel.selectedGroupMonths.contains(groupObject),
-        backgroundColor: Colors.white,
-        selectedColor: AppColors.mainRedColor,
+        backgroundColor: appColors.whiteColor(),
+        selectedColor: appColors.mainRedColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         label: Text("${groupObject.groupCategory.name}"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(width: 1),
+        side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) async {
           viewModel.didSelectGroupMonth(groupObject);
         },
@@ -81,14 +82,14 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       child: FilterChip(
         showCheckmark: false,
         selected: false,
-        backgroundColor: AppColors.lightGrayColor,
+        backgroundColor: appColors.lightGrayColor(),
         selectedColor: Color(0xFFFF005B),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
         label: Text(viewModel.addGroupButtonName),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(width: 1),
+        side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) {
           viewModel.didSelectAddGroupMonth();
         },
@@ -102,14 +103,14 @@ class GroupMonthSelectorWidget extends StatelessWidget {
       child: FilterChip(
         showCheckmark: false,
         selected: viewModel.enableMultiSelectChip,
-        backgroundColor: Colors.white,
-        selectedColor: AppColors.mainColor,
+        backgroundColor: appColors.whiteColor(),
+        selectedColor: appColors.mainColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
         label: Text(viewModel.enableMultiSelectChipName),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(width: 1),
+        side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) {
           viewModel.didSelectEnableMultiSelectChip(value);
         },

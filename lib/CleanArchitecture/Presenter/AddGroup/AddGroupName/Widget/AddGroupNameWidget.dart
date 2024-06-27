@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupName/ViewModel/AddGroupNameViewModel.dart';
 
+import '../../../../../AppColor/AppColors.dart';
+
 class AddGroupNameWidget extends StatelessWidget {
   final AddGroupNameViewModel viewModel;
   late TextEditingController groupTitleController;
@@ -18,7 +20,7 @@ class AddGroupNameWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: PopScope(
               canPop: false,
               child: SingleChildScrollView(
@@ -30,7 +32,7 @@ class AddGroupNameWidget extends StatelessWidget {
                       FocusScope.of(context).unfocus();
                     },
                     child: Container(
-                      color: Colors.white,
+                      color: appColors.whiteColor(),
                       child: Column(
                         children: [
                           SizedBox(
@@ -121,7 +123,7 @@ class AddGroupNameWidget extends StatelessWidget {
               viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.black,
+        foregroundColor: appColors.blackColor(),
         backgroundColor: const Color(0xFFA6BEFB),
         disabledBackgroundColor: const Color(0xFFD5DFF9),
         shape: const RoundedRectangleBorder(
@@ -140,7 +142,7 @@ class AddGroupNameWidget extends StatelessWidget {
         viewModel.didClickCancelButton();
       },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
+        foregroundColor: appColors.whiteColor(),
         backgroundColor: Color(0xFF575759),
         disabledBackgroundColor: Color(0xFF575759),
         shape: RoundedRectangleBorder(

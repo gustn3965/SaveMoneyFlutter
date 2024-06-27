@@ -19,11 +19,11 @@ class SettingsWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-              backgroundColor: AppColors.mainColor,
-              title: const Text(
+              backgroundColor: appColors.mainColor(),
+              title: Text(
                 '설정',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: appColors.blackColor(),
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
                   fontFamily: 'Inter',
@@ -31,7 +31,7 @@ class SettingsWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: ListView.builder(
             itemCount: (viewModel.list.length),
             itemBuilder: (context, index) {
@@ -60,13 +60,14 @@ class SettingsWidget extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
-                color: Colors.black,
+                color: appColors.blackColor(),
               ),
+              color: appColors.whiteColor(),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               item.name,
-              style: TextStyle(fontSize: 15.0),
+              style: TextStyle(fontSize: 15.0, color: appColors.blackColor()),
             ),
           ),
         ),

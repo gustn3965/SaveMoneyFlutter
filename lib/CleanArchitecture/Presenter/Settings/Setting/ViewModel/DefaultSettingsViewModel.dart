@@ -44,6 +44,11 @@ class DefaultSettingsViewModel extends SettingsViewModel {
   }
 
   @override
+  void reloadData() {
+    fetchList();
+  }
+
+  @override
   void dispose() {
     _dataController.close();
   }

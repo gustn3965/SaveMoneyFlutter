@@ -30,6 +30,7 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
         return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             return Container(
+                color: appColors.whiteColor(),
               width:
                   MediaQuery.of(NavigationService.currentContext!).size.width,
               child: Padding(
@@ -55,8 +56,8 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
 
   Widget headerTitleWidget() {
     return Container(
-      color: const Color(0xFFE5E3E3),
-      child: const Column(
+      color: appColors.lightGrayColor(),
+      child: Column(
         children: [
           SizedBox(height: 10),
           Row(
@@ -67,7 +68,7 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
                   child: Text(
                     '소비 카테고리 차트',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 16,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -108,7 +109,7 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
       child: FilterChip(
           showCheckmark: false,
           selected: viewModel.selectedSpendCategorySelectorItems.contains(item),
-          backgroundColor: AppColors.whitelightGrayColor,
+          backgroundColor: appColors.whiteColor(),
           selectedColor: generateUniqueColor(item.categoryIdentity),
           // shadowColor: Colors.grey,
           // elevation: 4,
@@ -117,7 +118,7 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
           ),
           label: Text("# ${item.categoryName}"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          side: BorderSide(strokeAlign: 0.5),
+          side: BorderSide(strokeAlign: 0.5, color: appColors.blackColor()),
           onSelected: (bool value) async {
             viewModel.didSelectSpendCategory(item);
           }),
@@ -126,13 +127,13 @@ class _SpendCategoryChartState extends State<SpendCategoryChartWidget> {
 
   Widget makeBarChart() {
     if (viewModel.chartModel == null || viewModel.chartModel!.xModels.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 120,
         child: Center(
             child: Text(
           '선택한 소비 카테고리가 없습니다. \n(선택해주세요)',
           style: TextStyle(
-            color: Colors.black,
+            color: appColors.blackColor(),
             fontSize: 20,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w800,

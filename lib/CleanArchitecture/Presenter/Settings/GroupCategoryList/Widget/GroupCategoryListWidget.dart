@@ -17,11 +17,11 @@ class GroupCategoryListWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-              backgroundColor: AppColors.mainColor,
-              title: const Text(
+              backgroundColor: appColors.mainColor(),
+              title:  Text(
                 '소비 그룹 목록',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: appColors.blackColor(),
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
                   fontFamily: 'Inter',
@@ -29,7 +29,7 @@ class GroupCategoryListWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
-            backgroundColor: Colors.white,
+            backgroundColor: appColors.whiteColor(),
           body: ListView.builder(
             itemCount: (viewModel.items.length) + 1,
             itemBuilder: (context, index) {
@@ -67,7 +67,7 @@ class GroupCategoryListWidget extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
-              color: Colors.black,
+              color: appColors.blackColor(),
             ),
             borderRadius: BorderRadius.circular(20),
           ), //  POINT: BoxDecoration
@@ -84,7 +84,7 @@ class GroupCategoryListWidget extends StatelessWidget {
               viewModel.clickEditGroupCategoryItem(item);
             },
             style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.black,
+              foregroundColor: appColors.blackColor(),
               backgroundColor: Color(0xFFA6BEFB),
               disabledBackgroundColor: Color(0xFFD5DFF9),
               shape: const RoundedRectangleBorder(

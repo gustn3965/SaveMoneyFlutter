@@ -12,10 +12,10 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             '검색',
             style: TextStyle(
-              color: Colors.black,
+              color: appColors.blackColor(),
               fontSize: 20,
               fontStyle: FontStyle.italic,
               fontFamily: 'Inter',
@@ -23,9 +23,9 @@ class SearchWidget extends StatelessWidget {
               height: 0,
             ),
           ),
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: appColors.mainColor(),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: appColors.whiteColor(),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();

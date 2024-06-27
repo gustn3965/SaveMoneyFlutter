@@ -13,16 +13,16 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: appColors.mainColor(),
         title: GestureDetector(
             onTap: () {
               // _showDatePicker();
             },
-            child: const Text(
+            child: Text(
               // DateFormat('yyyy-MM').format(selectDateViewModel.focusedDay),
               "홈",
               style: TextStyle(
-                color: Colors.black,
+                color: appColors.blackColor(),
                 fontSize: 20,
                 fontStyle: FontStyle.italic,
                 fontFamily: 'Inter',
@@ -31,7 +31,7 @@ class HomeWidget extends StatelessWidget {
               ),
             )),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: appColors.whiteColor(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

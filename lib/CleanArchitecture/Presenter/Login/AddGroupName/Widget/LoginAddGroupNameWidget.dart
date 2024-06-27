@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../AppColor/AppColors.dart';
 import '../ViewModel/LoginAddGroupNameViewModel.dart';
 
 class LoginAddGroupNameWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class LoginAddGroupNameWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: PopScope(
               canPop: false,
               child: SingleChildScrollView(
@@ -30,7 +31,7 @@ class LoginAddGroupNameWidget extends StatelessWidget {
                       FocusScope.of(context).unfocus();
                     },
                     child: Container(
-                      color: Colors.white,
+                      color: appColors.whiteColor(),
                       child: Column(
                         children: [
                           SizedBox(
@@ -121,7 +122,7 @@ class LoginAddGroupNameWidget extends StatelessWidget {
               viewModel.didClickConfirmButton();
             },
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.black,
+        foregroundColor: appColors.blackColor(),
         backgroundColor: const Color(0xFFA6BEFB),
         disabledBackgroundColor: const Color(0xFFD5DFF9),
         shape: const RoundedRectangleBorder(

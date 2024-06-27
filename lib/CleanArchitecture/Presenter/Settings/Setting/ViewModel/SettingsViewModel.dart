@@ -33,6 +33,7 @@ abstract class SettingsViewModel {
   // Observing
   Stream<SettingsViewModel> get dataStream;
   void dispose();
+  void reloadData();
 
   void didClickCell(int index);
 }

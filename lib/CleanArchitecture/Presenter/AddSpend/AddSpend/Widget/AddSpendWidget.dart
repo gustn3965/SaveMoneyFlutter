@@ -33,7 +33,7 @@ class AddSpendWidget extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                 },
                 child: Container(
-                  color: Colors.white,
+                  color: appColors.whiteColor(),
                   child: Column(
                     children: [
                       SizedBox(
@@ -63,13 +63,13 @@ class AddSpendWidget extends StatelessWidget {
       children: [
         SizedBox(height: topPadding),
         Container(
-          color: AppColors.whiteColor,
+          color: appColors.whiteColor(),
           child: Text(
             title,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: Colors.black,
+              color: appColors.blackColor(),
             ),
             textAlign: TextAlign.center,
           ),
@@ -83,7 +83,7 @@ class AddSpendWidget extends StatelessWidget {
       child: Container(
         width: 200,
         height: 80,
-        color: AppColors.whiteColor,
+        color: appColors.whiteColor(),
         child: TextField(
           textAlign: TextAlign.center,
           autofocus: true,
@@ -119,7 +119,7 @@ class AddSpendWidget extends StatelessWidget {
       child: Container(
         width: 200,
         height: 80,
-        color: AppColors.whiteColor,
+        color: appColors.whiteColor(),
         child: TextField(
           textAlign: TextAlign.center,
           autofocus: true,
@@ -161,8 +161,9 @@ class AddSpendWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                foregroundColor: Colors.white,
-                backgroundColor: Color(0xFF2C62F0),
+                foregroundColor: appColors.whiteColor(),
+                backgroundColor: appColors.mainHightColor(),
+                disabledBackgroundColor:  appColors.mainHightDisableColor(),
               ),
             ),
           ),
@@ -179,8 +180,8 @@ class AddSpendWidget extends StatelessWidget {
         },
         child: Text(
           DateFormat('yyyy-MM-dd').format(viewModel?.date ?? DateTime.now()),
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: appColors.blackColor(),
             fontSize: 20,
             fontStyle: FontStyle.italic,
             fontFamily: 'Inter',
@@ -206,7 +207,7 @@ class AddSpendWidget extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            foregroundColor: Colors.white,
+            foregroundColor: appColors.whiteColor(),
             backgroundColor: Colors.amber,
           ),
         ),
@@ -217,24 +218,21 @@ class AddSpendWidget extends StatelessWidget {
   Widget groupCategoryListWidget() {
     List<Widget> chipArray = [];
     for (var groupMonth in viewModel.groupMonthList) {
-      Widget button = Material(
-        color: Colors.transparent,
-        child: FilterChip(
+      Widget button =  FilterChip(
           showCheckmark: false,
           selected: viewModel.selectedGroupMonth?.groupMonthIdentity ==
               groupMonth.groupMonthIdentity,
-          backgroundColor: Colors.white,
-          selectedColor: AppColors.mainRedColor,
+          backgroundColor: appColors.whiteColor(),
+          selectedColor: appColors.mainRedColor(),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           label: Text("${groupMonth.groupCategoryName}"),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          side: BorderSide(width: 1),
+          side: BorderSide(width: 1, color: appColors.blackColor()),
           onSelected: (bool value) async {
             viewModel.didClickGroupMonth(groupMonth);
           },
-        ),
       );
 
       chipArray.add(button);
@@ -278,8 +276,8 @@ class AddSpendWidget extends StatelessWidget {
                     ? Colors.red
                     : viewModel.selectedSpendCategory?.identity ==
                             viewModel.spendCategoryList[index].identity
-                        ? AppColors.mainHightColor
-                        : AppColors.mainColor,
+                        ? appColors.mainHightColor()
+                        : appColors.mainColor(),
                 child: TextButton(
                   onPressed: () {
                     if (index == viewModel.spendCategoryList.length) {
@@ -294,9 +292,9 @@ class AddSpendWidget extends StatelessWidget {
                     index == viewModel.spendCategoryList.length
                         ? '추가 +'
                         : viewModel.spendCategoryList[index].name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

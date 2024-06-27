@@ -25,7 +25,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                 },
                 child: Container(
-                  color: Colors.white,
+                  color: appColors.whiteColor(),
                   child: Column(
                     children: [
                       SizedBox(
@@ -48,7 +48,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
       child: Container(
         width: 200,
         height: 80,
-        color: AppColors.whiteColor,
+        color: appColors.whiteColor(),
         child: TextField(
           textAlign: TextAlign.center,
           autofocus: true,
@@ -97,7 +97,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: Colors.white,
+                    foregroundColor: appColors.whiteColor(),
                     backgroundColor: Colors.red,
                   ),
                 ),
@@ -122,7 +122,7 @@ class AddSpendCategoryWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: Colors.white,
+                    foregroundColor: appColors.whiteColor(),
                     backgroundColor: Color(0xFF2C62F0),
                   ),
                 ),

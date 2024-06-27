@@ -23,6 +23,7 @@ class SettingsCoordinator extends Coordinator {
 
   @override
   void updateCurrentWidget() {
+    settingsViewModel?.reloadData();
     // TODO: implement updateCurrentWidget
   }
 

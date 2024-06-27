@@ -30,6 +30,7 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Container(
+          color: appColors.whiteColor(),
           width: MediaQuery.of(NavigationService.currentContext!).size.width,
           child: Padding(
             padding: EdgeInsets.only(left: 0, right: 0),
@@ -52,8 +53,8 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
 
   Widget headerTitleWidget() {
     return Container(
-      color: const Color(0xFFE5E3E3),
-      child: const Column(
+      color: appColors.lightGrayColor(),
+      child: Column(
         children: [
           SizedBox(height: 10),
           Row(
@@ -64,7 +65,7 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
                   child: Text(
                     '지출그룹 차트',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 16,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -107,14 +108,14 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
         showCheckmark: false,
         selected:
             viewModel.selectedGroupCategorySelectorItems.contains(groupObject),
-        backgroundColor: Colors.white,
-        selectedColor: AppColors.mainRedColor,
+        backgroundColor: appColors.whiteColor(),
+        selectedColor: appColors.mainRedColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         label: Text("${groupObject.categoryName}"),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        side: BorderSide(width: 1),
+        side: BorderSide(width: 1, color: appColors.blackColor()),
         onSelected: (bool value) async {
           viewModel.didSelectGroupCategory(groupObject);
         },
@@ -124,13 +125,13 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
 
   Widget makeBarChart() {
     if (viewModel.chartModel == null || viewModel.chartModel!.xModels.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 120,
         child: Center(
             child: Text(
           '선택한 지출 그룹이 없습니다.',
           style: TextStyle(
-            color: Colors.black,
+            color: appColors.blackColor(),
             fontSize: 20,
             fontFamily: 'Inter',
             fontWeight: FontWeight.w800,

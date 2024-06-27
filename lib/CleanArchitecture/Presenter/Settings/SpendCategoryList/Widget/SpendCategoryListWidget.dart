@@ -17,11 +17,11 @@ class SpendCategoryListWidget extends StatelessWidget {
       builder: (context, snapshot) {
         return Scaffold(
           appBar: AppBar(
-              backgroundColor: AppColors.mainColor,
-              title: const Text(
+              backgroundColor: appColors.mainColor(),
+              title: Text(
                 '소비 카테고리 목록',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: appColors.blackColor(),
                   fontSize: 20,
                   fontStyle: FontStyle.italic,
                   fontFamily: 'Inter',
@@ -29,7 +29,7 @@ class SpendCategoryListWidget extends StatelessWidget {
                   height: 0,
                 ),
               )),
-          backgroundColor: Colors.white,
+          backgroundColor: appColors.whiteColor(),
           body: ListView.builder(
             itemCount: (viewModel.items.length) + 2,
             itemBuilder: (context, index) {
@@ -70,9 +70,9 @@ class SpendCategoryListWidget extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 1,
-              color: Colors.black,
+              color: appColors.blackColor(),
             ),
-            color: AppColors.whitelightGrayColor,
+            color: appColors.whiteColor(),
             borderRadius: BorderRadius.circular(5),
           ), //  POINT: BoxDecoration
           child: Text(
@@ -88,7 +88,7 @@ class SpendCategoryListWidget extends StatelessWidget {
               viewModel.clickEditSpendCategoryItem(item);
             },
             style: OutlinedButton.styleFrom(
-              foregroundColor: Colors.black,
+              foregroundColor: appColors.blackColor(),
               backgroundColor: AppColors.editColorGray,
               disabledBackgroundColor: Color(0xFFD5DFF9),
               shape: const RoundedRectangleBorder(
@@ -113,7 +113,7 @@ class SpendCategoryListWidget extends StatelessWidget {
             viewModel.clickAddSpendCategory();
           },
           style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.black,
+            foregroundColor: appColors.blackColor(),
             backgroundColor: const Color(0xFFA6BEFB),
             disabledBackgroundColor: const Color(0xFFD5DFF9),
             shape: const RoundedRectangleBorder(

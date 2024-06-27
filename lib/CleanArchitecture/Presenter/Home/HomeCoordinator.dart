@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
@@ -65,6 +66,7 @@ class HomeCoordinator extends Coordinator {
   // 띄운화면을 닫을때 부모위젯을 업데이트하고자할때.
   @override
   void updateCurrentWidget() {
+    currentWidget = currentWidget;
     groupSelectorViewModel?.reloadFetch();
     summaryViewModel?.reloadFetch();
     calendarViewModel?.reloadFetch();

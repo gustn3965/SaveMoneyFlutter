@@ -10,10 +10,10 @@ class ChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '차트',
           style: TextStyle(
-            color: Colors.black,
+            color: appColors.blackColor(),
             fontSize: 20,
             fontStyle: FontStyle.italic,
             fontFamily: 'Inter',
@@ -21,9 +21,9 @@ class ChartWidget extends StatelessWidget {
             height: 0,
           ),
         ),
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: appColors.mainColor(),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: appColors.whiteColor(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

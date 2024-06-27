@@ -18,32 +18,35 @@ class SearchSpendWidget extends StatelessWidget {
       stream: viewModel.dataStream,
       builder: (context, snapshot) {
         return Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              topSearchWidget(),
-              searchedCountWidget(),
-              Expanded(
-                child: ListView.builder(
-                  // shrinkWrap: false,
-                  // primary: false,
-                  itemCount: viewModel.items.length,
-                  itemBuilder: (BuildContext context, int index) {
+          child: Container(
+            color: appColors.whiteColor(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                topSearchWidget(),
+                searchedCountWidget(),
+                Expanded(
+                  child: ListView.builder(
+                    // shrinkWrap: false,
+                    // primary: false,
+                    itemCount: viewModel.items.length,
+                    itemBuilder: (BuildContext context, int index) {
 
-                    SearchSpendItem item = viewModel.items[index];
+                      SearchSpendItem item = viewModel.items[index];
 
-                    if (item is SearchSpendItemDate) {
-                      return dateHeaderWidget(item);
-                    } else if (item is SearchSpendItemSpend) {
-                      return spendItemWidget(item, index);
-                    } else {
-                      return SizedBox(height: 20);
-                    }
-                  },
+                      if (item is SearchSpendItemDate) {
+                        return dateHeaderWidget(item);
+                      } else if (item is SearchSpendItemSpend) {
+                        return spendItemWidget(item, index);
+                      } else {
+                        return SizedBox(height: 20);
+                      }
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -82,7 +85,7 @@ class SearchSpendWidget extends StatelessWidget {
       child: Container(
         width: 200,
         height: 80,
-        color: AppColors.whiteColor,
+        color: appColors.whiteColor(),
         child: TextField(
           textAlign: TextAlign.center,
           autofocus: false,
@@ -115,10 +118,10 @@ class SearchSpendWidget extends StatelessWidget {
       icon: Icon(Icons.search), // 검색 아이콘
       label: Text('검색'), // 버튼 텍스트
       style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.whiteColor,
-          backgroundColor: AppColors.mainHightColor,
+          foregroundColor: appColors.whiteColor(),
+          backgroundColor: appColors.mainHightColor(),
           // 버튼의 배경색을 파란색으로 설정
-          // textStyle: TextStyle(color: AppColors.whiteColor),
+          // textStyle: TextStyle(color: AppappColors.whiteColor()Color),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5), // 모서리 반경 설정
           ),
@@ -134,7 +137,7 @@ class SearchSpendWidget extends StatelessWidget {
     return Container(
       // height: 40,
       width: MediaQuery.of(NavigationService.currentContext!).size.width,
-      color: AppColors.lightGrayColor,
+      color: appColors.lightGrayColor(),
       child: Column(
         children: [
           SizedBox(height: 10),
@@ -147,7 +150,7 @@ class SearchSpendWidget extends StatelessWidget {
                   child: Text(
                     '${item.dateString}',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: appColors.blackColor(),
                       fontSize: 17,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w500,
@@ -203,7 +206,7 @@ class SearchSpendWidget extends StatelessWidget {
                               Text(
                                 '(${DateFormat.EEEE('ko').format(item.date)})',
                                 style: TextStyle(
-                                  color: item.date.weekday == DateTime.sunday ? AppColors.mainRedColor : Colors.black,
+                                  color: item.date.weekday == DateTime.sunday ? appColors.mainRedColor() : appColors.blackColor(),
                                   fontSize: 13,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w500,
@@ -218,7 +221,7 @@ class SearchSpendWidget extends StatelessWidget {
                         Text(
                           item.spendMoneyString,
                           style: TextStyle(
-                            color: Colors.black,
+                            color: appColors.blackColor(),
                             fontSize: 20,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w700,
@@ -236,7 +239,7 @@ class SearchSpendWidget extends StatelessWidget {
                       viewModel.didClickEditSpendItem(item);
                     },
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.black,
+                      foregroundColor: appColors.blackColor(),
                       backgroundColor: AppColors.editColorGray,
                       disabledBackgroundColor: Color(0xFFD5DFF9),
                       shape: RoundedRectangleBorder(

@@ -5,6 +5,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpendCategory/
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
+import '../../../AppColor/AppColors.dart';
 import 'AddSpend/ViewModel/AddSpendViewModel.dart';
 
 class AddSpendCoordinator extends Coordinator {
@@ -61,7 +62,7 @@ class AddSpendCoordinator extends Coordinator {
       builder: (BuildContext context) {
         return Container(
           height: 300.0,
-          color: Colors.white,
+          color: appColors.whiteColor(),
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             initialDateTime: date,
