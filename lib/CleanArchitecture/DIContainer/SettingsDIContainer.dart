@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/AppNotice/ViewModel/AppNoticeViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/AppNotice/Widget/AppNoticeWebView.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/ViewModel/DefaultEditGroupCategoryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/ViewModel/EditGroupCategoryViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/EditGroupCategory/Widget/EditGroupCategoryWidget.dart';
@@ -121,7 +123,7 @@ class SettingsDIContainer {
     return viewModel;
   }
 
-  EditSpendCategoryWidget makeEditSpendCategoryWidget(
+  Widget makeEditSpendCategoryWidget(
       EditSpendCategoryViewModel viewModel) {
     return EditSpendCategoryWidget(viewModel);
   }
@@ -157,34 +159,46 @@ class SettingsDIContainer {
         editGroupCategoryUseCase: editGroupCategoryUseCase);
   }
 
-  EditGroupCategoryWidget makeEditGroupCategoryWidget(
+  Widget makeEditGroupCategoryWidget(
       EditGroupCategoryViewModel viewModel) {
     return EditGroupCategoryWidget(viewModel);
   }
 
   // EditGroupMonthMoney
 
-EditGroupMonthMoneyViewModel makeEditGroupMonthMoneyViewModel(EditGroupMonthMoneyAction actions, String groupMonthId) {
-  GroupMonthFetchUseCase groupMonthFetchUseCase;
-  EditGroupMonthUseCase editGroupMonthUseCase;
+  EditGroupMonthMoneyViewModel makeEditGroupMonthMoneyViewModel(
+      EditGroupMonthMoneyAction actions, String groupMonthId) {
+    GroupMonthFetchUseCase groupMonthFetchUseCase;
+    EditGroupMonthUseCase editGroupMonthUseCase;
 
-  switch (appStatus) {
-    case AppStatus.cbt || AppStatus.real:
-      groupMonthFetchUseCase =
-          RepoGroupMonthFetchUseCase(appDIContainer.repository);
-      editGroupMonthUseCase =
-          RepoEditGroupMonthUseCase(appDIContainer.repository);
-      break;
-    case AppStatus.mock:
-      groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
-      editGroupMonthUseCase = MockEditGroupMonthUseCase();
-      break;
+    switch (appStatus) {
+      case AppStatus.cbt || AppStatus.real:
+        groupMonthFetchUseCase =
+            RepoGroupMonthFetchUseCase(appDIContainer.repository);
+        editGroupMonthUseCase =
+            RepoEditGroupMonthUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        groupMonthFetchUseCase = MockGroupMonthFetchUseCase();
+        editGroupMonthUseCase = MockEditGroupMonthUseCase();
+        break;
+    }
+
+    return DefaultEditGroupMonthMoneyViewModel(
+        groupMonthId, actions, groupMonthFetchUseCase, editGroupMonthUseCase);
   }
 
-  return DefaultEditGroupMonthMoneyViewModel(groupMonthId, actions, groupMonthFetchUseCase, editGroupMonthUseCase);
-}
-
-EditGroupMonthMoneyWidget makeEditGroupMonthMoneyWidget(EditGroupMonthMoneyViewModel viewModel) {
+  Widget makeEditGroupMonthMoneyWidget(
+      EditGroupMonthMoneyViewModel viewModel) {
     return EditGroupMonthMoneyWidget(viewModel);
-}
+  }
+
+
+  AppNoticeWebViewModel makeAppNoticeWebViewModel(AppNoticeWebViewAction action) {
+    return AppNoticeWebViewModel(action);
+  }
+
+  Widget makeAppNoticeWebView(AppNoticeWebViewModel viewModel) {
+    return AppNoticeWebView(viewModel);
+  }
 }

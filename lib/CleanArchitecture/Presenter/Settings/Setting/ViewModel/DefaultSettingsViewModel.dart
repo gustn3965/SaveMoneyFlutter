@@ -22,13 +22,17 @@ class DefaultSettingsViewModel extends SettingsViewModel {
     List<SettingsViewModelListItem> items = [];
     switch (appDIContainer.appStatus) {
       case AppStatus.mock || AppStatus.cbt:
-        items = [SettingsViewModelListItem(name: "소비 그룹 목록", doAction: action.clickToMoveGroupCategorys),
+        items = [
+          SettingsViewModelListItem(name: "공지사항", doAction: action.clickToShowAppNotice),
+          SettingsViewModelListItem(name: "소비 그룹 목록", doAction: action.clickToMoveGroupCategorys),
           SettingsViewModelListItem(name: "소비 카테고리 목록", doAction: action.clickToMoveSpendCategorys),
           SettingsViewModelListItem(name: "Dev- 로그인화면", doAction: action.clickToMoveLogin)
         ];
         break;
       case AppStatus.real:
-        items = [SettingsViewModelListItem(name: "소비 그룹 목록", doAction: action.clickToMoveGroupCategorys),
+        items = [
+          SettingsViewModelListItem(name: "공지사항", doAction: action.clickToShowAppNotice),
+          SettingsViewModelListItem(name: "소비 그룹 목록", doAction: action.clickToMoveGroupCategorys),
           SettingsViewModelListItem(name: "소비 카테고리 목록", doAction: action.clickToMoveSpendCategorys)
         ];
         break;

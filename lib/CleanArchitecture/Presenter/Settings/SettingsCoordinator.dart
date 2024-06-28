@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/AppNotice/AppNoticeWebCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryListCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
 import 'package:save_money_flutter/main.dart';
@@ -50,6 +51,11 @@ class SettingsCoordinator extends Coordinator {
       groupCategoryListCoordinator.start();
     }
 
+    void showAppNotice() {
+      AppNoticeWebCoordinator appNoticeCoordinator = AppNoticeWebCoordinator(superCoordinator: this, parentTabCoordinator: this);
+      appNoticeCoordinator.start();
+    }
+
     void clickChangeAppStatus() {
       if (superCoordinator is MainTabCoordinator) {
         (superCoordinator as MainTabCoordinator)
@@ -61,7 +67,8 @@ class SettingsCoordinator extends Coordinator {
         clickToMoveLogin: moveToLoginWidget,
         clickToMoveSpendCategorys: moveToSpendCategoryList,
         clickToMoveGroupCategorys: moveToGroupCategoryList,
-        clickChangeAppStatus: clickChangeAppStatus);
+        clickChangeAppStatus: clickChangeAppStatus,
+        clickToShowAppNotice: showAppNotice);
 
     settingsViewModel = appDIContainer.settings.makeSettingsViewModel(action);
     return appDIContainer.settings.makeSettingsWidget(settingsViewModel!);

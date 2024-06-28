@@ -14,12 +14,14 @@ class SettingsAction {
   void Function() clickToMoveLogin;
   void Function() clickToMoveSpendCategorys;
   void Function() clickToMoveGroupCategorys;
+  void Function() clickToShowAppNotice;
   void Function() clickChangeAppStatus;
 
   SettingsAction(
       {required this.clickToMoveLogin,
       required this.clickToMoveSpendCategorys,
       required this.clickToMoveGroupCategorys,
+      required this.clickToShowAppNotice,
       required this.clickChangeAppStatus});
 }
 
@@ -32,7 +34,9 @@ abstract class SettingsViewModel {
 
   // Observing
   Stream<SettingsViewModel> get dataStream;
+
   void dispose();
+
   void reloadData();
 
   void didClickCell(int index);
