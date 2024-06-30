@@ -6,7 +6,6 @@ import 'package:save_money_flutter/CleanArchitecture/Data/Repository/DataBase/Mo
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/DataBase/SQLite/SQLiteDataBase_migration.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/DataBase/SQLite/SQLiteDataBase_spend.dart';
 import 'package:save_money_flutter/CleanArchitecture/Data/Repository/DataBase/SQLite/SQLiteDataBase_table.dart';
-import 'package:save_money_flutter/DataBase/sqlite_datastore.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../Model/DBObject.dart';
@@ -15,7 +14,6 @@ import '../Model/DBSpendCategory.dart';
 const int DB_SCHEME_VERSION = 1;
 
 class SQLiteDataBase implements DataBaseProtocol {
-  SqliteController beforeSql = SqliteController();
   Database? _database;
 
   int _oldVersion = 0;
@@ -31,8 +29,6 @@ class SQLiteDataBase implements DataBaseProtocol {
   SQLiteDataBase._internal();
 
   Future<void> initializeAsync() async {
-    await beforeSql.initializeAsync();
-
     if (_database != null) return;
 
     print("_database init 한번만 호출되야겠죠. ");

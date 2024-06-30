@@ -14,15 +14,17 @@ void main() async {
   print(">>>>>>>>>start main>>>>>>>>>>>>");
 
 
+
   WidgetsFlutterBinding.ensureInitialized()
   .addObserver(appCoordinator);
+  appCoordinator.runcheScreen();
 
   AppStatus appStatus = await getAppStatusFromChannel();
   appDIContainer = AppDIContainer(appStatus: appStatus);
 
   await appDIContainer.repository.databaseController?.initializeAsync();
-  appCoordinator.start();
 
+  appCoordinator.start();
 
   print("<<<<<<<<<<<<start main<<<<<<<<<<<<");
 }

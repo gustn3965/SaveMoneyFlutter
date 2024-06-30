@@ -144,9 +144,11 @@ class AppCoordinator extends Coordinator {
     triggerTopUpdateWidget();
   }
 
+  void runcheScreen() {
+    runApp(LanchScreenWidget());
+  }
   @override
   void start() async {
-    runApp(LanchScreenWidget());
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       // showLoginView();
@@ -213,6 +215,16 @@ class LanchScreenWidget extends StatelessWidget {
         canPop: false,
         child: Scaffold(
           backgroundColor: appColors.whiteColor(),
+          body: Center(
+
+            child: FractionallySizedBox(
+              widthFactor: 0.5, // 50% of the screen width
+              child: AspectRatio(
+                aspectRatio: 1.0, // Placeholder, will be replaced dynamically
+                child: Image.asset('assets/appLogo.png'),
+              ),
+            ),
+          ),
         ),
       ),
     );
