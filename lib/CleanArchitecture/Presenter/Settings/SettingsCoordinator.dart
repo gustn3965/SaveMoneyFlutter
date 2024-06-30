@@ -56,19 +56,17 @@ class SettingsCoordinator extends Coordinator {
       appNoticeCoordinator.start();
     }
 
-    void clickChangeAppStatus() {
-      if (superCoordinator is MainTabCoordinator) {
-        (superCoordinator as MainTabCoordinator)
-            ?.resetMainTabChildCoordinators();
-      }
+    void didAllDelteDataSet() async {
+      await appDIContainer.repository.deleteAllDataSet();
+      triggerTopUpdateWidget();
     }
 
     SettingsAction action = SettingsAction(
         clickToMoveLogin: moveToLoginWidget,
         clickToMoveSpendCategorys: moveToSpendCategoryList,
         clickToMoveGroupCategorys: moveToGroupCategoryList,
-        clickChangeAppStatus: clickChangeAppStatus,
-        clickToShowAppNotice: showAppNotice);
+        clickToShowAppNotice: showAppNotice,
+        clickAllDeleteTableDataSet: didAllDelteDataSet);
 
     settingsViewModel = appDIContainer.settings.makeSettingsViewModel(action);
     return appDIContainer.settings.makeSettingsWidget(settingsViewModel!);

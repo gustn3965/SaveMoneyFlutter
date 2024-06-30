@@ -22,6 +22,9 @@ class LoginAddGroupNameWidget extends StatelessWidget {
           backgroundColor: appColors.whiteColor(),
           body: PopScope(
               canPop: false,
+              onPopInvoked: (bool didPop) {
+                print(didPop);
+              },
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -55,7 +58,7 @@ class LoginAddGroupNameWidget extends StatelessWidget {
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: appColors.mainColor(), width: 1.0),
                                 ),
-                                labelText: '지출그룹 이름을 정해주세요.',
+                                labelText: '바인더 이름을 정해주세요.',
                                 floatingLabelAlignment:
                                     FloatingLabelAlignment.center,
                               ),
@@ -68,18 +71,19 @@ class LoginAddGroupNameWidget extends StatelessWidget {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                "지출 항목들을 포함할 \n지출 그룹을 설정합니다.",
+                              Text(
+                                "변동성있는 바인더에서",
                                 style: TextStyle(
                                   fontStyle: FontStyle.normal,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   height: 1.5,
+                                  color: appColors.mainRedColor(),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                               const Text(
-                                "가능한 한,\n지출그룹을 나누는게 좋아요.",
+                                "소비를 아껴서 돈을 모아보아요.",
                                 style: TextStyle(
                                   fontStyle: FontStyle.normal,
                                   fontSize: 20,
@@ -88,20 +92,7 @@ class LoginAddGroupNameWidget extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 50),
-                              Image.asset('assets/addGroupImage.png'),
                               const SizedBox(height: 60),
-                              const Text(
-                                "변동성있는 지출그룹에서\n소비를 아껴서 돈을 모아보아요.",
-                                style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 30),
                             ],
                           ),
                           const SizedBox(height: 20),

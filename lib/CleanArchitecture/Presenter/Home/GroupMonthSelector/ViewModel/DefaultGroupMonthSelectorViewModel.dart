@@ -32,7 +32,7 @@ class DefaultGroupMonthSelectorViewModel extends GroupMonthSelectorViewModel {
       this.groupMonthFetchUseCase, this.groupMonthSelectorActions) {
     groupMonthList = [];
     selectedGroupMonths = [];
-    addGroupButtonName = "+ 지출 그룹 추가";
+    addGroupButtonName = "+ 바인더 추가";
     enableMultiSelectChipName = "✅복수 선택";
     enableMultiSelectChip = false;
 

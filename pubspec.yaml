@@ -20,7 +20,7 @@ version: 1.0.0+1
 
 environment:
   sdk: '>=3.1.4 <4.0.0'
-  flutter: ^3.16.0
+  flutter: ^3.22.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,10 +35,9 @@ dependencies:
     sdk: flutter
   path: ^1.8.3
   sqflite_common_ffi: any
-
   fluttertoast: ^8.2.6
-  cupertino_icons: ^1.0.2
-  uuid: ^3.0.6
+  cupertino_icons: ^1.0.8
+  uuid: ^4.4.0
   webview_flutter: ^4.8.0
 dev_dependencies:
   flutter_test:

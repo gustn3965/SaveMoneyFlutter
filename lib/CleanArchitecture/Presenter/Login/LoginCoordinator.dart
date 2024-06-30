@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AppGuide/AppGuideCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginAddGroupMoneyCoordinator.dart';
 
 import 'AddGroupName/ViewModel/LoginAddGroupNameViewModel.dart';
@@ -23,6 +24,17 @@ class LoginCoordinator extends Coordinator {
       child.updateCurrentWidget();
     }
     // TODO: implement updateCurrentWidget
+  }
+
+  @override
+  void start() {
+    super.start();
+
+    void showNextWidget() {
+
+    }
+    AppGuideCoordinator appGuideCoordinator = AppGuideCoordinator(superCoordinator: this, parentTabCoordinator: this, showNextWidget: showNextWidget);
+    appGuideCoordinator.start();
   }
 
   Widget makeLoginAddGroupNameWidget() {

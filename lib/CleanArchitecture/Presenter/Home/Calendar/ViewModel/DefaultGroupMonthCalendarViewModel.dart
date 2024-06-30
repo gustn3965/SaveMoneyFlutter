@@ -32,6 +32,7 @@ class DefaultGroupMonthCalendarViewModel extends GroupMonthCalendarViewModel {
 
   @override
   Future<void> didChangeMonth(DateTime date) async {
+    this.selectedDate = date;
     this.focuseDate = date;
     this.groupMonthCalendarActions.updateDateTime(date);
   }

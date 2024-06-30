@@ -31,7 +31,7 @@ class AddGroupListWidget extends StatelessWidget {
                         }),
                     backgroundColor: appColors.mainColor(),
                     title: Text(
-                      '지출 그룹 추가',
+                      '바인더 추가',
                       style: TextStyle(
                         color: appColors.blackColor(),
                         fontSize: 20,

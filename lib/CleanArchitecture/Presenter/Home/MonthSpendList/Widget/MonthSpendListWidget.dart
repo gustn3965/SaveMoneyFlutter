@@ -73,7 +73,7 @@ class MonthSpendListWidget extends StatelessWidget {
                   padding:
                   EdgeInsets.only(left: 20, right: 10), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    '월 소비 목록 (${viewModel.onlyItemListCount()})',
+                    '월 소비 카테고리 (${viewModel.onlyItemListCount()})',
                     style: TextStyle(
                       color: appColors.blackColor(),
                       fontSize: 18,

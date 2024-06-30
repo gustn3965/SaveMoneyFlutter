@@ -590,6 +590,13 @@ class Repository {
 
     return makeSpendFromDB(dbSpendList);
   }
+
+  Future<void> deleteAllDataSet() async {
+    await databaseController.deleteAll(DBGroupMonth.staticClassName());
+    await databaseController.deleteAll(DBGroupCategory.staticClassName());
+    await databaseController.deleteAll(DBSpend.staticClassName());
+    await databaseController.deleteAll(DBSpendCategory.staticClassName());
+  }
   // ------------------------------------------------------------
   // ------------------------------------------------------------
   // ------------------------------------------------------------

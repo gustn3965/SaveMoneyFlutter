@@ -18,7 +18,7 @@ class AppColors {
     if (isDarkMode()) {
       return Color(0xFFC90040);
     } else {
-      return Color(0xFFFF2171);
+      return Color(0xFFFA0058);
     }
   }
 
@@ -40,7 +40,7 @@ class AppColors {
 
   Color mainTintColor() {
     if (isDarkMode()) {
-      return Color(0xFF0035C7);
+      return Color(0xFF0F50FF);
     } else {
       return Color(0xFF547EF5);
     }

@@ -33,7 +33,7 @@ class EditGroupCategoryWidget extends StatelessWidget {
                     }),
                 backgroundColor: appColors.mainColor(),
                 title: Text(
-                  '소비 그룹 수정',
+                  '바인더 수정',
                   style: TextStyle(
                     color: appColors.blackColor(),
                     fontSize: 20,

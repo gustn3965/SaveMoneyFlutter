@@ -63,7 +63,7 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
               Padding(
                   padding: EdgeInsets.only(left: 40), // 왼쪽에 10의 패딩 추가
                   child: Text(
-                    '지출그룹 차트',
+                    '바인더 차트',
                     style: TextStyle(
                       color: appColors.blackColor(),
                       fontSize: 16,
@@ -129,7 +129,7 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
         height: 120,
         child: Center(
             child: Text(
-          '선택한 지출 그룹이 없습니다.',
+          '선택한 바인더이 없습니다.',
           style: TextStyle(
             color: appColors.blackColor(),
             fontSize: 20,

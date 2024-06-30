@@ -2,9 +2,10 @@ class AddGroupNameActions {
   void Function() cancelAddGroupName;
   void Function(DateTime date, String groupName) addGroupName;
   void Function() hasAlreadyCategoryName;
+  void Function() showAppGuide;
 
   AddGroupNameActions(
-      this.cancelAddGroupName, this.addGroupName, this.hasAlreadyCategoryName);
+      this.cancelAddGroupName, this.addGroupName, this.hasAlreadyCategoryName, this.showAppGuide);
 }
 
 abstract class AddGroupNameViewModel {
@@ -18,6 +19,7 @@ abstract class AddGroupNameViewModel {
   void didChangeGroupName(String groupName);
   void didClickConfirmButton();
   void didClickCancelButton();
+  void didClickShowAppGuideButton();
 
   void reloadData();
   // Observing

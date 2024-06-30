@@ -13,7 +13,7 @@ class DefaultAddGroupListViewModel extends AddGroupListViewModel {
   @override
   late List<AddGroupListViewModelListItem> groupCategoryItems = [];
   @override
-  late String addGroupCategoryButtonName = '    새로운 지출 그룹 추가하기    ';
+  late String addGroupCategoryButtonName = '    새로운 바인더 추가하기    ';
 
   late DateTime date;
   late GroupCategoryFetchUseCase groupCategoryFetchUseCase;

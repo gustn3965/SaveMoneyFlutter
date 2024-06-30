@@ -23,7 +23,7 @@ class GroupMonthSummaryWidget extends StatelessWidget {
               height: 120,
               child: Center(
                   child: Text(
-                '선택한 지출 그룹이 없습니다.',
+                '선택한 바인더이 없습니다.',
                 style: TextStyle(
                   color: appColors.blackColor(),
                   fontSize: 20,
@@ -74,13 +74,13 @@ class GroupMonthSummaryWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10), // Padding을 위한 공간
+                    // SizedBox(width: 2), // Padding을 위한 공간
                     Container(
                       constraints: BoxConstraints(
                         maxWidth: 100, // 원하는 최대 너비를 설정할 수 있습니다
                       ),
                       child: Text(
-                        '지출그룹은',
+                        '바인더는',
                         style: TextStyle(
                           color: appColors.blackColor(),
                           fontSize: 16,

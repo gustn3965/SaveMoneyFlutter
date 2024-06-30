@@ -674,7 +674,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.cbt";
+				APPNAME_SUFFIX = "머니챌린지.cbt";
 				APP_SUFFIX = cbt;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -700,7 +700,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.cbt";
+				APPNAME_SUFFIX = "머니챌린지.cbt";
 				APP_SUFFIX = cbt;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -781,7 +781,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.mock";
+				APPNAME_SUFFIX = "머니챌린지.mock";
 				APP_SUFFIX = mock;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconMock;
 				CLANG_ENABLE_MODULES = YES;
@@ -881,7 +881,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.cbt";
+				APPNAME_SUFFIX = "머니챌린지.cbt";
 				APP_SUFFIX = cbt;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconCbt;
 				CLANG_ENABLE_MODULES = YES;
@@ -981,7 +981,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.real";
+				APPNAME_SUFFIX = "머니챌린지.real";
 				APP_SUFFIX = real;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconReal;
 				CLANG_ENABLE_MODULES = YES;
@@ -1078,7 +1078,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.mock";
+				APPNAME_SUFFIX = "머니챌린지.mock";
 				APP_SUFFIX = mock;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconMock;
 				CLANG_ENABLE_MODULES = YES;
@@ -1172,7 +1172,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부.cbt";
+				APPNAME_SUFFIX = "머니챌린지.cbt";
 				APP_SUFFIX = cbt;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconCbt;
 				CLANG_ENABLE_MODULES = YES;
@@ -1266,7 +1266,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				APPNAME_SUFFIX = "쉬운가계부";
+				APPNAME_SUFFIX = "머니챌린지";
 				APP_SUFFIX = real;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconReal;
 				CLANG_ENABLE_MODULES = YES;

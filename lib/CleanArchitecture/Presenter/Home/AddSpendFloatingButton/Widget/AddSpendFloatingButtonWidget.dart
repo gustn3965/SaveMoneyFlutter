@@ -18,7 +18,7 @@ class AddSpendFloatingButtonWidget extends StatelessWidget {
       onPressed: () {
         viewModel.didClickButton();
       },
-      backgroundColor: appColors.mainRedColor(),
+      backgroundColor: appColors.mainTintColor(),
       tooltip: 'Increment',
       child: const Icon(Icons.add),
     );

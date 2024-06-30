@@ -25,7 +25,7 @@ class GroupCategoryListWidget extends StatelessWidget {
                   }),
               backgroundColor: appColors.mainColor(),
               title:  Text(
-                '소비 그룹 목록',
+                '바인더 목록',
                 style: TextStyle(
                   color: appColors.blackColor(),
                   fontSize: 20,

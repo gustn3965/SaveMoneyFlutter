@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddSpend/AddSpendCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AppGuide/AppGuideCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Login/LoginCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SettingsCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
 import '../../AppColor/AppColors.dart';
+import 'AppGuide/Widget/AppGuideWidget.dart';
 import 'AddGroup/AddGroupCoordinator.dart';
 
 class NavigationService {
@@ -36,12 +38,8 @@ abstract class Coordinator extends WidgetsBindingObserver {
           name: routeName,
           arguments: this, // Coordinator전달
         ),
-        builder: (context) => MaterialApp(
-            themeMode: ThemeMode.system,
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
-            home: currentWidget,
-        )));
+        builder: (context) => currentWidget,
+        ));
   }
 
   // push가아닌 Navigation을 바꾼다.
@@ -155,6 +153,8 @@ class AppCoordinator extends Coordinator {
       showMainHomeView();
       // showSettinsView();
       // showAddSpendView();
+
+      // TestShowAppGuideWidget();
     });
   }
 
@@ -190,6 +190,15 @@ class AppCoordinator extends Coordinator {
     SettingsCoordinator coordinator = SettingsCoordinator(this);
     coordinator.startOnFirstNavigation();
   }
+
+  void TestShowAppGuideWidget() {
+    void showNextWidget() {
+      pop();
+      showMainHomeView();
+    }
+    AppGuideCoordinator appGuideCoordinator = AppGuideCoordinator(superCoordinator: this, parentTabCoordinator: this, showNextWidget: showNextWidget);
+    appGuideCoordinator.start();
+  }
 }
 
 class LanchScreenWidget extends StatelessWidget {
@@ -197,8 +206,14 @@ class LanchScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: NavigationService.navigatorKey,
-      home: Scaffold(
-        backgroundColor: appColors.whiteColor(),
+      themeMode: ThemeMode.system,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: PopScope(
+        canPop: false,
+        child: Scaffold(
+          backgroundColor: appColors.whiteColor(),
+        ),
       ),
     );
   }

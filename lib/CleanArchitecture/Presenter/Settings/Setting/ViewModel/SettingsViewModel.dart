@@ -15,14 +15,14 @@ class SettingsAction {
   void Function() clickToMoveSpendCategorys;
   void Function() clickToMoveGroupCategorys;
   void Function() clickToShowAppNotice;
-  void Function() clickChangeAppStatus;
+  void Function() clickAllDeleteTableDataSet;
 
   SettingsAction(
       {required this.clickToMoveLogin,
       required this.clickToMoveSpendCategorys,
       required this.clickToMoveGroupCategorys,
       required this.clickToShowAppNotice,
-      required this.clickChangeAppStatus});
+      required this.clickAllDeleteTableDataSet});
 }
 
 abstract class SettingsViewModel {

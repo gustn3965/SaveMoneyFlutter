@@ -55,6 +55,11 @@ late int maxNameLength = GroupCategory.maxNameLength;
   }
 
   @override
+  void didClickShowAppGuideButton() {
+    addGroupNameActions.showAppGuide();
+  }
+
+  @override
   void reloadData() {
     _dataController.add(this);
   }

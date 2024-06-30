@@ -31,7 +31,7 @@ class MainTabWidget extends StatelessWidget {
                   viewModel.didClickTabItem(viewModel.tabItems[value]);
                 },
                 backgroundColor: appColors.whiteColor(),
-                selectedItemColor: appColors.mainColor(),
+                selectedItemColor: appColors.mainTintColor(),
                 unselectedItemColor: AppColors.deepGrayColor,
 
                 showSelectedLabels: true,

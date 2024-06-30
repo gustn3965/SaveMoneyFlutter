@@ -21,12 +21,12 @@ class AddGroupMoneyCoordinator extends Coordinator {
   @override
   void updateCurrentWidget() {
     addGroupMoneyViewModel?.reloadData();
-    // TODO: implement updateCurrentWidget
   }
 
   Widget makeAddGroupMoneyWidget(DateTime date, String groupName) {
     void didAddNewGroup() {
       superCoordinator?.updateCurrentWidget();
+      triggerTopUpdateWidget();
       popUntilParentNavigation();
     }
 

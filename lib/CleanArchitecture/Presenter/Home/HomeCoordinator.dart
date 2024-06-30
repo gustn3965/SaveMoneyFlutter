@@ -148,6 +148,9 @@ class HomeCoordinator extends Coordinator {
   Widget makeCalendarWidget() {
     void updateFocusDateTime(DateTime date) {
       groupSelectorViewModel?.fetchGroupMonthList(date);
+
+      daySpendListViewModel?.date = date;
+      daySpendListViewModel?.reloadFetch();
     }
 
     void updateSelectedDateTime(DateTime date) {

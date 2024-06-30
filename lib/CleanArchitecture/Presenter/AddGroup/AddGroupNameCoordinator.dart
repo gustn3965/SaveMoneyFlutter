@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AddGroup/AddGroupMoneyCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/AppGuide/AppGuideCoordinator.dart';
 
 import '../../../main.dart';
 import '../AppCoordinator.dart';
@@ -46,10 +47,19 @@ class AddGroupNameCoordinator extends Coordinator {
       showHasAlreadyCategoryNameAlert();
     }
 
+    void showAppGuideWidget() {
+      void didClickNextButton() {
+        print("done");
+      }
+      AppGuideCoordinator appGuideCoordinator = AppGuideCoordinator(superCoordinator: this, parentTabCoordinator: this, showNextWidget: didClickNextButton);
+      appGuideCoordinator.start();
+    }
+
     AddGroupNameActions actions = AddGroupNameActions(
       cancelAddGroupName,
       addGroupName,
       hasAlreadyCategoryName,
+        showAppGuideWidget
     );
 
     addGroupNameViewModel ??=
