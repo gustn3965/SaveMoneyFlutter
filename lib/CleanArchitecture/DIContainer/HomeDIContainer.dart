@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/AdMob/ViewModel/AdMobBannerViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/AdMob/Widget/AdMobBannerWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DefaultDaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/Widget/DaySpendListWidget.dart';
@@ -12,6 +14,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategor
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/SpendCategorySelector/Widget/SpendCategorySelectorWidget.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/UseCase/AdMobIdFetchUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendListUseCase.dart';
 
 import '../../main.dart';
@@ -143,17 +146,23 @@ class HomeDIContainer {
     );
   }
 
-  LeftMonthFloatingButtonViewModel makeLeftMonthFloatingViewModel(DateTime date, LeftMonthFloatingButtonActions actions) {
+  LeftMonthFloatingButtonViewModel makeLeftMonthFloatingViewModel(
+      DateTime date, LeftMonthFloatingButtonActions actions) {
     return DefaultLeftMonthFloatingButtonViewModel(date, actions);
   }
-  Widget makeLeftMonthFloatingWidget(LeftMonthFloatingButtonViewModel viewModel) {
+
+  Widget makeLeftMonthFloatingWidget(
+      LeftMonthFloatingButtonViewModel viewModel) {
     return LeftMonthFloatingButtonWidget(viewModel: viewModel);
   }
 
-  RightMonthFloatingButtonViewModel makeRightMonthFloatingViewModel(DateTime date, RightMonthFloatingButtonActions actions) {
+  RightMonthFloatingButtonViewModel makeRightMonthFloatingViewModel(
+      DateTime date, RightMonthFloatingButtonActions actions) {
     return DefaultRightMonthFloatingButtonViewModel(date, actions);
   }
-  Widget makeRightMonthFloatingWidget(RightMonthFloatingButtonViewModel viewModel) {
+
+  Widget makeRightMonthFloatingWidget(
+      RightMonthFloatingButtonViewModel viewModel) {
     return RightMonthFloatingButtonWidget(viewModel: viewModel);
   }
 
@@ -176,29 +185,50 @@ class HomeDIContainer {
     return viewModel;
   }
 
-  DaySpendListWidget makeDaySpendListWidget(DaySpendListViewModel viewModel) {
+  Widget makeDaySpendListWidget(DaySpendListViewModel viewModel) {
     return DaySpendListWidget(viewModel);
   }
 
   // Home - MonthSpendList
 
-MonthSpendListViewModel makeMonthSpendListViewModel(MonthSpendListAction action, List<String> groupIds) {
+  MonthSpendListViewModel makeMonthSpendListViewModel(
+      MonthSpendListAction action, List<String> groupIds) {
+    SpendListUseCase spendListUseCase;
+    switch (appStatus) {
+      case AppStatus.cbt || AppStatus.real:
+        spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
+        break;
+      case AppStatus.mock:
+        spendListUseCase = MockSpendListUseCase();
+        break;
+    }
 
-  SpendListUseCase spendListUseCase;
-  switch (appStatus) {
-    case AppStatus.cbt || AppStatus.real:
-      spendListUseCase = RepoSpendListUseCase(appDIContainer.repository);
-      break;
-    case AppStatus.mock:
-      spendListUseCase = MockSpendListUseCase();
-      break;
+    MonthSpendListViewModel viewModel =
+        DefaultMonthSpendListViewModel(action, groupIds, spendListUseCase);
+    return viewModel;
   }
 
-  MonthSpendListViewModel viewModel = DefaultMonthSpendListViewModel(action, groupIds, spendListUseCase);
-  return viewModel;
-}
-
-MonthSpendListWidget makeMonthSpendListWidget(MonthSpendListViewModel viewModel) {
+  Widget makeMonthSpendListWidget(
+      MonthSpendListViewModel viewModel) {
     return MonthSpendListWidget(viewModel);
-}
+  }
+
+  AdMobBannerViewModel makeAdMobBannerViewModel() {
+    AdMobIdFetchUseCase adMobIdFetchUseCase;
+
+    switch (appStatus) {
+      case AppStatus.real:
+        adMobIdFetchUseCase = RealAdMobIdFetchUseCase();
+        break;
+      case AppStatus.mock || AppStatus.cbt :
+        adMobIdFetchUseCase = TestAdMobIdFetchUseCase();
+        break;
+    }
+
+    return AdMobBannerViewModel(adMobIdFetchUseCase);
+  }
+
+  Widget makeAdMobBannerWidget(AdMobBannerViewModel viewModel) {
+    return AdMobBannerWidget(viewModel);
+  }
 }

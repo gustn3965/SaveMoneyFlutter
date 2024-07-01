@@ -31,15 +31,13 @@ class DaySpendListWidget extends StatelessWidget {
         } else {
           return Container(
             color: appColors.whiteColor(),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Column(
+            child: Column(
                 children: [
                   headerWidget(),
                   dayListWidget(),
                   SizedBox(height: 40),
                 ],
-              ),
+
             ),
           );
         }

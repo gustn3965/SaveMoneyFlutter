@@ -38,80 +38,83 @@ class GroupMonthCalendarWidget extends StatelessWidget {
     initializeDateFormatting();
     CalendarFormat _calendarFormat = CalendarFormat.month;
 
-    return Container(
-      color: appColors.whiteColor(),
-      child: TableCalendar(
-        availableGestures: AvailableGestures.horizontalSwipe,
-        availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-        locale: 'ko_KR',
-        firstDay: DateTime.utc(2010, 10, 16),
-        lastDay: DateTime.utc(2030, 3, 14),
-        focusedDay: viewModel.focuseDate,
-        calendarFormat: _calendarFormat,
-        selectedDayPredicate: (day) {
-          return isSameDay(viewModel.selectedDate ?? DateTime.now(), day);
-        },
-        headerStyle: const HeaderStyle(
-          titleCentered: true,
-          formatButtonVisible: false,
-        ),
-        eventLoader: (day) {
-          return viewModel.spendList[day] ?? [];
-        },
-        calendarBuilders: CalendarBuilders(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        color: appColors.whiteColor(),
+        child: TableCalendar(
+          availableGestures: AvailableGestures.horizontalSwipe,
+          availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+          locale: 'ko_KR',
+          firstDay: DateTime.utc(2010, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14),
+          focusedDay: viewModel.focuseDate,
+          calendarFormat: _calendarFormat,
+          selectedDayPredicate: (day) {
+            return isSameDay(viewModel.selectedDate ?? DateTime.now(), day);
+          },
+          headerStyle: const HeaderStyle(
+            titleCentered: true,
+            formatButtonVisible: false,
+          ),
+          eventLoader: (day) {
+            return viewModel.spendList[day] ?? [];
+          },
+          calendarBuilders: CalendarBuilders(
 
-            // selectedBuilder: (context, dateTime, _) {
-            //   return Container(
-            //     color: Colors.red.withAlpha(128),
-            //   );
-            // },
-            markerBuilder: (context, day, events) {
-          if (events.isNotEmpty) {
-            List<Spend> eventList = events.cast<Spend>();
-            int sum = eventList.fold(
-                0, (previous, current) => previous + current.spendMoney);
-            int maxMoney = viewModel.plannedBudgeEveryDay;
-            bool isOverSpend = sum > maxMoney;
-            String moneyFormatted = NumberFormat("#,###").format(sum);
+              // selectedBuilder: (context, dateTime, _) {
+              //   return Container(
+              //     color: Colors.red.withAlpha(128),
+              //   );
+              // },
+              markerBuilder: (context, day, events) {
+            if (events.isNotEmpty) {
+              List<Spend> eventList = events.cast<Spend>();
+              int sum = eventList.fold(
+                  0, (previous, current) => previous + current.spendMoney);
+              int maxMoney = viewModel.plannedBudgeEveryDay;
+              bool isOverSpend = sum > maxMoney;
+              String moneyFormatted = NumberFormat("#,###").format(sum);
 
-            return Padding(
-              padding: const EdgeInsets.only(left: 3, right: 3),
-              child: Container(
-                // width: 24,
-                // height: MediaQuery.of(context).size.height * 0.1,
-                alignment: Alignment.bottomCenter,
-                // decoration: BoxDecoration(color: Colors.lightBlue),
-                child: Text(
-                  '${moneyFormatted}',
-                  maxLines: 1,
-                  style: TextStyle(
-                      // color: (sum > maxMoney) ? Colors.red : Colors.blue,
-                      color: isOverSpend ? Colors.red : Colors.blue,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 10),
+              return Padding(
+                padding: const EdgeInsets.only(left: 3, right: 3),
+                child: Container(
+                  // width: 24,
+                  // height: MediaQuery.of(context).size.height * 0.1,
+                  alignment: Alignment.bottomCenter,
+                  // decoration: BoxDecoration(color: Colors.lightBlue),
+                  child: Text(
+                    '${moneyFormatted}',
+                    maxLines: 1,
+                    style: TextStyle(
+                        // color: (sum > maxMoney) ? Colors.red : Colors.blue,
+                        color: isOverSpend ? Colors.red : Colors.blue,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 10),
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return null;
-          }
-        }),
-        onDaySelected: (selectedDay, focusedDay) {
-          if (isEqualDateMonth(selectedDay, focusedDay)) {
-            viewModel.didSelectDate(selectedDay);
-          } else {
-            viewModel.didSelectDate(selectedDay);
-            viewModel.didChangeMonth(selectedDay);
-          }
-        },
-        onFormatChanged: (format) {
-          // setState(() {
-          //   _calendarFormat = format;
-          // });
-        },
-        onPageChanged: (focusedDay) {
-          viewModel.didChangeMonth(focusedDay);
-        },
+              );
+            } else {
+              return null;
+            }
+          }),
+          onDaySelected: (selectedDay, focusedDay) {
+            if (isEqualDateMonth(selectedDay, focusedDay)) {
+              viewModel.didSelectDate(selectedDay);
+            } else {
+              viewModel.didSelectDate(selectedDay);
+              viewModel.didChangeMonth(selectedDay);
+            }
+          },
+          onFormatChanged: (format) {
+            // setState(() {
+            //   _calendarFormat = format;
+            // });
+          },
+          onPageChanged: (focusedDay) {
+            viewModel.didChangeMonth(focusedDay);
+          },
+        ),
       ),
     );
   }

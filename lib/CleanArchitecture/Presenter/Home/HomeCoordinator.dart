@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/AppCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/EditSpend/EditSpendCoordinator.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/AdMob/ViewModel/AdMobBannerViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/DaySpendList/ViewModel/DaySpendListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/HomeViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Home/LeftMonthFloatingButton/Widget/LeftMonthFloatingButtonWidget.dart';
@@ -31,6 +32,8 @@ class HomeCoordinator extends Coordinator {
   GroupMonthCalendarViewModel? calendarViewModel;
   DaySpendListViewModel? daySpendListViewModel;
   MonthSpendListViewModel? monthSpendListViewModel;
+  AdMobBannerViewModel? adMobBannerViewModel;
+
   AddSpendFloatingButtonViewModel? addSpendFloatingButtonViewModel;
   LeftMonthFloatingButtonViewModel? leftMonthFloatingButtonViewModel;
   RightMonthFloatingButtonViewModel? rightMonthFloatingButtonViewModel;
@@ -46,6 +49,7 @@ class HomeCoordinator extends Coordinator {
     Widget calendarWidget = makeCalendarWidget();
     Widget daysSpendListWidget = makeDaySpendListWidget();
     Widget monthSpendListWidget = makeMonthSpendListWidget();
+    Widget adMobBannerWidget = makeAdMobBannerWidget();
 
     Widget addSpendFloattingWidget = makeAddSpendFloatingButtonWidget();
     Widget moveLeftFloattingWidget = makeLeftMonthFloatingButtonWidget();
@@ -60,6 +64,7 @@ class HomeCoordinator extends Coordinator {
         groupSelectorWidget,
         spendCategorySelectorWidget,
         calendarWidget,
+        adMobBannerWidget,
         daysSpendListWidget,
         monthSpendListWidget,
         spacingView
@@ -245,6 +250,12 @@ class HomeCoordinator extends Coordinator {
 
     return appDIContainer.home.makeMonthSpendListWidget(monthSpendListViewModel!);
 
+  }
+
+  Widget makeAdMobBannerWidget() {
+    adMobBannerViewModel = appDIContainer.home.makeAdMobBannerViewModel();
+
+    return appDIContainer.home.makeAdMobBannerWidget(adMobBannerViewModel!);
   }
 
   void showAddSpendView(
