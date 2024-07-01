@@ -6,6 +6,13 @@ abstract class AdMobIdFetchUseCase {
   String? fetchBottomBannerId();
 }
 
+class NullAdMobIdFetchUseCase extends AdMobIdFetchUseCase {
+  @override
+  String? fetchBottomBannerId() {
+    return null;
+  }
+}
+
 class TestAdMobIdFetchUseCase extends AdMobIdFetchUseCase {
   @override
   String? fetchBottomBannerId() {

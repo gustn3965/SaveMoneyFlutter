@@ -219,6 +219,7 @@ class HomeDIContainer {
     switch (appStatus) {
       case AppStatus.real:
         adMobIdFetchUseCase = RealAdMobIdFetchUseCase();
+      // adMobIdFetchUseCase = NullAdMobIdFetchUseCase();
         break;
       case AppStatus.mock || AppStatus.cbt :
         adMobIdFetchUseCase = TestAdMobIdFetchUseCase();
