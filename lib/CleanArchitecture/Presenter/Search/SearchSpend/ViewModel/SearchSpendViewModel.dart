@@ -43,6 +43,8 @@ abstract class SearchSpendViewModel {
 
   SearchSpendViewModel({required this.action});
 
+  int getOnlySpendItemsCount();
+
   void didChangeSearchName(String searchName);
 
   void didClickSearchButton();

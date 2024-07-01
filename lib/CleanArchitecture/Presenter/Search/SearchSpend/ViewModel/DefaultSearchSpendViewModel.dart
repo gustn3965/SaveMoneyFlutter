@@ -82,6 +82,11 @@ class DefaultSearchSpendViewModel extends SearchSpendViewModel {
     return items;
   }
 
+  @override
+  int getOnlySpendItemsCount() {
+    return items.whereType<SearchSpendItemSpend>().length;
+  }
+
   // observing
   final _dataController = StreamController<SearchSpendViewModel>.broadcast();
 

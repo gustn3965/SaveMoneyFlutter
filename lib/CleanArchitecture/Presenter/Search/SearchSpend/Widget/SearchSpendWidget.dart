@@ -74,7 +74,7 @@ class SearchSpendWidget extends StatelessWidget {
     return Padding(
         padding:
             const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-        child: Text('(${viewModel.items.length} 개)', textAlign: TextAlign.start,));
+        child: Text('(${viewModel.getOnlySpendItemsCount()} 개)', textAlign: TextAlign.start,));
   }
 
   // Widget searchedSpendListWidget() {
