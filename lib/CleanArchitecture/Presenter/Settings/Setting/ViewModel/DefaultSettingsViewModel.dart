@@ -24,6 +24,7 @@ class DefaultSettingsViewModel extends SettingsViewModel {
       case AppStatus.mock || AppStatus.cbt:
         items = [
           SettingsViewModelListItem(name: "공지사항", doAction: action.clickToShowAppNotice),
+          SettingsViewModelListItem(name: "건의사항", doAction: action.clickToShowUserFeedback),
           SettingsViewModelListItem(name: "바인더 목록", doAction: action.clickToMoveGroupCategorys),
           SettingsViewModelListItem(name: "소비 카테고리 목록", doAction: action.clickToMoveSpendCategorys),
           SettingsViewModelListItem(name: "Dev- 로그인화면", doAction: action.clickToMoveLogin),
@@ -33,6 +34,7 @@ class DefaultSettingsViewModel extends SettingsViewModel {
       case AppStatus.real:
         items = [
           SettingsViewModelListItem(name: "공지사항", doAction: action.clickToShowAppNotice),
+          SettingsViewModelListItem(name: "건의사항", doAction: action.clickToShowUserFeedback),
           SettingsViewModelListItem(name: "바인더 목록", doAction: action.clickToMoveGroupCategorys),
           SettingsViewModelListItem(name: "소비 카테고리 목록", doAction: action.clickToMoveSpendCategorys)
         ];

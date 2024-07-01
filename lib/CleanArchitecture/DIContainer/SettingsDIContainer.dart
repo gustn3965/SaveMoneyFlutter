@@ -14,6 +14,8 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/GroupCat
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/DefaultSpendCategoryListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/Widget/SpendCategoryListWidget.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/UserFeedback/ViewModel/UserFeedbackWebViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/UserFeedback/Widget/UserFeedbackWebView.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/EditGroupCategoryUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/GroupCategoryFetchUseCase.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/SpendCategoryFetchUseCase.dart';
@@ -200,5 +202,13 @@ class SettingsDIContainer {
 
   Widget makeAppNoticeWebView(AppNoticeWebViewModel viewModel) {
     return AppNoticeWebView(viewModel);
+  }
+
+  UserFeedbackWebViewModel makeUserFeedbackWebViewModel(UserFeedbackWebViewAction action) {
+    return UserFeedbackWebViewModel(action);
+  }
+
+  Widget makeUserFeedbackWebView(UserFeedbackWebViewModel viewModel) {
+    return UserFeedbackWebView(viewModel);
   }
 }

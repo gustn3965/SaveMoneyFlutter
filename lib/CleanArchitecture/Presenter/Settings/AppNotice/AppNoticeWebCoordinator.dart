@@ -33,6 +33,6 @@ class AppNoticeWebCoordinator extends Coordinator {
     AppNoticeWebViewAction action = AppNoticeWebViewAction(
         navigationPop: navigationPop);
     appNoticeWebViewModel = appDIContainer.settings.makeAppNoticeWebViewModel(action);
-    return AppNoticeWebView(appNoticeWebViewModel!);
+    return appDIContainer.settings.makeAppNoticeWebView(appNoticeWebViewModel!);
   }
 }

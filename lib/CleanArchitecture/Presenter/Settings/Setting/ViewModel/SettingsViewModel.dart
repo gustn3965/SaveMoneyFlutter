@@ -15,6 +15,7 @@ class SettingsAction {
   void Function() clickToMoveSpendCategorys;
   void Function() clickToMoveGroupCategorys;
   void Function() clickToShowAppNotice;
+  void Function() clickToShowUserFeedback;
   void Function() clickAllDeleteTableDataSet;
 
   SettingsAction(
@@ -22,6 +23,7 @@ class SettingsAction {
       required this.clickToMoveSpendCategorys,
       required this.clickToMoveGroupCategorys,
       required this.clickToShowAppNotice,
+      required this.clickToShowUserFeedback,
       required this.clickAllDeleteTableDataSet});
 }
 

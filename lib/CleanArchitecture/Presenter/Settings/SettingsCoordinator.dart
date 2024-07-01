@@ -7,6 +7,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Main/MainTabCoord
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/AppNotice/AppNoticeWebCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryListCoordinator.dart';
 import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/SpendCategoryList/ViewModel/SpendCategoryListViewModel.dart';
+import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/UserFeedback/UserFeedbackWebCoordinator.dart';
 import 'package:save_money_flutter/main.dart';
 
 import '../AddSpendCategory/AddSpendCategory/ViewModel/AddSpendCategoryViewModel.dart';
@@ -56,6 +57,11 @@ class SettingsCoordinator extends Coordinator {
       appNoticeCoordinator.start();
     }
 
+    void showUserFeedback() {
+      UserFeedbackWebCoordinator userFeedbackWebCoordinator = UserFeedbackWebCoordinator(superCoordinator: this, parentTabCoordinator: this);
+      userFeedbackWebCoordinator.start();
+    }
+
     void didAllDelteDataSet() async {
       await appDIContainer.repository.deleteAllDataSet();
       triggerTopUpdateWidget();
@@ -66,6 +72,7 @@ class SettingsCoordinator extends Coordinator {
         clickToMoveSpendCategorys: moveToSpendCategoryList,
         clickToMoveGroupCategorys: moveToGroupCategoryList,
         clickToShowAppNotice: showAppNotice,
+        clickToShowUserFeedback: showUserFeedback,
         clickAllDeleteTableDataSet: didAllDelteDataSet);
 
     settingsViewModel = appDIContainer.settings.makeSettingsViewModel(action);
