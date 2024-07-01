@@ -76,21 +76,29 @@ class AddGroupListWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(
-                  left: 20, right: 10, top: 15, bottom: 10),
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: appColors.blackColor(),
+            Flexible(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(
+                    left: 20, right: 10, top: 15, bottom: 10),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: appColors
+                          .blackColor(), // Replace with appColors.blackColor()
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    viewModel.groupCategoryItems[index].groupName,
+                    style: TextStyle(fontSize: 15.0),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(20),
-              ), //  POINT: BoxDecoration
-              child: Text(
-                viewModel.groupCategoryItems[index].groupName,
-                style: TextStyle(fontSize: 15.0),
               ),
             ),
             Container(
@@ -117,7 +125,7 @@ class AddGroupListWidget extends StatelessWidget {
                 child:
                     Text(viewModel.groupCategoryItems[index].addThisGroupName),
               ),
-            )
+            ),
           ],
         ));
   }

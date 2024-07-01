@@ -39,6 +39,12 @@ class RepoAddGroupCategoryUseCase extends AddGroupCategoryUseCase {
 
   @override
   Future<GroupCategory> addGroupCategory(String groupCategoryName) async {
-    return repository.addGroupCategory(groupCategoryName);
+    GroupCategory? hasCategory =
+    await repository.fetchGroupCategoryByName(groupCategoryName);
+    if (hasCategory != null) {
+      return hasCategory;
+    } else {
+      return repository.addGroupCategory(groupCategoryName);
+    }
   }
 }

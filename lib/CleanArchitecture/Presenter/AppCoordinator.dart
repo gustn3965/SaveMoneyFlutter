@@ -34,12 +34,12 @@ abstract class Coordinator extends WidgetsBindingObserver {
   // start로 시작하는 메소드는 currentWidget만 사용한다.
   void start() {
     NavigationService.navigatorKey.currentState!.push(MaterialPageRoute(
-        settings: RouteSettings(
-          name: routeName,
-          arguments: this, // Coordinator전달
-        ),
-        builder: (context) => currentWidget,
-        ));
+      settings: RouteSettings(
+        name: routeName,
+        arguments: this, // Coordinator전달
+      ),
+      builder: (context) => currentWidget,
+    ));
   }
 
   // push가아닌 Navigation을 바꾼다.
@@ -68,25 +68,26 @@ abstract class Coordinator extends WidgetsBindingObserver {
       backgroundColor: appColors.whiteAlphaColor(),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(27))),
-      builder: (BuildContext context, ) {
+      builder: (
+        BuildContext context,
+      ) {
         return DraggableScrollableSheet(
             initialChildSize: 0.9,
             maxChildSize: 0.9,
             minChildSize: 0.5,
-          builder: (context, scrollController) {
+            builder: (context, scrollController) {
               return ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(27),
-                ),
-                child: Container(
-                  color: appColors.whiteColor(),
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    child: currentWidget,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(27),
                   ),
-                )
-              );
-      });
+                  child: Container(
+                    color: appColors.whiteColor(),
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: currentWidget,
+                    ),
+                  ));
+            });
       },
     ).whenComplete(() {
       // pop();
@@ -126,7 +127,6 @@ abstract class Coordinator extends WidgetsBindingObserver {
     }
   }
 
-
   late String routeName;
 
   List<Coordinator> childCoordinator = [];
@@ -147,9 +147,9 @@ class AppCoordinator extends Coordinator {
   void runcheScreen() {
     runApp(LanchScreenWidget());
   }
+
   @override
   void start() async {
-
     Future.delayed(const Duration(milliseconds: 1000), () {
       // showLoginView();
       showMainHomeView();
@@ -198,7 +198,11 @@ class AppCoordinator extends Coordinator {
       pop();
       showMainHomeView();
     }
-    AppGuideCoordinator appGuideCoordinator = AppGuideCoordinator(superCoordinator: this, parentTabCoordinator: this, showNextWidget: showNextWidget);
+
+    AppGuideCoordinator appGuideCoordinator = AppGuideCoordinator(
+        superCoordinator: this,
+        parentTabCoordinator: this,
+        showNextWidget: showNextWidget);
     appGuideCoordinator.start();
   }
 }
@@ -216,7 +220,6 @@ class LanchScreenWidget extends StatelessWidget {
         child: Scaffold(
           backgroundColor: appColors.whiteColor(),
           body: Center(
-
             child: FractionallySizedBox(
               widthFactor: 0.5, // 50% of the screen width
               child: AspectRatio(

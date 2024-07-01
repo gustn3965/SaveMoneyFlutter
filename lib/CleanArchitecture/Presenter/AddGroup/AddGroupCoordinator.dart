@@ -34,7 +34,7 @@ class AddGroupCoordinator extends Coordinator {
       AddGroupMoneyCoordinator addGroupMoneyCoordinator =
           AddGroupMoneyCoordinator(
               superCoordinator: this,
-              parentTabCoordinator: parentNavigationCoordinator,
+              parentTabCoordinator: this,
               date: date,
               groupName: groupName);
       addGroupMoneyCoordinator.start();
