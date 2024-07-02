@@ -14,7 +14,7 @@ class AdMobBannerWidget extends StatelessWidget {
     return StreamBuilder<AdMobBannerViewModel>(
         stream: viewModel.dataStream,
         builder: (context, snapshot) {
-          if (viewModel.bannerAd != null) {
+          if (viewModel.bannerAd != null && viewModel.shouldShowBanner == true) {
             return Container(
               height: 70,
                 child: AdWidget(ad: viewModel.bannerAd!));

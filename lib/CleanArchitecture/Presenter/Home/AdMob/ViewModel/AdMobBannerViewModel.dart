@@ -7,6 +7,7 @@ import 'package:save_money_flutter/CleanArchitecture/UseCase/AdMobIdFetchUseCase
 
 class AdMobBannerViewModel {
   String? bannerId;
+  bool shouldShowBanner = false;
 
   BannerAd? bannerAd;
 
@@ -37,18 +38,28 @@ class AdMobBannerViewModel {
     bannerId = adMobIdFetchUseCase.fetchBottomBannerId();
 
     if (bannerId != null) {
-      BannerAdListener listener = BannerAdListener(onAdLoaded: (ad) => debugPrint('📢Ad Loaded'),
+      BannerAdListener listener = BannerAdListener(onAdLoaded: (ad) {
+        debugPrint('📢Ad Loaded');
+        shouldShowBanner = true;
+        _dataController.add(this);
+      },
       onAdFailedToLoad: (ad, error) {
         ad.dispose();
+        shouldShowBanner = false;
+        _dataController.add(this);
         debugPrint('📢Ad fail to load: $error');
       },
-      onAdOpened: (ad) => debugPrint('📢Ad Opened'),
-      onAdClosed: (ad) => debugPrint('📢Ad closed'));
+      onAdOpened: (ad) {
+        debugPrint('📢Ad Opened');
+      },
+      onAdClosed: (ad) {
+        debugPrint('📢Ad closed');
+      });
 
       bannerAd = BannerAd(size: AdSize.fullBanner, adUnitId: bannerId!, listener: listener, request: AdRequest())..load();
     } else {
       bannerAd = null;
+      _dataController.add(this);
     }
-    _dataController.add(this);
   }
 }
