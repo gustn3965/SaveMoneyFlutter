@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
@@ -12,6 +11,7 @@ import 'package:save_money_flutter/CleanArchitecture/Presenter/Settings/Settings
 import 'package:save_money_flutter/main.dart';
 
 import '../../AppColor/AppColors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'AppGuide/Widget/AppGuideWidget.dart';
 import 'AddGroup/AddGroupCoordinator.dart';
 
@@ -46,7 +46,7 @@ abstract class Coordinator extends WidgetsBindingObserver {
   void startOnFirstNavigation() {
     NavigationService.navigatorKey.currentState?.popUntil((route) {
       bool isAppCoordinator =
-          route.settings.name == (appCoordinator?.routeName ?? "");
+          route.settings.name == (appCoordinator.routeName);
 
       if (isAppCoordinator == false) {
         if (route.settings.arguments is Coordinator) {
@@ -150,9 +150,20 @@ class AppCoordinator extends Coordinator {
 
   @override
   void start() async {
-    Future.delayed(const Duration(milliseconds: 1000), () {
+
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool isFirstInstall = prefs.getBool('isFirstInstall') ?? true;
+      prefs.setBool('isFirstInstall', false);
+      if (isFirstInstall) {
+        showLoginView();
+      } else {
+        showMainHomeView();
+      }
+
+
       // showLoginView();
-      showMainHomeView();
+      // showMainHomeView();
       // showSettinsView();
       // showAddSpendView();
 
