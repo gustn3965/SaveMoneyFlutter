@@ -10,9 +10,11 @@
 - [DataBase](#DataBase)
 - [BuildConfiguration](#BuildConfiguration)
 
-[ScreenShot](#ScrrenShot)
+[ScreenShot](#ScreenShot)
 
 [AppStore](#AppStore)
+
+[Blog](#Blog)
 
 
 # Goal 
@@ -77,5 +79,8 @@ SQLite
 
 ![screenshot](READMESource/screenshot.png)
 
-## App 
-- [앱스토어링크](https://apps.apple.com/kr/app/%EB%A8%B8%EB%8B%88%EC%B1%8C%EB%A6%B0%EC%A7%80/id6504971575)
+# AppStore
+[앱스토어링크](https://apps.apple.com/kr/app/%EB%A8%B8%EB%8B%88%EC%B1%8C%EB%A6%B0%EC%A7%80/id6504971575)
+
+# Blog 
+[앱 배포 후기..](https://vapor3965.tistory.com/118)
