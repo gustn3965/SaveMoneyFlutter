@@ -21,38 +21,41 @@
 # Architecture
 
 ## 컴포넌트 
-Entity
+` Entity `
 - 앱의 핵심 모델 
 
-UseCase
+` UseCase `
 - 시스템 의도
 
-Coordinator
+` Coordinator `
 - 뷰전환 담당, View, ViewModel에 의존한다. 
 - View를 관리하긴하나, View의 세부사항은 모르도록 한다. 
 - View의 업데이트를 하기위해서는 ViewModel에 의존하도록 한다. 
 
-View
+` View `
 - 뷰 담당 (Widget)
 - View는 오직 ViewModel만 의존하도록 한다. 
 
-ViewModel
+` ViewModel `
 - View에 필요한 데이터 및 로직 담당
 - View를 모르도록 하고, UseCase에 의존한다. 
 
-DIContainer 
+` DIContainer `
 - 의존성 주입
 - UseCase의 구현체를 주입해주는 역할.  
 - ViewModel 주입
 - View 주입 
 
 ## 단위
-하나의 화면(1개이상의 Widget) 은 Coordinator, View, ViewModel을 구현해야한다. 
+하나의 화면(1개이상의 Widget) 은 `Coordinator, View, ViewModel `을 구현해야한다. 
+
 Coordinator가 View를 관리하고, View는 ViewModel을 필요로한다. 
+
 필요에따라서 UseCase를 구현하고, DIContainer에서 주입받을수있도록 추가한다.
 
 ## Coordinator 
 화면관리를 Coordinator가 관리를 하고, 트리구조로 구현.
+
 자식 Coordinator에 있는 View의 액션으로 부모의 다른 Coordinator의 View를 업데이트하려면 부모로 전달하여 업데이트하는식으로 구현.
 
 ![Coordinator](READMESource/coordinator.png)
