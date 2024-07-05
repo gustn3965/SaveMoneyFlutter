@@ -8,6 +8,7 @@
 - [Coordinator](#Coordinator)
 - [Diagram](#Diagram)
 - [DataBase](#DataBase)
+- [BuildConfiguration](#BuildConfiguration)
 
 [ScreenShot](#ScrrenShot)
 
@@ -66,6 +67,11 @@ Coordinator가 View를 관리하고, View는 ViewModel을 필요로한다.
 
 ## DataBase
 SQLite
+
+## BuildConfiguration
+` flavor ` 
+- mock, cbt, real  3개로 구분 
+- 이 3개의 환경에 따라 UseCase를 다르게 넣어주거나, 광고id를 다르게 넣거나 
 
 # ScreenShot 
 
