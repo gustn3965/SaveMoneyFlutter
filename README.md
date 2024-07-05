@@ -1,4 +1,13 @@
 
+[Goal](#Goal)
+[Architecture](#Architecture)
+- [Component](#컴포넌트)
+- [Unit](#단위)
+- [Coordinator](#Coordinator)
+- [Diagram](#Diagram)
+
+[ScreenShot](#ScrrenShot)
+[AppStore](#AppStore)
 
 # Goal 
 1. **Flutter** 로 개발하여 안드로이드, iOS 개발 및 배포 경험
@@ -10,18 +19,23 @@
 ## 컴포넌트 
 Entity
 - 앱의 핵심 모델 
+
 UseCase
 - 시스템 의도
+
 Coordinator
 - 뷰전환 담당, View, ViewModel에 의존한다. 
 - View를 관리하긴하나, View의 세부사항은 모르도록 한다. 
 - View의 업데이트를 하기위해서는 ViewModel에 의존하도록 한다. 
+
 View
 - 뷰 담당 (Widget)
 - View는 오직 ViewModel만 의존하도록 한다. 
+
 ViewModel
 - View에 필요한 데이터 및 로직 담당
 - View를 모르도록 하고, UseCase에 의존한다. 
+
 DIContainer 
 - 의존성 주입
 - UseCase의 구현체를 주입해주는 역할.  
