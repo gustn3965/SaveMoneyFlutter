@@ -24,6 +24,9 @@
 
 # Architecture
 
+![archi](READMESource/archi.png)
+
+
 ## 컴포넌트 
 ` Entity `
 - 앱의 핵심 모델 
@@ -83,4 +86,6 @@ SQLite
 [앱스토어링크](https://apps.apple.com/kr/app/%EB%A8%B8%EB%8B%88%EC%B1%8C%EB%A6%B0%EC%A7%80/id6504971575)
 
 # Blog 
-[앱 배포 후기..](https://vapor3965.tistory.com/118)
+[앱 배포 후기 1 잡담+리팩토링편](https://vapor3965.tistory.com/118)
+
+[앱 배포 후기 2 프로젝트편](https://vapor3965.tistory.com/119)
