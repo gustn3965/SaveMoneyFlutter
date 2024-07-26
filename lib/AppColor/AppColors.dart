@@ -48,7 +48,7 @@ class AppColors {
 
   Color mainHightColor() {
     if (isDarkMode()) {
-      return Color(0xFF9FB5EF);
+      return Color(0xFF7F9EF8);
     } else {
       return Color(0xFF2C62F0);
     }
@@ -162,6 +162,13 @@ class AppColors {
       return Color(0xFF1A2F72);
     } else {
       return Color(0xFF8DAAF3);
+    }
+  }
+  Color confirmNormalColor() {
+    if (isDarkMode()) {
+      return Color(0xFF5E8AFA);
+    } else {
+      return Color(0xFF769AFA);
     }
   }
 

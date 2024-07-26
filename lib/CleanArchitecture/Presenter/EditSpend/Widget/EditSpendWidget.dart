@@ -324,8 +324,8 @@ class EditSpendWidget extends StatelessWidget {
                     ? appColors.mainRedColor()
                     : viewModel.selectedSpendCategory?.identity ==
                             viewModel.spendCategoryList[index].identity
-                    ? appColors.mainTintColor()
-                    : appColors.mainColor(),
+                    ? appColors.confirmColor()
+                    : appColors.confirmNormalColor(),
                 child: TextButton(
                   onPressed: () {
                     if (index == viewModel.spendCategoryList.length) {
@@ -342,7 +342,12 @@ class EditSpendWidget extends StatelessWidget {
                         : viewModel.spendCategoryList[index].name,
                     style: TextStyle(
                       fontSize: 18,
-                      color: appColors.blackColor(),
+                      color: index == (viewModel.spendCategoryList.length)
+                          ? appColors.blackColor()
+                          : viewModel.selectedSpendCategory?.identity ==
+                          viewModel.spendCategoryList[index].identity
+                          ? appColors.constWhiteColor()
+                          : appColors.constBlackColor(),
                       fontWeight: FontWeight.w500,
                     ),
                   ),

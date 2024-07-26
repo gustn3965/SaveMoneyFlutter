@@ -129,7 +129,7 @@ class _GroupMonthChartState extends State<GroupMonthChartWidget> {
         height: 120,
         child: Center(
             child: Text(
-          '선택한 바인더이 없습니다.',
+          '선택한 바인더가 없습니다.',
           style: TextStyle(
             color: appColors.blackColor(),
             fontSize: 20,
