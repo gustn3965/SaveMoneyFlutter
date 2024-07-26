@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/ChartDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SearchDIContainer.dart';
 import 'package:save_money_flutter/CleanArchitecture/DIContainer/SettingsDIContainer.dart';
@@ -19,9 +21,16 @@ enum AppStatus {
   real,
 }
 
+enum AppOS {
+  android,
+  ios,
+  unknown,
+}
+
 // TODO: - appStatus에 따라 다르게 주입해주기 ( Widget, ViewModel, UseCase )
 class AppDIContainer {
   AppStatus appStatus; // main.dart
+  AppOS appOS = AppOS.unknown;
 
   AppDIContainer({required this.appStatus}) {
     // 우선은... 나중에 아래 switch구문으로 해야함, 타겟별로 새로 설치할거므로.
@@ -35,6 +44,14 @@ class AppDIContainer {
         break;
       case AppStatus.real:
         break;
+    }
+
+    if (Platform.isAndroid) {
+      appOS = AppOS.android;
+    } else if (Platform.isIOS) {
+      appOS = AppOS.ios;
+    } else {
+      appOS = AppOS.unknown;
     }
   }
 

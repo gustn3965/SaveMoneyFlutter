@@ -235,7 +235,7 @@ class LanchScreenWidget extends StatelessWidget {
               widthFactor: 0.5, // 50% of the screen width
               child: AspectRatio(
                 aspectRatio: 1.0, // Placeholder, will be replaced dynamically
-                child: Image.asset('assets/appLogo.png'),
+                child: Image.asset('assets/appLogo1.png'),
               ),
             ),
           ),

@@ -60,7 +60,7 @@ class _UserFeedbackWebViewState extends State<UserFeedbackWebView> {
         },
       ),
     )
-    ..loadRequest(Uri.parse('https://gustn3965.github.io/saveMoneyNotice/userFeedback.html'));
+    ..loadRequest(Uri.parse('https://gustn3965.github.io/saveMoneyNotice/userFeedback'));
 
   @override
   Widget build(BuildContext context) {

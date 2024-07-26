@@ -1,6 +1,9 @@
 
 import 'dart:async';
 
+import 'package:save_money_flutter/CleanArchitecture/DIContainer/AppDIContainer.dart';
+import 'package:save_money_flutter/main.dart';
+
 class AppNoticeWebViewAction {
   void Function() navigationPop;
 
@@ -11,8 +14,16 @@ class AppNoticeWebViewAction {
 class AppNoticeWebViewModel {
 
   AppNoticeWebViewAction action;
+  String noticeUrl = "";
 
-  AppNoticeWebViewModel(this.action);
+  AppNoticeWebViewModel(this.action) {
+    noticeUrl = "https://gustn3965.github.io/saveMoneyNotice/";
+    if (appDIContainer.appOS == AppOS.ios) {
+      noticeUrl += "ios.html";
+    } else if (appDIContainer.appStatus == AppOS.android) {
+      noticeUrl += "android";
+    }
+  }
 
   // Observing
   final _dataController = StreamController<AppNoticeWebViewModel>.broadcast();

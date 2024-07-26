@@ -19,7 +19,6 @@ class _AppNOticeWebViewState extends State<AppNoticeWebView> {
 
   late AppNoticeWebViewModel viewModel = widget.viewModel;
 
-  late WebViewController _controller;
   bool isLoading = true;
 
   late WebViewController controller = WebViewController()
@@ -60,7 +59,7 @@ class _AppNOticeWebViewState extends State<AppNoticeWebView> {
         },
       ),
     )
-    ..loadRequest(Uri.parse('https://gustn3965.github.io/saveMoneyNotice/'));
+    ..loadRequest(Uri.parse(widget.viewModel.noticeUrl));
 
   @override
   Widget build(BuildContext context) {
