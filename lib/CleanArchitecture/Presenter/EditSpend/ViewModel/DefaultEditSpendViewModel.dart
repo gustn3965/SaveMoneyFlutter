@@ -58,15 +58,31 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
     }
   }
 
-  void makeAvailableSaveButton() {
-    if (spendMoney > 0 &&
-        selectedSpendCategory != null &&
-        selectedGroupMonth != null) {
-      availableSaveButton = true;
-      return;
+  bool canSave() {
+    if (spendMoney <= 0) {
+      editSpendActions.needAlertEmptyContent("금액을 입력해주세요.");
+      return false;
+    } else if (spendCategoryList.isEmpty) {
+      editSpendActions.needAlertEmptyContent("하단에 소비 카테고리에서\n추가+ 버튼을 눌러서 추가해주세요.");
+      return false;
+    } else if (selectedSpendCategory == null) {
+      editSpendActions.needAlertEmptyContent("하단에 소비 카테고리에서\n선택해주세요.");
+      return false;
+    } else if (selectedGroupMonth == null) {
+      editSpendActions.needAlertEmptyContent("하단에 바인더에서\n선택해주세요.");
+      return false;
     }
 
-    availableSaveButton = false;
+    return true;
+  }
+
+  bool canNonSave() {
+    if (selectedGroupMonth == null) {
+      editSpendActions.needAlertEmptyContent("하단에 바인더에서\n선택해주세요.");
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -79,7 +95,6 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   @override
   void didChangeSpendMoney(int spendMoney) {
     this.spendMoney = spendMoney;
-    makeAvailableSaveButton();
     _dataController.add(this);
   }
 
@@ -96,6 +111,10 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
 
   @override
   void didClickSaveButton() async {
+    if (canSave() == false) {
+      return;
+    }
+
     Spend editedSpend = Spend(
         identity: spendId,
         date: date!,
@@ -119,12 +138,15 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   @override
   void didClickGroupMonth(EditSpendViewGroupMonthItem groupMonth) {
     selectedGroupMonth = groupMonth;
-    makeAvailableSaveButton();
     _dataController.add(this);
   }
 
   @override
   void didClickNonSpendSaveButton() async {
+
+    if (canNonSave() == false) {
+      return;
+    }
     // TODO: implement didClickNonSpendSaveButton
     Spend editedSpend = Spend(
         identity: spendId,
@@ -141,7 +163,6 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
   @override
   void didClickSpendCategory(SpendCategory spendCategory) {
     selectedSpendCategory = spendCategory;
-    makeAvailableSaveButton();
     _dataController.add(this);
   }
 
@@ -171,7 +192,6 @@ class DefaultEditSpendViewModel extends EditSpendViewModel {
 
     if (hasSelectedCategory == false) {
       selectedGroupMonth = null;
-      makeAvailableSaveButton();
     }
 
     _dataController.add(this);

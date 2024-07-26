@@ -163,11 +163,9 @@ class AddSpendWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 1,
             height: 45,
             child: ElevatedButton(
-              onPressed: (viewModel?.availableSaveButton == true)
-                  ? () async {
-                      viewModel?.didClickSaveButton();
-                    }
-                  : null,
+              onPressed: () async {
+                viewModel?.didClickSaveButton();
+              },
               child: Text('저장'),
               style: ElevatedButton.styleFrom(
                 shape: const RoundedRectangleBorder(
@@ -210,11 +208,9 @@ class AddSpendWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 1,
         height: 45,
         child: ElevatedButton(
-          onPressed: (viewModel?.availableNonSpendSaveButton == true)
-              ? () async {
-                  viewModel?.didClickNonSpendSaveButton();
-                }
-              : null,
+          onPressed: () async {
+            viewModel?.didClickNonSpendSaveButton();
+          },
           child: Text('👍무소비로 저장'),
           style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(

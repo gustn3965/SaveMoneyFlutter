@@ -17,9 +17,9 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   late AddSpendActions addSpendActions;
   @override
-  late bool availableSaveButton;
+  late bool availableSaveButton = true;
   @override
-  late bool availableNonSpendSaveButton = false;
+  late bool availableNonSpendSaveButton = true;
   @override
   late DateTime date;
   @override
@@ -73,7 +73,6 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   @override
   void didChangeSpendMoney(int spendMoney) {
     this.spendMoney = spendMoney;
-    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -98,7 +97,11 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   @override
   void didClickSaveButton() async {
-    //TODO: useCase Save Logic
+
+    if (canSave() == false) {
+      return;
+    }
+
     Spend spend = Spend(
         date: date,
         spendMoney: spendMoney,
@@ -113,6 +116,11 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
 
   @override
   void didClickNonSpendSaveButton() async {
+
+    if (canNonSave() == false) {
+      return;
+    }
+
     Spend spend = Spend(
         date: date,
         spendMoney: 0,
@@ -129,7 +137,6 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   void didClickGroupMonth(AddSpendViewGroupMonthItem groupMonth) {
     // Implement the logic for clicking group category
     selectedGroupMonth = groupMonth;
-    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -137,7 +144,6 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
   void didClickSpendCategory(SpendCategory spendCategory) {
     // Implement the logic for clicking spend category
     selectedSpendCategory = spendCategory;
-    makeAvailableSaveButtons();
     _dataController.add(this);
   }
 
@@ -173,8 +179,6 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
       selectedGroupMonth = null;
     }
 
-    makeAvailableSaveButtons();
-
     _dataController.add(this);
   }
 
@@ -191,28 +195,40 @@ class DefaultAddSpendViewModel implements AddSpendViewModel {
     _dataController.close();
   }
 
-  void makeAvailableSaveButtons() {
-    makeAvailableSaveButton();
-    makeAvailableNonSpendButton();
-  }
-
-  void makeAvailableSaveButton() {
-    if (spendMoney > 0 &&
-        selectedSpendCategory != null &&
-        selectedGroupMonth != null) {
-      availableSaveButton = true;
-      return;
+  bool canSave() {
+    if (spendMoney <= 0) {
+      addSpendActions.needAlertEmptyContent("금액을 입력해주세요.");
+      return false;
+    } else if (spendCategoryList.isEmpty) {
+      addSpendActions.needAlertEmptyContent("하단에 소비 카테고리에서\n추가+ 버튼을 눌러서 추가해주세요.");
+      return false;
+    } else if (selectedSpendCategory == null) {
+      addSpendActions.needAlertEmptyContent("하단에 소비 카테고리에서\n선택해주세요.");
+      return false;
+    } else if (selectedGroupMonth == null) {
+      addSpendActions.needAlertEmptyContent("하단에 바인더에서\n선택해주세요.");
+      return false;
     }
 
-    availableSaveButton = false;
+    return true;
+  }
+
+  bool canNonSave() {
+    if (selectedGroupMonth == null) {
+      addSpendActions.needAlertEmptyContent("하단에 바인더에서\n선택해주세요.");
+      return false;
+    }
+
+    return true;
   }
 
   void makeAvailableNonSpendButton() {
-    if (selectedGroupMonth != null) {
-      availableNonSpendSaveButton = true;
-      return;
-    }
-
-    availableNonSpendSaveButton = false;
+    availableNonSpendSaveButton = true;
+    // if (selectedGroupMonth != null) {
+    //   availableNonSpendSaveButton = true;
+    //   return;
+    // }
+    //
+    // availableNonSpendSaveButton = false;
   }
 }

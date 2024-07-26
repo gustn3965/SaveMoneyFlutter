@@ -7,8 +7,9 @@ class EditSpendActions {
   void Function() didEditSpend;
   void Function() didDeleteSpend;
   void Function() clickAddSpendCategory;
+  void Function(String description) needAlertEmptyContent;
 
-  EditSpendActions(this.showDatePicker, this.didEditSpend, this.didDeleteSpend, this.clickAddSpendCategory);
+  EditSpendActions(this.showDatePicker, this.didEditSpend, this.didDeleteSpend, this.clickAddSpendCategory, this.needAlertEmptyContent);
 }
 
 class EditSpendViewGroupMonthItem {
@@ -21,7 +22,7 @@ abstract class EditSpendViewModel {
   String spendId;
 
   late EditSpendActions editSpendActions;
-  late bool availableSaveButton;
+  late bool availableSaveButton = true;
   late DateTime? date = null;
   late int maxDescriptionLength;
   int spendMoney = 0;

@@ -176,11 +176,9 @@ class EditSpendWidget extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.35,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: (viewModel?.availableSaveButton == true)
-                      ? () async {
-                          viewModel?.didClickDeleteButton();
-                        }
-                      : null,
+                  onPressed: () async {
+                    viewModel?.didClickDeleteButton();
+                  },
                   child: Text('삭제'),
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
@@ -199,16 +197,14 @@ class EditSpendWidget extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.35,
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: (viewModel?.availableSaveButton == true)
-                      ? () async {
-                          viewModel?.didClickSaveButton();
-                        }
-                      : null,
+                  onPressed: () async {
+                    viewModel?.didClickSaveButton();
+                  },
                   child: Text('수정'),
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    foregroundColor: appColors.whiteColor(),
+                    foregroundColor: appColors.constWhiteColor(),
                     disabledForegroundColor: appColors.lightBlackColor(),
                     backgroundColor: appColors.confirmColor(),
                     disabledBackgroundColor: appColors.confirmDisableColor(),

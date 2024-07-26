@@ -7,9 +7,10 @@ class AddSpendActions {
   void Function(DateTime) showDatePicker;
   void Function() didAddSpend;
   void Function() clickAddSpendCategory;
+  void Function(String description) needAlertEmptyContent;
 
   AddSpendActions(
-      this.showDatePicker, this.didAddSpend, this.clickAddSpendCategory);
+      this.showDatePicker, this.didAddSpend, this.clickAddSpendCategory, this.needAlertEmptyContent);
 }
 
 class AddSpendViewGroupMonthItem {

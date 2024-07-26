@@ -41,10 +41,15 @@ class AddSpendCoordinator extends Coordinator {
       showAddSpendCategoryView();
     }
 
+    void showEmptyContentWarning(String description) {
+      showAlertEmptyContent(description);
+    }
+
     AddSpendActions actions = AddSpendActions(
       showDatePicker,
       didAddSpend,
       clickAddSpendCategory,
+      showEmptyContentWarning,
     );
 
     addSpendViewModel = appDIContainer.addSpend
@@ -73,6 +78,26 @@ class AddSpendCoordinator extends Coordinator {
               addSpendViewModel?.didChangeDate(newDate);
             },
           ),
+        );
+      },
+    );
+  }
+
+  void showAlertEmptyContent(String description) {
+    showDialog(
+      context: NavigationService.navigatorKey.currentContext!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('필수정보 부족'),
+          content: Text(description),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
