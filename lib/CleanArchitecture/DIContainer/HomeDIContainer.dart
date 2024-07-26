@@ -213,7 +213,7 @@ class HomeDIContainer {
     return MonthSpendListWidget(viewModel);
   }
 
-  AdMobBannerViewModel makeAdMobBannerViewModel() {
+  AdMobBannerViewModel makeAdMobBannerViewModel(AdMobBannerViewModelAction action) {
     AdMobIdFetchUseCase adMobIdFetchUseCase;
 
     switch (appStatus) {
@@ -226,7 +226,7 @@ class HomeDIContainer {
         break;
     }
 
-    return AdMobBannerViewModel(adMobIdFetchUseCase);
+    return AdMobBannerViewModel(action, adMobIdFetchUseCase);
   }
 
   Widget makeAdMobBannerWidget(AdMobBannerViewModel viewModel) {

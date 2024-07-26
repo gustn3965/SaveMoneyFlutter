@@ -1,11 +1,18 @@
 
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:save_money_flutter/CleanArchitecture/UseCase/AdMobIdFetchUseCase.dart';
+class AdMobBannerViewModelAction {
+  void Function(bool) didLoadedAdMob;
+
+  AdMobBannerViewModelAction(this.didLoadedAdMob);
+}
 
 class AdMobBannerViewModel {
+  AdMobBannerViewModelAction action;
   String? bannerId;
   bool shouldShowBanner = false;
 
@@ -13,7 +20,7 @@ class AdMobBannerViewModel {
 
   AdMobIdFetchUseCase adMobIdFetchUseCase;
 
-  AdMobBannerViewModel(this.adMobIdFetchUseCase) {
+  AdMobBannerViewModel(this.action, this.adMobIdFetchUseCase) {
     fetchBannerAd();
   }
 
@@ -41,11 +48,13 @@ class AdMobBannerViewModel {
       BannerAdListener listener = BannerAdListener(onAdLoaded: (ad) {
         debugPrint('📢Ad Loaded');
         shouldShowBanner = true;
+        action.didLoadedAdMob(true);
         _dataController.add(this);
       },
       onAdFailedToLoad: (ad, error) {
         ad.dispose();
         shouldShowBanner = false;
+        action.didLoadedAdMob(false);
         _dataController.add(this);
         debugPrint('📢Ad fail to load: $error');
       },

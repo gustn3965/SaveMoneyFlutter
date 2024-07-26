@@ -64,10 +64,12 @@ class HomeCoordinator extends Coordinator {
         groupSelectorWidget,
         spendCategorySelectorWidget,
         calendarWidget,
-        adMobBannerWidget,
         daysSpendListWidget,
         monthSpendListWidget,
         spacingView
+      ],
+      fixedBottomWidgets: [
+        adMobBannerWidget,
       ],
       floattingButtons: [moveLeftFloattingWidget, moveRightFloattingWidget, addSpendFloattingWidget],
     );
@@ -253,7 +255,15 @@ class HomeCoordinator extends Coordinator {
   }
 
   Widget makeAdMobBannerWidget() {
-    adMobBannerViewModel = appDIContainer.home.makeAdMobBannerViewModel();
+    void didLoadedAdMob(bool didLoadedAdMob) {
+      homeBaseViewModel.didChangeLoadedAdMob(didLoadedAdMob);
+    }
+    AdMobBannerViewModelAction action = AdMobBannerViewModelAction(
+        didLoadedAdMob
+    );
+
+
+    adMobBannerViewModel = appDIContainer.home.makeAdMobBannerViewModel(action);
 
     return appDIContainer.home.makeAdMobBannerWidget(adMobBannerViewModel!);
   }

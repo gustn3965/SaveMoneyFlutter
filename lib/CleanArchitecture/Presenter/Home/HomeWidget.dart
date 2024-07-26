@@ -5,11 +5,17 @@ import 'HomeViewModel.dart';
 
 class HomeWidget extends StatelessWidget {
   final List<Widget> widgets;
+  final List<Widget> fixedBottomWidgets;
   final List<Widget> floattingButtons;
 
   final HomeViewModel viewModel;
+
   const HomeWidget(
-      {Key? key, required this.viewModel, required this.widgets, required this.floattingButtons})
+      {Key? key,
+      required this.viewModel,
+      required this.widgets,
+      required this.fixedBottomWidgets,
+      required this.floattingButtons})
       : super(key: key);
 
   @override
@@ -38,20 +44,32 @@ class HomeWidget extends StatelessWidget {
                   )),
             ),
             backgroundColor: appColors.whiteColor(),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: widgets,
-              ),
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: widgets,
+                    ),
+                  ),
+                ),
+                ...fixedBottomWidgets,
+              ],
             ),
             floatingActionButton:
-            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Row(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: floattingButtons),
-            ]),
+                  children: floattingButtons,
+                ),
+                if (viewModel.didLoadedAdMob) SizedBox(height: 50),
+              ],
+            ),
           );
         });
-
   }
 }
