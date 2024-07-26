@@ -152,9 +152,10 @@ class AppCoordinator extends Coordinator {
   void start() async {
 
     Future.delayed(const Duration(milliseconds: 500), () async {
+
+      // LoginAddGroupMoneyCoordinator 에서 false set함. (다시 종료했다가 킬수도있어서)
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool isFirstInstall = prefs.getBool('isFirstInstall') ?? true;
-      prefs.setBool('isFirstInstall', false);
       if (isFirstInstall) {
         showLoginView();
       } else {
@@ -235,7 +236,7 @@ class LanchScreenWidget extends StatelessWidget {
               widthFactor: 0.5, // 50% of the screen width
               child: AspectRatio(
                 aspectRatio: 1.0, // Placeholder, will be replaced dynamically
-                child: Image.asset('assets/appLogo1.png'),
+                child: Image.asset('assets/appLogo.png'),
               ),
             ),
           ),

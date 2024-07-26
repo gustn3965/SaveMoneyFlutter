@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../AppCoordinator.dart';
@@ -44,9 +45,11 @@ class LoginAddGroupMoneyCoordinator extends Coordinator {
         .makeLoginAddGroupMoneyWidget(addGroupMoneyViewModel!);
   }
 
-  void showMainHomeWidget() {
+  void showMainHomeWidget() async {
     popUntilParentNavigation();
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isFirstInstall', false);
     MainTabCoordinator mainHomeCoordinator = MainTabCoordinator(appCoordinator);
     mainHomeCoordinator.startOnFirstNavigation();
   }
